@@ -1,0 +1,177 @@
+\documentclass[10pt,a4paper]{article}
+
+%% Formateo del título del documento
+\title{\Huge C$+${\normalsize o}$-$}
+\author{Juan Diego Barrado Daganzo, Javier Saras González y Daniel González Arbelo \\ 4º de Carrera}
+\date{\today\footnote{Este documento se actualiza, para consultar las últimas versiones entrar en el enlace \url{https://github.com/JuanDiegoBarrado/PracticaPL}}}
+
+%% Formateo del estilo de escritura y de la pagina
+\pagestyle{plain}               % Estilo de página
+\setlength{\parskip}{0.35cm}    % Edicion de espaciado
+\setlength{\parindent}{0cm}     % Edicion de sangría
+\clubpenalty=10000              % Llíneas viudas NO
+\widowpenalty=10000             % Líneas viudas NO
+
+%% Para establecer las medidas de los margenes
+\usepackage[top=2.5cm, bottom=2.5cm, left=3cm, right=3cm]{geometry} 
+%% Para que el idioma por defecto sea español
+\usepackage[spanish]{babel}
+%% Para poder subrayar entornos especiales como las secciones
+\usepackage{ulem}
+
+%% Texto matematico y simbolos especiales
+\usepackage{amsmath}    % Paquete para mates
+\usepackage{amsfonts}   % Paquete para mates
+\usepackage{amssymb}    % Paquete para mates
+\usepackage{stmaryrd}   % Paquete para mates
+\usepackage{latexsym}   % Paquete para mates
+
+%% Paquete para incluir imágenes y ruta de la carpeta de las imágenes
+\usepackage{graphicx}
+\graphicspath{{./fotos/}}
+
+%% Paquete para tener hipervínculos y referencias cruzadas
+\usepackage[colorlinks=true]{hyperref}
+\hypersetup{
+	urlcolor=red,
+	linkcolor=blue,
+}
+
+%% Paquete para incluir código con coloreado sintáctico
+\usepackage{listings}
+\lstdefinelanguage{C+-}
+{
+  keywords={
+    int, bul,
+    if, else, guail, breic, continue,
+    func, return
+    },
+  keywordstyle=\color{blue},
+  commentstyle=\color{green},
+  stringstyle=\color{red},
+  sensitive=true,
+  morecomment=[l]{//},
+}
+
+\lstset{
+    language=C+-,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{white},
+    tabsize=4
+}
+
+
+%% Definicion de operadores especiales para simplificar la escritura matematica
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\img}{img}
+\DeclareMathOperator{\rot}{rot}
+\DeclareMathOperator{\divg}{div}
+\newcommand{\dif}[1]{\ d#1}
+
+%% Paquete e instrucciones para la generacion de los dibujos
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usepackage{tkz-fct}
+\usepackage{pstricks}
+\usepackage{pstcol} 
+\usepackage{pst-node}
+\usepackage{pst-plot}
+
+%% Paquetes extra
+\usepackage{centernot}  % Paquete para tachar cosas
+\usepackage{appendix}   % Paquete para apéndice
+\usepackage{verbatim}   % Paquete para comentar bloques de código de LaTeX
+
+\begin{document}
+\maketitle
+
+\section{Especificaciones técnicas del lenguaje}
+\subsection{Identificadores y ámbitos de definición}
+
+\subsection{Tipos}
+Los tipos básicos del lenguaje son los enteros y los booleanos (caracteres?), pudiendo formar arrays de estos tipos. Cada uno se declarará usando estas palabras reservadas:
+\begin{itemize}
+    \item \textbf{Enteros}: \texttt{int}
+    \item \textbf{Booleanos}: \texttt{bul}
+    \item \textbf{Array}: \texttt{Tipo[DIMENSION] var}
+\end{itemize}
+El lenguaje también posee otros tipos compuestos como clases y registros. Adicionalmente, se ha considerado un tipo para las funciones y para el vacío\footnote{El tipo vacío es necesario para poder }. Las palabras reservadas para ello son las siguientes:
+\begin{itemize}
+    \item \textbf{Clases}: \texttt{clas}
+    \item \textbf{Registros}: \texttt{estrut}
+    \item \textbf{Funciones}: \texttt{func}
+    \item \textbf{Tipo vacío}: \texttt{void}
+\end{itemize}
+Por último, los punteros a cualquiera de estos tipos se declararán poniendo el caracter '\~{}' al final de la palabra reservada para el tipo.
+\begin{itemize}
+    \item \textbf{Puntero}: \texttt{Tipo\~{} var}
+\end{itemize}
+Como nota especial, la declaración de un puntero a estructuras de tipo array, se haría como \texttt{Tipo[DIMENSION]~ var}.
+
+\subsection{Instrucciones del lenguaje}
+El lenguaje tiene el siguiente repetorio de instrucciones:
+\begin{itemize}
+    \item \textbf{Instrucción de asignación}: \texttt{:=}
+    \begin{lstlisting}
+        int var := 3
+    \end{lstlisting}
+    \item \textbf{Instrucciones condicionales}: \texttt{if-else}, \texttt{switch}
+    \begin{lstlisting}
+        if (var > 3) {
+            ...
+        }
+        else {
+            ...
+        }
+    \end{lstlisting}
+    \item \textbf{Instrucción de bucle}: \texttt{while}
+    \begin{lstlisting}
+        while (var > 0) {
+            ...
+        }
+    \end{lstlisting}
+    Se incluyen además las instrucciones \texttt{breic} y \texttt{continiu}.
+\end{itemize}
+
+
+\subsection{Sucio}
+\begin{itemize}
+    \item Las constantes se declaran como los \texttt{\# define} de C++, pero con \texttt{\# difain}.
+    \item Los nombres de variable siguen los mismos patrones que en C++.
+    \item \sout{Los arrays como las variables normales, pero con corchetes indicando la dimensión (como en C++).}
+    \item Indicamos que una variable es puntero con \texttt{int\~{}  var}.
+    \item Paso por valor y por referencia igual que en C++.
+    \item \sout{Los bloques tienen como separadores las llaves.}
+    \item \sout{Los struct se escriben \texttt{estrut}}.
+    \item \sout{El identificador de tipo es \texttt{clas}}.
+    \item \sout{El identificador de los tipo entero es \texttt{int} y el de los booleanos es \texttt{bul}}.
+    \item Operadores infijos:
+    \begin{itemize}
+        \item Aritméticas como C++, añadimos el operador exponencial.
+        \item Asignación es \texttt{:=}.
+        \item Igualdad es \texttt{=} y la desigualdad como en C++.
+        \item Los operadores booleanos son: \texttt{an}, \texttt{or}, \texttt{sor}, \texttt{not} y menor mayor es como en C++.
+        \item Operador parentesis y corchetes también.
+    \end{itemize}
+    \item Para definir los tipos \texttt{taipdef}.
+    \item Para definir las funciones \texttt{func nombre(args): tipoRetorno \{$\cdots$\}}.
+    \item Las funciones de entrada salida son \texttt{cein} y \texttt{ceaut} con las funciones de modificación de entrada salida que vayamos necesitando. La intrucción de retorno para las funciones es \texttt{return valor}
+    \item Acceso a punteros \texttt{\~{}puntero}
+    \item \sout{Instrucciones del lenguaje:}
+    \begin{itemize}
+        \item \sout{Asignación \texttt{:=}}
+        \item \sout{Condicionales \texttt{if () \{...\} else \{...\}} y \texttt{suich() \{ queis()...\}}}
+        \item \sout{Bucle indefinido \texttt{guail}}
+        \item \sout{Bucles definido \texttt{for}.}
+        \item \sout{Sentencias de control de bucles: \texttt{breic} y \texttt{continiu}.}
+    \end{itemize}
+\end{itemize}
+
+\end{document}

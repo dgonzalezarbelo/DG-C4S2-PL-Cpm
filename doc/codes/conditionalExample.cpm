@@ -1,0 +1,8 @@
+func factorial(int num) : int {
+    if(num = 0){
+        retun 1;
+    }
+    else {
+        retun num * factorial(num - 1);
+    }
+}
