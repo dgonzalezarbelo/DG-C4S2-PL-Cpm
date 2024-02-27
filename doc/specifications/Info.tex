@@ -1,7 +1,7 @@
 \documentclass[10pt,a4paper]{article}
 
 %% Formateo del título del documento
-\title{\Huge C$+${\normalsize o}$-$}
+\title{\Huge C$+$$-$}
 \author{Juan Diego Barrado Daganzo, Javier Saras González y Daniel González Arbelo \\ 4º de Carrera}
 \date{\today\footnote{Este documento se actualiza, para consultar las últimas versiones entrar en el enlace \url{https://github.com/JuanDiegoBarrado/PracticaPL}}}
 
@@ -42,11 +42,12 @@
 \lstdefinelanguage{C+-}
 {
   keywords={
-    int, bul,
     if, else, guail, breic, continue,
-    func, return
+    return
     },
   keywordstyle=\color{blue},
+  emph={int, bul, func},
+  emphstyle=\color{purple},
   commentstyle=\color{green},
   stringstyle=\color{red},
   sensitive=true,
@@ -62,9 +63,13 @@
     numbers=left,
     numberstyle=\tiny\color{gray},
     breaklines=true,
-    frame=single,
+    frame=shadowbox,
+    rulesepcolor=\color{black},
     backgroundcolor=\color{white},
-    tabsize=4
+    tabsize=2,
+    gobble=12,
+    linewidth=0.65\linewidth,
+    float=h
 }
 
 
@@ -91,63 +96,120 @@
 
 \begin{document}
 \maketitle
+\tableofcontents
 
 \section{Especificaciones técnicas del lenguaje}
 \subsection{Identificadores y ámbitos de definición}
+El lenguaje posee las siguientes características:
+\begin{itemize}
+    \item \textbf{Declaración de variables}: se pueden declarar variables sencillas de los tipos definidos y variables \textit{array} de estos tipos, de cualquier dimensión. Los nombres de los identificadores han de ser expresiones alfanuméricas que no comiencen por números y que posiblemente tengan el caracter ``\_''.
+    \item \textbf{Bloques anidados}: se permiten las anidaciones en condicionales, bucles, funciones, etc. Si dos variables tienen el mismo nombre, la más profunda (en la anidación) tapa a la más externa.
+    \item \textbf{Funciones}: se permite la creación de funciones y la declaración implícita dentro de otras. El paso por valor y por referencia de cualquier tipo a las funciones está garantizado.
+    \item \textbf{Punteros}: para cada tipo se puede declarar un puntero a una variable de ese tipo, mediante la asignación de su dirección de memoria a la variable puntero.
+    \item \textbf{Registros y clases}: se incluyen dos tipos adicionales: los registros como ``saco de datos'' ---sin métodos--- y las clases, tanto con datos como con métodos de función.
+    \item \textbf{Declaración de constantes}: se incluye la posibilidad de declarar constantes por parte del usuario.
+\end{itemize}
 
 \subsection{Tipos}
-Los tipos básicos del lenguaje son los enteros y los booleanos (caracteres?), pudiendo formar arrays de estos tipos. Cada uno se declarará usando estas palabras reservadas:
+La declaración de tipos ha de hacerse de manera explícita y de forma previa al lugar donde se emplee el identificador, es decir, que para poder usar una variable tengo que haberla declarado antes.
+
+\subsubsection{Enteros y booleanos}
+Los tipos básicos del lenguaje son los enteros y los booleanos. La sintaxis de declaración de estos tipos es la siguiente:
 \begin{itemize}
-    \item \textbf{Enteros}: \texttt{int}
-    \item \textbf{Booleanos}: \texttt{bul}
-    \item \textbf{Array}: \texttt{Tipo[DIMENSION] var}
+    \item \textbf{Enteros}: \texttt{int var;}
+    \item \textbf{Booleanos}: \texttt{bul var;}
 \end{itemize}
-El lenguaje también posee otros tipos compuestos como clases y registros. Adicionalmente, se ha considerado un tipo para las funciones y para el vacío\footnote{El tipo vacío es necesario para poder }. Las palabras reservadas para ello son las siguientes:
+Entre las operaciones habilitadas para el tipo:
+$$FALTA ESTO$$
+
+\subsubsection{Clases y registros}
+Como tipos adicionales hemos incluido los registros, las clases y las funciones. La sintaxis de declaración es la siguiente:
 \begin{itemize}
-    \item \textbf{Clases}: \texttt{clas}
-    \item \textbf{Registros}: \texttt{estrut}
-    \item \textbf{Funciones}: \texttt{func}
-    \item \textbf{Tipo vacío}: \texttt{void}
+    \item \textbf{Clases}: \texttt{clas var \{...\};}
+    \item \textbf{Registros}: \texttt{estrut var \{...\};}
 \end{itemize}
-Por último, los punteros a cualquiera de estos tipos se declararán poniendo el caracter '\~{}' al final de la palabra reservada para el tipo.
+Entre las operaciones habilitadas para el tipo:
+$$FALTA ESTO$$
+
+\subsubsection{Arrays}
+Todos los tipos pueden formar un array multidimensional, la sintaxis de declaración es la siguiente:
 \begin{itemize}
-    \item \textbf{Puntero}: \texttt{Tipo\~{} var}
+    \item \textbf{Array}: \texttt{Tipo[DIMENSION] var;}
 \end{itemize}
-Como nota especial, la declaración de un puntero a estructuras de tipo array, se haría como \texttt{Tipo[DIMENSION]~ var}.
+Entre las operaciones habilitadas para el tipo:
+$$FALTA ESTO$$
+
+\subsubsection{Funciones}
+Las funciones se han declarado también como un tipo para poder hacer expresiones lambda y pasar funciones como argumento. La sintaxis de declaración de una función es la siguiente:
+\begin{itemize}
+    \item \textbf{Funciones}: \texttt{func var(Tipo arg1, Tipo arg2, ...) : TipoRetorno \{...\};}
+\end{itemize}
+El paso de parámetros por defecto es por valor, pero puede cambiarse a por referencia añadiendo el caracter ``\&'' al final del tipo del argumento.
+
+\subsubsection{Punteros}
+Pueden declarase punteros a cualquiera de los tipos definidos. La sintaxis de declaración es:
+\begin{itemize}
+    \item \textbf{Puntero\footnote{Como nota especial, la declaración de un puntero a estructuras de tipo array, se haría como \texttt{Tipo[DIMENSION]~ var;}.}}: \texttt{Tipo\~{} var}
+\end{itemize}
+
+\subsection{Tipos definidos por el usuario y constantes}
+Adicionalmente, permitimos la definición de tipos por parte del usuario a través de la palabra reservada:
+\begin{itemize}
+    \item \textbf{Definición de tipos de usuario}: \texttt{taipdef nombre expresion}.
+\end{itemize}
+Por último, la declaración de constantes es posible gracias a la instrucción:
+\begin{itemize}
+    \item \textbf{Declaración de constantes}: \texttt{difain NOMBRE valor}
+\end{itemize}
 
 \subsection{Instrucciones del lenguaje}
 El lenguaje tiene el siguiente repetorio de instrucciones:
 \begin{itemize}
     \item \textbf{Instrucción de asignación}: \texttt{:=}
-    \begin{lstlisting}
-        int var := 3
-    \end{lstlisting}
+    \begin{center}
+        \begin{minipage}{\linewidth}
+            \begin{lstlisting}[linewidth=0.3\linewidth, gobble=16]
+                int var := 3
+            \end{lstlisting}
+        \end{minipage}
+    \end{center}
+    
     \item \textbf{Instrucciones condicionales}: \texttt{if-else}, \texttt{switch}
-    \begin{lstlisting}
-        if (var > 3) {
-            ...
-        }
-        else {
-            ...
-        }
-    \end{lstlisting}
+    \begin{center}
+        \begin{minipage}{\linewidth}
+            \begin{lstlisting}[linewidth=0.3\linewidth, gobble=16]
+                if (var > 3) {
+                    ...
+                }
+                else {
+                    ...
+                }
+            \end{lstlisting}
+        \end{minipage}
+    \end{center}
+
     \item \textbf{Instrucción de bucle}: \texttt{while}
-    \begin{lstlisting}
-        while (var > 0) {
-            ...
-        }
-    \end{lstlisting}
+    \begin{center}
+        \begin{minipage}{\linewidth}
+            \begin{lstlisting}[linewidth=0.3\linewidth, gobble=16]
+                guail (var > 0) {
+                    ...
+                }
+            \end{lstlisting}
+        \end{minipage}
+    \end{center}
     Se incluyen además las instrucciones \texttt{breic} y \texttt{continiu}.
+    \item \textbf{Acceso a punteros}: \texttt{\~{}punt}
 \end{itemize}
 
 
 \subsection{Sucio}
 \begin{itemize}
-    \item Las constantes se declaran como los \texttt{\# define} de C++, pero con \texttt{\# difain}.
-    \item Los nombres de variable siguen los mismos patrones que en C++.
+    \item \sout{Las constantes se declaran como los \texttt{\# define} de C++, pero con \texttt{\# difain}.}
+    \item \sout{Los nombres de variable siguen los mismos patrones que en C++.}
     \item \sout{Los arrays como las variables normales, pero con corchetes indicando la dimensión (como en C++).}
-    \item Indicamos que una variable es puntero con \texttt{int\~{}  var}.
-    \item Paso por valor y por referencia igual que en C++.
+    \item \sout{Indicamos que una variable es puntero con \texttt{int\~{}  var}.}
+    \item \sout{Paso por valor y por referencia igual que en C++.}
     \item \sout{Los bloques tienen como separadores las llaves.}
     \item \sout{Los struct se escriben \texttt{estrut}}.
     \item \sout{El identificador de tipo es \texttt{clas}}.
@@ -160,18 +222,23 @@ El lenguaje tiene el siguiente repetorio de instrucciones:
         \item Los operadores booleanos son: \texttt{an}, \texttt{or}, \texttt{sor}, \texttt{not} y menor mayor es como en C++.
         \item Operador parentesis y corchetes también.
     \end{itemize}
-    \item Para definir los tipos \texttt{taipdef}.
-    \item Para definir las funciones \texttt{func nombre(args): tipoRetorno \{$\cdots$\}}.
+    \item \sout{Para definir los tipos \texttt{taipdef}.}
+    \item \sout{Para definir las funciones \texttt{func nombre(args): tipoRetorno \{$\cdots$\}}.}
     \item Las funciones de entrada salida son \texttt{cein} y \texttt{ceaut} con las funciones de modificación de entrada salida que vayamos necesitando. La intrucción de retorno para las funciones es \texttt{return valor}
-    \item Acceso a punteros \texttt{\~{}puntero}
+    \item \sout{Acceso a punteros \texttt{\~{}puntero}}
     \item \sout{Instrucciones del lenguaje:}
     \begin{itemize}
         \item \sout{Asignación \texttt{:=}}
         \item \sout{Condicionales \texttt{if () \{...\} else \{...\}} y \texttt{suich() \{ queis()...\}}}
         \item \sout{Bucle indefinido \texttt{guail}}
-        \item \sout{Bucles definido \texttt{for}.}
+        \item Bucles definido \texttt{for}.
         \item \sout{Sentencias de control de bucles: \texttt{breic} y \texttt{continiu}.}
     \end{itemize}
 \end{itemize}
+
+\newpage
+\appendix
+
+\section{Ejemplos de programas habituales}
 
 \end{document}

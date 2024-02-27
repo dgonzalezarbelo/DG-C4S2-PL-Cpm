@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.9) (preloaded format=pdflatex 2023.9.26)  26 FEB 2024 18:27
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.9) (preloaded format=pdflatex 2023.9.26)  27 FEB 2024 09:44
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -903,24 +903,24 @@ LaTeX Info: Redefining \% on input line 23.
 )
 \openout1 = `Info.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -956,8 +956,8 @@ LaTeX Font Info:    ... okay on input line 92.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Info: Redefining \. on input line 92.
-LaTeX Info: Redefining \% on input line 92.
+LaTeX Info: Redefining \. on input line 97.
+LaTeX Info: Redefining \% on input line 97.
 (C:\Users\jdbar\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count394
@@ -977,7 +977,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (C:\Users\jdbar\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Package hyperref Info: Link coloring ON on input line 92.
+Package hyperref Info: Link coloring ON on input line 97.
  (Info.out) (Info.out)
 \@outlinefile=\write4
 \openout4 = `Info.out'.
@@ -986,22 +986,31 @@ Package hyperref Info: Link coloring ON on input line 92.
 
 Package pgfplots notification 'compat/show suggested version=true': you might benefit from \pgfplotsset{compat=1.18} (current compat level: 1.17).
 
-LaTeX Info: Redefining \. on input line 92.
-LaTeX Info: Redefining \% on input line 92.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 94.
+LaTeX Info: Redefining \. on input line 97.
+LaTeX Info: Redefining \% on input line 97.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 99.
 (C:\Users\jdbar\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 94.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 99.
  (C:\Users\jdbar\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for U+stmry on input line 94.
+LaTeX Font Info:    Trying to load font information for U+stmry on input line 99.
  (C:\Program Files\MiKTeX\tex/latex/stmaryrd\ustmry.fd)
-LaTeX Font Info:    Trying to load font information for U+lasy on input line 94.
+LaTeX Font Info:    Trying to load font information for U+lasy on input line 99.
  (C:\Users\jdbar\AppData\Local\Programs\MiKTeX\tex/latex/base\ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
-) [1
+) (Info.toc
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+LaTeX Info: Redefining \. on input line 2.
+LaTeX Info: Redefining \% on input line 2.
+)
+\tf@toc=\write5
+\openout5 = `Info.toc'.
+
+ [1
 Non-PDF special ignored!
 <special> header=pstricks.pro
 Non-PDF special ignored!
@@ -1028,15 +1037,20 @@ Non-PDF special ignored!
 Non-PDF special ignored!
 <special> ps:tx@Dict begin  gsave STV CP T /ps@rot 0 def grestore  end
 {C:/Users/jdbar/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
-LaTeX Font Info:    Trying to load font information for OMS+cmtt on input line 164.
-LaTeX Font Info:    No file OMScmtt.fd. on input line 164.
+LaTeX Font Info:    Trying to load font information for OMS+cmtt on input line 128.
+LaTeX Font Info:    No file OMScmtt.fd. on input line 128.
 
 
 LaTeX Font Warning: Font shape `OMS/cmtt/m/n' undefined
 (Font)              using `OMS/cmsy/m/n' instead
-(Font)              for symbol `textbraceleft' on input line 164.
+(Font)              for symbol `textbraceleft' on input line 128.
 
-[2] [3] (Info.aux
+[2]
+Underfull \hbox (badness 3536) in paragraph at lines 152--152
+[][][]\OT1/cmr/m/n/8 Como no-ta es-pe-cial, la de-cla-ra-ci^^Son de un pun-te-ro a es-truc-tu-ras de ti-po array, se har^^S^^Pa co-mo
+ []
+
+[3] [4] [5] (Info.aux
 LaTeX Info: Redefining \. on input line 22.
 LaTeX Info: Redefining \% on input line 22.
 LaTeX Info: Redefining \. on input line 23.
@@ -1051,20 +1065,20 @@ L3 programming layer <2023-08-29>
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `Info.out' has not changed.
-(rerunfilecheck)             Checksum: 28D22DEE627DC7DD368B59990459A1D2;872.
+(rerunfilecheck)             Checksum: F441E7F8DFE38E81E193CC77F0F73F9F;2029.
  ) 
 Here is how much of TeX's memory you used:
- 42480 strings out of 475248
- 945659 string characters out of 5757813
- 1971801 words of memory out of 5000000
- 63180 multiletter control sequences out of 15000+600000
- 574535 words of font info for 108 fonts, out of 8000000 for 9000
+ 42524 strings out of 475248
+ 946341 string characters out of 5757813
+ 1963801 words of memory out of 5000000
+ 63210 multiletter control sequences out of 15000+600000
+ 574881 words of font info for 109 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 99i,8n,111p,799b,1200s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\jdbar\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk> <C:\Users\jdbar\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt8.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on Info.pdf (3 pages, 176700 bytes).
+ 99i,8n,111p,799b,1390s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\jdbar\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk> <C:\Users\jdbar\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt8.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
+Output written on Info.pdf (5 pages, 215364 bytes).
 PDF statistics:
- 163 PDF objects out of 1000 (max. 8388607)
- 23 named destinations out of 1000 (max. 500000)
- 149 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 224 PDF objects out of 1000 (max. 8388607)
+ 33 named destinations out of 1000 (max. 500000)
+ 205 words of extra memory for PDF output out of 10000 (max. 10000000)
 
