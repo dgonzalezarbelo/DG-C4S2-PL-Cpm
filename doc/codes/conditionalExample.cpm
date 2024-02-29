@@ -1,8 +1,8 @@
 func factorial(int num) : int {
     if(num = 0){
-        retun 1;
+        return 1;
     }
-    else {
-        retun num * factorial(num - 1);
+    els {
+        return num * factorial(num - 1);
     }
 }

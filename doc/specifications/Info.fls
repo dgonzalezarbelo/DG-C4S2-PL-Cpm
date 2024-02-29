@@ -469,6 +469,8 @@ INPUT C:\Program Files\MiKTeX\tex\latex\appendix\appendix.sty
 INPUT C:\Program Files\MiKTeX\tex\latex\appendix\appendix.sty
 INPUT C:\Users\jdbar\AppData\Local\Programs\MiKTeX\tex\latex\tools\verbatim.sty
 INPUT C:\Users\jdbar\AppData\Local\Programs\MiKTeX\tex\latex\tools\verbatim.sty
+INPUT C:\Users\jdbar\AppData\Local\Programs\MiKTeX\tex\latex\tools\multicol.sty
+INPUT C:\Users\jdbar\AppData\Local\Programs\MiKTeX\tex\latex\tools\multicol.sty
 INPUT .\Info.aux
 INPUT .\Info.aux
 INPUT Info.aux
@@ -575,9 +577,24 @@ INPUT C:\Users\jdbar\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmbx12.tf
 INPUT C:\Users\jdbar\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmti10.tfm
 INPUT C:\Users\jdbar\AppData\Local\MiKTeX\fonts\map\pdftex\pdftex.map
 INPUT C:\Users\jdbar\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmtt10.tfm
+INPUT C:\Users\jdbar\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\tcrm1000.tfm
 INPUT C:\Users\jdbar\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmtt9.tfm
 INPUT C:\Users\jdbar\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmr9.tfm
-INPUT C:\Users\jdbar\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\tcrm1000.tfm
+INPUT ..\codes\mainExample.cpm
+INPUT ..\codes\mainExample.cpm
+INPUT ..\codes\mainExample.cpm
+INPUT ..\codes\iterativeExample.cpm
+INPUT ..\codes\iterativeExample.cpm
+INPUT ..\codes\iterativeExample.cpm
+INPUT ..\codes\matrixExample.cpm
+INPUT ..\codes\matrixExample.cpm
+INPUT ..\codes\matrixExample.cpm
+INPUT ..\codes\conditionalExample.cpm
+INPUT ..\codes\conditionalExample.cpm
+INPUT ..\codes\conditionalExample.cpm
+INPUT ..\codes\structExample.cpm
+INPUT ..\codes\structExample.cpm
+INPUT ..\codes\structExample.cpm
 INPUT Info.aux
 INPUT .\Info.out
 INPUT .\Info.out

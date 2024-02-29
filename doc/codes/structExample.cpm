@@ -10,7 +10,7 @@ func aprobado(Alumno a) : bul {
         queis(2):
         queis(3):
         queis(4): 
-            retun fols;
+            return fols;
             breic;
         queis(5):
         queis(6):
@@ -18,13 +18,13 @@ func aprobado(Alumno a) : bul {
         queis(8):
         queis(9):
         queis(10): 
-            retun tru;
+            return tru;
             breic;
     }
 }
 
 func nota(Alumno~ a) : int {
-    retun a->nota;
+    return a->nota;
 }
 
 func mein():int {
@@ -33,5 +33,5 @@ func mein():int {
     ceaut( nota(danielptr) );
     ceaut( aprobado(daniel) );
     
-    retun 0;
+    return 0;
 }

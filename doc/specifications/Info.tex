@@ -42,11 +42,13 @@
 \lstdefinelanguage{C+-}
 {
   keywords={
-    if, else, guail, breic, continue,
+    if, els, guail, breic, continue,
+    suich, queis, difault,
+    cein, ceaut,
     return
     },
   keywordstyle=\color{blue},
-  emph={int, bul, func},
+  emph={int, bul, func, tru, fols},
   emphstyle=\color{purple},
   commentstyle=\color{green},
   stringstyle=\color{red},
@@ -93,6 +95,7 @@
 \usepackage{centernot}  % Paquete para tachar cosas
 \usepackage{appendix}   % Paquete para apéndice
 \usepackage{verbatim}   % Paquete para comentar bloques de código de LaTeX
+\usepackage{multicol}
 
 \begin{document}
 \maketitle
@@ -116,50 +119,96 @@ La declaración de tipos ha de hacerse de manera explícita y de forma previa al
 \subsubsection{Enteros y booleanos}
 Los tipos básicos del lenguaje son los enteros y los booleanos. La sintaxis de declaración de estos tipos es la siguiente:
 \begin{itemize}
-    \item \textbf{Enteros}: \texttt{int var;}
-    \item \textbf{Booleanos}: \texttt{bul var;}
+    \item \textbf{Enteros}: \texttt{\color{blue} int var;}
+    
+    Entre las operaciones habilitadas para el tipo:
+    \begin{itemize}
+        \item Suma: \texttt{\color{blue} a + b}
+        \item Resta: \texttt{\color{blue} a - b}
+        \item Multiplicación: \texttt{\color{blue} a * b}
+        \item División: \texttt{\color{blue} a / b}
+        \item Potencia: \texttt{\color{blue} a\^{}b}
+        \item Paréntesis: \texttt{\color{blue} ()}
+        \item Menor: \texttt{\color{blue} a \textless{} b}
+        \item Mayor: \texttt{\color{blue} a \textgreater{} b}
+        \item Igual: \texttt{\color{blue} a = b}
+        \item Menor o igual: \texttt{\color{blue} a \textless{}= b}
+        \item Mayor o igual: \texttt{\color{blue} a \textgreater{}= b}
+        \item Distinto: \texttt{\color{blue} a != b}
+    \end{itemize}
+    \item \textbf{Booleanos}: \texttt{\color{blue} bul var;}
+    
+    Entre las operaciones habilitadas para el tipo:
+    \begin{itemize}
+        \item \textit{Y} lógico: \texttt{\color{blue} a an b}
+        \item \textit{O} lógico: \texttt{\color{blue} a or b}
+        \item \textit{No} lógico: \texttt{\color{blue} !a}
+    \end{itemize}
+    Además, las palabras reservadas para indicar el valor verdadero o falso son \texttt{\color{blue}tru} y \texttt{\color{blue}fols}.
 \end{itemize}
-Entre las operaciones habilitadas para el tipo:
-$$FALTA ESTO$$
+
 
 \subsubsection{Clases y registros}
 Como tipos adicionales hemos incluido los registros, las clases y las funciones. La sintaxis de declaración es la siguiente:
 \begin{itemize}
-    \item \textbf{Clases}: \texttt{clas var \{...\};}
-    \item \textbf{Registros}: \texttt{estrut var \{...\};}
+    \item \textbf{Clases}: \texttt{\color{blue} clas var \{...\};}
+    
+    Entre las operaciones habilitadas para el tipo:
+    \begin{itemize}
+        \item Acceso a campos: \texttt{\color{blue} var.campo}
+        \item Acceso a métodos: \texttt{\color{blue} var.metodo}
+        \item Constructor: \texttt{\color{blue} var(args)}
+    \end{itemize}
+    \item \textbf{Registros}: \texttt{\color{blue} estrut var \{...\};}
+    
+    Entre las operaciones habilitadas para el tipo:
+    \begin{itemize}
+        \item Acceso a campos: \texttt{\color{blue} var.campo}
+        \item Constructor: \texttt{\color{blue} var(args)}
+    \end{itemize}
 \end{itemize}
-Entre las operaciones habilitadas para el tipo:
-$$FALTA ESTO$$
+
 
 \subsubsection{Arrays}
 Todos los tipos pueden formar un array multidimensional, la sintaxis de declaración es la siguiente:
 \begin{itemize}
-    \item \textbf{Array}: \texttt{Tipo[DIMENSION] var;}
+    \item \textbf{Array}: \texttt{\color{blue} Tipo[DIMENSION] var;}
+    
+    Entre las operaciones habilitadas para el tipo:
+    \begin{itemize}
+        \item Operador de acceso: \texttt{\color{blue} var[INDEX]}
+    \end{itemize}
 \end{itemize}
-Entre las operaciones habilitadas para el tipo:
-$$FALTA ESTO$$
+
+
 
 \subsubsection{Funciones}
 Las funciones se han declarado también como un tipo para poder hacer expresiones lambda y pasar funciones como argumento. La sintaxis de declaración de una función es la siguiente:
 \begin{itemize}
-    \item \textbf{Funciones}: \texttt{func var(Tipo arg1, Tipo arg2, ...) : TipoRetorno \{...\};}
+    \item \textbf{Funciones}: \texttt{\color{blue} func var(Tipo arg1, Tipo arg2, ...) : TipoRetorno \{...\};}
 \end{itemize}
 El paso de parámetros por defecto es por valor, pero puede cambiarse a por referencia añadiendo el caracter ``\&'' al final del tipo del argumento.
 
 \subsubsection{Punteros}
 Pueden declarase punteros a cualquiera de los tipos definidos. La sintaxis de declaración es:
 \begin{itemize}
-    \item \textbf{Puntero\footnote{Como nota especial, la declaración de un puntero a estructuras de tipo array, se haría como \texttt{Tipo[DIMENSION]~ var;}.}}: \texttt{Tipo\~{} var}
+    \item \textbf{Puntero\footnote{Como nota especial, la declaración de un puntero a estructuras de tipo array, se haría como \texttt{Tipo[DIMENSION]~ var;}.}}: \texttt{\color{blue} Tipo\~{} var}
+    
+    Entre las operaciones habilitadas para el tipo:
+    \begin{itemize}
+        \item Asociación a memoria dinámica: \texttt{\color{blue} var = niu Tipo}
+        \item Acceso al dato: \texttt{\color{blue} \~{}var}
+    \end{itemize}
 \end{itemize}
 
-\subsection{Tipos definidos por el usuario y constantes}
+\subsubsection{Tipos definidos por el usuario y constantes}
 Adicionalmente, permitimos la definición de tipos por parte del usuario a través de la palabra reservada:
 \begin{itemize}
-    \item \textbf{Definición de tipos de usuario}: \texttt{taipdef nombre expresion}.
+    \item \textbf{Definición de tipos de usuario}: \texttt{\color{blue} taipdef nombre expresion}.
 \end{itemize}
-Por último, la declaración de constantes es posible gracias a la instrucción:
+Por último, la declaración de constantes se ejecuta a través de la expresión:
 \begin{itemize}
-    \item \textbf{Declaración de constantes}: \texttt{difain NOMBRE valor}
+    \item \textbf{Declaración de constantes}: \texttt{\color{blue} difain NOMBRE valor}
 \end{itemize}
 
 \subsection{Instrucciones del lenguaje}
@@ -174,15 +223,32 @@ El lenguaje tiene el siguiente repetorio de instrucciones:
         \end{minipage}
     \end{center}
     
-    \item \textbf{Instrucciones condicionales}: \texttt{if-else}, \texttt{switch}
+    \item \textbf{Instrucciones condicionales}: \texttt{if-els}, \texttt{suich-queis}
     \begin{center}
         \begin{minipage}{\linewidth}
             \begin{lstlisting}[linewidth=0.3\linewidth, gobble=16]
                 if (var > 3) {
                     ...
                 }
-                else {
+                els {
                     ...
+                }
+            \end{lstlisting}
+        \end{minipage}
+    \end{center}
+    \begin{center}
+        \begin{minipage}{\linewidth}
+            \begin{lstlisting}[linewidth=0.3\linewidth, gobble=16]
+                suich (var) {
+                    queis(val1):
+                        ...
+                        breic;
+                    queis(val2):
+                        ...
+                        breic;
+                    difault:
+                        ...
+                        breic;
                 }
             \end{lstlisting}
         \end{minipage}
@@ -198,47 +264,42 @@ El lenguaje tiene el siguiente repetorio de instrucciones:
             \end{lstlisting}
         \end{minipage}
     \end{center}
-    Se incluyen además las instrucciones \texttt{breic} y \texttt{continiu}.
-    \item \textbf{Acceso a punteros}: \texttt{\~{}punt}
-\end{itemize}
+    Se incluyen además las instrucciones \texttt{\color{blue} breic} y \texttt{\color{blue} continiu}.
 
+    \item \textbf{Instrucciones de entrada salida}: \texttt{\color{blue} cein()} y \texttt{\color{blue} ceaut()}
+    \begin{center}
+        \begin{minipage}{\linewidth}
+            \begin{lstlisting}[linewidth=0.3\linewidth, gobble=16]
+                cein(var);
+                ceaut(var);
+            \end{lstlisting}
+        \end{minipage}
+    \end{center}
+    
+    \item \textbf{Instrucción de retorno de función}: \texttt{\color{blue} return}
+    \begin{center}
+        \begin{minipage}{\linewidth}
+            \begin{lstlisting}[linewidth=0.3\linewidth, gobble=16]
+                func foo(Tipo arg) : TipoRetorno {
+                    TipoRetorno var;
+                    ...
+                    return var;
+                }
+            \end{lstlisting}
+        \end{minipage}
+    \end{center}
 
-\subsection{Sucio}
-\begin{itemize}
-    \item \sout{Las constantes se declaran como los \texttt{\# define} de C++, pero con \texttt{\# difain}.}
-    \item \sout{Los nombres de variable siguen los mismos patrones que en C++.}
-    \item \sout{Los arrays como las variables normales, pero con corchetes indicando la dimensión (como en C++).}
-    \item \sout{Indicamos que una variable es puntero con \texttt{int\~{}  var}.}
-    \item \sout{Paso por valor y por referencia igual que en C++.}
-    \item \sout{Los bloques tienen como separadores las llaves.}
-    \item \sout{Los struct se escriben \texttt{estrut}}.
-    \item \sout{El identificador de tipo es \texttt{clas}}.
-    \item \sout{El identificador de los tipo entero es \texttt{int} y el de los booleanos es \texttt{bul}}.
-    \item Operadores infijos:
-    \begin{itemize}
-        \item Aritméticas como C++, añadimos el operador exponencial.
-        \item Asignación es \texttt{:=}.
-        \item Igualdad es \texttt{=} y la desigualdad como en C++.
-        \item Los operadores booleanos son: \texttt{an}, \texttt{or}, \texttt{sor}, \texttt{not} y menor mayor es como en C++.
-        \item Operador parentesis y corchetes también.
-    \end{itemize}
-    \item \sout{Para definir los tipos \texttt{taipdef}.}
-    \item \sout{Para definir las funciones \texttt{func nombre(args): tipoRetorno \{$\cdots$\}}.}
-    \item Las funciones de entrada salida son \texttt{cein} y \texttt{ceaut} con las funciones de modificación de entrada salida que vayamos necesitando. La intrucción de retorno para las funciones es \texttt{return valor}
-    \item \sout{Acceso a punteros \texttt{\~{}puntero}}
-    \item \sout{Instrucciones del lenguaje:}
-    \begin{itemize}
-        \item \sout{Asignación \texttt{:=}}
-        \item \sout{Condicionales \texttt{if () \{...\} else \{...\}} y \texttt{suich() \{ queis()...\}}}
-        \item \sout{Bucle indefinido \texttt{guail}}
-        \item Bucles definido \texttt{for}.
-        \item \sout{Sentencias de control de bucles: \texttt{breic} y \texttt{continiu}.}
-    \end{itemize}
 \end{itemize}
 
 \newpage
 \appendix
 
 \section{Ejemplos de programas habituales}
+
+\lstinputlisting[language=C+-, linewidth=\linewidth, caption={Ejemplo de programa típico en $C+-$.}]{../codes/mainExample.cpm}
+\lstinputlisting[language=C+-, linewidth=\linewidth, caption={Ejemplo de programa iterativo en $C+-$.}]{../codes/iterativeExample.cpm}
+\lstinputlisting[language=C+-, linewidth=\linewidth, caption={Ejemplo de arrays multidimensionales en $C+-$.}]{../codes/matrixExample.cpm}
+\lstinputlisting[language=C+-, linewidth=\linewidth, caption={Ejemplo de programa recursivo y sentencia \texttt{if-els} en $C+-$.}]{../codes/conditionalExample.cpm}
+\lstinputlisting[language=C+-, linewidth=\linewidth, caption={Ejemplo de uso de registros y sentencia \texttt{suich} en $C+-$.}]{../codes/structExample.cpm}
 
 \end{document}
