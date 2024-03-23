@@ -15,6 +15,6 @@ public class ReconLexicon {
        unidad = al.yylex();
        System.out.println(unidad);
      }
-     while (unidad.lexiconClass() != LexiconClass.EOF);
+     while (unidad.lexiconClass() != LexiconClass.EOF.ordinal());
     }        
 } 

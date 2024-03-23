@@ -23,45 +23,115 @@ package lexicon;
   ops = new ALexOperations(this);
 %init}
 
-letra  = ([A-Z]|[a-z])
-digitoPositivo = [1-9]
-digito = ({digitoPositivo}|0)
-binario = 0b[0-1]+
+character  = ([A-Z]|[a-z])
+positiveDigit = [1-9]
+digit = ({digitoPositivo}|0)
+integerNumber = {digitoPositivo}{digito}*
+binary = 0b[0-1]+
 hexadecimal = 0x([0-9]|[a-f])+
-parteEntera = {digitoPositivo}{digito}*
-parteDecimal = {digito}* {digitoPositivo}
-separador = [ \t\r\b\n]
-comentario = #[^\n]* 
-evalua = evalua
-donde = donde
+separator = [ \t\r\b\n]
+comment = \/\/[^\n]* //FIXME Ojo con este y el siguiente
+multiLineComment = \/\*[^(\*\/)]*
 identificador = {letra}({letra}|{digito})*
-numeroEntero = {parteEntera}
-numeroReal = {parteEntera}\.{parteDecimal}
-operadorSuma = \+
-operadorResta = \-
-operadorMultiplicacion = \*
-operadorDivision = \/
-parentesisApertura = \(
-parentesisCierre = \)
-igual = \=
-coma  = ,
+integerType = int
+sumOperator = \+
+substractionOperator = \-
+multiplicationOperator = \*
+divisionOperator = \/
+powerOperator = \^
+openParenthesis = \(
+closeParenthesis = \)
+lessOperator = <
+greaterOperator = >
+equalOperator = \=
+lessOrEqualOperator = <\=
+greaterOrEqualOperator = >\=
+notEqualOperator = \!\=
+booleanType = bul
+andOperator = and
+notOperator = \!
+trueValue = tru
+falseValue = fols
+comma  = ,
+colon = :
+semicolon = ;
+classType = clas
+openBracket = \{
+closeBracket = \}
+fieldAccessOperator = .
+structType = estrut
+openSquareBracket = \[
+closeSquareBracket = \]
+functionType = func
+pointerOperator = ~
+newOperator = niu
+typedef = taipdef
+define = difain
+asignationOperator = :\=
+if = if
+else = els
+switch = suich
+case = queis
+break = breic
+default = difolt
+while = guail
+continue = continiu
+cin = cein
+cout = ceaut
+return = return
 
 %%
-{separador}               {}
-{comentario}              {}
-{evalua}                  {return ops.unidadEvalua();}
-{donde}                   {return ops.unidadDonde();}
-{identificador}           {return ops.unidadId();}
-{numeroEntero}            {return ops.unidadEnt();}
-{numeroReal}              {return ops.unidadReal();}
-{binario}                 {return ops.unidadBin();}
-{hexadecimal}             {return ops.unidadHex();}
-{operadorSuma}            {return ops.unidadSuma();}
-{operadorResta}           {return ops.unidadResta();}
-{operadorMultiplicacion}  {return ops.unidadMul();}
-{operadorDivision}        {return ops.unidadDiv();}
-{parentesisApertura}      {return ops.unidadPAp();}
-{parentesisCierre}        {return ops.unidadPCierre();} 
-{igual}                   {return ops.unidadIgual();} 
-{coma}                    {return ops.unidadComa();}
-[^]                       {ops.error();}  
+{separador}                     {}
+{comment}                       {}
+{multiLineComment}              {}
+{identificador}                 {return ops.idUnit();}
+{integerNumber}                 {return ops.integerUnit();}
+{binary}                        {return ops.binaryUnit();}
+{hexadecimal}                   {return ops.hexUnit();}
+{integerType}                   {return ops.int_tUnit();}
+{sumOperator}                   {return ops.sum_opUnit();}
+{substractionOperator}          {return ops.subs_opUnit();}
+{multiplicationOperator}        {return ops.mult_opUnit();}
+{divisionOperator}              {return ops.div_opUnit();}
+{powerOperator}                 {return ops.pow_opUnit()}
+{openParenthesis}               {return ops.parentesis_openUnit();}
+{closeParenthesis}              {return ops.parentesis_closeUnit();}
+{lessOperator}                  {return ops.less_opUnit();}
+{greaterOperator}               {return ops.greater_opUnit();}
+{equalOperator}                 {return ops.equal_opUnit();}
+{lessOrEqualOperator}           {return ops.less_or_eqUnit();}
+{greaterOrEqualOperator}        {return ops.greater_or_eqUnit();}
+{notEqualOperator}              {return ops.not_equal_opUnit();}
+{booleanType}                   {return ops.boolean_tUnit();}
+{andOperator}                   {return ops.and_opUnit();}
+{notOperator}                   {return ops.not_opUnit();}
+{trueValue}                     {return ops.trueUnit();}
+{falseValue}                    {return ops.falseUnit();}
+{comma}                         {return ops.commaUnit();}
+{colon}                         {return ops.colonUnit();}       
+{semicolon}                     {return ops.semicolonUnit();}
+{classType}                     {return ops.class_tUnit();}
+{structType}                    {return ops.struct_tUnit();}
+{fieldAccessOperator}           {return ops.field_accessUnit();}
+{openBracket}                   {return ops.bracket_openUnit();}
+{closeBracket}                  {return ops.bracket_closeUnit();}
+{openSquareBracket}             {return ops.sq_bracket_openUnit();}
+{closeSquareBracket}            {return ops.sq_bracket_closeUnit();}
+{functionType}                  {return ops.func_tUnit();}
+{pointerOperator}               {return ops.pointer_opUnit();}
+{newOperator}                   {return ops.new_opUnit();}
+{typedef}                       {return ops.typedefUnit();}
+{define}                        {return ops.defineUnit();}
+{asignationOperator}            {return ops.assignation_opUnit();}
+{if}                            {return ops.ifUnit();}
+{else}                          {return ops.elseUnit();}
+{switch}                        {return ops.switchUnit();}
+{case}                          {return ops.caseUnit();}
+{break}                         {return ops.breakUnit();}
+{default}                       {return ops.defaultUnit();}
+{while}                         {return ops.whileUnit();}
+{continue}                      {return ops.continueUnit();}
+{cin}                           {return ops.cinUnit();}
+{cout}                          {return ops.coutUnit();}
+{return}                        {return ops.returnUnit();}
+[^]                             {ops.error();}

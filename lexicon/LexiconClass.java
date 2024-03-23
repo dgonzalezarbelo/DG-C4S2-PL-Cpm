@@ -1,19 +1,54 @@
 package lexicon;
 
-public class LexiconClass {
-  public static final int EOF = 0;
-  public static final int DONDE = 2;
-  public static final int EVALUA = 3;
-  public static final int IDEN = 4;
-  public static final int ENT = 5;
-  public static final int REAL = 6;
-  public static final int MAS = 7;
-  public static final int MENOS = 8;
-  public static final int POR = 9;
-  public static final int DIV = 10;
-  public static final int IGUAL = 11;
-  public static final int COMA = 12;
-  public static final int PAP = 13;
-  public static final int PCIERRE = 14;
+public enum LexiconClass {
+  EOF,
+  INTEGER,
+  ID,
+  INT_T,
+  SUM_OP,
+  SUBS_OP,
+  MULT_OP,
+  DIV_OP,
+  POW_OP,
+  PARENTESIS_OPEN,
+  PARENTESIS_CLOSE,
+  BRACKET_OPEN,
+  BRACKET_CLOSE,
+  SQ_BRACKET_OPEN,
+  SQ_BRACKET_CLOSE,
+  LESS_OP,
+  GREATER_OP,
+  EQUAL_OP,
+  LESS_OR_EQ_OP,
+  GREATER_OR_EQ_OP,
+  NOT_EQUAL_OP,
+  BOOLEAN_T,
+  AND_OP,
+  OR_OP,
+  NOT_OP,
+  TRUE,
+  FALSE,
+  COMMA,
+  COLON,
+  SEMICOLON,
+  CLASS_T,
+  STRUCT_T,
+  FIELD_ACCESS,
+  FUNC_T,
+  POINTER_OP,
+  NEW_OP,
+  TYPEDEF,
+  DEFINE,
+  ASIGNATION_OP,
+  IF,
+  ELSE,
+  SWITCH,
+  CASE,
+  BREAK,
+  DEFAULT,
+  WHILE,
+  CONTINUE,
+  INPUT_FUNC,
+  OUTPUT_FUNC,
+  RETURN
 }
-
