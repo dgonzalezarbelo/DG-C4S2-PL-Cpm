@@ -26,7 +26,7 @@ package lexicon;
 character  = ([A-Z]|[a-z])
 positiveDigit = [1-9]
 digit = ({digitoPositivo}|0)
-integerNumber = {digitoPositivo}{digito}*
+integerNumber = (([\+\-]?{digitoPositivo}{digito}*)|0) //Añadimos el 0 al final como caso alternativo
 binary = 0b[0-1]+
 hexadecimal = 0x([0-9]|[a-f])+
 separator = [ \t\r\b\n]
@@ -49,6 +49,7 @@ greaterOrEqualOperator = >\=
 notEqualOperator = \!\=
 booleanType = bul
 andOperator = and
+orOperator = or
 notOperator = \!
 trueValue = tru
 falseValue = fols
@@ -85,10 +86,9 @@ return = return
 {comment}                       {}
 {multiLineComment}              {}
 {identificador}                 {return ops.idUnit();}
-{integerNumber}                 {return ops.integerUnit();}
+{integerType}                   {return ops.int_tUnit();}
 {binary}                        {return ops.binaryUnit();}
 {hexadecimal}                   {return ops.hexUnit();}
-{integerType}                   {return ops.int_tUnit();}
 {sumOperator}                   {return ops.sum_opUnit();}
 {substractionOperator}          {return ops.subs_opUnit();}
 {multiplicationOperator}        {return ops.mult_opUnit();}
@@ -104,6 +104,7 @@ return = return
 {notEqualOperator}              {return ops.not_equal_opUnit();}
 {booleanType}                   {return ops.boolean_tUnit();}
 {andOperator}                   {return ops.and_opUnit();}
+{orOperator}                    {return ops.or_opUnit();}
 {notOperator}                   {return ops.not_opUnit();}
 {trueValue}                     {return ops.trueUnit();}
 {falseValue}                    {return ops.falseUnit();}
