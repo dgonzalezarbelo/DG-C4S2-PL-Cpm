@@ -80,6 +80,7 @@ continue = continiu
 cin = cein
 cout = ceaut
 return = return
+main = main
 
 %%
 {separador}                     {}
@@ -135,4 +136,5 @@ return = return
 {cin}                           {return ops.cinUnit();}
 {cout}                          {return ops.coutUnit();}
 {return}                        {return ops.returnUnit();}
+{main}                          {return ops.mainUnit();}
 [^]                             {ops.error();}

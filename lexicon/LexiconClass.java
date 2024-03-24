@@ -50,5 +50,6 @@ public enum LexiconClass {
   CONTINUE,
   INPUT_FUNC,
   OUTPUT_FUNC,
-  RETURN
+  RETURN,
+  MAIN
 }

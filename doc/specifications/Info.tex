@@ -48,7 +48,7 @@
     return
     },
   keywordstyle=\color{blue},
-  emph={int, bul, func, tru, fols},
+  emph={int, bul, func, tru, fols, estrut},
   emphstyle=\color{purple},
   commentstyle=\color{green},
   stringstyle=\color{red},
@@ -196,7 +196,7 @@ Pueden declarase punteros a cualquiera de los tipos definidos. La sintaxis de de
     
     Entre las operaciones habilitadas para el tipo:
     \begin{itemize}
-        \item Asociación a memoria dinámica: \texttt{\color{blue} var = niu Tipo}
+        \item Asociación a memoria dinámica: \texttt{\color{blue} var := niu Tipo}
         \item Acceso al dato: \texttt{\color{blue} \~{}var}
     \end{itemize}
 \end{itemize}
@@ -218,7 +218,7 @@ El lenguaje tiene el siguiente repetorio de instrucciones:
     \begin{center}
         \begin{minipage}{\linewidth}
             \begin{lstlisting}[linewidth=0.3\linewidth, gobble=16]
-                int var := 3
+                int var := 3;
             \end{lstlisting}
         \end{minipage}
     \end{center}

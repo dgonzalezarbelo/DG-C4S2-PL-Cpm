@@ -110,9 +110,6 @@ public class ALexOperations {
    public LexiconUnit func_tUnit() {
       return new LexiconUnit(alex.row(),alex.col(),LexiconClass.FUNC_T.ordinal()); 
    }
-   public LexiconUnit returnUnit() {
-      return new LexiconUnit(alex.row(),alex.col(),LexiconClass.RETURN.ordinal()); 
-   } 
    public LexiconUnit pointer_opUnit() {
       return new LexiconUnit(alex.row(),alex.col(),LexiconClass.POINTER_OP.ordinal()); 
    } 
@@ -158,6 +155,12 @@ public class ALexOperations {
    public LexiconUnit coutUnit() {
       return new LexiconUnit(alex.row(),alex.col(),LexiconClass.OUTPUT_FUNC.ordinal()); 
    } 
+   public LexiconUnit returnUnit() {
+      return new LexiconUnit(alex.row(),alex.col(),LexiconClass.RETURN.ordinal()); 
+   } 
+   public LexiconUnit mainUnit() {
+      return new LexiconUnit(alex.row(),alex.col(),LexiconClass.MAIN.ordinal());
+   }
    public LexiconUnit unidadEof() {
       return new LexiconUnit(alex.row(),alex.col(),LexiconClass.EOF.ordinal()); 
    }

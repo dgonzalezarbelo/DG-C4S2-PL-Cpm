@@ -28,8 +28,8 @@ func nota(Alumno~ a) : int {
 }
 
 func mein():int {
-    Alumno daniel = { 123456789, 6};
-    Alumno~ danielptr = &daniel;
+    Alumno daniel := { 123456789, 6};
+    Alumno~ danielptr := &daniel;
     ceaut( nota(danielptr) );
     ceaut( aprobado(daniel) );
     

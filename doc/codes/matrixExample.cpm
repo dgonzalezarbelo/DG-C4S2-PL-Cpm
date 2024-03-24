@@ -17,7 +17,7 @@ func multiplicarMatrices(int[][] A, int[][] B, int tam) : int[] {
         guail(j < tam) {
             k := 0;
             guail(k < tam) {
-                C[i][j] = C[i][j] + A[i][k] * B[k][j];
+                C[i][j] := C[i][j] + A[i][k] * B[k][j];
                 k++;
             }
             j++;
