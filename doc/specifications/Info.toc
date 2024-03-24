@@ -10,4 +10,5 @@
 \contentsline {subsubsection}{\numberline {1.2.5}Punteros}{3}{subsubsection.1.2.5}%
 \contentsline {subsubsection}{\numberline {1.2.6}Tipos definidos por el usuario y constantes}{4}{subsubsection.1.2.6}%
 \contentsline {subsection}{\numberline {1.3}Instrucciones del lenguaje}{4}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Elementos de la estructura del código}{5}{subsection.1.4}%
 \contentsline {section}{\numberline {A}Ejemplos de programas habituales}{6}{appendix.Alph1}%

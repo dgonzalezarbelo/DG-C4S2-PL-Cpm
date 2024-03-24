@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10.12) (preloaded format=pdflatex 2023.11.26)  24 MAR 2024 19:56
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10.12) (preloaded format=pdflatex 2023.11.26)  24 MAR 2024 20:44
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -971,24 +971,24 @@ LaTeX Info: Redefining \% on input line 12.
 )
 \openout1 = `Info.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 100.
-LaTeX Font Info:    ... okay on input line 100.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 100.
-LaTeX Font Info:    ... okay on input line 100.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 100.
-LaTeX Font Info:    ... okay on input line 100.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 100.
-LaTeX Font Info:    ... okay on input line 100.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 100.
-LaTeX Font Info:    ... okay on input line 100.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 100.
-LaTeX Font Info:    ... okay on input line 100.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 100.
-LaTeX Font Info:    ... okay on input line 100.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 100.
-LaTeX Font Info:    ... okay on input line 100.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 100.
-LaTeX Font Info:    ... okay on input line 100.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1024,8 +1024,8 @@ LaTeX Font Info:    ... okay on input line 100.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Info: Redefining \. on input line 100.
-LaTeX Info: Redefining \% on input line 100.
+LaTeX Info: Redefining \. on input line 105.
+LaTeX Info: Redefining \% on input line 105.
 (C:\Miktex\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count405
@@ -1045,7 +1045,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (C:\Miktex\tex/latex/00miktex\epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Package hyperref Info: Link coloring ON on input line 100.
+Package hyperref Info: Link coloring ON on input line 105.
  (Info.out) (Info.out)
 \@outlinefile=\write4
 \openout4 = `Info.out'.
@@ -1054,19 +1054,19 @@ Package hyperref Info: Link coloring ON on input line 100.
 
 Package pgfplots notification 'compat/show suggested version=true': you might benefit from \pgfplotsset{compat=1.18} (current compat level: 1.17).
 
-LaTeX Info: Redefining \. on input line 100.
-LaTeX Info: Redefining \% on input line 100.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 102.
+LaTeX Info: Redefining \. on input line 105.
+LaTeX Info: Redefining \% on input line 105.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 107.
 (C:\Miktex\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 102.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 107.
  (C:\Miktex\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for U+stmry on input line 102.
+LaTeX Font Info:    Trying to load font information for U+stmry on input line 107.
  (C:\Miktex\tex/latex/stmaryrd\ustmry.fd)
-LaTeX Font Info:    Trying to load font information for U+lasy on input line 102.
+LaTeX Font Info:    Trying to load font information for U+lasy on input line 107.
  (C:\Miktex\tex/latex/base\ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 ) (Info.toc
@@ -1105,30 +1105,30 @@ Non-PDF special ignored!
 Non-PDF special ignored!
 <special> ps:tx@Dict begin  gsave STV CP T /ps@rot 0 def grestore  end
 {C:/Users/Usuario/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
-LaTeX Font Info:    Trying to load font information for OML+cmtt on input line 132.
-LaTeX Font Info:    No file OMLcmtt.fd. on input line 132.
+LaTeX Font Info:    Trying to load font information for OML+cmtt on input line 137.
+LaTeX Font Info:    No file OMLcmtt.fd. on input line 137.
 
 
 LaTeX Font Warning: Font shape `OML/cmtt/m/n' undefined
 (Font)              using `OML/cmm/m/it' instead
-(Font)              for symbol `textless' on input line 132.
+(Font)              for symbol `textless' on input line 137.
 
 [2]
-LaTeX Font Info:    Trying to load font information for OMS+cmtt on input line 154.
-LaTeX Font Info:    No file OMScmtt.fd. on input line 154.
+LaTeX Font Info:    Trying to load font information for OMS+cmtt on input line 159.
+LaTeX Font Info:    No file OMScmtt.fd. on input line 159.
 
 
 LaTeX Font Warning: Font shape `OMS/cmtt/m/n' undefined
 (Font)              using `OMS/cmsy/m/n' instead
-(Font)              for symbol `textbraceleft' on input line 154.
+(Font)              for symbol `textbraceleft' on input line 159.
 
 
-Underfull \hbox (badness 3536) in paragraph at lines 195--195
+Underfull \hbox (badness 3536) in paragraph at lines 200--200
 [][][]\OT1/cmr/m/n/8 Como no-ta es-pe-cial, la de-cla-ra-ci^^Son de un pun-te-ro a es-truc-tu-ras de ti-po array, se har^^S^^Pa co-mo
  []
 
 [3] [4] [5]
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 299.
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 331.
  (../codes/mainExample.cpm) (../codes/iterativeExample.cpm) (../codes/matrixExample.cpm) (../codes/conditionalExample.cpm [6]) (../codes/structExample.cpm) [7] (Info.aux
 LaTeX Info: Redefining \. on input line 11.
 LaTeX Info: Redefining \% on input line 11.
@@ -1144,20 +1144,20 @@ L3 programming layer <2023-11-09>
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `Info.out' has not changed.
-(rerunfilecheck)             Checksum: BBDAF5667CF338E84CE7119CB934566F;1956.
+(rerunfilecheck)             Checksum: 0C46572BCCBE0E22A9031F973D46D87E;2217.
  ) 
 Here is how much of TeX's memory you used:
- 42909 strings out of 474586
- 936459 string characters out of 5762089
- 2183558 words of memory out of 5000000
- 64116 multiletter control sequences out of 15000+600000
+ 42964 strings out of 474586
+ 937104 string characters out of 5762089
+ 2184558 words of memory out of 5000000
+ 64156 multiletter control sequences out of 15000+600000
  574881 words of font info for 109 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,8n,111p,813b,2226s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk><C:/Miktex/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Miktex/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Miktex/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Miktex/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Miktex/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Miktex/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Miktex/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Miktex/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Miktex/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Miktex/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Miktex/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Miktex/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Miktex/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Miktex/fonts/type1/public/amsfonts/cm/cmtt8.pfb><C:/Miktex/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on Info.pdf (7 pages, 244797 bytes).
+Output written on Info.pdf (7 pages, 250352 bytes).
 PDF statistics:
- 373 PDF objects out of 1000 (max. 8388607)
- 153 named destinations out of 1000 (max. 500000)
- 197 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 394 PDF objects out of 1000 (max. 8388607)
+ 168 named destinations out of 1000 (max. 500000)
+ 205 words of extra memory for PDF output out of 10000 (max. 10000000)
 

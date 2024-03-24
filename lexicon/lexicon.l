@@ -80,6 +80,7 @@ continue = continiu
 cin = cein
 cout = ceaut
 return = return
+this = this
 main = main
 
 %%
@@ -136,5 +137,6 @@ main = main
 {cin}                           {return ops.cinUnit();}
 {cout}                          {return ops.coutUnit();}
 {return}                        {return ops.returnUnit();}
+{this}                          {return ops.thisUnit();}
 {main}                          {return ops.mainUnit();}
 [^]                             {ops.error();}
