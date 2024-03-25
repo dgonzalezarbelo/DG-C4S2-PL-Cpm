@@ -39,7 +39,7 @@ public enum LexiconClass {
   NEW_OP,
   TYPEDEF,
   DEFINE,
-  ASIGNATION_OP,
+  ASSIGNATION_OP,
   IF,
   ELSE,
   SWITCH,

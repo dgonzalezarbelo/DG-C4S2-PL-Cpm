@@ -5,14 +5,14 @@ package lexicon;
 %line
 %column
 %class AnalizadorLexicoTiny
-%type  UnidadLexica
+%type  LexiconUnit
 %unicode
 
 %{
   private ALexOperations ops;
-  public String lexema() {return yytext();}
-  public int fila() {return yyline+1;}
-  public int columna() {return yycolumn+1;}
+  public String lexeme() {return yytext();}
+  public int row() {return yyline+1;}
+  public int col() {return yycolumn+1;}
 %}
 
 %eofval{
@@ -25,14 +25,14 @@ package lexicon;
 
 character  = ([A-Z]|[a-z])
 positiveDigit = [1-9]
-digit = ({digitoPositivo}|0)
-integerNumber = (([\+\-]?{digitoPositivo}{digito}*)|0) //Añadimos el 0 al final como caso alternativo
+digit = ({positiveDigit}|0)
+integerNumber = (([\+\-]?{positiveDigit}{digit}*)|0) //Añadimos el 0 al final como caso alternativo
 binary = 0b[0-1]+
 hexadecimal = 0x([0-9]|[a-f])+
 separator = [ \t\r\b\n]
 comment = \/\/[^\n]* //FIXME Ojo con este y el siguiente
 multiLineComment = \/\*[^(\*\/)]*
-identificador = {letra}({letra}|{digito})*
+identificador = {character}({character}|{digit})*
 integerType = int
 sumOperator = \+
 substractionOperator = \-
@@ -59,16 +59,16 @@ semicolon = ;
 classType = clas
 openBracket = \{
 closeBracket = \}
-fieldAccessOperator = .
+fieldAccessOperator = \.
 structType = estrut
 openSquareBracket = \[
 closeSquareBracket = \]
 functionType = func
-pointerOperator = ~
+pointerOperator = \~
 newOperator = niu
 typedef = taipdef
 define = difain
-asignationOperator = :\=
+assignationOperator = :\=
 if = if
 else = els
 switch = suich
@@ -81,10 +81,10 @@ cin = cein
 cout = ceaut
 return = return
 this = this
-main = main
+main = mein
 
 %%
-{separador}                     {}
+{separator}                     {}
 {comment}                       {}
 {multiLineComment}              {}
 {identificador}                 {return ops.idUnit();}
@@ -95,13 +95,13 @@ main = main
 {substractionOperator}          {return ops.subs_opUnit();}
 {multiplicationOperator}        {return ops.mult_opUnit();}
 {divisionOperator}              {return ops.div_opUnit();}
-{powerOperator}                 {return ops.pow_opUnit()}
+{powerOperator}                 {return ops.pow_opUnit();}
 {openParenthesis}               {return ops.parentesis_openUnit();}
 {closeParenthesis}              {return ops.parentesis_closeUnit();}
 {lessOperator}                  {return ops.less_opUnit();}
 {greaterOperator}               {return ops.greater_opUnit();}
 {equalOperator}                 {return ops.equal_opUnit();}
-{lessOrEqualOperator}           {return ops.less_or_eqUnit();}
+{lessOrEqualOperator}           {return ops.less_or_eq_opUnit();}
 {greaterOrEqualOperator}        {return ops.greater_or_eqUnit();}
 {notEqualOperator}              {return ops.not_equal_opUnit();}
 {booleanType}                   {return ops.boolean_tUnit();}
@@ -125,7 +125,7 @@ main = main
 {newOperator}                   {return ops.new_opUnit();}
 {typedef}                       {return ops.typedefUnit();}
 {define}                        {return ops.defineUnit();}
-{asignationOperator}            {return ops.assignation_opUnit();}
+{assignationOperator}            {return ops.assignation_opUnit();}
 {if}                            {return ops.ifUnit();}
 {else}                          {return ops.elseUnit();}
 {switch}                        {return ops.switchUnit();}

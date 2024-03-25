@@ -6,16 +6,16 @@ public class ALexOperations {
       this.alex = alex;   
    }
    public LexiconUnit idUnit() {
-      return new LexiconUnit(alex.row(),alex.col(), LexiconClass.ID.ordinal(), alex.lexema()); 
+      return new LexiconUnit(alex.row(),alex.col(), LexiconClass.ID.ordinal(), alex.lexeme()); 
    } 
    public LexiconUnit integerUnit() {
-      return new LexiconUnit(alex.row(),alex.col(),LexiconClass.INTEGER.ordinal(), alex.lexema()); 
+      return new LexiconUnit(alex.row(),alex.col(),LexiconClass.INTEGER.ordinal(), alex.lexeme()); 
    }
    public LexiconUnit binaryUnit() {
-      return new LexiconUnit(alex.row(),alex.col(),LexiconClass.INTEGER.ordinal(), convertToDec(alex.lexema(), 2)); 
+      return new LexiconUnit(alex.row(),alex.col(),LexiconClass.INTEGER.ordinal(), convertToDec(alex.lexeme(), 2)); 
    }
    public LexiconUnit hexUnit() {
-      return new LexiconUnit(alex.row(),alex.col(),LexiconClass.INTEGER.ordinal(), convertToDec(alex.lexema(), 16)); 
+      return new LexiconUnit(alex.row(),alex.col(),LexiconClass.INTEGER.ordinal(), convertToDec(alex.lexeme(), 16)); 
    }
    public LexiconUnit int_tUnit() {
       return new LexiconUnit(alex.row(),alex.col(),LexiconClass.INT_T.ordinal()); 
@@ -122,8 +122,8 @@ public class ALexOperations {
    public LexiconUnit defineUnit() {
       return new LexiconUnit(alex.row(),alex.col(),LexiconClass.DEFINE.ordinal()); 
    } 
-   public LexiconUnit asignation_opUnit() {
-      return new LexiconUnit(alex.row(),alex.col(),LexiconClass.ASIGNATION_OP.ordinal()); 
+   public LexiconUnit assignation_opUnit() {
+      return new LexiconUnit(alex.row(),alex.col(),LexiconClass.ASSIGNATION_OP.ordinal()); 
    } 
    public LexiconUnit ifUnit() {
       return new LexiconUnit(alex.row(),alex.col(),LexiconClass.IF.ordinal()); 
@@ -168,10 +168,10 @@ public class ALexOperations {
       return new LexiconUnit(alex.row(),alex.col(),LexiconClass.EOF.ordinal()); 
    }
    public void error() {
-      System.err.println("***"+alex.row()+", "+alex.col()+" Caracter inesperado: "+alex.lexema());
+      System.err.println("$$$"+alex.row()+", "+alex.col()+" Caracter inesperado: "+alex.lexeme());
    }
 
-   public String convertToDec(String binario, int base) {
+   private String convertToDec(String binario, int base) {
       Integer n = Integer.parseInt(binario.substring(2), base);
       return Integer.toString(n.intValue());
    }

@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1711309478 "c:/Users/Usuario/OneDrive/Notability/04 Cuarto/PL/PL Practicas/Cpm/doc/specifications/Info.tex" "Info.pdf" "Info" 1711309482 0
+["pdflatex"] 1711384337 "c:/Users/Usuario/OneDrive/Notability/04 Cuarto/PL/PL Practicas/Cpm/doc/specifications/Info.tex" "Info.pdf" "Info" 1711384343 0
   "../codes/conditionalExample.cpm" 1710505152 140 a43e1f626b04b048ab954d7886e475fb ""
   "../codes/iterativeExample.cpm" 1710505152 224 35a203996cbe7199523d782f8c91d91a ""
   "../codes/mainExample.cpm" 1710505152 120 580c25c138babe6d48fd0b3d60fe5a03 ""
@@ -325,11 +325,11 @@
   "C:/Users/Usuario/AppData/Local/MiKTeX/fonts/tfm/public/stmaryrd/stmary7.tfm" 1686849371 848 26631fcb3e4cb6757598b9cda7967b63 ""
   "C:/Users/Usuario/AppData/Local/MiKTeX/fonts/tfm/public/stmaryrd/stmary8.tfm" 1686849368 848 6125cdd3627e68d3db8013b98e587508 ""
   "C:/Users/Usuario/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1701016406 24196864 b312feb025a591c7bae03ad194d306b8 ""
-  "Info.aux" 1711309481 2731 82ece14abaf5db0120dc6e462b7dadb9 "pdflatex"
-  "Info.out" 1711309481 2217 0c46572bccbe0e22a9031f973d46d87e "pdflatex"
-  "Info.tex" 1711309477 14243 42e32c4bf705a16e99591758e440cece ""
-  "Info.toc" 1711309481 1181 1886d686626f012a19137c06b13fc424 "pdflatex"
-  "c:/Users/Usuario/OneDrive/Notability/04 Cuarto/PL/PL Practicas/Cpm/doc/specifications/Info.tex" 1711309477 14243 42e32c4bf705a16e99591758e440cece ""
+  "Info.aux" 1711384342 2731 82ece14abaf5db0120dc6e462b7dadb9 "pdflatex"
+  "Info.out" 1711384342 2217 0c46572bccbe0e22a9031f973d46d87e "pdflatex"
+  "Info.tex" 1711384332 14243 9478c1ba932b5c3330f32b307b348b96 ""
+  "Info.toc" 1711384342 1181 1886d686626f012a19137c06b13fc424 "pdflatex"
+  "c:/Users/Usuario/OneDrive/Notability/04 Cuarto/PL/PL Practicas/Cpm/doc/specifications/Info.tex" 1711384332 14243 9478c1ba932b5c3330f32b307b348b96 ""
   (generated)
   "Info.aux"
   "Info.log"
