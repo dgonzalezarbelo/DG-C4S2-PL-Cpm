@@ -52,5 +52,7 @@ public enum LexiconClass {
   OUTPUT_FUNC,
   RETURN,
   THIS,
+  PUBLIC,
+  PRIVATE,
   MAIN
 }

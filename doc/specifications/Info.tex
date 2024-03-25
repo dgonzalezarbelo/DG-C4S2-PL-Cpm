@@ -136,7 +136,7 @@ Los tipos básicos del lenguaje son los enteros y los booleanos. La sintaxis de 
         \item Paréntesis: \texttt{\color{blue} ()}
         \item Menor: \texttt{\color{blue} a \textless{} b}
         \item Mayor: \texttt{\color{blue} a \textgreater{} b}
-        \item Igual: \texttt{\color{blue} a = b}
+        \item Igual: \texttt{\color{blue} a == b}
         \item Menor o igual: \texttt{\color{blue} a \textless{}= b}
         \item Mayor o igual: \texttt{\color{blue} a \textgreater{}= b}
         \item Distinto: \texttt{\color{blue} a != b}
@@ -171,6 +171,12 @@ Como tipos adicionales hemos incluido los registros, las clases y las funciones.
         \item Acceso a campos: \texttt{\color{blue} var.campo}
         \item Constructor: \texttt{\color{blue} var(args)}
     \end{itemize}
+
+    En ambos casos, el prefijo \texttt{\color{blue}dis} permitirá acceder específicamente a los atributos de la clase o registro.
+    
+    En el caso particular de las clases que, a diferencia de los registros, pueden métodos definidos internamente, permitirá el acceso a estos atributos cuando haya ocultación por el nombre de los argumentos de los métodos.
+
+    Aparte de esto, en ambos casos los atributos podrán tener una visibilidad a elegir entre \texttt{\color{blue}public} y \texttt{\color{blue}praivet}, con el mismo significado que tienen en C++. 
 \end{itemize}
 
 
@@ -192,7 +198,13 @@ Las funciones se han declarado también como un tipo para poder hacer expresione
 \begin{itemize}
     \item \textbf{Funciones}: \texttt{\color{blue} func var(Tipo arg1, Tipo arg2, ...) : TipoRetorno \{...\};}
 \end{itemize}
-El paso de parámetros por defecto es por valor, pero puede cambiarse a por referencia añadiendo el caracter ``\&'' al final del tipo del argumento.
+El paso de parámetros por defecto es por valor, pero puede cambiarse a por referencia añadiendo el caracter ``\&'' al final del tipo del argumento. Cabe mencionar que se permite como argumento un array de dimensión variable. En tal caso se 
+escribirá similar a la siguiente sentencia: 
+\begin{center}
+    \texttt{\color{blue}func foo(int[] array) : TipoRetorno \{...\}}
+\end{center}
+
+Se añade una restricción al cuerpo de las funciones: se impone que la última sentencia debe ir encabezada por \texttt{\color{blue}return}.
 
 \subsubsection{Punteros}
 Pueden declarase punteros a cualquiera de los tipos definidos. La sintaxis de declaración es:
@@ -207,11 +219,13 @@ Pueden declarase punteros a cualquiera de los tipos definidos. La sintaxis de de
 \end{itemize}
 
 \subsubsection{Tipos definidos por el usuario y constantes}
-Adicionalmente, permitimos la definición de tipos por parte del usuario a través de la palabra reservada:
+Adicionalmente, permitimos la definición de tipos por parte del usuario a través de la siguiente palabra reservada:
 \begin{itemize}
     \item \textbf{Definición de tipos de usuario}: \texttt{\color{blue} taipdef nombre expresion}.
 \end{itemize}
-Por último, la declaración de constantes se ejecuta a través de la expresión:
+Cabe mencionar que esta expresión no crea ningún tipo nuevo, sino que funciona como un ``alias''. Se puede entender como una sentencia que reemplaza cada aparición de \texttt{\color{blue} nombre} en el código por \texttt{\color{blue}expresion}.
+
+Por último, la declaración de constantes se ejecuta a través de la expresión siguiente:
 \begin{itemize}
     \item \textbf{Declaración de constantes}: \texttt{\color{blue} difain NOMBRE valor}
 \end{itemize}
@@ -284,7 +298,7 @@ A continuación se presenta el repertorio de instrucciones del lenguaje. Préste
     \item \textbf{Instrucción de retorno de función}: \texttt{\color{blue} return}
     \begin{center}
         \begin{minipage}{\linewidth}
-            \begin{lstlisting}[linewidth=0.3\linewidth, gobble=16]
+            \begin{lstlisting}[linewidth=0.5\linewidth, gobble=16]
                 func foo(Tipo arg) : TipoRetorno {
                     TipoRetorno var;
                     ...

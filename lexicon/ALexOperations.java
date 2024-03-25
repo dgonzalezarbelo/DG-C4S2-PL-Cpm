@@ -161,6 +161,12 @@ public class ALexOperations {
    public LexiconUnit thisUnit() {
       return new LexiconUnit(alex.row(),alex.col(),LexiconClass.THIS.ordinal());
    }
+   public LexiconUnit publicUnit() {
+      return new LexiconUnit(alex.row(),alex.col(),LexiconClass.PUBLIC.ordinal());
+   }
+   public LexiconUnit privateUnit() {
+      return new LexiconUnit(alex.row(),alex.col(),LexiconClass.PRIVATE.ordinal());
+   }
    public LexiconUnit mainUnit() {
       return new LexiconUnit(alex.row(),alex.col(),LexiconClass.MAIN.ordinal());
    }

@@ -43,7 +43,7 @@ openParenthesis = \(
 closeParenthesis = \)
 lessOperator = <
 greaterOperator = >
-equalOperator = \=
+equalOperator = \=\=
 lessOrEqualOperator = <\=
 greaterOrEqualOperator = >\=
 notEqualOperator = \!\=
@@ -80,7 +80,9 @@ continue = continiu
 cin = cein
 cout = ceaut
 return = return
-this = this
+this = dis
+public = public
+private = praivet
 main = mein
 
 %%
@@ -138,5 +140,7 @@ main = mein
 {cout}                          {return ops.coutUnit();}
 {return}                        {return ops.returnUnit();}
 {this}                          {return ops.thisUnit();}
+{public}                        {return ops.privateUnit();}
+{private}                       {return ops.privateUnit();}
 {main}                          {return ops.mainUnit();}
 [^]                             {ops.error();}
