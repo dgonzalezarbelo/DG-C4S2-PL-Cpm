@@ -3,15 +3,31 @@
 
 	// configuraciones de COMPILACIÓN de los distintos proyectos Java en el proyecto
 	"tasks": [
-		// Configuración de compilación para lanzar el analizador léxico
+		// Configuración de compilación para lanzar el analizador léxico, genera tanto el AnalizadorTiny como compila las clases Java del resto del analizador
 		{
-			"label": "compileLexicon",
+			"label": "preLaunchTasks",
 			"type": "shell",
-			"command": "javac -d lexicon/bin -cp lexicon/bin lexicon/src/*.java",
+			"dependsOn": ["generateAnalizadorTiny", "compileReconLexicon"],
+		},
+		// Configuración de compilación de las clases java que dan soporte al analizadorLexico
+		{
+			"label": "compileReconLexicon",
+			"type": "shell",
+			"command": "javac -d ${workspaceFolder}/lexicon/bin -cp ${workspaceFolder}/lexicon/bin ${workspaceFolder}/lexicon/src/*.java",
 			"group": {
 				"kind": "build",
 				"isDefault": true
 			}
+		},
+		// Configuración de generación de la clase AnalizadorTiny por parte de JFLEX
+		{
+			"label": "generateAnalizadorTiny",
+			"type": "shell",
+			"command": "java -cp ${workspaceFolder}/lexicon/jflex.jar jflex.Main ${workspaceFolder}/lexicon/lexicon.l -d ${workspaceFolder}/lexicon/src",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}			
 		}
 	]
 }

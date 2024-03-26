@@ -10,7 +10,7 @@
             "request": "launch",
             "mainClass": "lexicon.src.ReconLexicon",
             "projectName": "PRF_85cc8552",
-            "preLaunchTask": "compileLexicon",              // lanza antes de ejecutar la compilación del proyecto
+            "preLaunchTask": "preLaunchTasks",
             "args":["${input:args}"]
         }
     ],

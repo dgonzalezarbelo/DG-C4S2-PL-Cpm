@@ -7,16 +7,15 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import lexicon.ALexOperations;
-import lexicon.ReconLexicon;
+import lexicon.src.*;
 
 public class arraysCorrect {
 
     @Test
     public void testarraysCorrect() throws FileNotFoundException, IOException {
-        String[] args = {"lexicon/test/testingCodes/arraysCorrect.cpm"}; // File that will be tested
+        String[] args = { "lexicon/test/testingCodes/arraysCorrect.cpm" }; // File that will be tested
         ReconLexicon.main(args);
-        
+
         // this test shouldnt detect any errors in the lexic
         assertEquals(false, ALexOperations.errorDetected);
     }

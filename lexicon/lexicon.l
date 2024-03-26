@@ -1,4 +1,4 @@
-package lexicon;
+package lexicon.src;
 
 %%
 %char
@@ -26,13 +26,13 @@ package lexicon;
 character  = ([A-Z]|[a-z])
 positiveDigit = [1-9]
 digit = ({positiveDigit}|0)
-integerNumber = (([\+\-]?{positiveDigit}{digit}*)|0) //Añadimos el 0 al final como caso alternativo
+integerNumber = (({positiveDigit}{digit}*)|0)             //Añadimos el 0 al final como caso alternativo
 binary = 0b[0-1]+
 hexadecimal = 0x([0-9]|[a-f])+
 separator = [ \t\r\b\n]
 comment = \/\/[^\n]* //FIXME Ojo con este y el siguiente
 multiLineComment = \/\*[^(\*\/)]*
-identificador = {character}({character}|{digit})*
+identificator = {character}({character}|{digit})*
 integerType = int
 sumOperator = \+
 substractionOperator = \-
@@ -89,7 +89,7 @@ main = mein
 {separator}                     {}
 {comment}                       {}
 {multiLineComment}              {}
-{identificador}                 {return ops.idUnit();}
+{integerNumber}                 {return ops.integerUnit();}
 {integerType}                   {return ops.int_tUnit();}
 {binary}                        {return ops.binaryUnit();}
 {hexadecimal}                   {return ops.hexUnit();}
@@ -143,4 +143,5 @@ main = mein
 {public}                        {return ops.privateUnit();}
 {private}                       {return ops.privateUnit();}
 {main}                          {return ops.mainUnit();}
+{identificator}                 {return ops.idUnit();}
 [^]                             {ops.error();}

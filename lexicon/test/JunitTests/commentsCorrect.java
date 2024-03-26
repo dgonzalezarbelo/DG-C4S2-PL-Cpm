@@ -7,8 +7,8 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import lexicon.ALexOperations;
-import lexicon.ReconLexicon;
+import lexicon.src.*;
+
 
 public class commentsCorrect {
 
