@@ -1,4 +1,4 @@
-package lexicon;
+package lexicon.src;
 
 public enum LexiconClass {
   EOF,

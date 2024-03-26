@@ -1,0 +1,25 @@
+{
+    "version": "0.2.0",
+
+    // configuraciones de EJECUCIÓN de los distintos proyectos Java en el proyecto
+    "configurations": [
+        // Configuración de ejecución para lanzar el analizador léxico
+        {
+            "type": "java",
+            "name": "ReconLexicon",
+            "request": "launch",
+            "mainClass": "lexicon.src.ReconLexicon",
+            "projectName": "PRF_85cc8552",
+            "preLaunchTask": "compileLexicon",              // lanza antes de ejecutar la compilación del proyecto
+            "args":["${input:args}"]
+        }
+    ],
+    // Sección para que se pidan los argumentos explícitamente desde VScode
+    "inputs": [
+        {
+            "id": "args",
+            "type": "promptString",
+            "description": "Enter program arguments separated by space"
+        }
+    ]
+}

@@ -1,4 +1,4 @@
-package lexicon;
+package lexicon.src;
 
 public class Symbol {
     public int sym;

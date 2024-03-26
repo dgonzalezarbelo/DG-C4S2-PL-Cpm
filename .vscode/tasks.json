@@ -1,0 +1,17 @@
+{
+	"version": "2.0.0",
+
+	// configuraciones de COMPILACIÓN de los distintos proyectos Java en el proyecto
+	"tasks": [
+		// Configuración de compilación para lanzar el analizador léxico
+		{
+			"label": "compileLexicon",
+			"type": "shell",
+			"command": "javac -d lexicon/bin -cp lexicon/bin lexicon/src/*.java",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+}

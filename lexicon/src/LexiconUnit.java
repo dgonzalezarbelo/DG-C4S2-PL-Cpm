@@ -1,4 +1,4 @@
-package lexicon;
+package lexicon.src;
 
 public class LexiconUnit extends Symbol {
     public LexiconUnit(int row, int col, int lexiconClass) {

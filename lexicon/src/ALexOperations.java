@@ -1,4 +1,4 @@
-package lexicon;
+package lexicon.src;
 
 public class ALexOperations {
    private AnalizadorLexicoTiny alex;

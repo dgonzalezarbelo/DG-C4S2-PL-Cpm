@@ -2,7 +2,7 @@ package lexicon.test.JunitTests;
 
 import org.junit.Test;
 
-import lexicon.ReconLexicon;
+import lexicon.src.ReconLexicon;
 
 public class exampleTest {
 
