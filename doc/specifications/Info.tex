@@ -34,7 +34,7 @@
 \usepackage[colorlinks=true]{hyperref}
 \hypersetup{
 	urlcolor=red,
-	linkcolor=blue,
+	linkcolor=brown,
 }
 
 %% Paquete para incluir código con coloreado sintáctico
@@ -86,6 +86,7 @@
 \DeclareMathOperator{\rot}{rot}
 \DeclareMathOperator{\divg}{div}
 \newcommand{\dif}[1]{\ d#1}
+\newcommand{\cpm}{C$+$$-$}
 
 %% Paquete e instrucciones para la generacion de los dibujos
 \usepackage{pgfplots}
@@ -106,27 +107,39 @@
 \maketitle
 \tableofcontents
 
-\section{Especificaciones técnicas del lenguaje}
-\subsection{Identificadores y ámbitos de definición}
+\section{Especificaciones técnicas del lenguaje}\label{sec:Especificaciones técnicas del lenguaje}
+\subsection{Identificadores y ámbitos de definición}\label{subsec:Identificadores y ámbitos de definición}
 El lenguaje posee las siguientes características:
 \begin{itemize}
-    \item \textbf{Declaración de variables}: se pueden declarar variables sencillas de los tipos definidos y variables \textit{array} de estos tipos, de cualquier dimensión. Los nombres de los identificadores han de ser expresiones alfanuméricas que no comiencen por números y que posiblemente tengan el caracter ``\_''.
+    \item \textbf{Declaración de variables}: se pueden declarar variables sencillas de los tipos definidos y variables \textit{array} de estos tipos, de cualquier dimensión.
     \item \textbf{Bloques anidados}: se permiten las anidaciones en condicionales, bucles, funciones, etc. Si dos variables tienen el mismo nombre, la más profunda (en la anidación) tapa a la más externa.
-    \item \textbf{Funciones}: se permite la creación de funciones y la declaración implícita dentro de otras. El paso por valor y por referencia de cualquier tipo a las funciones está garantizado.
+    \item \textbf{Funciones}: se permite la creación de funciones. El paso por valor y por referencia de cualquier tipo a las funciones está garantizado.
     \item \textbf{Punteros}: para cada tipo se puede declarar un puntero a una variable de ese tipo, mediante la asignación de su dirección de memoria a la variable puntero.
     \item \textbf{Registros y clases}: se incluyen dos tipos adicionales: los registros como ``saco de datos'' ---sin métodos--- y las clases, tanto con datos como con métodos de función.
     \item \textbf{Declaración de constantes}: se incluye la posibilidad de declarar constantes por parte del usuario.
 \end{itemize}
 
-\subsection{Tipos}
-La declaración de tipos ha de hacerse de manera explícita y de forma previa al lugar donde se emplee el identificador, es decir, que para poder usar una variable tengo que haberla declarado antes.
+\subsection{Tipos}\label{subsec:Tipos}
+El lenguaje \cpm es un lenguaje fuertemente tipado, donde la declaración de tipos ha de hacerse de manera explícita y de forma previa al uso del identificador, es decir, que para poder usar una variable tengo que haberla declarado antes.
+
+El lenguaje consta de los siguientes tipos predefinidos:
+\begin{itemize}
+    \item Enteros
+    \item Booleanos
+    \item Clases
+    \item Registros
+    \item Arrays
+    \item Funciones
+    \item Punteros
+\end{itemize}
+sobre los que se habla más en profundidad en su respectiva sección. Asimismo, existe la posibilidad de declarar tipos por parte del usuario a través de la instrucción \texttt{\color{blue}difain}. Los detalles, de nuevo, se exponen de forma más precisa en su correspondiente apartado.
 
 \subsubsection{Enteros y booleanos}
-Los tipos básicos del lenguaje son los enteros y los booleanos. La sintaxis de declaración de estos tipos es la siguiente:
+Los tipos básicos del lenguaje son los enteros y los booleanos y son los únicos permitidos para ser retornados explícitamente\footnote{Si bien es cierto que la instrucción \texttt{\color{blue} return} está restringida a tipos enteros y booleanos, una función puede ``devolver'' un valor de otro tipo pasando por referencia como argumento una variable de ese tipo.} por funciones. A continuación, se expone la sintaxis de declaración de ambos y las operaciones permitidas para cada uno de ellos. El identificador \texttt{var} corresponderá al identificador asignado a la variable declarada con estos tipos.
 \begin{itemize}
     \item \textbf{Enteros}: \texttt{\color{blue} int var;}
     
-    Entre las operaciones habilitadas para el tipo:
+    Operaciones habilitadas para el tipo:
     \begin{itemize}
         \item Suma: \texttt{\color{blue} a + b}
         \item Resta: \texttt{\color{blue} a - b}
@@ -141,51 +154,50 @@ Los tipos básicos del lenguaje son los enteros y los booleanos. La sintaxis de 
         \item Mayor o igual: \texttt{\color{blue} a \textgreater{}= b}
         \item Distinto: \texttt{\color{blue} a != b}
     \end{itemize}
+    Los literales permitidos para la asignación de un valor a las variables de tipo entero son decimales, binarios y hexadecimales, que serán convertidos internamente todos a números decimales.
+
     \item \textbf{Booleanos}: \texttt{\color{blue} bul var;}
     
-    Entre las operaciones habilitadas para el tipo:
+    Operaciones habilitadas para el tipo:
     \begin{itemize}
         \item \textit{Y} lógico: \texttt{\color{blue} a an b}
         \item \textit{O} lógico: \texttt{\color{blue} a or b}
         \item \textit{No} lógico: \texttt{\color{blue} !a}
     \end{itemize}
-    Además, las palabras reservadas para indicar el valor verdadero o falso son \texttt{\color{blue}tru} y \texttt{\color{blue}fols}.
+    Las palabras reservadas para definir los dos literales booleanos que pueden asignarse a variables booleanas son \texttt{\color{blue}tru} y \texttt{\color{blue}fols}, indicando respectivamente verdadero y falso.
 \end{itemize}
 
 
 \subsubsection{Clases y registros}
-Como tipos adicionales hemos incluido los registros, las clases y las funciones. La sintaxis de declaración es la siguiente:
+Las clases y registros son tipos no básicos compuestos por atributos (registros) y por atributos y métodos (clases). Además, cada elemento de la clase o del registro podrá tener una visibilidad a elegir entre \texttt{\color{blue}public} y \texttt{\color{blue}praivet}, denotando el primero que el campo es accesible por llamadas desde fuera del tipo y el segundo, que solo es accesible a través de llamadas internas del tipo. Por defecto, las clases tendrán todos sus campos privados y los registros públicos.
+
 \begin{itemize}
     \item \textbf{Clases}: \texttt{\color{blue} clas var \{...\};}
     
-    Entre las operaciones habilitadas para el tipo:
+    Opciones habilitadas para el tipo:
     \begin{itemize}
-        \item Acceso a campos: \texttt{\color{blue} var.campo}
-        \item Acceso a métodos: \texttt{\color{blue} var.metodo}
+        \item Acceso a atributos: \texttt{\color{blue} var.atributo}
+        \item Acceso a métodos: \texttt{\color{blue} var.metodo()}
         \item Constructor: \texttt{\color{blue} var(args)}
     \end{itemize}
     \item \textbf{Registros}: \texttt{\color{blue} estrut var \{...\};}
     
-    Entre las operaciones habilitadas para el tipo:
+    Opciones habilitadas para el tipo:
     \begin{itemize}
-        \item Acceso a campos: \texttt{\color{blue} var.campo}
+        \item Acceso a atributos: \texttt{\color{blue} var.atributo}
         \item Constructor: \texttt{\color{blue} var(args)}
     \end{itemize}
 
-    En ambos casos, el prefijo \texttt{\color{blue}dis} permitirá acceder específicamente a los atributos de la clase o registro.
-    
-    En el caso particular de las clases que, a diferencia de los registros, pueden métodos definidos internamente, permitirá el acceso a estos atributos cuando haya ocultación por el nombre de los argumentos de los métodos.
-
-    Aparte de esto, en ambos casos los atributos podrán tener una visibilidad a elegir entre \texttt{\color{blue}public} y \texttt{\color{blue}praivet}, con el mismo significado que tienen en C++. 
+    En ambos casos, el prefijo \texttt{\color{blue}dis} en las referencias a atributos, es decir, \texttt{\color{blue}dis.campo} permitirá distinguir entre el campo con dicho nombre dentro del tipo o la variable local que pudiese tener el mismo nombre.
 \end{itemize}
 
 
 \subsubsection{Arrays}
-Todos los tipos pueden formar un array multidimensional, la sintaxis de declaración es la siguiente:
+Todos los tipos descritos en esta subsección pueden formar un array multidimensional. La declaración de arrays es estáctica, esto es, que el tamaño se debe conocer en tiempo de compilación. 
 \begin{itemize}
     \item \textbf{Array}: \texttt{\color{blue} Tipo[DIMENSION] var;}
     
-    Entre las operaciones habilitadas para el tipo:
+    Opciones habilitadas para el tipo:
     \begin{itemize}
         \item Operador de acceso: \texttt{\color{blue} var[INDEX]}
     \end{itemize}
@@ -194,50 +206,60 @@ Todos los tipos pueden formar un array multidimensional, la sintaxis de declarac
 
 
 \subsubsection{Funciones}
-Las funciones se han declarado también como un tipo para poder hacer expresiones lambda y pasar funciones como argumento. La sintaxis de declaración de una función es la siguiente:
+Las funciones, que a priori podría parecer que no son un tipo, se han declarado también como uno para poder hacer expresiones lamdba que luego poder pasar como argumento a otras funciones o utilizar en la ejecución del programa. 
 \begin{itemize}
-    \item \textbf{Funciones}: \texttt{\color{blue} func var(Tipo arg1, Tipo arg2, ...) : TipoRetorno \{...\};}
+    \item \textbf{Funciones}: \texttt{\color{blue} func foo(Tipo arg1, ...) : TipoRetorno \{...; return var;\};}
 \end{itemize}
-El paso de parámetros por defecto es por valor, pero puede cambiarse a por referencia añadiendo el caracter ``\&'' al final del tipo del argumento. Cabe mencionar que se permite como argumento un array de dimensión variable. En tal caso se 
-escribirá similar a la siguiente sentencia: 
+En caso de que la función no devuelva ningún valor ---lo que se suele llamar \textit{procedimiento}---, la sintaxis de declaración se cambiaría por
+\begin{itemize}
+    \item \textbf{Funciones}: \texttt{\color{blue} func foo(Tipo arg1, ...) \{...; return;\};}
+\end{itemize}
+
+La instrucción \texttt{\color{blue} return} final es obligatoria y solo está permitido que haya una y, además, que sea la instrucción final del cuerpo de la función.
+
+En cuanto a los parámetros de la función, existe tanto la posibilidad de pasar los parámetros por valor como por referencia, siendo la primera la opción por defecto. Para indicar explícitamente que quiere pasar un parámetro por referencia, es necesaria añadir el caracter ``\&'' al final del tipo del argumento.
+
+Los arrays también pueden ser argumentos de una función y, a diferencia de los tipos primitivos, su paso por defecto es por referencia. Cabe destacar que existe la posibilidad de pasar como argumento un array de dimensión variable. En tal caso se escribirá similar a la siguiente sentencia: 
 \begin{center}
     \texttt{\color{blue}func foo(int[] array) : TipoRetorno \{...\}}
 \end{center}
 
-Se añade una restricción al cuerpo de las funciones: se impone que la última sentencia debe ir encabezada por \texttt{\color{blue}return}.
+
 
 \subsubsection{Punteros}
-Pueden declarase punteros a cualquiera de los tipos definidos. La sintaxis de declaración es:
+Cualquiera de los tipos anteriores, incluyendo los propios arrays, son susceptibles de ser apuntados por un puntero específico. La declaración de punteros es como la declaración del tipo al que se pretende apuntar, pero añadiendo el caracter \~{} al final del tipo.
 \begin{itemize}
-    \item \textbf{Puntero\footnote{Como nota especial, la declaración de un puntero a estructuras de tipo array, se haría como \texttt{Tipo[DIMENSION]~ var;}.}}: \texttt{\color{blue} Tipo\~{} var}
+    \item \textbf{Puntero\footnote{A modo de aclaración, la afirmación ``La declaración de punteros es como la declaración del tipo al que se pretende apuntar, pero añadiendo el caracter \~{} al final del tipo'' se mantiene exactamente igual para cuando el tipo no es un tipo simple. Por ejemplo, la declaración de un puntero a un array de cualquier tipo, se haría como \texttt{Tipo[DIMENSION]\~{} var;}.}}: \texttt{\color{blue} Tipo\~{} var}
     
-    Entre las operaciones habilitadas para el tipo:
+    Opciones habilitadas para el tipo:
     \begin{itemize}
         \item Asociación a memoria dinámica: \texttt{\color{blue} var := niu Tipo}
         \item Acceso al dato: \texttt{\color{blue} \~{}var}
     \end{itemize}
 \end{itemize}
+El valor guardado en el puntero es la dirección de memoria del objeto al que apunta, pudiendo ser esta una dirección de la pila o del heap en función del caso.
 
 \subsubsection{Tipos definidos por el usuario y constantes}
-Adicionalmente, permitimos la definición de tipos por parte del usuario a través de la siguiente palabra reservada:
+Además de los tipos declarados por nosotros, permitimos la definición de tipos por parte del usuario a través de la siguiente instrucción:
 \begin{itemize}
-    \item \textbf{Definición de tipos de usuario}: \texttt{\color{blue} taipdef nombre expresion}.
+    \item \textbf{Definición de tipos de usuario}: \texttt{\color{blue} taipdef nuevoTipo expresionDeTipos}.
 \end{itemize}
-Cabe mencionar que esta expresión no crea ningún tipo nuevo, sino que funciona como un ``alias''. Se puede entender como una sentencia que reemplaza cada aparición de \texttt{\color{blue} nombre} en el código por \texttt{\color{blue}expresion}.
+Sin embargo, la manera de entender este tipo declarado por el usuario no es como un nuevo tipo sino como un alias de la expresión de tipos a la que se asignó.
 
-Por último, la declaración de constantes se ejecuta a través de la expresión siguiente:
+La declaración de constantes literales está permitida e implementada a través de la siguiente instrucción:
 \begin{itemize}
     \item \textbf{Declaración de constantes}: \texttt{\color{blue} difain NOMBRE valor}
 \end{itemize}
+Nótese que la expresión anterior no indica de manera explícita el tipo al que pertenece la constante, sino que se conoce de manera implícita a través del valor asignado al identificador de la constante.
 
-\subsection{Instrucciones del lenguaje}
+\subsection{Instrucciones del lenguaje}\label{subsec:Instrucciones del lenguaje}
 A continuación se presenta el repertorio de instrucciones del lenguaje. Préstese atención a aquellas que terminan con el caracter ``;'' para delimitar su final:
 \begin{itemize}
     \item \textbf{Instrucción de asignación}: \texttt{:=}
     \begin{center}
         \begin{minipage}{\linewidth}
             \begin{lstlisting}[linewidth=0.3\linewidth, gobble=16]
-                int var := 3;
+                int var = 3;
             \end{lstlisting}
         \end{minipage}
     \end{center}
@@ -310,26 +332,28 @@ A continuación se presenta el repertorio de instrucciones del lenguaje. Préste
 
 \end{itemize}
 
-\subsection{Elementos de la estructura del código}
-De forma idéntica a C++ el código se empezará a ejecutar a partir de la funcíon mein.
+\subsection{Elementos de la estructura del código}\label{subsec:Elementos de la estructura del código}
+El código comenzará con la definición ---separada o entremezclada--- de los tipos compuestos (clases, registros, funciones, etc.), de los tipos de usuario y de las constantes del programa. Finalmente, comenzará la función principal del programa y que sirve como punto de entrada, que es la que denotamos por \texttt{\color{blue} func mein() : int {...; return 0;}}.
 
-De forma también idéntica, se incluye la posibilidad de escribir comentarios en el código, esto es, líneas que en el momento de compilación serán ignoradas. Se permiten tanto comentarios de una línea, encabezados por ``//'' y terminados en un salto de línea, como comentarios multilínea, encabezados por ``/*'' y terminados con ``*/''.
+Es importante destacar que, a diferencia de otros lenguajes como Python, donde la ejecución del código no requiere de una función ``especial'' que sirva como punto de entrada para el programa, en nuestro lenguaje es obligatorio que el código del programa esté dentro de esta función final y que fuera solo se permita la declaración de tipos y constantes que hemos explicado previamente. Esto quiere decir que cualquier variable global o expresión fuera del \texttt{mein} que no se ajuste a estas restricciones será entendida como un error sintáctico.
 
-Se muestra a continuación un ejemplo de código que incluye estos elementos:
+Por otro lado, se incluye la posibilidad de escribir comentarios en el código, esto es, líneas que en el momento de compilación serán ignoradas. Se permiten tanto comentarios de una línea, encabezados por ``//'' y terminados en un salto de línea, como comentarios multilínea, encabezados por ``/*'' y terminados con ``*/''.
+
+A continuación, un ejemplo de código que se ajusta a las restricciones estipuladas:
 
 \begin{center}
     \begin{minipage}{\linewidth}
         \begin{lstlisting}[linewidth=0.7\linewidth, gobble=16]
                 func mein() : int {
                     // La ejecucion del programa empieza aqui
-                    int var := 3;
+                    int var = 3;
                     @/*@
                     @La llamada a la funcion siguiente calcula el @
                     @factorial de la variable var.@
                     @Almacenamos el valor en la variable res para@
                     @mostrarla por pantalla a continuacion.@
                     @*/@
-                    int res := factorial(var);
+                    int res = factorial(var);
                     ceaut(res);
                     return 0;
                 }
@@ -337,15 +361,48 @@ Se muestra a continuación un ejemplo de código que incluye estos elementos:
     \end{minipage}
 \end{center}
 
+\section{Especificación léxica del lenguaje}\label{sec:Especificación léxica del lenguaje}
+Durante la explicación previa de las especificaciones del lenguaje, ya se han presentado algunas de las palabras reservadas o grafías destinadas a realizar determinadas operaciones. A continuación, se explica de forma más detallada los elementos del lenguaje y los símbolos reservados para cada fin.
+
+\begin{itemize}
+    \item Los nombres de los identificadores de las variables han de ser expresiones alfanuméricas que no comiencen por números y que posiblemente tengan el caracter ``\_''.
+    \item Los literales permitidos para los enteros son decimales (p. ej. \texttt{var = 10}), binarios (p.ej. \texttt{var = 0b1001}) y hexadecimales (p. ej. \texttt{var = 0x1F2BC}).
+    \item Los literales permitidos para los booleanos son las palabras reservadas \texttt{tru} y \texttt{fols}.
+    \item Los espacios en blanco, tabuladores y saltos de línea, se eliminan internamente durante el reconocimiento léxico.
+    \item Los comentarios monolínea comienzan por // y los multilínea /**/. Estos elementos se eliminan durante el reconocimiento léxico.
+    \item Las palabras reservadas para los tipos definidos y para sus operadores son las especificadas en los correspondientes apartados de \nameref{subsec:Tipos}.
+    \item Los delimitadores de los cuerpos de funciones e instrucciones \texttt{guail}, \texttt{if}, etc. son las llaves \{\}.
+    \item El delimitador de final de instrucción o bloque en aquellas que lo requieren es el ;.
+    \item La palabra \texttt{niu} es la reservada para la reserva de memoria del heap.
+    \item Las palabras \texttt{taipdef} y \texttt{difain} son las palabras reservadas para la definición de tipos y constantes.
+    \item Las palabras y símbolos reservados para el repertorio de instrucciones son los declarados en la sección \nameref{subsec:Instrucciones del lenguaje}.
+    \item La palabra reservada para la función principal del programa es \texttt{mein}.
+\end{itemize}
+
+Las expresiones regulares que definen los elementos del léxico aquí descrito pueden consultarse en la sección \nameref{} del anexo.
+
+\section{Especificación sintáctica del lenguaje}\label{sec:Especificación sintáctica del lenguaje}
+
 \newpage
 \appendix
 
-\section{Ejemplos de programas habituales}
+\section{Ejemplos de programas habituales}\label{sec:Ejemplos de programas habituales}
 
 \lstinputlisting[language=C+-, linewidth=\linewidth, caption={Ejemplo de programa típico en $C+-$.}]{../codes/mainExample.cpm}
 \lstinputlisting[language=C+-, linewidth=\linewidth, caption={Ejemplo de programa iterativo en $C+-$.}]{../codes/iterativeExample.cpm}
 \lstinputlisting[language=C+-, linewidth=\linewidth, caption={Ejemplo de arrays multidimensionales en $C+-$.}]{../codes/matrixExample.cpm}
 \lstinputlisting[language=C+-, linewidth=\linewidth, caption={Ejemplo de programa recursivo y sentencia \texttt{if-els} en $C+-$.}]{../codes/conditionalExample.cpm}
 \lstinputlisting[language=C+-, linewidth=\linewidth, caption={Ejemplo de uso de registros y sentencia \texttt{suich} en $C+-$.}]{../codes/structExample.cpm}
+
+\section{Expresiones regulares del léxico}
+\label{sec:Expresiones regulares del léxico}
+\lstinputlisting[
+    firstline=26,
+    lastline=86,
+    linewidth=\linewidth,
+    language=
+]{../../lexicon/lexicon.l}
+\section{Gramática de la sintaxis}
+\label{sec:Gramática de la sintaxis}
 
 \end{document}

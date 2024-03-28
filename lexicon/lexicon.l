@@ -26,11 +26,11 @@ package lexicon.src;
 character  = ([A-Z]|[a-z])
 positiveDigit = [1-9]
 digit = ({positiveDigit}|0)
-integerNumber = (({positiveDigit}{digit}*)|0)             //Añadimos el 0 al final como caso alternativo
+integerNumber = (({positiveDigit}{digit}*)|0)
 binary = 0b[0-1]+
 hexadecimal = 0x([0-9]|[a-f])+
 separator = [ \t\r\b\n]
-comment = \/\/[^\n]* //FIXME Ojo con este y el siguiente
+comment = \/\/[^\n]*
 multiLineComment = \/\*[^(\*\/)]*
 identificator = {character}({character}|{digit})*
 integerType = int
