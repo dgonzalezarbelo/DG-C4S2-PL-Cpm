@@ -1,0 +1,128 @@
+package asint;
+// TODO Todo lo que hay en el preambulo esta copiado, asumo que habra cosas que cambiar
+import java_cup.runtime.*;
+import alex.AnalizadorLexicoTiny;
+import alex.UnidadLexica;
+import errors.GestionErroresTiny;
+
+scan with {: return getScanner().next_token(); :};
+parser code {: 
+   private GestionErroresTiny errores;
+   public void syntax_error(Symbol unidadLexica) {
+     errores.errorSintactico((UnidadLexica)unidadLexica);
+   }
+:};
+init with {: 
+   errores = new GestionErroresTiny();
+   AnalizadorLexicoTiny alex = (AnalizadorLexicoTiny)getScanner();
+   alex.fijaGestionErrores(errores);
+:};
+
+
+terminal        INTEGER, ID, INT_T,SUM_OP, SUBS_OP,
+                MULT_OP, DIV_OP, POW_OP, PARENTESIS_OPEN,
+                PARENTESIS_CLOSE, BRACKET_OPEN, BRACKET_CLOSE,
+                SQ_BRACKET_OPEN, SQ_BRACKET_CLOSE, LESS_OP,
+                GREATER_OP, EQUAL_OP, LESS_OR_EQ_OP, GREATER_OR_EQ_OP,
+                NOT_EQUAL_OP, BOOLEAN_T, AND_OP, OR_OP, NOT_OP, TRUE, FALSE,
+                COMMA, COLON, SEMICOLON, CLASS_T, STRUCT_T, FIELD_ACCESS,
+                FUNC_T, POINTER_OP, NEW_OP,TYPEDEF, DEFINE,
+                ASSIGNATION_OP, IF, ELSE, SWITCH, CASE, BREAK,
+                DEFAULT, WHILE, CONTINUE, INPUT_FUNC,
+                OUTPUT_FUNC, RETURN, THIS, PUBLIC, PRIVATE, MAIN;
+
+// TODO En los non terminal faltan por apuntar seguro
+non terminal    S,
+                BT, CLASS_EX,
+                E0, E1, E2, E3, E4, OP_E0_BIN, OP_E0_UN, OP_E1, OP_E2, OP_E3,
+                B0, B1, B2, B3, B4, OP_B0_B, OP_B0_E, OP_B1, OP_B2, OP_B3,
+                TERM_SYM SEMICOLON ;
+
+// Grammar start
+
+S   ::= BT S | FUNCTION S | MAIN_INS SEMICOLON ;
+
+// TODO este nombre es una basura
+// Big types
+
+BT                  ::= CLASS_EX | STRUCT_EX | DEFINE_EX | TYPEDEF_EX SEMICOLON ;
+CLASS_EX            ::= CLASS_T ID BRACKET_OPEN CLASS_BODY BRACKET_CLOSE SEMICOLON ;
+CLASS_BODY          ::= VISIBILITY DECLARATION CLASS_BODY | METHOD_START SEMICOLON ;
+METHOD_START        ::= ID PARENTESIS_OPEN ARGUMENTS PARENTESIS_CLOSE BRACKET_OPEN CONSTRUCTOR_BODY BRACKET_CLOSE | METHODS SEMICOLON ;
+VISIBILITY          ::= PUBLIC | PRIVATE SEMICOLON ;
+CONSTRUCTOR_BODY    ::= // TODO
+METHODS             ::= // TODO
+ARGUMENTS           ::= // TODO
+DECLARATION         ::= TYPE ID SEMICOLON ;
+
+// Define
+
+DEFINE_EX   ::= DEFINE ID CONSTANT SEMICOLON ;
+
+// Typedef
+
+TYPEDEF_EX  ::= TYPEDEF_EX ID EXPRESSION SEMICOLON ;
+
+// Asignation
+
+ASSIGNATION_INS  ::= TYPE ID ASSIGNATION_OP EXPRESSION SEMICOLON ; | ID ASSIGNATION_OP EXPRESSION SEMICOLON ;
+
+// If
+
+IF_INS      ::= IF PARENTESIS_OPEN BOOLEAN_EXPRESSION PARENTESIS_CLOSE BRACKET_OPEN FUNCTION_BODY BRACKET_CLOSE ELSE_INS ;
+ELSE_INS    ::= ELSE BRACKET_OPEN FUNCTION_BODY BRACKET_CLOSE | EPS ; // FIXME No se como se escribe epsilon
+
+// Switch
+
+SWITCH_INS      ::= SWITCH PARENTESIS_OPEN ID PARENTESIS_CLOSE BRACKET_OPEN CASES_INS BRACKET_CLOSE ;
+CASES_INS       ::= CASE PARENTESIS_OPEN VALUE PARENTESIS_CLOSE COLON FUNCTION_BODY OPTIONAL_BREAK CASES_INS | DEFAULT COLON FUNCTION_BODY BREAK SEMICOLON ;
+OPTIONAL_BREAK  ::= BREAK | EPS ; // FIXME No se como se escribe epsilon
+
+// While
+
+WHILE_INS   ::= WHILE PARENTESIS_OPEN BOOLEAN_EXPRESSION PARENTESIS_CLOSE BRACKET_OPEN FUNCTION_BODY BRACKET_CLOSE ;
+
+// I/O
+
+IO_INS  ::= IO_FUNC PARENTESIS_OPEN ID PARENTESIS_CLOSE SEMICOLON ;
+IO_FUNC ::= INPUT_FUNC | OUTPUT_FUNC ;
+
+// Main
+
+MAIN_INS    ::= FUNCTION MAIN PARENTESIS_OPEN PARENTESIS_CLOSE COLON INT_T BRACKET_OPEN FUNCTION_BODY RETURN INTEGER SEMICOLON BRACKET_CLOSE ; // TODO Ojo con el cero, por el momento pongo integer porque igual hay que crear una clase lexica separada si queremos que sea siempre 0, aunque puede interesar permitir otros numeros al igual que en C++
+
+// Arithmetic expresions
+
+E0          ::= E0 OP_E0_BIN E1 | OP_E0_UN E1 | E1 SEMICOLON ;
+E1          ::= E1 OP_E1 E2 | E2 SEMICOLON ;
+E2          ::= E3 OP_E2 E3 | E3 SEMICOLON ;
+E3          ::= OP_E3 E4 | E4 SEMICOLON ;
+E4          ::= BRACKET_OPEN E0 BRACKET_CLOSE | TERM_SYM SEMICOLON ;
+OP_E0_BIN   ::= SUM_OP | SUBS_OP SEMICOLON ; // Binary operators for E0
+OP_E0_UN    ::= SUBS_OP SEMICOLON ; // Unitary operators for E0
+OP_E1       ::= MULT_OP | DIV_OP SEMICOLON ;
+OP_E2       ::= POW_OP SEMICOLON ;
+OP_E3       ::= POINTER_OP SEMICOLON ;
+
+// Boolean expresions
+
+B0          ::= B1 OP_B0_B B1 | E0 OP_B0_E E0 | B1 SEMICOLON ;
+B1          ::= B1 OP_B1 B2 | B2 SEMICOLON ;
+B2          ::= B2 OP_B2 B3 | B3 SEMICOLON ;
+B3          ::= OP_B3 B4 | B4 SEMICOLON ;
+B4          ::= BRACKET_OPEN B0 BRACKET_CLOSE | TERM_SYM SEMICOLON ;
+OP_B0_B     ::= EQUAL_OP, NOT_EQUAL_OP SEMICOLON ;
+OP_B0_E     ::= OP_B0_B | LESS_OR_EQ_OP | GREATER_OR_EQ_OP | GREATER_OP | LESS_OP SEMICOLON ;
+OP_B1       ::= OR_OP SEMICOLON ;
+OP_B2       ::= AND_OP SEMICOLON ;
+OP_B3       ::= NOT_OP SEMICOLON ;
+
+// Frequently used expresions
+TERM_SYM            ::= //TODO  Expresion for terminal symbols in arithmetic and/or boolean operations
+TYPE                ::= INT_T | BOOLEAN_T | TYPE POINTER_OP | TYPE SQ_BRACKET_OPEN INTEGER SQ_BRACKET_CLOSE | ID SEMICOLON ; // TODO Revisar lo de necesitar ID para tipos definidos por el usuario
+FUNCTION_BODY       ::= INSTRUCTION FUNCTION_BODY | EPS SEMICOLON ; // FIXME No se como se escribe epsilon
+INSTRUCTION         ::= ASSIGNATION_INS | IF_INS | SWITCH_INS | WHILE_INS | IO_INS SEMICOLON ;
+CONSTANT            ::= // TODO
+EXPRESSION          ::= // TODO
+BOOLEAN_EXPRESSION  ::= // TODO
+VALUE               ::= // TODO
