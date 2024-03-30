@@ -1,9 +1,9 @@
-package asint;
-// TODO Todo lo que hay en el preambulo esta copiado, asumo que habra cosas que cambiar
+package syntax.src;
+
 import java_cup.runtime.*;
-import alex.AnalizadorLexicoTiny;
-import alex.UnidadLexica;
-import errors.GestionErroresTiny;
+import lexicon.src.AnalizadorLexicoTiny;
+import lexicon.src.LexiconUnit;
+import errors.src.GestionErroresTiny;
 
 scan with {: return getScanner().next_token(); :};
 parser code {: 
@@ -31,17 +31,27 @@ terminal        INTEGER, ID, INT_T,SUM_OP, SUBS_OP,
                 DEFAULT, WHILE, CONTINUE, INPUT_FUNC,
                 OUTPUT_FUNC, RETURN, THIS, PUBLIC, PRIVATE, MAIN;
 
-// TODO En los non terminal faltan por apuntar seguro
-non terminal    S,
-                BT, CLASS_EX,
-                E0, E1, E2, E3, E4, OP_E0_BIN, OP_E0_UN, OP_E1, OP_E2, OP_E3,
-                B0, B1, B2, B3, B4, OP_B0_B, OP_B0_E, OP_B1, OP_B2, OP_B3,
-                TERM_SYM ;
+non terminal    S, S1,
+                BT, CLASS_EX, CLASS_BODY, METHOD_START, VISIBILITY, METHODS, DECLARATION,
+                FUNCTION, TYPED_FUNCTION, VOID_FUNCTION, ARGUMENT_EX, ARGUMENTS, MORE_ARGUMENTS, FUNCTION_BODY, RETURN_VALUE,
+                DEFINE_EX,
+                TYPEDEF_EX,
+                ASSIGNATION_INS,
+                IF_INS, ELSE_INS,
+                SWITCH_INS, CASES_INS, DEFAULT_CASE, OPTIONAL_BREAK,
+                WHILE_INS,
+                IO_INS, INPUT_INS, OUTPUT_INS,
+                MAIN_INS,
+                EXPRESSION,
+                B0, B1, B2, B3, B4, E0, E1, E2, E3, E4, E5, E6,
+                OP_B0, OP_B1, OP_B2, OP_B3, OP_E0_BIN, OP_E0_UN, OP_E1, OP_E2, OP_E3, OP_E4,
+                TERMINAL, EXPRESSIONS, MORE_EXPRESSIONS,
+                TYPE, OPT_INTEGER, INSTRUCTION, ID_EX, LITERAL;
 
 // Grammar start
 
 S     ::= S1 MAIN_INS ;
-S1    ::= S1 BT | S1 FUNCTION | EPS ; // FIXME No se poner epsilon
+S1    ::= S1 BT | S1 FUNCTION | empty ;
 
 // Big types
 
@@ -50,7 +60,7 @@ CLASS_EX            ::= CLASS_T ID BRACKET_OPEN CLASS_BODY BRACKET_CLOSE SEMICOL
 CLASS_BODY          ::= VISIBILITY DECLARATION CLASS_BODY | METHOD_START SEMICOLON ;
 METHOD_START        ::= ID PARENTESIS_OPEN ARGUMENTS PARENTESIS_CLOSE BRACKET_OPEN FUNCTION_BODY BRACKET_CLOSE METHODS ;
 VISIBILITY          ::= PUBLIC | PRIVATE ;
-METHODS             ::= METHODS VISIBILITY FUNCTION | EPS ;
+METHODS             ::= METHODS VISIBILITY FUNCTION | empty ;
 DECLARATION         ::= TYPE ID SEMICOLON ;
 
 // Functions
@@ -58,11 +68,11 @@ DECLARATION         ::= TYPE ID SEMICOLON ;
 FUNCTION          ::= TYPED_FUNCTION | VOID_FUNCTION ;
 TYPED_FUNCTION    ::= FUNC_T ID PARENTESIS_OPEN ARGUMENTS PARENTESIS_CLOSE COLON TYPE BRACKET_OPEN FUNCTION_BODY RETURN RETURN_VALUE SEMICOLON BRACKET_CLOSE ;
 VOID_FUNCTION     ::= FUNC_T ID PARENTESIS_OPEN ARGUMENTS PARENTESIS_CLOSE BRACKET_OPEN FUNCTION_BODY RETURN SEMICOLON BRACKET_CLOSE ;
-ARGUMENT_EX       ::= TYPE ID | TYPE REFERENCE ID ;
-ARGUMENTS         ::= MORE_ARGUMENTS ARGUMENT_EX | EPS ; 
-MORE_ARGUMENTS    ::= MORE_ARGUMENTS ARGUMENT_EX COMMA | EPS ;
-FUNCTION_BODY     ::= FUNCTION_BODY INSTRUCTION | EPS ; // FIXME No se como se escribe epsilon
-RETURN_VALUE      ::= LITERAL | ID_EX
+ARGUMENT_EX       ::= TYPE ID | TYPE REFERENCE_OP ID ;
+ARGUMENTS         ::= MORE_ARGUMENTS ARGUMENT_EX | empty ; 
+MORE_ARGUMENTS    ::= MORE_ARGUMENTS ARGUMENT_EX COMMA | empty ;
+FUNCTION_BODY     ::= FUNCTION_BODY INSTRUCTION | empty ;
+RETURN_VALUE      ::= EXPRESSION ;
 
 // Define
 
@@ -74,19 +84,19 @@ TYPEDEF_EX  ::= TYPEDEF ID EXPRESSION SEMICOLON ;
 
 // Asignation
 
-ASSIGNATION_INS  ::= TYPE ID ASSIGNATION_OP EXPRESSION SEMICOLON ; | ID_EX ASSIGNATION_OP EXPRESSION SEMICOLON ; // TODO No se han considerado arrays, punteros, variables de clases, ...
+ASSIGNATION_INS  ::= TYPE ID ASSIGNATION_OP EXPRESSION SEMICOLON ; | ID_EX ASSIGNATION_OP EXPRESSION SEMICOLON ;
 
 // If
 
 IF_INS      ::= IF PARENTESIS_OPEN EXPRESSION PARENTESIS_CLOSE BRACKET_OPEN FUNCTION_BODY BRACKET_CLOSE ELSE_INS ;
-ELSE_INS    ::= ELSE BRACKET_OPEN FUNCTION_BODY BRACKET_CLOSE | EPS ; // FIXME No se como se escribe epsilon
+ELSE_INS    ::= ELSE BRACKET_OPEN FUNCTION_BODY BRACKET_CLOSE | empty ;
 
 // Switch
 
 SWITCH_INS        ::= SWITCH PARENTESIS_OPEN ID_EX PARENTESIS_CLOSE BRACKET_OPEN CASES_INS DEFAULT_CASE BRACKET_CLOSE ;
-CASES_INS         ::= CASES_INS CASE PARENTESIS_OPEN LITERAL PARENTESIS_CLOSE COLON FUNCTION_BODY OPTIONAL_BREAK | EPS;
+CASES_INS         ::= CASES_INS CASE PARENTESIS_OPEN LITERAL PARENTESIS_CLOSE COLON FUNCTION_BODY OPTIONAL_BREAK | empty;
 DEFAULT_CASE      ::= DEFAULT COLON FUNCTION_BODY BREAK SEMICOLON ;
-OPTIONAL_BREAK    ::= BREAK SEMICOLON | EPS ; // FIXME No se como se escribe epsilon
+OPTIONAL_BREAK    ::= BREAK SEMICOLON | empty ;
 
 // While
 
@@ -102,36 +112,41 @@ OUTPUT_INS  ::= OUTPUT_FUNC PARENTESIS_OPEN EXPRESSION PARENTESIS_CLOSE SEMICOLO
 
 MAIN_INS    ::= FUNCTION MAIN PARENTESIS_OPEN PARENTESIS_CLOSE COLON INT_T BRACKET_OPEN FUNCTION_BODY RETURN INTEGER SEMICOLON BRACKET_CLOSE ;
 
-// Arithmetic expresions
+// Boolean and arithmetic expresions
 
-E0          ::= E0 OP_E0_BIN E1 | OP_E0_UN E1 | E1 ;
-E1          ::= E1 OP_E1 E2 | E2 ;
-E2          ::= E3 OP_E2 E3 | E3 ;
-E3          ::= OP_E3 E4 | E4 ;
-E4          ::= BRACKET_OPEN E0 BRACKET_CLOSE | TERM_SYM ;
-OP_E0_BIN   ::= SUM_OP | SUBS_OP ; // Binary operators for E0
-OP_E0_UN    ::= SUBS_OP ; // Unitary operators for E0
-OP_E1       ::= MULT_OP | DIV_OP ;
-OP_E2       ::= POW_OP ;
-OP_E3       ::= POINTER_OP ;
+EXPRESSION        ::= B0 ;
 
-// Boolean expresions
+B0                ::= B1 OP_B0 B1 | B1 ;
+B1                ::= B1 OP_B1 B2 | B2 ;
+B2                ::= B2 OP_B2 B3 | B3 ;
+B3                ::= OP_B3 B4 | B4 ;
+B4                ::= E0 ;
+E0                ::= E0 OP_E0_BIN E1 | OP_E0_UN E1 | E1 ;
+E1                ::= E1 OP_E1 E2 | E2 ;
+E2                ::= E3 OP_E2 E3 | E3 ;
+E3                ::= OP_E3 E4 | E4 ;
+E4                ::= E5 OP_E4 E5 | E5 ;
+E5                ::= E5 BRACKET_OPEN B0 BRACKET_CLOSE | E6 ;
+E6                ::= PARENTESIS_OPEN B0 PARENTESIS_CLOSE | TERMINAL ;
 
-B0          ::= B1 OP_B0_B B1 | E0 OP_B0_E E0 | B1 ;
-B1          ::= B1 OP_B1 B2 | B2 ;
-B2          ::= B2 OP_B2 B3 | B3 ;
-B3          ::= OP_B3 B4 | B4 ;
-B4          ::= BRACKET_OPEN B0 BRACKET_CLOSE | TERM_SYM ;
-OP_B0_B     ::= EQUAL_OP, NOT_EQUAL_OP ;
-OP_B0_E     ::= OP_B0_B | LESS_OR_EQ_OP | GREATER_OR_EQ_OP | GREATER_OP | LESS_OP ;
-OP_B1       ::= OR_OP ;
-OP_B2       ::= AND_OP ;
-OP_B3       ::= NOT_OP ;
+OP_B0             ::= LESS_OR_EQ_OP | GREATER_OR_EQ_OP | LESS_OP | GREATER_OP | EQUAL_OP | NOT_EQUAL_OP ;
+OP_B1             ::= OR_OP ;
+OP_B2             ::= AND_OP ;
+OP_B3             ::= NOT_OP ;
+OP_E0_BIN         ::= SUM_OP | SUBS_OP ; // Binary operators for E0
+OP_E0_UN          ::= SUBS_OP ; // Unitary operators for E0
+OP_E1             ::= MULT_OP | DIV_OP ;
+OP_E2             ::= POW_OP ;
+OP_E3             ::= POINTER_OP ;
+OP_E4             ::= FIELD_ACCESS ;
+
+TERMINAL          ::= LITERAL | ID_EX | ID_EX PARENTESIS_OPEN EXPRESSIONS PARENTESIS_CLOSE ;
+EXPRESSIONS       ::= MORE_EXPRESSIONS EXPRESSION | empty ;
+MORE_EXPRESSIONS  ::= MORE_EXPRESSIONS EXPRESSION COMMA | empty ;
 
 // Frequently used expresions
-TERM_SYM             ::= //TODO  Expresion for terminal symbols in arithmetic and/or boolean operations
-TYPE                 ::= INT_T | BOOLEAN_T | TYPE POINTER_OP | TYPE SQ_BRACKET_OPEN INTEGER SQ_BRACKET_CLOSE | ID ; // REVIEW Revisar lo de necesitar ID para tipos definidos por el usuario
+TYPE                 ::= INT_T | BOOLEAN_T | ID | TYPE POINTER_OP | TYPE SQ_BRACKET_OPEN OPT_INTEGER SQ_BRACKET_CLOSE ;
+OPT_INTEGER          ::= INTEGER | empty ;
 INSTRUCTION          ::= ASSIGNATION_INS | IF_INS | SWITCH_INS | WHILE_INS | IO_INS | SEMICOLON ; // The last semicolon represents an empty instruction
-EXPRESSION           ::= // TODO
 ID_EX                ::= THIS FIELD_ACCESS ID | ID ;
 LITERAL              ::= INTEGER | TRUE | FALSE ;
