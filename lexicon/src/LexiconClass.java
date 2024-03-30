@@ -36,6 +36,7 @@ public enum LexiconClass {
   FIELD_ACCESS,
   FUNC_T,
   POINTER_OP,
+  REFERENCE_OP,
   NEW_OP,
   TYPEDEF,
   DEFINE,

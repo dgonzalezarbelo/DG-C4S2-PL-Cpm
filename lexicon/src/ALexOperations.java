@@ -161,6 +161,10 @@ public class ALexOperations {
    public LexiconUnit pointer_opUnit() {
       numberLexiconUnits++; //JUnits test:
       return new LexiconUnit(alex.row(),alex.col(),LexiconClass.POINTER_OP.ordinal()); 
+   }
+   public LexiconUnit reference_opUnit() {
+      numberLexiconUnits++; //JUnits test:
+      return new LexiconUnit(alex.row(),alex.col(),LexiconClass.REFERENCE_OP.ordinal()); 
    } 
    public LexiconUnit new_opUnit() {
       numberLexiconUnits++; //JUnits test:

@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1711626251 "c:/Users/jdbar/OneDrive/JD/Trabajo/DG_MatInfo_4/PL/PRF/doc/specifications/Info.tex" "Info.pdf" "Info" 1711626253 0
-  "../../lexicon/lexicon.l" 1711625822 5213 e803233f6da71deebc9642110097e59a ""
+["pdflatex"] 1711794928 "c:/Users/jdbar/OneDrive/JD/Trabajo/DG_MatInfo_4/PL/PRF/doc/specifications/Info.tex" "Info.pdf" "Info" 1711794930 0
+  "../../lexicon/lexicon.l" 1711794927 5302 7c00857b2dbe9307cba703afa86226c7 ""
   "../codes/conditionalExample.cpm" 1711445968 141 32dd14f72fffa77a5cbc29b7703dafba ""
   "../codes/iterativeExample.cpm" 1708969244 224 35a203996cbe7199523d782f8c91d91a ""
   "../codes/mainExample.cpm" 1708969244 120 580c25c138babe6d48fd0b3d60fe5a03 ""
@@ -327,10 +327,10 @@
   "C:/Users/jdbar/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1656236890 56148 51a9a8571c07b9921892ae11063ae853 ""
   "C:/Users/jdbar/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/pst-xkey.sty" 1656236919 1694 74b0201cd6a70abed294b6332f129c41 ""
   "C:/Users/jdbar/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty" 1656236919 4937 4ce600ce9bd4ec84d0250eb6892fcf4f ""
-  "Info.aux" 1711626253 4845 27fa31ecad597f42fbc603fa41c51788 "pdflatex"
-  "Info.out" 1711626253 3097 11b4779019b743e50cab965ed43d188d "pdflatex"
+  "Info.aux" 1711794930 4845 27fa31ecad597f42fbc603fa41c51788 "pdflatex"
+  "Info.out" 1711794930 3097 11b4779019b743e50cab965ed43d188d "pdflatex"
   "Info.tex" 1711626249 21895 26835a8fa1b098997b31a1235c6d1fbb ""
-  "Info.toc" 1711626253 1550 8888506f663d7f557da7a65c23e1750a "pdflatex"
+  "Info.toc" 1711794930 1550 8888506f663d7f557da7a65c23e1750a "pdflatex"
   "c:/Users/jdbar/OneDrive/JD/Trabajo/DG_MatInfo_4/PL/PRF/doc/specifications/Info.tex" 1711626249 21895 26835a8fa1b098997b31a1235c6d1fbb ""
   (generated)
   "Info.aux"

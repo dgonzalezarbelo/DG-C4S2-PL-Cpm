@@ -65,6 +65,7 @@ openSquareBracket = \[
 closeSquareBracket = \]
 functionType = func
 pointerOperator = \~
+referenceOperator = \&
 newOperator = niu
 typedef = taipdef
 define = difain
@@ -124,10 +125,11 @@ main = mein
 {closeSquareBracket}            {return ops.sq_bracket_closeUnit();}
 {functionType}                  {return ops.func_tUnit();}
 {pointerOperator}               {return ops.pointer_opUnit();}
+{referenceOperator}             {return ops.reference_opUnit();}
 {newOperator}                   {return ops.new_opUnit();}
 {typedef}                       {return ops.typedefUnit();}
 {define}                        {return ops.defineUnit();}
-{assignationOperator}            {return ops.assignation_opUnit();}
+{assignationOperator}           {return ops.assignation_opUnit();}
 {if}                            {return ops.ifUnit();}
 {else}                          {return ops.elseUnit();}
 {switch}                        {return ops.switchUnit();}
