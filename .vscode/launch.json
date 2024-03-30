@@ -9,7 +9,6 @@
             "name": "ReconLexicon",
             "request": "launch",
             "mainClass": "lexicon.src.ReconLexicon",
-            "projectName": "PRF_85cc8552",
             "preLaunchTask": "preLaunchTasks",
             "args":["${input:args}"]
         }
