@@ -12,7 +12,7 @@ public class ReconLexicon {
      AnalizadorLexicoTiny al = new AnalizadorLexicoTiny(input);
      LexiconUnit unidad;
      do {
-       unidad = al.yylex();
+       unidad = (LexiconUnit) al.next_token();
        System.out.println(unidad);
      }
      while (unidad.lexiconClass() != LexiconClass.EOF.ordinal());

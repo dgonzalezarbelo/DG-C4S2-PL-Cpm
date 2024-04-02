@@ -1,18 +1,24 @@
 package lexicon.src;
 
+import errors.src.GestionErroresTiny;
+
 %%
-%char
+%cup
 %line
 %column
 %class AnalizadorLexicoTiny
-%type  LexiconUnit
 %unicode
+%public
 
 %{
   private ALexOperations ops;
+  private GestionErroresTiny errores;
   public String lexeme() {return yytext();}
   public int row() {return yyline+1;}
   public int col() {return yycolumn+1;}
+  public void fijaGestionErrores(GestionErroresTiny errores) {
+   this.errores = errores;
+  }
 %}
 
 %eofval{

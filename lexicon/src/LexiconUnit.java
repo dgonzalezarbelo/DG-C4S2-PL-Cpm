@@ -1,5 +1,7 @@
 package lexicon.src;
 
+import java_cup.runtime.Symbol;
+
 public class LexiconUnit extends Symbol {
     public LexiconUnit(int row, int col, int lexiconClass) {
 	    super(lexiconClass,new TokenValue(row,col));

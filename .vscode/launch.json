@@ -6,9 +6,9 @@
         // Configuración de ejecución para lanzar el analizador léxico
         {
             "type": "java",
-            "name": "ReconLexicon",
+            "name": "ReconLaunch",
             "request": "launch",
-            "mainClass": "lexicon.src.ReconLexicon",
+            "mainClass": "syntax.src.ReconSyntax.main",
             "preLaunchTask": "preLaunchTasks",
             "args":["${input:args}"]
         }

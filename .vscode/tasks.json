@@ -7,7 +7,7 @@
 		{
 			"label": "preLaunchTasks",
 			"type": "shell",
-			"dependsOn": ["generateAnalizadorTiny", "compileReconLexicon"],
+			"dependsOn": ["generateLexiconAnalyzer", "compileReconLexicon", "generateSyntaxAnalyzer", "compileReconSyntax"],
 		},
 		// Configuración de compilación de las clases java que dan soporte al analizadorLexico
 		{
@@ -19,11 +19,31 @@
 				"isDefault": true
 			}
 		},
-		// Configuración de generación de la clase AnalizadorTiny por parte de JFLEX
+		// Configuración de compilación de las clases java que dan soporte al analizadorSintactico
 		{
-			"label": "generateAnalizadorTiny",
+			"label": "compileReconSyntax",
 			"type": "shell",
-			"command": "java -cp ${workspaceFolder}/lexicon/jflex.jar jflex.Main ${workspaceFolder}/lexicon/lexicon.l -d ${workspaceFolder}/lexicon/src",
+			"command": "javac -d ${workspaceFolder}/syntax/bin -cp ${workspaceFolder}/syntax/bin ${workspaceFolder}/syntax/src/*.java",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		// Configuración de generación de la clase AnalizadorSintacticoTiny por parte de CUP
+		{
+			"label": "generateSyntaxAnalyzer",
+			"type": "shell",
+			"command": "java -cp ${workspaceFolder}/syntax/src/cup.jar java_cup.Main -symbols LexiconClass -parser AnalizadorSintacticoTiny -package ${workspaceFolder}/syntax/src -nopositions ${workspaceFolder}/syntax/Tiny.cup",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		// Configuración de generación de la clase AnalizadorLexicoTiny por parte de JFLEX
+		{
+			"label": "generateLexiconAnalyzer",
+			"type": "shell",
+			"command": "java -cp lib/jflex.jar jflex.Main ${workspaceFolder}/lexicon/lexicon.l -d ${workspaceFolder}/lexicon/src",
 			"group": {
 				"kind": "build",
 				"isDefault": true
