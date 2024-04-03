@@ -44,6 +44,7 @@ sumOperator = \+
 substractionOperator = \-
 multiplicationOperator = \*
 divisionOperator = \/
+modulusOperator = %
 powerOperator = \^
 openParenthesis = \(
 closeParenthesis = \)
@@ -83,6 +84,7 @@ case = queis
 break = breic
 default = difolt
 while = guail
+for = for
 continue = continiu
 cin = cein
 cout = ceaut
@@ -104,6 +106,7 @@ main = mein
 {substractionOperator}          {return ops.subs_opUnit();}
 {multiplicationOperator}        {return ops.mult_opUnit();}
 {divisionOperator}              {return ops.div_opUnit();}
+{modulusOperator}               {return ops.mod_opUnit();}
 {powerOperator}                 {return ops.pow_opUnit();}
 {openParenthesis}               {return ops.parentesis_openUnit();}
 {closeParenthesis}              {return ops.parentesis_closeUnit();}
@@ -143,6 +146,7 @@ main = mein
 {break}                         {return ops.breakUnit();}
 {default}                       {return ops.defaultUnit();}
 {while}                         {return ops.whileUnit();}
+{for}                           {return ops.forUnit();}
 {continue}                      {return ops.continueUnit();}
 {cin}                           {return ops.cinUnit();}
 {cout}                          {return ops.coutUnit();}
