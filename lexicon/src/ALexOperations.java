@@ -54,6 +54,10 @@ public class ALexOperations {
       numberLexiconUnits++; //JUnits test:
       return new LexiconUnit(alex.row(),alex.col(),LexiconClass.DIV_OP.ordinal()); 
    }
+   public LexiconUnit mod_opUnit() {
+      numberLexiconUnits++; //JUnits test:
+      return new LexiconUnit(alex.row(),alex.col(),LexiconClass.MOD_OP.ordinal()); 
+   }
    public LexiconUnit pow_opUnit() {
       numberLexiconUnits++; //JUnits test:
       return new LexiconUnit(alex.row(),alex.col(),LexiconClass.POW_OP.ordinal()); 
@@ -209,6 +213,10 @@ public class ALexOperations {
    public LexiconUnit whileUnit() {
       numberLexiconUnits++; //JUnits test:
       return new LexiconUnit(alex.row(),alex.col(),LexiconClass.WHILE.ordinal()); 
+   } 
+   public LexiconUnit forUnit() {
+      numberLexiconUnits++; //JUnits test:
+      return new LexiconUnit(alex.row(),alex.col(),LexiconClass.FOR.ordinal()); 
    } 
    public LexiconUnit continueUnit() {
       numberLexiconUnits++; //JUnits test:
