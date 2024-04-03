@@ -1,5 +1,13 @@
 {
     "java.project.referencedLibraries": [
-        "lib/*"
-    ]
+        "lib/*",
+        "launch\\lib\\cup.jar",
+        "launch\\lib\\hamcrest-core-1.3.jar",
+        "launch\\lib\\jflex.jar",
+        "launch\\lib\\junit-4.13.2.jar"
+    ],
+    "java.project.sourcePaths": [
+        "launch\\src"
+    ],
+    "java.project.outputPath": "launch\\bin"
 }

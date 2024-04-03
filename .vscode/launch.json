@@ -8,7 +8,7 @@
             "type": "java",
             "name": "ReconLaunch",
             "request": "launch",
-            "mainClass": "syntax.src.ReconSyntax.main",
+            "mainClass": "Main.main",
             "preLaunchTask": "preLaunchTasks",
             "args":["${input:args}"]
         }

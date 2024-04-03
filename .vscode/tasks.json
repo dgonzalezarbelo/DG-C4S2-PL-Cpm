@@ -7,33 +7,13 @@
 		{
 			"label": "preLaunchTasks",
 			"type": "shell",
-			"dependsOn": ["generateLexiconAnalyzer", "compileReconLexicon", "generateSyntaxAnalyzer", "compileReconSyntax"],
-		},
-		// Configuración de compilación de las clases java que dan soporte al analizadorLexico
-		{
-			"label": "compileReconLexicon",
-			"type": "shell",
-			"command": "javac -d ${workspaceFolder}/lexicon/bin -cp ${workspaceFolder}/lexicon/bin ${workspaceFolder}/lexicon/src/*.java",
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
-		},
-		// Configuración de compilación de las clases java que dan soporte al analizadorSintactico
-		{
-			"label": "compileReconSyntax",
-			"type": "shell",
-			"command": "javac -d ${workspaceFolder}/syntax/bin -cp ${workspaceFolder}/syntax/bin ${workspaceFolder}/syntax/src/*.java",
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
+			"dependsOn": ["generateLexiconAnalyzer", "generateSyntaxAnalyzer"],
 		},
 		// Configuración de generación de la clase AnalizadorSintacticoTiny por parte de CUP
 		{
 			"label": "generateSyntaxAnalyzer",
 			"type": "shell",
-			"command": "java -cp ${workspaceFolder}/syntax/src/cup.jar java_cup.Main -symbols LexiconClass -parser AnalizadorSintacticoTiny -package ${workspaceFolder}/syntax/src -nopositions ${workspaceFolder}/syntax/Tiny.cup",
+			"command": "java -cp ${workspaceFolder}/launch/lib/cup.jar java_cup.Main -symbols LexiconClass -parser AnalizadorSintacticoTiny -package syntax -destdir ${workspaceFolder}/launch/src/syntax -nopositions ${workspaceFolder}/launch/src/syntax/Tiny.cup",
 			"group": {
 				"kind": "build",
 				"isDefault": true
@@ -43,7 +23,7 @@
 		{
 			"label": "generateLexiconAnalyzer",
 			"type": "shell",
-			"command": "java -cp lib/jflex.jar jflex.Main ${workspaceFolder}/lexicon/lexicon.l -d ${workspaceFolder}/lexicon/src",
+			"command": "java -cp ${workspaceFolder}/launch/lib/jflex.jar jflex.Main ${workspaceFolder}/launch/src/lexicon/lexicon.l -d ${workspaceFolder}/launch/src/lexicon",
 			"group": {
 				"kind": "build",
 				"isDefault": true
