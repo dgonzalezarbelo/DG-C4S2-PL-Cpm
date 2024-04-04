@@ -37,8 +37,9 @@ binary = 0b[0-1]+
 hexadecimal = 0x([0-9]|[a-f])+
 separator = [ \t\r\b\n]
 comment = \/\/[^\n]*
-multiLineComment = \/\*[^(\*\/)]*
-identificator = {character}({character}|{digit})*
+// multiLineComment = \/\*[^(\*\/)]*
+multiLineComment = \/\*[\s\S]*?\*\/
+identificator = ({character}|_)({character}|{digit}|_)*
 integerType = int
 sumOperator = \+
 substractionOperator = \-
@@ -76,7 +77,7 @@ referenceOperator = \&
 newOperator = niu
 typedef = taipdef
 define = difain
-assignationOperator = :\=
+assignationOperator = \=
 if = if
 else = els
 switch = suich

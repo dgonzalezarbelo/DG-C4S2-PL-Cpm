@@ -7,17 +7,7 @@
 		{
 			"label": "preLaunchTasks",
 			"type": "shell",
-			"dependsOn": ["generateLexiconAnalyzer", "generateSyntaxAnalyzer"],
-		},
-		// Configuración de generación de la clase AnalizadorSintacticoTiny por parte de CUP
-		{
-			"label": "generateSyntaxAnalyzer",
-			"type": "shell",
-			"command": "java -cp ${workspaceFolder}/launch/lib/cup.jar java_cup.Main -symbols LexiconClass -parser AnalizadorSintacticoTiny -package syntax -destdir ${workspaceFolder}/launch/src/syntax -nopositions ${workspaceFolder}/launch/src/syntax/Tiny.cup",
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
+			"dependsOn": ["generateSyntaxAnalyzer", "generateLexiconAnalyzer"],
 		},
 		// Configuración de generación de la clase AnalizadorLexicoTiny por parte de JFLEX
 		{
@@ -28,6 +18,16 @@
 				"kind": "build",
 				"isDefault": true
 			}			
+		},
+		// Configuración de generación de la clase AnalizadorSintacticoTiny por parte de CUP
+		{
+			"label": "generateSyntaxAnalyzer",
+			"type": "shell",
+			"command": "java -cp ${workspaceFolder}/launch/lib/cup.jar java_cup.Main -symbols LexiconClass -parser AnalizadorSintacticoTiny -package syntax -destdir ${workspaceFolder}/launch/src/syntax -nopositions ${workspaceFolder}/launch/src/syntax/Tiny.cup",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
 		}
 	]
 }

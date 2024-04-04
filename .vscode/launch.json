@@ -8,9 +8,19 @@
             "type": "java",
             "name": "ReconLaunch",
             "request": "launch",
-            "mainClass": "Main.main",
+            "mainClass": "Main",
             "preLaunchTask": "preLaunchTasks",
-            "args":["${input:args}"]
+            "args":["${input:args}"],
+        },
+        // Configuración de ejecución para lanzar el analizador léxico
+        {
+            "type": "java",
+            "name": "ReconDebug",
+            "request": "launch",
+            "mainClass": "Main",
+            "preLaunchTask": "preLaunchTasks",
+            "args":["${input:args}"],
+            "stopOnEntry": true
         }
     ],
     // Sección para que se pidan los argumentos explícitamente desde VScode
