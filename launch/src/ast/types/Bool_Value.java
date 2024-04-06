@@ -1,4 +1,7 @@
-package ast;
+package ast.types;
+
+import ast.Expression;
+import ast.KindE;
 
 public class Bool_Value extends Expression {
   private boolean v;

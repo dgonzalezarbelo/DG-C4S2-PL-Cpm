@@ -1,4 +1,7 @@
-package ast;
+package ast.types;
+
+import ast.Expression;
+import ast.KindE;
 
 public class Int_Value extends Expression {
   private int v;

@@ -1,4 +1,6 @@
-package ast;
+package ast.types;
+
+import ast.KindE;
 
 public class Type {
   private String v;

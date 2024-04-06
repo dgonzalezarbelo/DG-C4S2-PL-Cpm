@@ -1,4 +1,7 @@
-package ast;
+package ast.types;
+
+import ast.Expression;
+import ast.KindE;
 
 public class Id extends Expression {
   private String v;
