@@ -2,6 +2,7 @@ package lexicon;
 
 public enum LexiconClass {
   EOF,
+  error,    // No sabemos por qué, pero CUP genera esta variable con valor 1 en la clase LexiconClass, así que aquí tiene que ir la segunda con el mismo nombre para que la sintaxis se integre con el lexico.
   INTEGER,
   ID,
   INT_T,

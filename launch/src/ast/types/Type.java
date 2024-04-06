@@ -1,13 +1,31 @@
 package ast.types;
 
-import ast.KindE;
+import ast.ASTNode;
+import ast.NodeKind;
 
-public class Type {
-  private String v;
-  public Type(String v) {
-    this.v = v;   
+public abstract class Type implements ASTNode {
+
+  protected enum Type_T {
+    INT, BOOL, ARRAY, CLASS, STRUCT, POINTER;
+
+    public String toString() {
+      return "Tipo: " + this.name();
+    }
   }
-  public String value() {return v;}
-  public KindE kind() {return KindE.NUM;}   
-  public String toString() {return v;}  
+
+  protected Type_T tipo;
+  
+  public Type(Type_T v) {
+    this.tipo = v;   
+  }
+
+  public String toString() {
+    return this.tipo.toString();
+  }
+
+  @Override
+  public NodeKind nodeKind() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'nodeKind'");
+  }
 }
