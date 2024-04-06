@@ -32,7 +32,7 @@ terminal        INTEGER, ID, INT_T,SUM_OP, SUBS_OP,
                 OUTPUT_FUNC, RETURN, THIS, PUBLIC, PRIVATE, MAIN;
 
 non terminal    S, S1,
-                DEF, CLASS_DEF, CLASS_INIT, CONSTRUCTORS, CONSTRUCTOR, VISIBILITY, METHODS, STRUCT_DEF, STRUCT_INIT, DECLARATIONS_STRUCT, DECLARATIONS_CLASS, DECLARATION,
+                DEF, CLASS_DEF, CLASS_INIT, CONSTRUCTORS, CONSTRUCTOR, VISIBILITY, METHODS, STRUCT_DEF, DECLARATIONS_STRUCT, DECLARATIONS_CLASS, DECLARATION, ARRAY_CONSTRUCTOR,
                 FUNCTION_DEF, TYPED_FUNCTION, VOID_FUNCTION, ARGUMENT, ARGUMENTS, MORE_ARGUMENTS, FUNCTION_BODY, RETURN_VALUE,
                 DEFINE_DEF,
                 TYPEDEF_DEF, TYPE_TYPEDEF,
@@ -45,7 +45,6 @@ non terminal    S, S1,
                 MAIN_INS,
                 EXPRESSION,
                 B0, B1, B2, B3, B4, E0, E1, E2, E3, E4, E5, E6,
-                OP_B0, OP_B1, OP_B2, OP_B3, OP_E0_BIN, OP_E0_UN, OP_E1, OP_E2, OP_E3, OP_E4,
                 EXPRESSIONS, MORE_EXPRESSIONS, TERMINAL,
                 TYPE, OPT_INTEGER, SENTENCE, ID_EX, LITERAL;
 
@@ -198,14 +197,14 @@ E4                ::= E5 FIELD_ACCESS E5 ;
 E4                ::= E5 ;
 
 E5                ::= E5 SQ_BRACKET_OPEN EXPRESSION SQ_BRACKET_CLOSE ;
-E5                ::= E5 PARENTESIS_OPEN EXPRESSION PARENTESIS_CLOSE ;
+E5                ::= E5 PARENTESIS_OPEN EXPRESSIONS PARENTESIS_CLOSE ;
 E5                ::= E6 ;
 
 E6                ::= PARENTESIS_OPEN EXPRESSION PARENTESIS_CLOSE ;
 E6                ::= TERMINAL ;
 
 EXPRESSIONS          ::= MORE_EXPRESSIONS EXPRESSION ;
-EXPRESSION           ::= /*EMPTY*/ ;
+EXPRESSIONS          ::= /*EMPTY*/ ;
 MORE_EXPRESSIONS     ::= MORE_EXPRESSIONS EXPRESSION COMMA ;
 MORE_EXPRESSIONS     ::= /*EMPTY*/ ;
 
@@ -218,13 +217,13 @@ TYPE                 ::= BOOLEAN_T ;
 TYPE                 ::= ID ;
 TYPE                 ::= TYPE POINTER_OP ;
 
-
-
 OPT_INTEGER          ::= INTEGER ;
 OPT_INTEGER          ::= ID ;
 OPT_INTEGER          ::= /*EMPTY*/ ;
 
+SENTENCE             ::= DECLARATION SEMICOLON ;
 SENTENCE             ::= ASSIGNATION_INS ;
+SENTENCE             ::= DECLARATION_AND_ASSIGNATION_INS ;
 SENTENCE             ::= IF_INS ;
 SENTENCE             ::= SWITCH_INS ;
 SENTENCE             ::= WHILE_INS ;
@@ -232,7 +231,6 @@ SENTENCE             ::= FOR_INS ;
 SENTENCE             ::= BREAK_INS ;
 SENTENCE             ::= CONTINUE_INS ;
 SENTENCE             ::= IO_INS ;
-SENTENCE             ::= DECLARATION SEMICOLON ;
 SENTENCE             ::= SEMICOLON ; // The last semicolon represents an empty instruction
 
 ID_EX                ::= THIS FIELD_ACCESS ID ;
