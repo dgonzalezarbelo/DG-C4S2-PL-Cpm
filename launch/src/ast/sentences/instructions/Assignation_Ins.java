@@ -3,10 +3,10 @@ package ast.sentences.instructions;
 import ast.Expression;
 import ast.KindE;
 
-public class Asignation_Ins extends Instruction {
+public class Assignation_Ins extends Instruction {
     private Expression leftSide;
 
-    public Asignation_Ins(Expression left, Expression right) {
+    public Assignation_Ins(Expression left, Expression right) {
         super(right, null);
         this.leftSide = left;
     }

@@ -3,10 +3,10 @@ package ast.preamble;
 import java.util.List;
 
 import ast.sentences.Block;
-import ast.sentences.declarations.Declaration;
+import ast.sentences.declarations.DeclarationAndAssignation;
 
 public class Function extends Definition {
-    private List<Declaration> args;
+    private List<DeclarationAndAssignation> args;
     private Block body;
 
     public Function(String name, Block body) {

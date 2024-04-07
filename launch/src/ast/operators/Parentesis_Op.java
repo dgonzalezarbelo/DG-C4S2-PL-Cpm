@@ -1,11 +1,14 @@
-package ast;
+package ast.operators;
 
 import java.util.List;
 
-public class Id_And_Parentesis extends Expression {
+import ast.Expression;
+import ast.KindE;
+
+public class Parentesis_Op extends Expression {
   private Expression id;
   private List<Expression> args;
-  public Id_And_Parentesis(Expression opnd1, List<Expression> opnd2) {
+  public Parentesis_Op(Expression opnd1, List<Expression> opnd2) {
     this.id = opnd1;
     this.args = opnd2;
   }     

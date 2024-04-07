@@ -2,13 +2,13 @@ package ast.preamble;
 
 import java.util.List;
 
-import ast.sentences.declarations.Declaration;
+import ast.sentences.declarations.DeclarationAndAssignation;
 
 public class Struct extends Definition {
-    private List<Declaration> atributes;
+    private List<DeclarationAndAssignation> atributes;
     private List<Function> constructors;
 
-    public Struct(String name, List<Declaration> atributes, List<Function> constructors) {
+    public Struct(String name, List<DeclarationAndAssignation> atributes, List<Function> constructors) {
         super(name);
         this.atributes = atributes;
         this.constructors = constructors;
@@ -18,7 +18,7 @@ public class Struct extends Definition {
     public String toString() {
         StringBuilder str = new StringBuilder();
         str.append("Struct: " + name + "\n");
-        for (Declaration i : atributes)
+        for (DeclarationAndAssignation i : atributes)
             str.append("Atributo: " + i.toString() + "\n");
         for (Function f : constructors)
         str.append("Constructor: " + f.toString() + "\n");

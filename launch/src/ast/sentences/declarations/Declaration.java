@@ -16,5 +16,9 @@ public class Declaration extends Sentence {
         this.id = id;
     }
 
+    public Id getId() {
+        return this.id;
+    }
+
     public String toString() {return this.type.toString() + " " + id.toString() ;};
 }
