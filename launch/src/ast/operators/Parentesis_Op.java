@@ -13,5 +13,5 @@ public class Parentesis_Op extends Expression {
     this.args = opnd2;
   }     
   public KindE kind() {return KindE.SUMA;}
-  public String toString() {return opnd1().toString() + " + " + opnd2().toString();}
+  public String toString() {return id.toString() + ": " + args.toString();}
 }

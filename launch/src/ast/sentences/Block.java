@@ -1,9 +1,14 @@
 package ast.sentences;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Block {
     public List<Sentence> ins;
+
+    public Block() {
+        this.ins = new ArrayList<>();
+    }
 
     public Block(List<Sentence> ins) {
         for (Sentence i : ins) {

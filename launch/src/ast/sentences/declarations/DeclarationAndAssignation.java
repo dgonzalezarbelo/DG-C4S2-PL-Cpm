@@ -7,7 +7,6 @@ import ast.sentences.instructions.Assignation_Ins;
 public class DeclarationAndAssignation extends Sentence {
     private Declaration d;
     private Assignation_Ins a;
-    // private Visibility vis;
     // private Boolean isReference; 
     // TODO
 

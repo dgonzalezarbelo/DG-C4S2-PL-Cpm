@@ -46,7 +46,7 @@ non terminal    S, S1,
                 EXPRESSION,
                 B0, B1, B2, B3, B4, E0, E1, E2, E3, E4, E5, E6,
                 EXPRESSIONS, MORE_EXPRESSIONS, TERMINAL,
-                TYPE, OPT_INTEGER, SENTENCE, ID_EX, LITERAL, ID_PARENTESIS;
+                TYPE, OPT_INTEGER, SENTENCE, ID_EX, LITERAL, ID_PARENTESIS, SUPERTYPE;
 
 // Grammar start
 S     ::= S1 MAIN_INS ;
@@ -88,8 +88,6 @@ ARGUMENTS         ::= /*EMPTY*/ ;
 MORE_ARGUMENTS    ::= MORE_ARGUMENTS ARGUMENT COMMA ;
 MORE_ARGUMENTS    ::= /*EMPTY*/ ;
 ARGUMENT          ::= DECLARATION ;
-ARGUMENT          ::= TYPE REFERENCE_OP ID ;
-ARGUMENT          ::= TYPE REFERENCE_OP ARRAY_CONSTRUCTOR ; 
 FUNCTION_BODY     ::= FUNCTION_BODY SENTENCE ;
 FUNCTION_BODY     ::= /*EMPTY*/ ;
 RETURN_VALUE      ::= EXPRESSION ;
@@ -214,11 +212,14 @@ MORE_EXPRESSIONS     ::= /*EMPTY*/ ;
 TERMINAL             ::= LITERAL ;
 TERMINAL             ::= ID_EX ;
 
+TYPE ::= SUPERTYPE REFERENCE_OP ;
+TYPE ::= SUPERTYPE ;
+
 // Frequently used expresions
-TYPE                 ::= INT_T ;
-TYPE                 ::= BOOLEAN_T ;
-TYPE                 ::= ID ;
-TYPE                 ::= TYPE POINTER_OP ;
+SUPERTYPE                 ::= INT_T ;
+SUPERTYPE                 ::= BOOLEAN_T ;
+SUPERTYPE                 ::= ID ;
+SUPERTYPE                 ::= SUPERTYPE POINTER_OP ;
 
 OPT_INTEGER          ::= INTEGER ;
 OPT_INTEGER          ::= ID ;

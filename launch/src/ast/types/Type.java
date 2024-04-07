@@ -13,14 +13,14 @@ public abstract class Type implements ASTNode {
     }
   }
 
-  protected Type_T tipo;
+  protected Type_T type;
   
   public Type(Type_T v) {
-    this.tipo = v;   
+    this.type = v;   
   }
 
   public String toString() {
-    return this.tipo.toString();
+    return this.type.toString();
   }
 
   @Override

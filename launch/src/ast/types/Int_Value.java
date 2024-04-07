@@ -5,8 +5,8 @@ import ast.KindE;
 
 public class Int_Value extends Expression {
   private int v;
-  public Int_Value(int v) {
-    this.v = v;   
+  public Int_Value(String v) {
+    this.v = Integer.parseInt(v);   
   }
   public int num() {return v;}
   public KindE kind() {return KindE.NUM;}   

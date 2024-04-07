@@ -10,6 +10,6 @@ public class Typedef extends Definition {
 
     @Override
     public String toString() {
-        return "typedef " + name + type2;
+        return "typedef " + id + type2;
     }        
 }

@@ -2,25 +2,27 @@ package ast.preamble;
 
 import java.util.List;
 
-import ast.sentences.declarations.DeclarationAndAssignation;
+import ast.sentences.declarations.Declaration;
 
 public class Class extends Definition {
-    private List<DeclarationAndAssignation> atributes;
-    private List<Function> methods; //First methodS of the list must be a constructor
+    private List<Declaration> atributes;
+    private ClassFunctions functions;
 
-    public Class(String name, List<DeclarationAndAssignation> atributes, List<Function> methods) {
+    public Class(String name, List<Declaration> atributes, ClassFunctions functions) {
         super(name);
         this.atributes = atributes;
-        this.methods = methods;
+        this.functions = functions;
     }
 
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
-        str.append("Class: " + name + "\n");
-        for (DeclarationAndAssignation i : atributes)
+        str.append("Class: " + id + "\n");
+        for (Declaration i : atributes)
             str.append("Atributo: " + i.toString() + "\n");
-        for (Function f : methods)
+        for (Function f : functions.getConstructors())
+            str.append("Constructor: " + f.toString() + "\n");
+        for (Function f : functions.getMethods())
             str.append("Method: " + f.toString() + "\n");
         return str.toString();
     }        
