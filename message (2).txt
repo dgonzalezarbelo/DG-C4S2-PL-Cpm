@@ -41,12 +41,12 @@ non terminal    S, S1,
                 SWITCH_INS, CASES_INS, DEFAULT_CASE,
                 WHILE_INS, BREAK_INS, CONTINUE_INS,
                 FOR_INS, OPTIONAL_EXPRESSION,
-                IO_INS, INPUT_INS, OUTPUT_INS, ID_PARENTESIS
-                MAIN_INS;
-               
-non terminal   Expression EXPRESSION, B0, B1, B2, B3, B4, E0, E1, E2, E3, E4, E5, E6;
+                IO_INS, INPUT_INS, OUTPUT_INS,
+                MAIN_INS,
+                EXPRESSION,
+                B0, B1, B2, B3, B4, E0, E1, E2, E3, E4, E5, E6,
                 EXPRESSIONS, MORE_EXPRESSIONS, TERMINAL,
-                TYPE, OPT_INTEGER, SENTENCE, ID_EX, LITERAL;
+                TYPE, OPT_INTEGER, SENTENCE, ID_EX, LITERAL, ID_PARENTESIS;
 
 // Grammar start
 S     ::= S1 MAIN_INS ;
@@ -96,7 +96,7 @@ RETURN_VALUE      ::= EXPRESSION ;
 
 // Define
 
-DEFINE_DEF        ::= DEFINE ID LITERAL SEMICOLON ;
+DEFINE_DEF   ::= DEFINE ID LITERAL SEMICOLON ;
 
 // Typedef
 
@@ -109,27 +109,17 @@ TYPE_TYPEDEF   ::= TYPE_TYPEDEF SQ_BRACKET_OPEN OPT_INTEGER SQ_BRACKET_CLOSE ;
 
 // Asignation
 
-DECLARATION                      ::= TYPE:t ID:i ARRAY_CONSTRUCTOR ;
-// TODO {: RESULT = new Declaration(t, i) ; :};
+DECLARATION                      ::= TYPE ID ARRAY_CONSTRUCTOR ;
 ARRAY_CONSTRUCTOR                ::= ARRAY_CONSTRUCTOR SQ_BRACKET_OPEN OPT_INTEGER SQ_BRACKET_CLOSE ;
-// TODO
 ARRAY_CONSTRUCTOR                ::= /*EMPTY*/ ;
-// TODO 
 ID_PARENTESIS                    ::= ID PARENTESIS_OPEN EXPRESSIONS PARENTESIS_CLOSE ;
-// TODO
 
-DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION:dec ASSIGNATION_OP EXPRESSION:e SEMICOLON ;
-{: RESULT = new DeclarationAndAssignation(dec, e); :};
-DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION:dec ASSIGNATION_OP NEW_OP TYPE ARRAY_CONSTRUCTOR SEMICOLON ;
-// TODO {: RESULT = new DeclarationAndAssignation(dec, new New_Op(e)); :};
+DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION ASSIGNATION_OP EXPRESSION SEMICOLON ;
+DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION ASSIGNATION_OP NEW_OP TYPE ARRAY_CONSTRUCTOR SEMICOLON ;
 DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION ASSIGNATION_OP NEW_OP ID_PARENTESIS SEMICOLON ;
-// TODO
-ASSIGNATION_INS                  ::= EXPRESSION:iz ASSIGNATION_OP EXPRESSION:dc SEMICOLON ;
-{: RESULT = new Assignation_Ins(iz, dc) ; :};
-ASSIGNATION_INS                  ::= EXPRESSION:iz NEW_OP TYPE ARRAY_CONSTRUCTOR SEMICOLON ;
-// TODO {: RESULT = new Assignation_Ins(iz, new New_Op(dc)); :};
+ASSIGNATION_INS                  ::= EXPRESSION ASSIGNATION_OP EXPRESSION SEMICOLON ;
+ASSIGNATION_INS                  ::= EXPRESSION ASSIGNATION_OP NEW_OP TYPE ARRAY_CONSTRUCTOR SEMICOLON ;
 ASSIGNATION_INS                  ::= EXPRESSION ASSIGNATION_OP NEW_OP ID_PARENTESIS SEMICOLON ;
-// TODO
 
 // If
 
@@ -169,99 +159,60 @@ MAIN_INS    ::= FUNC_T MAIN PARENTESIS_OPEN PARENTESIS_CLOSE COLON INT_T BRACKET
 
 // Boolean and arithmetic expresions
 
-EXPRESSION        ::= B0:e ;
-{: RESULT = e ; :};
+EXPRESSION        ::= B0 ;
 
-B0                ::= B1:iz LESS_OR_EQ_OP B1:dc ;
-{: RESULT = new Less_Or_Eq_Op(iz, dc); :};
-B0                ::= B1:iz GREATER_OR_EQ_OP B1:dc ;
-{: RESULT = new Greater_Or_Eq_Op(iz, dc); :};
-B0                ::= B1:iz LESS_OP B1:dc ;
-{: RESULT = new Less_Op(iz, dc); :};
-B0                ::= B1:iz GREATER_OP B1:dc ;
-{: RESULT = new Greater_Op(iz, dc); :};
-B0                ::= B1:iz EQUAL_OP B1:dc ;
-{: RESULT = new Equal_Op(iz, dc); :};
-B0                ::= B1:iz NOT_EQUAL_OP B1:dc ;
-{: RESULT = new Not_Equal_Op(iz, dc); :};
-B0                ::= B1:e ;
-{: RESULT = e; :};
+B0                ::= B1 LESS_OR_EQ_OP B1 ;
+// {: RESULT = fact; :};
+B0                ::= B1 GREATER_OR_EQ_OP B1 ;
+B0                ::= B1 LESS_OP B1 ;
+B0                ::= B1 GREATER_OP B1 ;
+B0                ::= B1 EQUAL_OP B1 ;
+B0                ::= B1 NOT_EQUAL_OP B1 ;
+B0                ::= B1 ;
 
-B1                ::= B1:iz OR_OP B2:dc ;
-{: RESULT = new Or_Op(iz, dc); :};
-B1                ::= B2:e ;
-{: RESULT = e; :};
+B1                ::= B1 OR_OP B2 ;
+B1                ::= B2 ;
 
-B2                ::= B2:iz AND_OP B3:dc ;
-{: RESULT = new And_Op(iz, dc); :}
-B2                ::= B3:e ;
-{: RESULT = e; :};
+B2                ::= B2 AND_OP B3 ;
+B2                ::= B3 ;
 
-B3                ::= NOT_OP B4:e ;
-{: RESULT = new Not_Op(e); :};
-B3                ::= B4:e ;
-{: RESULT = e; :};
+B3                ::= NOT_OP B4 ;
+B3                ::= B4 ;
 
-B4                ::= E0:e ;
-{: RESULT = e; :};
+B4                ::= E0 ;
 
-E0                ::= E0:iz SUM_OP E1:dc ;
-{: RESULT = new Sum_Op(iz, dc); :};
-E0                ::= E0:iz SUBS_OP E1:dc ;
-{: RESULT = new Subs_Op(iz, dc); :};
-E0                ::= SUBS_OP E1:e ;
-{: RESULT = new Minus_Op(e); :};
-E0                ::= E1:e ;
-{: RESULT = e; :};
+E0                ::= E0 SUM_OP E1 ;
+E0                ::= E0 SUBS_OP E1 ;
+E0                ::= SUBS_OP E1 ;
+E0                ::= E1 ;
 
-E1                ::= E1:iz MULT_OP E2:dc ;
-{: RESULT = new Mult_Op(iz, dc); :};
-E1                ::= E1:iz DIV_OP E2:dc ;
-{: RESULT = new Div_Op(iz, dc); :};
-E1                ::= E1:iz MOD_OP E2:dc ;
-{: RESULT = new Mod_Op(iz, dc); :};
-E1                ::= E2:e ;
-{: RESULT = e; :};
+E1                ::= E1 MULT_OP E2 ;
+E1                ::= E1 DIV_OP E2 ;
+E1                ::= E1 MOD_OP E2 ;
+E1                ::= E2 ;
 
-E2                ::= E3:iz POW_OP E3:dc ;
-{: RESULT = new Pow_Op(iz, dc); :};
-E2                ::= E3:e ;
-{: RESULT = e; :};
+E2                ::= E3 POW_OP E3 ;
+E2                ::= E3 ;
 
-E3                ::= POINTER_OP E4:dc ;
-{: RESULT = new Pointer_Op(dc); :};
-E3                ::= E4:e ;
-{: RESULT = e; :};
+E3                ::= POINTER_OP E4 ;
+E3                ::= E4 ;
 
-E4                ::= E5:iz FIELD_ACCESS E5:dc ;
-{: RESULT = new Field_Access_Op(iz, dc); :};
-E4                ::= E5:e ;
-{: RESULT = e; :};
+E4                ::= E5 FIELD_ACCESS E5 ;
+E4                ::= E5 ;
 
-E5                ::= E5:iz SQ_BRACKET_OPEN EXPRESSION:dc SQ_BRACKET_CLOSE ;
-{: RESULT = new Sq_Bracket_Op(iz, dc); :};
-E5                ::= E6:e ;
-{: RESULT = e; :};
+E5                ::= E5 SQ_BRACKET_OPEN EXPRESSION SQ_BRACKET_CLOSE ;
+E5                ::= E6 ;
 
-E6                ::= PARENTESIS_OPEN EXPRESSION:e PARENTESIS_CLOSE ;
-{: RESULT = e; :};
-E6                ::= TERMINAL:e ;
-{: RESULT = e; :};
+E6                ::= PARENTESIS_OPEN EXPRESSION PARENTESIS_CLOSE ;
+E6                ::= TERMINAL ;
 
-EXPRESSIONS          ::= MORE_EXPRESSIONS:array EXPRESSION:e ;
-{: array.add(e); RESULT = array :};
+EXPRESSIONS          ::= MORE_EXPRESSIONS EXPRESSION ;
 EXPRESSIONS          ::= /*EMPTY*/ ;
-{: RESULT = new ArrayList<Expression>() :};
-MORE_EXPRESSIONS     ::= MORE_EXPRESSIONS:array EXPRESSION:e COMMA ;
-{: array.add(e); RESULT = array :};
+MORE_EXPRESSIONS     ::= MORE_EXPRESSIONS EXPRESSION COMMA ;
 MORE_EXPRESSIONS     ::= /*EMPTY*/ ;
-{: RESULT = new ArrayList<Expression>() :};
 
-TERMINAL             ::= LITERAL:e ;
-{: RESULT = e; :};
-TERMINAL             ::= ID_EX:e ;
-{: RESULT = e; :};
-
+TERMINAL             ::= LITERAL ;
+TERMINAL             ::= ID_EX ;
 
 // Frequently used expresions
 TYPE                 ::= INT_T ;
@@ -273,39 +224,22 @@ OPT_INTEGER          ::= INTEGER ;
 OPT_INTEGER          ::= ID ;
 OPT_INTEGER          ::= /*EMPTY*/ ;
 
-SENTENCE             ::= DECLARATION:e SEMICOLON ;
-{: RESULT = e; :};
-SENTENCE             ::= ASSIGNATION_INS:e ;
-{: RESULT = e; :};
-SENTENCE             ::= DECLARATION_AND_ASSIGNATION_INS:e ;
-{: RESULT = e; :};
+SENTENCE             ::= DECLARATION SEMICOLON ;
+SENTENCE             ::= ASSIGNATION_INS ;
+SENTENCE             ::= DECLARATION_AND_ASSIGNATION_INS ;
 SENTENCE             ::= IF_INS ;
-{: RESULT = e; :};
 SENTENCE             ::= SWITCH_INS ;
-{: RESULT = e; :};
 SENTENCE             ::= WHILE_INS ;
-{: RESULT = e; :};
 SENTENCE             ::= FOR_INS ;
-{: RESULT = e; :};
 SENTENCE             ::= BREAK_INS ;
-{: RESULT = e; :};
 SENTENCE             ::= CONTINUE_INS ;
-{: RESULT = e; :};
 SENTENCE             ::= IO_INS ;
-{: RESULT = e; :};
 SENTENCE             ::= SEMICOLON ; // The last semicolon represents an empty instruction
-{: RESULT = new Empty_Ins(); :};
 
-ID_EX                ::= THIS FIELD_ACCESS ID:e ;
-{: RESULT = new This_Op(e); :};
-ID_EX                ::= ID:e ;
-{: RESULT = new Id(e); :};
-ID_EX                ::= ID_PARENTESIS:e ;
-{: RESULT = e ; :}
+ID_EX                ::= THIS FIELD_ACCESS ID ;
+ID_EX                ::= ID ;
+ID_EX                ::= ID_PARENTESIS ;
 
-LITERAL              ::= INTEGER:e ;
-{: RESULT = new Int_Value(e); :};
-LITERAL              ::= TRUE:e ;
-{: RESULT = new Bool_Value(e); :};
-LITERAL              ::= FALSE:e ;
-{: RESULT = new Bool_Value(e); :};
+LITERAL              ::= INTEGER ;
+LITERAL              ::= TRUE ;
+LITERAL              ::= FALSE ;
