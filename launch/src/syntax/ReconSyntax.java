@@ -11,6 +11,6 @@ public class ReconSyntax {
 		Reader input = new InputStreamReader(new FileInputStream(args[0]));
 		AnalizadorLexicoTiny alex = new AnalizadorLexicoTiny(input);
 		AnalizadorSintacticoTiny asint = new AnalizadorSintacticoTiny(alex);
-		asint.parse();
+		System.out.println(asint.parse().value);
 	}
 }   

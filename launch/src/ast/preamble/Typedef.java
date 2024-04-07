@@ -1,15 +1,17 @@
 package ast.preamble;
+import ast.sentences.declarations.Declaration;
+import ast.types.Type;
 
 public class Typedef extends Definition {
-    private String type2;
+    private Type type;
     
-    public Typedef(String type1, String type2) {
-        super(type1);
-        this.type2 = type2;
+    public Typedef(Declaration dec) {
+        super(dec.getId().toString());
+        this.type = dec.getType();
     }
 
     @Override
     public String toString() {
-        return "typedef " + id + type2;
+        return "typedef " + type.toString() + id.toString();
     }        
 }

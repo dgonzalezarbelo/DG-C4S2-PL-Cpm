@@ -3,7 +3,17 @@ package syntax;
 import java_cup.runtime.*;
 import lexicon.AnalizadorLexicoTiny;
 import lexicon.LexiconUnit;
+import lexicon.TokenValue;
 import errors.GestionErroresTiny;
+import ast.*;
+import ast.operators.*;
+import ast.preamble.*;
+import ast.sentences.*;
+import ast.sentences.declarations.*;
+import ast.sentences.instructions.*;
+import ast.types.*;
+import java.util.List;
+import java.util.ArrayList;
 
 scan with {: return getScanner().next_token(); :};
 parser code {: 
@@ -19,61 +29,53 @@ init with {:
 :};
 
 
-terminal        INTEGER, INT_T,SUM_OP, SUBS_OP,
-                MULT_OP, DIV_OP, MOD_OP, POW_OP, PARENTESIS_OPEN,
-                PARENTESIS_CLOSE, BRACKET_OPEN, BRACKET_CLOSE,
-                SQ_BRACKET_OPEN, SQ_BRACKET_CLOSE, LESS_OP,
-                GREATER_OP, EQUAL_OP, LESS_OR_EQ_OP, GREATER_OR_EQ_OP,
-                NOT_EQUAL_OP, BOOLEAN_T, AND_OP, OR_OP, NOT_OP, TRUE, FALSE,
-                COMMA, COLON, SEMICOLON, CLASS_T, STRUCT_T, FIELD_ACCESS,
-                FUNC_T, POINTER_OP, REFERENCE_OP, NEW_OP, TYPEDEF, DEFINE,
-                ASSIGNATION_OP, IF, ELSE, SWITCH, CASE, BREAK,
-                DEFAULT, WHILE, FOR, CONTINUE, INPUT_FUNC,
-                OUTPUT_FUNC, RETURN, THIS, PUBLIC, PRIVATE, MAIN;
+terminal       INT_T,SUM_OP, SUBS_OP,
+               MULT_OP, DIV_OP, MOD_OP, POW_OP, PARENTESIS_OPEN,
+               PARENTESIS_CLOSE, BRACKET_OPEN, BRACKET_CLOSE,
+               SQ_BRACKET_OPEN, SQ_BRACKET_CLOSE, LESS_OP,
+               GREATER_OP, EQUAL_OP, LESS_OR_EQ_OP, GREATER_OR_EQ_OP,
+               NOT_EQUAL_OP, BOOLEAN_T, AND_OP, OR_OP, NOT_OP, TRUE, FALSE,
+               COMMA, COLON, SEMICOLON, CLASS_T, STRUCT_T, FIELD_ACCESS,
+               FUNC_T, POINTER_OP, REFERENCE_OP, NEW_OP, TYPEDEF, DEFINE,
+               ASSIGNATION_OP, IF, ELSE, SWITCH, CASE, BREAK,
+               DEFAULT, WHILE, FOR, CONTINUE, INPUT_FUNC,
+               OUTPUT_FUNC, RETURN, THIS, PUBLIC, PRIVATE, MAIN;
 
-terminal       TokenValue ID, TRUE, FALSE, INTEGER;
-
-non terminal   TYPE_TYPEDEF, BASIC_TYPE;
-
-
+terminal       TokenValue ID, INTEGER;
 
 non terminal   Program S;
 
-non terminal   List<Definition> S1;
-
-non terminal   Definition DEF;
-
-non terminal   Array ARRAY_CONSTRUCTOR;
-
-non terminal   Expression TERMINAL, ID_PARENTESIS;
+non terminal   Array_Type ARRAY_CONSTRUCTOR;
                
 non terminal   Expression EXPRESSION, B0, B1, B2, B3, B4, E0, E1, E2, E3, E4, E5, E6,
-                TYPE, OPT_INTEGER, SENTENCE, ID_EX, LITERAL, RETURN_VALUE; // TODO revisar si tipos son correctos
+               OPT_INTEGER, ID_EX, LITERAL, RETURN_VALUE, TERMINAL, ID_PARENTESIS;
 
 non terminal   List<Expression> EXPRESSIONS, MORE_EXPRESSIONS;
 
-non terminal   Sentence IF_INS, SWITCH_INS, DEFAULT_CASE, WHILE_INS, BREAK_INS, CONTINUE_INS, FOR_INS, OPTIONAL_SENTENCE,
+non terminal   Sentence SENTENCE, IF_INS, SWITCH_INS, DEFAULT_CASE, WHILE_INS, BREAK_INS, CONTINUE_INS, FOR_INS,
                         IO_INS, INPUT_INS, OUTPUT_INS, ASSIGNATION_INS, DECLARATION_AND_ASSIGNATION_INS;
+
+non terminal   List<Sentence> CASES_INS;
 
 non terminal   Declaration DECLARATION, ARGUMENT;
 
 non terminal   List<Declaration>  DECLARATIONS_CLASS, DECLARATIONS_STRUCT, ARGUMENTS, MORE_ARGUMENTS;
 
+non terminal   Function MAIN_INS, FUNCTION_DEF, CONSTRUCTOR, TYPED_FUNCTION, VOID_FUNCTION;
+
 non terminal   List<Function> MORE_CONSTRUCTORS, METHODS;
+
+non terminal   Definition DEF, CLASS_DEF, STRUCT_DEF, DEFINE_DEF, TYPEDEF_DEF;
+
+non terminal   List<Definition> S1;
 
 non terminal   Visibility VISIBILITY;
 
 non terminal   ClassFunctions CLASS_INIT;
 
-non terminal   Definition CLASS_DEF, STRUCT_DEF, DEFINE_DEF, TYPEDEF_DEF;
-
-non terminal   Function MAIN_INS, FUNCTION_DEF, CONSTRUCTOR, TYPED_FUNCTION, VOID_FUNCTION;
-
 non terminal   Block FUNCTION_BODY, ELSE_INS;
 
-non terminal   Type TYPE;
-
-non terminal   List<Sentence> CASES_INS;
+non terminal   Type TYPE, BASIC_TYPE;
 
 
 // Grammar start
@@ -100,7 +102,7 @@ DEF                  ::= FUNCTION_DEF:f
 {: RESULT = f; :};
 
 CLASS_DEF            ::= CLASS_T ID:id BRACKET_OPEN DECLARATIONS_CLASS:dec_class CLASS_INIT:class_func BRACKET_CLOSE
-{: RESULT = new Class(id, dec_class, class_func); :};
+{: RESULT = new Class_Def(id.lexeme, dec_class, class_func); :};
 CLASS_INIT           ::= CONSTRUCTOR:c MORE_CONSTRUCTORS:constructors METHODS:methods
 {: List<Function> allConstructors = new ArrayList<>(); allConstructors.add(c); allConstructors.addAll(constructors); RESULT = new ClassFunctions(allConstructors, methods); :};
 MORE_CONSTRUCTORS    ::= MORE_CONSTRUCTORS:array CONSTRUCTOR:c
@@ -108,10 +110,10 @@ MORE_CONSTRUCTORS    ::= MORE_CONSTRUCTORS:array CONSTRUCTOR:c
 MORE_CONSTRUCTORS    ::= /*EMPTY*/
 {: RESULT = new ArrayList<>(); :};
 CONSTRUCTOR          ::= ID:id PARENTESIS_OPEN ARGUMENTS:args PARENTESIS_CLOSE BRACKET_OPEN FUNCTION_BODY:body BRACKET_CLOSE
-{: RESULT = new Function(); :};
+{: RESULT = new Function(id.lexeme, args, null, body, null); :};
 METHODS              ::= METHODS:array VISIBILITY:vis FUNCTION_DEF:func 
 {: func.setVisibility(vis); array.add(func); RESULT = array; :};
-METHODS              ::= /*EMPTY*/ ;
+METHODS              ::= /*EMPTY*/ 
 {: RESULT = new ArrayList<>(); :};
 VISIBILITY           ::= PUBLIC
 {: RESULT = new Public_Vis(); :};
@@ -124,7 +126,7 @@ DECLARATIONS_CLASS   ::= /*EMPTY*/
 
 
 STRUCT_DEF           ::= STRUCT_T ID:id BRACKET_OPEN DECLARATIONS_STRUCT:declarations CONSTRUCTOR:c MORE_CONSTRUCTORS:constructors BRACKET_CLOSE
-{: List<Function> allConstructors = new ArrayList<>(); allConstructors.add(c); allConstructors.addAll(constructors); RESULT = new Struct(id, declarations, allConstructors); :};
+{: List<Function> allConstructors = new ArrayList<>(); allConstructors.add(c); allConstructors.addAll(constructors); RESULT = new Struct(id.lexeme, declarations, allConstructors); :};
 DECLARATIONS_STRUCT  ::= DECLARATIONS_STRUCT:array DECLARATION:dec SEMICOLON
 {: array.add(dec); RESULT = array; :};
 DECLARATIONS_STRUCT  ::= /*EMPTY*/
@@ -134,13 +136,13 @@ DECLARATIONS_STRUCT  ::= /*EMPTY*/
 // Functions
 
 FUNCTION_DEF      ::= TYPED_FUNCTION:func
-{: RESULT = f; :};
+{: RESULT = func; :};
 FUNCTION_DEF      ::= VOID_FUNCTION:func
-{: RESULT = f; :};
+{: RESULT = func; :};
 TYPED_FUNCTION    ::= FUNC_T ID:id PARENTESIS_OPEN ARGUMENTS:args PARENTESIS_CLOSE COLON TYPE:t BRACKET_OPEN FUNCTION_BODY:body RETURN RETURN_VALUE:e SEMICOLON BRACKET_CLOSE
-{: RESULT = new Function(id, args, t, body, e); :};
+{: RESULT = new Function(id.lexeme, args, t, body, e); :};
 VOID_FUNCTION     ::= FUNC_T ID:id PARENTESIS_OPEN ARGUMENTS:args PARENTESIS_CLOSE BRACKET_OPEN FUNCTION_BODY:body RETURN SEMICOLON BRACKET_CLOSE
-{: RESULT = new Function(id, args, null, body, null); :};
+{: RESULT = new Function(id.lexeme, args, null, body, null); :};
 ARGUMENTS         ::= MORE_ARGUMENTS:array ARGUMENT:arg
 {: array.add(arg); RESULT = array; :};
 ARGUMENTS         ::= /*EMPTY*/
@@ -152,7 +154,7 @@ MORE_ARGUMENTS    ::= /*EMPTY*/
 ARGUMENT          ::= DECLARATION:dec 
 {: RESULT = dec; :};
 FUNCTION_BODY     ::= FUNCTION_BODY:body SENTENCE:s 
-{: body.add_instruction(s); RESULT = body; :}:
+{: body.add_instruction(s); RESULT = body; :};
 FUNCTION_BODY     ::= /*EMPTY*/ 
 {: RESULT = new Block(); :};
 RETURN_VALUE      ::= EXPRESSION:e 
@@ -162,31 +164,25 @@ RETURN_VALUE      ::= EXPRESSION:e
 // Define
 
 DEFINE_DEF        ::= DEFINE ID:id LITERAL:e SEMICOLON 
-{: RESULT = new Define(id, e); :};
+{: RESULT = new Define(id.lexeme, e); :};
 
 // Typedef 
-//TODO entero typedef
 
-TYPEDEF_DEF    ::= TYPEDEF DECLARATION ; 
-TYPEDEF_DEF    ::= TYPEDEF ID TYPE_TYPEDEF SEMICOLON ;
-TYPE_TYPEDEF   ::= INT_T ;
-TYPE_TYPEDEF   ::= BOOLEAN_T ;
-TYPE_TYPEDEF   ::= ID ;
-TYPE_TYPEDEF   ::= TYPE_TYPEDEF POINTER_OP ;
-TYPE_TYPEDEF   ::= TYPE_TYPEDEF SQ_BRACKET_OPEN OPT_INTEGER SQ_BRACKET_CLOSE ;
+TYPEDEF_DEF    ::= TYPEDEF DECLARATION:dec
+{: RESULT = new Typedef(dec); :};
 
 
 // Assignation
 
 DECLARATION                      ::= TYPE:t ID:id ARRAY_CONSTRUCTOR:array
-{: RESULT = Declaration.manageDeclaration(t, id, array); :};
+{: RESULT = Declaration.manageDeclaration(t, id.lexeme, array); :};
 ARRAY_CONSTRUCTOR                ::= ARRAY_CONSTRUCTOR:prevArray SQ_BRACKET_OPEN OPT_INTEGER:i SQ_BRACKET_CLOSE
-{: newArray = new Array(i); RESULT = Array.updateTypes(newArray, prevArray); :};
+{: Array_Type newArray = new Array_Type(i); RESULT = Array_Type.updateTypes(newArray, prevArray); :};
 ARRAY_CONSTRUCTOR                ::= /*EMPTY*/ 
 {: RESULT = null; :};
 
 ID_PARENTESIS                    ::= ID:id PARENTESIS_OPEN EXPRESSIONS:expressions PARENTESIS_CLOSE
-{: RESULT = new Parentesis_Op(id, expressions); :};
+{: RESULT = new Parentesis_Op(id.lexeme, expressions); :};
 
 DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION:dec ASSIGNATION_OP EXPRESSION:e SEMICOLON 
 {: RESULT = new DeclarationAndAssignation(dec, e); :};
@@ -237,13 +233,8 @@ CONTINUE_INS   ::= CONTINUE SEMICOLON
 
 // For
 
-FOR_INS  ::= FOR PARENTESIS_OPEN OPTIONAL_SENTENCE:s1 SEMICOLON EXPRESSION:cond SEMICOLON OPTIONAL_SENTENCE:s2 PARENTESIS_CLOSE BRACKET_OPEN FUNCTION_BODY:body BRACKET_CLOSE 
+FOR_INS  ::= FOR PARENTESIS_OPEN SENTENCE:s1 SEMICOLON EXPRESSION:cond SEMICOLON SENTENCE:s2 PARENTESIS_CLOSE BRACKET_OPEN FUNCTION_BODY:body BRACKET_CLOSE 
 {: RESULT = new For_Ins(s1, cond, s2, body); :};
-OPTIONAL_SENTENCE  ::= SENTENCE:s 
-{: RESULT = s; :};
-OPTIONAL_SENTENCE  ::= /*EMPTY*/ 
-{: RESULT = new Empty_Ins(); :};
-
 
 // I/O
 
@@ -260,7 +251,7 @@ OUTPUT_INS  ::= OUTPUT_FUNC PARENTESIS_OPEN EXPRESSION:e PARENTESIS_CLOSE SEMICO
 // Main
 
 MAIN_INS    ::= FUNC_T MAIN PARENTESIS_OPEN PARENTESIS_CLOSE COLON INT_T BRACKET_OPEN FUNCTION_BODY:body RETURN INTEGER:i SEMICOLON BRACKET_CLOSE 
-{: RESULT = new Function("main", new ArrayList<>(), INT_T, body, i.lexeme()); :};
+{: RESULT = new Function("main", new ArrayList<>(), new Int_Type(), body, new Int_Value(i.lexeme)); :};
 
 // Boolean and arithmetic expresions
 
@@ -288,7 +279,7 @@ B1                ::= B2:e
 {: RESULT = e; :};
 
 B2                ::= B2:iz AND_OP B3:dc 
-{: RESULT = new And_Op(iz, dc); :}
+{: RESULT = new And_Op(iz, dc); :};
 B2                ::= B3:e 
 {: RESULT = e; :};
 
@@ -325,6 +316,8 @@ E2                ::= E3:e
 
 E3                ::= POINTER_OP E4:dc 
 {: RESULT = new Pointer_Op(dc); :};
+E3                ::= REFERENCE_OP E4:dc
+{: RESULT = new Reference_Op(dc); :};
 E3                ::= E4:e 
 {: RESULT = e; :};
 
@@ -344,13 +337,13 @@ E6                ::= TERMINAL:e
 {: RESULT = e; :};
 
 EXPRESSIONS          ::= MORE_EXPRESSIONS:array EXPRESSION:e 
-{: array.add(e); RESULT = array :};
+{: array.add(e); RESULT = array; :};
 EXPRESSIONS          ::= /*EMPTY*/ 
-{: RESULT = new ArrayList<Expression>() :};
+{: RESULT = new ArrayList<Expression>(); :};
 MORE_EXPRESSIONS     ::= MORE_EXPRESSIONS:array EXPRESSION:e COMMA 
-{: array.add(e); RESULT = array :};
+{: array.add(e); RESULT = array; :};
 MORE_EXPRESSIONS     ::= /*EMPTY*/ 
-{: RESULT = new ArrayList<Expression>() :};
+{: RESULT = new ArrayList<Expression>(); :};
 
 TERMINAL             ::= LITERAL:e 
 {: RESULT = e; :};
@@ -359,14 +352,19 @@ TERMINAL             ::= ID_EX:e
 
 
 // Frequently used expresions
-//TODO la parte de tipos
 
-TYPE ::= BASIC_TYPE REFERENCE_OP ;
-TYPE ::= BASIC_TYPE ;
-BASIC_TYPE                 ::= INT_T ;
-BASIC_TYPE                 ::= BOOLEAN_T ;
-BASIC_TYPE                 ::= ID ;
-BASIC_TYPE                 ::= BASIC_TYPE POINTER_OP ;
+TYPE                 ::= BASIC_TYPE:t REFERENCE_OP
+{: RESULT = new Reference_Type(t); :};
+TYPE                 ::= BASIC_TYPE:t
+{: RESULT = t; :};
+BASIC_TYPE           ::= INT_T
+{: RESULT = new Int_Type(); :};
+BASIC_TYPE           ::= BOOLEAN_T
+{: RESULT = new Bool_Type(); :};
+BASIC_TYPE           ::= ID:id
+{: RESULT = new Id_Type(id.lexeme); :};
+BASIC_TYPE           ::= BASIC_TYPE:t POINTER_OP
+{: RESULT = new Pointer_Type(t); :};
 
 OPT_INTEGER          ::= EXPRESSION: e
 {: RESULT = e; :};
@@ -393,19 +391,19 @@ SENTENCE             ::= CONTINUE_INS:e
 {: RESULT = e; :};
 SENTENCE             ::= IO_INS:e 
 {: RESULT = e; :};
-SENTENCE             ::= SEMICOLON ; // The last semicolon represents an empty instruction
-{: RESULT = new Empty_Ins(); :};
+SENTENCE             ::= SEMICOLON
+{: RESULT = new Empty_Ins(); :}; // The last semicolon represents an empty instruction
 
-ID_EX                ::= THIS FIELD_ACCESS ID:e 
-{: RESULT = new This_Op(e); :};
-ID_EX                ::= ID:e 
-{: RESULT = new Id(e.lexeme); :};
+ID_EX                ::= THIS FIELD_ACCESS ID:id 
+{: RESULT = new This_Op(id.lexeme); :};
+ID_EX                ::= ID:id 
+{: RESULT = new Id_Value(id.lexeme); :};
 ID_EX                ::= ID_PARENTESIS:e 
-{: RESULT = e ; :}
+{: RESULT = e ; :};
 
 LITERAL              ::= INTEGER:e 
 {: RESULT = new Int_Value(e.lexeme); :};
-LITERAL              ::= TRUE:e 
+LITERAL              ::= TRUE
 {: RESULT = new Bool_Value(true); :};
-LITERAL              ::= FALSE:e 
+LITERAL              ::= FALSE
 {: RESULT = new Bool_Value(false); :};

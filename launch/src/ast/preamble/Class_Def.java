@@ -4,11 +4,11 @@ import java.util.List;
 
 import ast.sentences.declarations.Declaration;
 
-public class Class extends Definition {
+public class Class_Def extends Definition {
     private List<Declaration> atributes;
     private ClassFunctions functions;
 
-    public Class(String name, List<Declaration> atributes, ClassFunctions functions) {
+    public Class_Def(String name, List<Declaration> atributes, ClassFunctions functions) {
         super(name);
         this.atributes = atributes;
         this.functions = functions;

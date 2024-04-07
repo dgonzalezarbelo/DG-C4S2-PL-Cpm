@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 import java_cup.internal_error;
+import syntax.LexiconClass;
 
 public class ReconLexicon {
   public static void main(String[] args) throws internal_error, Exception {
@@ -15,6 +16,6 @@ public class ReconLexicon {
     do {
       unidad = (LexiconUnit) al.next_token();
       System.out.println(unidad);
-    } while (unidad.lexiconClass() != LexiconClass.EOF.ordinal());
+    } while (unidad.lexiconClass() != LexiconClass.EOF);
   }        
 } 

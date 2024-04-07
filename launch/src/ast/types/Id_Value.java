@@ -3,9 +3,9 @@ package ast.types;
 import ast.Expression;
 import ast.KindE;
 
-public class Id extends Expression {
+public class Id_Value extends Expression {
   private String v;
-  public Id(String v) {
+  public Id_Value(String v) {
     this.v = v;   
   }
   public String value() {return v;}

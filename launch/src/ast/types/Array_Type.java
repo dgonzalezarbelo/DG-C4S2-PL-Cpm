@@ -2,11 +2,11 @@ package ast.types;
 
 import ast.Expression;
 
-public class Array extends Type {
+public class Array_Type extends Type {
     private Expression dim;
     private Type inner_type;
 
-    public Array(Expression dim) {
+    public Array_Type(Expression dim) {
         super(Type_T.ARRAY);
         this.dim = dim;
     }
@@ -19,7 +19,7 @@ public class Array extends Type {
         this.inner_type = t;
     }
 
-    public static Array updateTypes(Array newArray, Array prevArray) {
+    public static Array_Type updateTypes(Array_Type newArray, Array_Type prevArray) {
         /***
          * Consider the following productions:
          * DECLARATION ::= TYPE:t ID:i ARRAY_CONSTRUCTOR:array_t ; 
@@ -51,7 +51,7 @@ public class Array extends Type {
         if (inner_type == null)
             this.inner_type = t;
         else {
-            Array casting = (Array)this.inner_type;
+            Array_Type casting = (Array_Type)this.inner_type;
             casting.propagateType(t);
         }
     }

@@ -6,7 +6,7 @@ import ast.NodeKind;
 public abstract class Type implements ASTNode {
 
   protected enum Type_T {
-    INT, BOOL, ARRAY, CLASS, STRUCT, POINTER;
+    INT, BOOL, ARRAY, CLASS, STRUCT, POINTER, REFERENCE, ID;
 
     public String toString() {
       return "Tipo: " + this.name();
@@ -20,12 +20,11 @@ public abstract class Type implements ASTNode {
   }
 
   public String toString() {
-    return this.type.toString();
+    return this.type.toString().toLowerCase();
   }
 
   @Override
   public NodeKind nodeKind() {
-    // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'nodeKind'");
   }
 }

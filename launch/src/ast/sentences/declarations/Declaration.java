@@ -2,25 +2,23 @@ package ast.sentences.declarations;
 
 import ast.preamble.Visibility;
 import ast.sentences.Sentence;
-import ast.types.Array;
-import ast.types.Id;
+import ast.types.Array_Type;
+import ast.types.Id_Type;
 import ast.types.Type;
 
 public class Declaration extends Sentence {
     private Type type;
-    private Id id;
+    private Id_Type id;
     private Visibility visibility;
-    // private Boolean isReference; 
-    // TODO
 
-    public Declaration(Type type, Id id) {
+    public Declaration(Type type, String id) {
         this.type = type;
-        this.id = id;
+        this.id = new Id_Type(id);
         this.visibility = null;
-    }
+    } 
 
-    // Adding visibility to the declarationX
-    public Declaration(Type type, Id id, Visibility visibility) {
+    // Adding visibility to the declaration
+    public Declaration(Type type, String id, Visibility visibility) {
         this(type, id);
         this.visibility = visibility;
     }
@@ -29,15 +27,19 @@ public class Declaration extends Sentence {
         this.visibility = v;
     }
 
-    public Id getId() {
+    public Id_Type getId() {
         return this.id;
     }
 
-    public static Declaration manageDeclaration(Type t, Id id, Array array) {
+    public Type getType() {
+        return this.type;
+    }
+
+    public static Declaration manageDeclaration(Type t, String id, Array_Type array) {
         return new Declaration(manageType(t, array), id);
     }
 
-    public static Type manageType(Type t, Array array) {
+    public static Type manageType(Type t, Array_Type array) {
         if (array != null) {
             array.propagateType(t);
             return array;
