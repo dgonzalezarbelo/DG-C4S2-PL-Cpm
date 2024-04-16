@@ -2,6 +2,7 @@ package ast.preamble;
 
 import java.util.List;
 
+import ast.Utils;
 import ast.sentences.declarations.Declaration;
 
 public class Class_Def extends Definition {
@@ -16,14 +17,27 @@ public class Class_Def extends Definition {
 
     @Override
     public String toString() {
+        if(this.indentation == null)
+            this.propagateIndentation(0);
+        else
+            this.propagateIndentation(this.indentation);
         StringBuilder str = new StringBuilder();
+        Utils.appendIndent(str, indentation);
         str.append("Class: " + id + "\n");
         for (Declaration i : atributes)
-            str.append("Atributo: " + i.toString() + "\n");
+            str.append(i.toString());
         for (Function f : functions.getConstructors())
-            str.append("Constructor: " + f.toString() + "\n");
+            str.append('\n' + f.toString());
         for (Function f : functions.getMethods())
-            str.append("Method: " + f.toString() + "\n");
+            str.append('\n' + f.toString());
         return str.toString();
+    }
+
+    @Override
+    public void propagateIndentation(int indent) {
+        this.indentation = indent;
+        for (Declaration a : this.atributes)
+            a.propagateIndentation(indent + 1);
+        this.functions.propagateIndentation(indent + 1);
     }        
 }

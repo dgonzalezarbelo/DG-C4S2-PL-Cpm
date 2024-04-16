@@ -1,0 +1,28 @@
+func multiplicarMatrices(int[][] A, int[][] B, int tam) : int[] {
+    int C[tam][tam];
+    int i := 0;
+    int j;
+    guail(i < tam) {
+        j := 0;
+        guail(j < tam) {
+            C[i][j] := 0;
+            j++;
+        }
+        i++;
+    }
+    int k;
+    i := 0;
+    guail(i < tam) {
+        j := 0;
+        guail(j < tam) {
+            k := 0;
+            guail(k < tam) {
+                C[i][j] := C[i][j] + A[i][k] * B[k][j];
+                k++;
+            }
+            j++;
+        }
+        i++;
+    }
+    return C;
+}

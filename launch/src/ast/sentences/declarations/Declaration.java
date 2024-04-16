@@ -1,5 +1,6 @@
 package ast.sentences.declarations;
 
+import ast.Utils;
 import ast.preamble.Visibility;
 import ast.sentences.Sentence;
 import ast.types.Array_Type;
@@ -49,8 +50,11 @@ public class Declaration extends Sentence {
     }
 
     public String toString() {
-        return (visibility == null ? "" : visibility.toString())
+        StringBuilder str = new StringBuilder();
+        Utils.appendIndent(str, indentation);
+        str.append((visibility == null ? "" : visibility.toString() + " " )
         + this.type.toString()
-        + " " + id.toString();
+        + " " + id.toString() + '\n');
+        return str.toString();
     }
 }

@@ -2,6 +2,7 @@ package ast.sentences.instructions;
 
 import ast.Expression;
 import ast.KindE;
+import ast.Utils;
 
 public class Assignation_Ins extends Instruction {
     private Expression leftSide;
@@ -11,7 +12,12 @@ public class Assignation_Ins extends Instruction {
         this.leftSide = left;
     }
 
-    public String toString() {return leftSide.toString() + "=" + this.argExpression.toString();}
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        Utils.appendIndent(str, indentation);
+        str.append(leftSide.toString() + " = " + this.argExpression.toString() + '\n');
+        return str.toString();
+    }
 
     @Override
     public KindE kind() {

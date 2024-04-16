@@ -12,6 +12,9 @@ public class Program {
     }
 
     public String toString() {
+        for(Definition d : definitions)
+            d.propagateIndentation(0);
+        mainFuncion.propagateIndentation(0);
         StringBuilder str = new StringBuilder();
         str.append("PROGRAM: \n");
         for (Definition i : definitions)

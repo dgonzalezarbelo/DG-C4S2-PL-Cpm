@@ -8,5 +8,5 @@ public class Pointer_Type extends Type {
         this.innerType = type;       
     }
 
-    public String toString() {return "(Pointer: " + innerType.toString() + ")";}
+    public String toString() {return "~" + innerType.toString();}
 }

@@ -14,5 +14,17 @@ public class DeclarationAndAssignation extends Sentence {
         this.a = new Assignation_Ins(new Id_Value(d.getId().toString()), a);
     }
 
-    public String toString() {return "Declaration: " + this.d.toString() + "\n" + "With value " + a.toString() ;};
+    @Override
+    public void propagateIndentation(int indent) {
+        this.indentation = indent;
+        d.propagateIndentation(indent);
+        a.propagateIndentation(indent);
+    }
+
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        str.append(this.d.toString());
+        str.append(a.toString());
+        return str.toString();
+    }
 }

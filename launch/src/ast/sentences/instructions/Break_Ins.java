@@ -1,6 +1,7 @@
 package ast.sentences.instructions;
 
 import ast.KindE;
+import ast.Utils;
 
 public class Break_Ins extends Instruction {
 
@@ -8,7 +9,12 @@ public class Break_Ins extends Instruction {
         super(null, null);
     }
 
-    public String toString() {return "break" ;}
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        Utils.appendIndent(str, indentation);
+        str.append("break" + '\n');
+        return str.toString();
+    }
 
     @Override
     public KindE kind() {

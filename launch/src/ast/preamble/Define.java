@@ -1,6 +1,7 @@
 package ast.preamble;
 
 import ast.Expression;
+import ast.Utils;
 
 public class Define extends Definition {
     
@@ -13,6 +14,11 @@ public class Define extends Definition {
 
     @Override
     public String toString() {
-        return "typedef " + id + expression.toString();
+        return "define " + id + " " + expression.toString();
+    }
+
+    @Override
+    public void propagateIndentation(int indent) {
+        this.indentation = indent;
     }        
 }

@@ -9,7 +9,7 @@ public abstract class Type implements ASTNode {
     INT, BOOL, ARRAY, CLASS, STRUCT, POINTER, REFERENCE, ID;
 
     public String toString() {
-      return "Tipo: " + this.name();
+      return this.name();
     }
   }
 
@@ -26,5 +26,10 @@ public abstract class Type implements ASTNode {
   @Override
   public NodeKind nodeKind() {
     throw new UnsupportedOperationException("Unimplemented method 'nodeKind'");
+  }
+
+  @Override
+  public void propagateIndentation(int indent) {
+    
   }
 }

@@ -16,7 +16,7 @@ public class New_Op extends Expression {
     this.type = type;
   }
   
-  public String toString() {return "New" + (constructor != null ? constructor.toString() : type.toString());}
+  public String toString() {return "niu" + (constructor != null ? constructor.toString() : type.toString());}
   @Override
   public KindE kind() {
       throw new UnsupportedOperationException("Unimplemented method 'kind'");

@@ -20,4 +20,22 @@ public class Block {
         this.ins.add(i);
         return this;
     }
+
+    public boolean empty() {
+        return this.ins == null || this.ins.isEmpty();
+    }
+
+    public void propagateIndentation(int indent) {
+        if (this.ins == null) return;
+        for (Sentence s : this.ins)
+            if (s != null) s.propagateIndentation(indent);
+    }
+
+    public String toString() {
+        if (this.ins == null) return "";
+        StringBuilder str = new StringBuilder();
+        for (Sentence i : ins)
+            str.append(i.toString());
+        return str.toString();
+    }
 }

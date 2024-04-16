@@ -9,5 +9,5 @@ public class Field_Access_Op extends EBin {
      super(opnd1,opnd2);  
    }     
    public KindE kind() {return KindE.SUMA;}
-   public String toString() {return "." + opnd1().toString(); };
+   public String toString() {return opnd1().toString() + "." + opnd2().toString(); };
 }

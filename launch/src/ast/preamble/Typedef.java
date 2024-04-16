@@ -13,5 +13,10 @@ public class Typedef extends Definition {
     @Override
     public String toString() {
         return "typedef " + type.toString() + id.toString();
+    }
+
+    @Override
+    public void propagateIndentation(int indent) {
+        this.indentation = indent;
     }        
 }
