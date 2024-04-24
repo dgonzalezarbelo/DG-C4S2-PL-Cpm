@@ -17,4 +17,11 @@ public class ClassFunctions {
     public List<Function> getMethods() {
         return methods;
     }
+
+    public void propagateIndentation(int indent) {
+        for (Function f : this.constructors)
+            f.propagateIndentation(indent);
+        for (Function f : this.methods)
+            f.propagateIndentation(indent);
+    }
 }

@@ -7,6 +7,7 @@ import java.util.List;
 
 import ast.Expression;
 import ast.KindE;
+import ast.Utils;
 
 public class For_Ins extends Instruction {
 
@@ -20,7 +21,12 @@ public class For_Ins extends Instruction {
         this.body = for_body;
     }
 
-    public String toString() {return "condition: " + this.argExpression.toString();}
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        Utils.appendIndent(str, indentation);
+        str.append("for(" + this.argExpression.toString() + ")\n");
+        return str.toString();
+    }
 
     @Override
     public KindE kind() {

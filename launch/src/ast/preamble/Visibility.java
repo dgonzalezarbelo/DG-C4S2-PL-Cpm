@@ -6,7 +6,7 @@ public abstract class Visibility {
         PUBLIC, PRIVATE;
 
         public String toString() {
-            return "Tipo: " + this.name().toLowerCase();
+            return this.name().toLowerCase();
         }
     }
 

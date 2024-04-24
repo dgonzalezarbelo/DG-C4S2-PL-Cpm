@@ -18,6 +18,12 @@ public abstract class Instruction extends Sentence {
     @Override
     public NodeKind nodeKind() {return NodeKind.EXPRESSION;}
     
+    @Override
+    public void propagateIndentation(int indent) {
+        this.indentation = indent;
+        if (body != null) body.propagateIndentation(indent + 1);
+    }
+
     public abstract KindE kind();
     public String toString() {return "";}
 }

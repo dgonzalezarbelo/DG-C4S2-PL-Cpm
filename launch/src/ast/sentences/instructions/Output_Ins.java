@@ -2,6 +2,7 @@ package ast.sentences.instructions;
 
 import ast.Expression;
 import ast.KindE;
+import ast.Utils;
 
 public class Output_Ins extends Instruction {
 
@@ -9,7 +10,12 @@ public class Output_Ins extends Instruction {
         super(expression, null);
     }
 
-    public String toString() {return "printing " + argExpression.toString();}
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        Utils.appendIndent(str, indentation);
+        str.append("printing " + argExpression.toString() + '\n');
+        return str.toString();
+    }
 
     @Override
     public KindE kind() {

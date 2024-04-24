@@ -3,6 +3,7 @@ package ast.sentences.instructions;
 import ast.sentences.Block;
 import ast.Expression;
 import ast.KindE;
+import ast.Utils;
 
 public class While_Ins extends Instruction {
 
@@ -10,7 +11,13 @@ public class While_Ins extends Instruction {
         super(cond, body);
     }
 
-    public String toString() {return "condition: " + this.argExpression.toString();}
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        Utils.appendIndent(str, indentation);
+        str.append("while(" + this.argExpression.toString() + ")\n");
+        str.append(body.toString());
+        return str.toString();
+    }
 
     @Override
     public KindE kind() {
