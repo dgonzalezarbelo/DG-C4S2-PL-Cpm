@@ -383,6 +383,43 @@ Las expresiones regulares que definen los elementos del léxico aquí descrito p
 
 \section{Especificación sintáctica del lenguaje}\label{sec:Especificación sintáctica del lenguaje}
 
+\begin{table}[h]
+    \begin{tabular}[h]{|c|c|}
+        \hline
+        Constructora & If Ins : Expresión $\times$ Bloque $\rightarrow$ Instrucción \\
+        \hline
+        Descripción & Construye la instrucción condicional \texttt{If}. \\
+        \hline
+        Sintaxis & \texttt{If (Expresión) \{Bloque\}} \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[h]
+    \begin{tabular}[h]{|c|c|}
+        \hline
+        Constructora & While Ins : Expresión $\times$ Bloque $\rightarrow$ Instrucción \\
+        \hline
+        Descripción & Construye la instrucción iterativa \texttt{While}. \\
+        \hline
+        Sintaxis & \texttt{While (Expresión) \{Bloque\}} \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[h]
+    \begin{tabular}[h]{|c|c|}
+        \hline
+        Constructora & Asign Ins : Id $\times$ Expresión $\rightarrow$ Instrucción \\
+        \hline
+        Descripción & Construye la instrucción de asignación \\
+        \hline
+        Sintaxis & \texttt{Id = Expresión} \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
 \newpage
 \appendix
 
@@ -401,7 +438,7 @@ Las expresiones regulares que definen los elementos del léxico aquí descrito p
     lastline=86,
     linewidth=\linewidth,
     language=
-]{../../lexicon/lexicon.l}
+]{../../launch/src/lexicon/lexicon.l}
 \section{Gramática de la sintaxis}
 \label{sec:Gramática de la sintaxis}
 
