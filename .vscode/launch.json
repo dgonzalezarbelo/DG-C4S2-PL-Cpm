@@ -10,7 +10,8 @@
             "request": "launch",
             "mainClass": "Main",
             "preLaunchTask": "preLaunchTasks",
-            "args":["${input:args}"],
+            "args":["prueba2.cpm"],
+            //"stopOnEntry": true
         },
         // Configuración de ejecución para lanzar el analizador léxico
         {

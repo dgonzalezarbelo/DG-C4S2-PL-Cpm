@@ -253,6 +253,7 @@ OUTPUT_INS  ::= OUTPUT_FUNC PARENTESIS_OPEN EXPRESSION:e PARENTESIS_CLOSE SEMICO
 MAIN_INS    ::= FUNC_T MAIN PARENTESIS_OPEN PARENTESIS_CLOSE COLON INT_T BRACKET_OPEN FUNCTION_BODY:body RETURN INTEGER:i SEMICOLON BRACKET_CLOSE 
 {: RESULT = new Function("main", new ArrayList<>(), new Int_Type(), body, new Int_Value(i.lexeme)); :};
 
+
 // Boolean and arithmetic expresions
 
 EXPRESSION        ::= B0:e 
@@ -345,9 +346,9 @@ MORE_EXPRESSIONS     ::= MORE_EXPRESSIONS:array EXPRESSION:e COMMA
 MORE_EXPRESSIONS     ::= /*EMPTY*/ 
 {: RESULT = new ArrayList<Expression>(); :};
 
-TERMINAL             ::= LITERAL:e 
+TERMINAL             ::= LITERAL:e
 {: RESULT = e; :};
-TERMINAL             ::= ID_EX:e 
+TERMINAL             ::= ID_EX:e
 {: RESULT = e; :};
 
 
@@ -392,7 +393,12 @@ SENTENCE             ::= CONTINUE_INS:e
 SENTENCE             ::= IO_INS:e 
 {: RESULT = e; :};
 SENTENCE             ::= SEMICOLON
-{: RESULT = new Empty_Ins(); :}; // The last semicolon represents an empty instruction
+{: RESULT = new Empty_Ins(); :};    // The last semicolon represents an empty instruction
+SENTENCE             ::= error SEMICOLON 
+{: RESULT = new Error_Ins(); :};
+SENTENCE             ::= error BRACKET_CLOSE 
+{: RESULT = new Error_Ins(); :}; 
+
 
 ID_EX                ::= THIS FIELD_ACCESS ID:id 
 {: RESULT = new This_Op(id.lexeme); :};
