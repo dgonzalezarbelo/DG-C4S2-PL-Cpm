@@ -1,11 +1,10 @@
 package ast;
- 
-import ast.sentences.instructions.Instruction;
 
-public class Error_Ins extends Instruction {
+
+public class Error_Exp extends Expression {
     
-    public Error_Ins() {
-        super(null, null);
+    public Error_Exp() {
+        super();
     }
 
     @Override
@@ -16,8 +15,8 @@ public class Error_Ins extends Instruction {
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
-        Utils.appendIndent(str, indentation);
-        str.append("ERROR INS\n");
+        // Utils.appendIndent(str, indentation);
+        str.append("ERROR EXP\n");
         return str.toString();
     }
 }
