@@ -15,6 +15,7 @@ public class Default_Ins extends Instruction {
         StringBuilder str = new StringBuilder();
         Utils.appendIndent(str, indentation);
         str.append("default" + '\n');
+        str.append(body.toString());
         return str.toString();
     }
     @Override

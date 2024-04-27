@@ -16,6 +16,7 @@ public class Case_Ins extends Instruction {
         StringBuilder str = new StringBuilder();
         Utils.appendIndent(str, indentation);
         str.append("case: " + argExpression.toString() + '\n');
+        str.append(body.toString());
         return str.toString();
     }
 

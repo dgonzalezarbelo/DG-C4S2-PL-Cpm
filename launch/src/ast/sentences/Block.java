@@ -14,6 +14,7 @@ public class Block implements ASTNode {
     }
 
     public Block(List<Sentence> ins) {
+        this();
         for (Sentence i : ins) {
             this.ins.add(i);
         }
