@@ -208,7 +208,7 @@ DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION:dec ASSIGNATION_OP:a EXPRESSION
 // {: RESULT = new Error_Ins(); :};
 
 DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION:dec ASSIGNATION_OP:a NEW_OP TYPE:t ARRAY_CONSTRUCTOR:array SEMICOLON
-{: RESULT = new DeclarationAndAssignation(dec, new New_Op(Declaration.manageType(t, array)), a.row); :};
+{: RESULT = new DeclarationAndAssignation(dec, new New_Op(Declaration.manageType(t, array), a.row), a.row); :};
 //DECLARATION_AND_ASSIGNATION_INS  ::= error ASSIGNATION_OP NEW_OP TYPE:t ARRAY_CONSTRUCTOR:array SEMICOLON
 //{: RESULT = new Error_Ins(); :};
 //DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION:dec ASSIGNATION_OP NEW_OP error ARRAY_CONSTRUCTOR:array SEMICOLON
@@ -217,7 +217,7 @@ DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION:dec ASSIGNATION_OP:a NEW_OP TYP
 //{: RESULT = new Error_Ins(); :};
 
 DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION:dec ASSIGNATION_OP:a NEW_OP ID_PARENTESIS:e SEMICOLON
-{: RESULT = new DeclarationAndAssignation(dec, e, a.row); :};
+{: RESULT = new DeclarationAndAssignation(dec, new New_Op(e, a.row), a.row); :};
 //DECLARATION_AND_ASSIGNATION_INS  ::= error ASSIGNATION_OP NEW_OP ID_PARENTESIS:e SEMICOLON
 //{: RESULT = new Error_Ins(); :};
 //DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION:dec ASSIGNATION_OP NEW_OP error SEMICOLON
@@ -228,7 +228,7 @@ ASSIGNATION_INS                  ::= EXPRESSION:iz ASSIGNATION_OP:a EXPRESSION:d
 
 //FIXME
 ASSIGNATION_INS                  ::= EXPRESSION:iz ASSIGNATION_OP:a NEW_OP TYPE:t ARRAY_CONSTRUCTOR:array SEMICOLON
-{: RESULT = new Assignation_Ins(iz, new New_Op(Declaration.manageType(t, array)), a.row); :};
+{: RESULT = new Assignation_Ins(iz, new New_Op(Declaration.manageType(t, array), a.row), a.row); :};
 //ASSIGNATION_INS                  ::= error NEW_OP TYPE:t ARRAY_CONSTRUCTOR:array SEMICOLON
 //{: RESULT = new Error_Ins(); :};
 //ASSIGNATION_INS                  ::= EXPRESSION:iz NEW_OP error ARRAY_CONSTRUCTOR:array SEMICOLON
@@ -237,7 +237,7 @@ ASSIGNATION_INS                  ::= EXPRESSION:iz ASSIGNATION_OP:a NEW_OP TYPE:
 //{: RESULT = new Error_Ins(); :};
 
 ASSIGNATION_INS                  ::= EXPRESSION:iz ASSIGNATION_OP:a NEW_OP ID_PARENTESIS:dc SEMICOLON
-{: RESULT = new Assignation_Ins(iz, dc, a.row); :};
+{: RESULT = new Assignation_Ins(iz, new New_Op(dc, a.row), a.row); :};
 //ASSIGNATION_INS                  ::= error ASSIGNATION_OP NEW_OP ID_PARENTESIS:dc SEMICOLON
 //{: RESULT = new Error_Ins(); :};
 //ASSIGNATION_INS                  ::= EXPRESSION:iz ASSIGNATION_OP NEW_OP error SEMICOLON

@@ -28,12 +28,10 @@ public class Struct extends Definition {
         Utils.appendIndent(str, indentation);
         str.append("Struct: " + id + "\n");
         for (Declaration i : atributes) {
-            Utils.appendIndent(str, indentation + 1);
-            str.append("Atributo: " + i.toString() + "\n");
+            str.append(i.toString() + "\n");
         }
         for (Function f : constructors) {
-            Utils.appendIndent(str, indentation + 1);
-            str.append("Constructor: " + f.toString() + "\n");
+            str.append("\n" + f.toString());
         }
         return str.toString();
     }
@@ -50,18 +48,19 @@ public class Struct extends Definition {
     @Override
     public void bind() {
         Program.symbolsTable.newScope();
-        for (Declaration d : atributes)
-            d.bind();
-            
-        for (Constructor c : constructors) {
-            if (c.getId().getName() != this.id.getName()) {
-                System.out.println("The constructor's name doesn't match the name of the class");
-                continue;
-            }
-            c.bind();
-        }
+
         try {
             Program.symbolsTable.insertDefinitions(this.id.getName(), this);
+            for (Declaration d : atributes)
+            d.bind();
+            
+            for (Constructor c : constructors) {
+                if (c.getId().getName() != this.id.getName()) {
+                    System.out.println("The constructor's name doesn't match the name of the class");
+                    continue;
+                }
+                c.bind();
+            }
         } catch (DuplicateDefinitionException e) {
             System.out.println(e);
             Utils.printErrorRow(row);

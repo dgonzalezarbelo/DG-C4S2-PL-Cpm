@@ -61,7 +61,7 @@ public class SymbolsTable {
         When a new user-type is defined we consider that type as a keyword in order
         to prevent variables or new user-types with the same name 
         */ 
-        if (!definitions.containsKey(id))
+        if (definitions.containsKey(id))
             throw new DuplicateDefinitionException("There is a previous definition with the same name");
         definitions.put(id, def);
     }

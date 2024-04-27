@@ -77,8 +77,8 @@ public class Function extends Definition {
 
     protected void propagateBind() {
         Program.symbolsTable.newScope();
-        for (Declaration d : args)
-            d.bind();
+        for (Declaration d : args) 
+            d.bind(); 
         if (return_t != null)
             return_t.bind();
         body.bind();

@@ -43,7 +43,6 @@ public class If_Ins extends Instruction {
         Program.symbolsTable.newScope();
         this.argExpression.bind();
         this.body.bind();
-        Utils.debug("Estoy dentro de if");
         Program.symbolsTable.closeScope();
         if (!elseBody.empty()) {
             Program.symbolsTable.newScope();

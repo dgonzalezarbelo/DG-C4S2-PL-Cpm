@@ -22,8 +22,8 @@ public class Program implements ASTNode {
         mainFuncion.propagateIndentation(0);
         StringBuilder str = new StringBuilder();
         str.append("PROGRAM: \n");
-        for (Definition i : definitions)
-            str.append(i.toString() + "\n");
+        for (Definition d : definitions)
+            str.append(d.toString() + "\n");
         str.append(mainFuncion.toString() + "\n");
         return str.toString();
     }

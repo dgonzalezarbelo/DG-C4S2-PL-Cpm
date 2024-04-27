@@ -45,8 +45,8 @@ public class Declaration extends Sentence {
 
     public static Type manageType(Type t, Array_Type array) {
         if (array != null) {
-            array.propagateType(t);
-            return array;
+            array.setInnerType(t);
+            return array.recoverBiggestArray(t, 1);
         }
         else
             return t;

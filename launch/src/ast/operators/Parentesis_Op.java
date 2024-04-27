@@ -18,6 +18,7 @@ public class Parentesis_Op extends Expression {
     public Parentesis_Op(String opnd1, List<Expression> opnd2, int row) {
         this.id = new Id_Value(opnd1, row);
         this.args = opnd2;
+        this.row = row;
     }
     public KindE kind() {return KindE.SUMA;}
     public String toString() {return id.toString() + args.toString();}

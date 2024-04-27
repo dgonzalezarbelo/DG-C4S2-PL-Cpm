@@ -30,8 +30,9 @@ public class Define extends Definition {
 	@Override
 	public void bind() {
         try {
-            Program.symbolsTable.insertDefinitions(id.getName(), this); // We save the new definition (keyword)
+            // The order matters!
             Program.symbolsTable.insertSymbol(id.getName(), this); // We also save it as a symbol, as it acts as a "global variable"
+            Program.symbolsTable.insertDefinitions(id.getName(), this); // We save the new definition (keyword)
         }
         catch (DuplicateDefinitionException e) {
             System.out.println(e);
