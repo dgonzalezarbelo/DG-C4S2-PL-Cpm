@@ -19,4 +19,10 @@ public class Error_Exp extends Expression {
         str.append("ERROR EXP\n");
         return str.toString();
     }
+
+    @Override
+    public void bind() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'bind'");
+    }
 }

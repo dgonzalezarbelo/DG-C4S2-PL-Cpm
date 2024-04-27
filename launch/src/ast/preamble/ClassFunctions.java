@@ -3,14 +3,15 @@ package ast.preamble;
 import java.util.List;
 
 public class ClassFunctions {
-    private List<Function> constructors, methods;
+    private List<Constructor> constructors;
+    private List<Function> methods;
 
-    public ClassFunctions(List<Function> constructors, List<Function> methods) {
+    public ClassFunctions(List<Constructor> constructors, List<Function> methods) {
         this.constructors = constructors;
         this.methods = methods;
     }
 
-    public List<Function> getConstructors() {
+    public List<Constructor> getConstructors() {
         return constructors;
     }
 

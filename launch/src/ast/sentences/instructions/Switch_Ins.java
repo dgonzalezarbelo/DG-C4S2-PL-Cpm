@@ -23,5 +23,11 @@ public class Switch_Ins extends Instruction {
     public KindE kind() {
         throw new UnsupportedOperationException("Unimplemented method 'kind'");
     }
+
+    @Override
+    public void bind() {
+        this.argExpression.bind();
+        this.body.bind();
+    }
     
 }

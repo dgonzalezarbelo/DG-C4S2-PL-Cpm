@@ -18,5 +18,10 @@ public class Typedef extends Definition {
     @Override
     public void propagateIndentation(int indent) {
         this.indentation = indent;
-    }        
+    }
+
+    @Override
+    public void bind() {
+        //TODO
+    }
 }

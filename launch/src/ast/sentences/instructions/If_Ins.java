@@ -36,4 +36,12 @@ public class If_Ins extends Instruction {
         this.body.propagateIndentation(indent + 1);
         this.elseBody.propagateIndentation(indent + 1);
     }
+
+    @Override
+    public void bind() {
+        this.argExpression.bind();
+        this.body.bind();
+        if (!elseBody.empty())
+            elseBody.bind();
+    }
 }

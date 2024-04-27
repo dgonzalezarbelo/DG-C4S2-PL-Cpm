@@ -10,4 +10,10 @@ public class Equal_Op extends EBin {
    }     
    public KindE kind() {return KindE.SUMA;}
    public String toString() {return opnd1().toString() + " == " +opnd2().toString();}
+    
+   @Override
+   public void bind() {
+      opnd1().bind();
+      opnd2().bind();
+    }
 }

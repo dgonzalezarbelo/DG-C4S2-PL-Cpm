@@ -7,6 +7,7 @@ import ast.Utils;
 import ast.sentences.Block;
 import ast.sentences.declarations.Declaration;
 import ast.types.Type;
+import exceptions.DuplicateDefinitionException;
 
 public class Function extends Definition {
     private List<Declaration> args;
@@ -59,5 +60,23 @@ public class Function extends Definition {
     public void propagateIndentation(int indent) {
         this.indentation = indent;
         this.body.propagateIndentation(indent + 1);
-    }        
+    }
+
+    @Override
+    public void bind() {
+        try {
+            Program.symbolsTable.insertFunction(this.id.getName(), this);
+            Program.symbolsTable.newScope();
+            for (Declaration d : args)
+                d.bind();
+            return_t.bind();
+            body.bind();
+            return_var.bind();
+            Program.symbolsTable.closeScope();
+        }
+        catch (DuplicateDefinitionException e) {
+            System.out.println(e);
+        }
+    }
+
 }

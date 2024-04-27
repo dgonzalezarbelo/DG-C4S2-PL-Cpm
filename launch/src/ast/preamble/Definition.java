@@ -13,6 +13,12 @@ public abstract class Definition implements ASTNode {
         this.indentation = null;
     }
     
+    public Id_Type getId() {
+        return this.id;
+    }
+
+    
+
     public NodeKind nodeKind() {return NodeKind.EXPRESSION;}
     public abstract String toString();
 }

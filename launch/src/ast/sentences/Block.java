@@ -3,7 +3,11 @@ package ast.sentences;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Block {
+import ast.ASTNode;
+import ast.NodeKind;
+import ast.preamble.Program;
+
+public class Block implements ASTNode {
     public List<Sentence> ins;
 
     public Block() {
@@ -37,5 +41,20 @@ public class Block {
         for (Sentence i : ins)
             str.append(i.toString());
         return str.toString();
+    }
+
+    @Override
+    public void bind() {
+        Program.symbolsTable.newScope();
+        for (Sentence s : ins) {
+            s.bind();
+        }
+        Program.symbolsTable.closeScope();
+    }
+
+    @Override
+    public NodeKind nodeKind() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'nodeKind'");
     }
 }

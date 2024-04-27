@@ -1,7 +1,7 @@
 package ast.preamble;
 
 import ast.Expression;
-import ast.Utils;
+import exceptions.DuplicateDefinitionException;
 
 public class Define extends Definition {
     
@@ -20,5 +20,15 @@ public class Define extends Definition {
     @Override
     public void propagateIndentation(int indent) {
         this.indentation = indent;
-    }        
+    }
+
+	@Override
+	public void bind() {
+        try {
+            Program.symbolsTable.insertSymbol(id.getName(), id);
+        }
+        catch (DuplicateDefinitionException e) {
+            System.out.println(e);
+        }
+	}        
 }

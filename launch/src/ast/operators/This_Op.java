@@ -10,4 +10,9 @@ public class This_Op extends EUnary {
    }     
    public KindE kind() {return KindE.SUMA;}
    public String toString() {return "dis." + opnd1().toString();}
+
+    @Override
+   public void bind() {
+      opnd1().bind();
+    }
 }

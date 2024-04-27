@@ -2,9 +2,14 @@ package ast.preamble;
 
 import java.util.List;
 
-public class Program {
+import ast.ASTNode;
+import ast.NodeKind;
+import ast.SymbolsTable;
+
+public class Program implements ASTNode {
     private List<Definition> definitions;
     private Function mainFuncion;
+    public static SymbolsTable symbolsTable = new SymbolsTable();
 
     public Program(List<Definition> definitions, Function mainFunction) {
         this.definitions = definitions;
@@ -21,5 +26,25 @@ public class Program {
             str.append(i.toString() + "\n");
         str.append(mainFuncion.toString() + "\n");
         return str.toString();
+    }
+
+    @Override
+    public void bind() {
+        for (Definition d : definitions) {
+            d.bind();
+        }
+        mainFuncion.bind();
+    }
+
+    @Override
+    public NodeKind nodeKind() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'nodeKind'");
+    }
+
+    @Override
+    public void propagateIndentation(int indent) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'propagateIndentation'");
     }     
 }

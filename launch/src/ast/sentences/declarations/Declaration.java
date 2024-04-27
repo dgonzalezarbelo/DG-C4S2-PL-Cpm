@@ -1,20 +1,22 @@
 package ast.sentences.declarations;
 
 import ast.Utils;
+import ast.preamble.Program;
 import ast.preamble.Visibility;
 import ast.sentences.Sentence;
 import ast.types.Array_Type;
-import ast.types.Id_Type;
+import ast.types.Id_Value;
 import ast.types.Type;
+import exceptions.DuplicateDefinitionException;
 
 public class Declaration extends Sentence {
     private Type type;
-    private Id_Type id;
-    private Visibility visibility;
+    private Id_Value id;
+    private Visibility visibility;          // FIXME igual merece la pena hacer una clase atributo
 
     public Declaration(Type type, String id) {
         this.type = type;
-        this.id = new Id_Type(id);
+        this.id = new Id_Value(id);
         this.visibility = null;
     } 
 
@@ -28,7 +30,7 @@ public class Declaration extends Sentence {
         this.visibility = v;
     }
 
-    public Id_Type getId() {
+    public Id_Value getId() {
         return this.id;
     }
 
@@ -57,4 +59,14 @@ public class Declaration extends Sentence {
         + " " + id.toString() + '\n');
         return str.toString();
     }
+
+    @Override
+	public void bind() {
+        try {
+            Program.symbolsTable.insertSymbol(id.getValue(), id);
+        }
+        catch (DuplicateDefinitionException e) {
+            System.out.println(e);
+        }
+	}  
 }

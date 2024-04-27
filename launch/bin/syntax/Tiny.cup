@@ -104,13 +104,13 @@ DEF                  ::= FUNCTION_DEF:f
 CLASS_DEF            ::= CLASS_T ID:id BRACKET_OPEN DECLARATIONS_CLASS:dec_class CLASS_INIT:class_func BRACKET_CLOSE
 {: RESULT = new Class_Def(id.lexeme, dec_class, class_func); :};
 CLASS_INIT           ::= CONSTRUCTOR:c MORE_CONSTRUCTORS:constructors METHODS:methods
-{: List<Function> allConstructors = new ArrayList<>(); allConstructors.add(c); allConstructors.addAll(constructors); RESULT = new ClassFunctions(allConstructors, methods); :};
+{: List<Constructor> allConstructors = new ArrayList<>(); allConstructors.add(c); allConstructors.addAll(constructors); RESULT = new ClassFunctions(allConstructors, methods); :};
 MORE_CONSTRUCTORS    ::= MORE_CONSTRUCTORS:array CONSTRUCTOR:c
 {: array.add(c); RESULT = array; :};
 MORE_CONSTRUCTORS    ::= /*EMPTY*/
 {: RESULT = new ArrayList<>(); :};
 CONSTRUCTOR          ::= ID:id PARENTESIS_OPEN ARGUMENTS:args PARENTESIS_CLOSE BRACKET_OPEN FUNCTION_BODY:body BRACKET_CLOSE
-{: RESULT = new Function(id.lexeme, args, null, body, null); :};
+{: RESULT = new Constructor(id.lexeme, args, null, body, null); :};
 METHODS              ::= METHODS:array VISIBILITY:vis FUNCTION_DEF:func 
 {: func.setVisibility(vis); array.add(func); RESULT = array; :};
 METHODS              ::= /*EMPTY*/ 
@@ -223,7 +223,7 @@ ASSIGNATION_INS                  ::= EXPRESSION:iz ASSIGNATION_OP EXPRESSION:dc 
 {: RESULT = new Assignation_Ins(iz, dc) ; :};
 
 //FIXME
-ASSIGNATION_INS                  ::= EXPRESSION:iz NEW_OP TYPE:t ARRAY_CONSTRUCTOR:array SEMICOLON
+ASSIGNATION_INS                  ::= EXPRESSION:iz ASSIGNATION_OP NEW_OP TYPE:t ARRAY_CONSTRUCTOR:array SEMICOLON
 {: RESULT = new Assignation_Ins(iz, new New_Op(Declaration.manageType(t, array))); :};
 //ASSIGNATION_INS                  ::= error NEW_OP TYPE:t ARRAY_CONSTRUCTOR:array SEMICOLON
 //{: RESULT = new Error_Ins(); :};
