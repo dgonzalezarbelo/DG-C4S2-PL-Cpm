@@ -30,7 +30,7 @@ public class Typedef extends Definition {
     public void bind() {
         type.bind();
         try {
-            Program.symbolsTable.insertDefinitions(this.id.getName(), this);
+            Program.symbolsTable.insertDefinitions(this.id, this);
         } catch (DuplicateDefinitionException e) {
             System.out.println(e);
             Utils.printErrorRow(row);

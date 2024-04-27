@@ -8,6 +8,7 @@ import exceptions.InvalidTypeException;
 public class Id_Type extends Type {
     private String name;
     private Definition type_definition;
+    private Definition root_definition;
 
     public Id_Type(String name, int row) {
         super(Type_T.ID, row);

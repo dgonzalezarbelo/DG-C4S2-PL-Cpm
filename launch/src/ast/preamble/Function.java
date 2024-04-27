@@ -66,7 +66,7 @@ public class Function extends Definition {
     @Override
     public void bind() {
         try {
-            Program.symbolsTable.insertFunction(this.id.getName(), this);
+            Program.symbolsTable.insertFunction(this.id, this);
             propagateBind();
         }
         catch (DuplicateDefinitionException e) {

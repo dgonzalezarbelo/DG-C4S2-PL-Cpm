@@ -47,25 +47,25 @@ public class Class_Def extends Definition {
     @Override
     public void bind() {
         Program.symbolsTable.newScope();
-        for (Declaration d : atributes)
-            d.bind();
-        
-        for (Constructor c : functions.getConstructors()) {
-            if (c.getId().getName() != this.id.getName()) {
-                System.out.println("The constructor's name doesn't match the name of the class");
-                continue;
-            }
-            c.bind();
-        }
         try {
-            Program.symbolsTable.insertDefinitions(this.id.getName(), this);
+            Program.symbolsTable.insertDefinitions(this.id, this);
+            for (Declaration d : atributes)
+                d.bind();
+            
+            for (Constructor c : functions.getConstructors()) {
+                if (c.getId() != this.id) {
+                    System.out.println("The constructor's name doesn't match the name of the class");
+                    continue;
+                }
+                c.bind();
+            }
+    
+            for (Function m : functions.getMethods())
+                m.bind();
         } catch (DuplicateDefinitionException e) {
             System.out.println(e);
             Utils.printErrorRow(row);
         }
-
-        for (Function m : functions.getMethods())
-            m.bind();
         Program.symbolsTable.closeScope();
     }
 

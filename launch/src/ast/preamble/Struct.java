@@ -50,12 +50,12 @@ public class Struct extends Definition {
         Program.symbolsTable.newScope();
 
         try {
-            Program.symbolsTable.insertDefinitions(this.id.getName(), this);
+            Program.symbolsTable.insertDefinitions(this.id, this);
             for (Declaration d : atributes)
             d.bind();
             
             for (Constructor c : constructors) {
-                if (c.getId().getName() != this.id.getName()) {
+                if (c.getId() != this.id) {
                     System.out.println("The constructor's name doesn't match the name of the class");
                     continue;
                 }

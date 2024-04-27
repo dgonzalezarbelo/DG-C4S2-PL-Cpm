@@ -9,10 +9,9 @@ import ast.Utils;
 import exceptions.DuplicateDefinitionException;
 
 public class Define extends Definition {
-    
     private Expression expression;
 
-    public Define(String id, Expression expression, int row) {
+    public Define(String id, Expression expression, int row) { //FIXME El id no deberia ser un Id_Type, sino Id_Value. El tipo es el de la expresion
         super(id, row);
         this.expression = expression;
     }
@@ -31,8 +30,8 @@ public class Define extends Definition {
 	public void bind() {
         try {
             // The order matters!
-            Program.symbolsTable.insertSymbol(id.getName(), this); // We also save it as a symbol, as it acts as a "global variable"
-            Program.symbolsTable.insertDefinitions(id.getName(), this); // We save the new definition (keyword)
+            Program.symbolsTable.insertSymbol(id, this); // We also save it as a symbol, as it acts as a "global variable"
+            Program.symbolsTable.insertDefinitions(id, this); // We save the new definition (keyword)
         }
         catch (DuplicateDefinitionException e) {
             System.out.println(e);

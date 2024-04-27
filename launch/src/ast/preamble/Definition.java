@@ -4,20 +4,19 @@ import java.util.List;
 
 import ast.ASTNode;
 import ast.NodeKind;
-import ast.types.Id_Type;
 
 public abstract class Definition implements ASTNode {
-    protected Id_Type id;
+    protected String id;
     protected Integer indentation;
     protected int row;
     
     public Definition(String name, int row) {
-        this.id = new Id_Type(name, row);
+        this.id = name;
         this.indentation = null;
         this.row = row;
     }
     
-    public Id_Type getId() {
+    public String getId() {
         return this.id;
     }
 
