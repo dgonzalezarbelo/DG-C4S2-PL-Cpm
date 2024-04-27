@@ -6,8 +6,8 @@ public class Array_Type extends Type {
     private Expression dim;
     private Type inner_type;
 
-    public Array_Type(Expression dim) {
-        super(Type_T.ARRAY);
+    public Array_Type(Expression dim, int row) {
+        super(Type_T.ARRAY, row);
         this.dim = dim;
     }
 
@@ -57,4 +57,10 @@ public class Array_Type extends Type {
     }
 
     public String toString() {return "(Dim: " + dim.toString() + ",Array: " + inner_type.toString() + ")";}
+
+    @Override
+    public void bind() {
+        dim.bind();
+        inner_type.bind();
+    }
 }

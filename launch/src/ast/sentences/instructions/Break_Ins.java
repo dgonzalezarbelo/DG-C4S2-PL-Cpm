@@ -5,8 +5,8 @@ import ast.Utils;
 
 public class Break_Ins extends Instruction {
 
-    public Break_Ins() {
-        super(null, null);
+    public Break_Ins(int row) {
+        super(null, null, row);
     }
 
     public String toString() {
@@ -23,7 +23,7 @@ public class Break_Ins extends Instruction {
 
     @Override
     public void bind() {
-        
+        // Nothing to do
     }
     
 }

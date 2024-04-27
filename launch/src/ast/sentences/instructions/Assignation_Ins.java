@@ -7,8 +7,8 @@ import ast.Utils;
 public class Assignation_Ins extends Instruction {
     private Expression leftSide;
 
-    public Assignation_Ins(Expression left, Expression right) {
-        super(right, null);
+    public Assignation_Ins(Expression left, Expression right, int row) {
+        super(right, null, row);
         this.leftSide = left;
     }
 

@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
+import ast.Utils;
+import ast.preamble.Program;
 import lexicon.AnalizadorLexicoTiny;
 
 public class ReconSyntax {
@@ -11,6 +13,9 @@ public class ReconSyntax {
 		Reader input = new InputStreamReader(new FileInputStream(args[0]));
 		AnalizadorLexicoTiny alex = new AnalizadorLexicoTiny(input);
 		AnalizadorSintacticoTiny asint = new AnalizadorSintacticoTiny(alex);
-		System.out.println(asint.parse().value);
+		Program root = (Program) asint.parse().value;
+		Utils.clearConsole();
+		root.bind();
+		System.out.println(root);
 	}
 }   

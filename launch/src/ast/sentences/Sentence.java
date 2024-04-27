@@ -6,6 +6,7 @@ import ast.NodeKind;
 public abstract class Sentence implements ASTNode {
 
     protected int indentation;
+    protected int row;
 
     @Override
     public NodeKind nodeKind() {

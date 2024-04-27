@@ -4,12 +4,13 @@ import ast.sentences.Block;
 import ast.Expression;
 import ast.KindE;
 import ast.Utils;
+import ast.preamble.Program;
 
 public class If_Ins extends Instruction {
-    Block elseBody;
+    private Block elseBody;
 
-    public If_Ins(Expression cond, Block if_body, Block else_body) {
-        super(cond, if_body);
+    public If_Ins(Expression cond, Block if_body, Block else_body, int row) {
+        super(cond, if_body, row);
         this.elseBody = else_body;
     }
 
@@ -39,9 +40,15 @@ public class If_Ins extends Instruction {
 
     @Override
     public void bind() {
+        Program.symbolsTable.newScope();
         this.argExpression.bind();
         this.body.bind();
-        if (!elseBody.empty())
+        Utils.debug("Estoy dentro de if");
+        Program.symbolsTable.closeScope();
+        if (!elseBody.empty()) {
+            Program.symbolsTable.newScope();
             elseBody.bind();
+            Program.symbolsTable.closeScope();
+        }
     }
 }

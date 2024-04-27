@@ -10,9 +10,10 @@ public abstract class Instruction extends Sentence {
     protected Expression argExpression;
     protected Block body;
 
-    public Instruction(Expression args, Block ins) {
+    public Instruction(Expression args, Block ins, int row) {
         this.argExpression = args;
         this.body = ins;
+        this.row = row;
     }
 
     @Override

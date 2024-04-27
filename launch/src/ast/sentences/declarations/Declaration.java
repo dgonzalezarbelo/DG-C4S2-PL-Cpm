@@ -14,15 +14,16 @@ public class Declaration extends Sentence {
     private Id_Value id;
     private Visibility visibility;          // FIXME igual merece la pena hacer una clase atributo
 
-    public Declaration(Type type, String id) {
+    public Declaration(Type type, String id, int row) {
         this.type = type;
-        this.id = new Id_Value(id);
+        this.id = new Id_Value(id, row);
         this.visibility = null;
+        this.row = row;
     } 
 
     // Adding visibility to the declaration
-    public Declaration(Type type, String id, Visibility visibility) {
-        this(type, id);
+    public Declaration(Type type, String id, Visibility visibility, int row) {
+        this(type, id, row);
         this.visibility = visibility;
     }
 
@@ -38,8 +39,8 @@ public class Declaration extends Sentence {
         return this.type;
     }
 
-    public static Declaration manageDeclaration(Type t, String id, Array_Type array) {
-        return new Declaration(manageType(t, array), id);
+    public static Declaration manageDeclaration(Type t, String id, Array_Type array, int row) {
+        return new Declaration(manageType(t, array), id, row);
     }
 
     public static Type manageType(Type t, Array_Type array) {
@@ -62,11 +63,13 @@ public class Declaration extends Sentence {
 
     @Override
 	public void bind() {
+        type.bind();
         try {
-            Program.symbolsTable.insertSymbol(id.getValue(), id);
+            Program.symbolsTable.insertSymbol(id.getValue(), this);
         }
         catch (DuplicateDefinitionException e) {
             System.out.println(e);
+            Utils.printErrorRow(row);
         }
 	}  
 }

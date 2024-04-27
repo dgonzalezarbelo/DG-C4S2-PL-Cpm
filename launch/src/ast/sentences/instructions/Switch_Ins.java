@@ -4,11 +4,12 @@ import ast.sentences.Block;
 import ast.Expression;
 import ast.KindE;
 import ast.Utils;
+import ast.preamble.Program;
 
 public class Switch_Ins extends Instruction {
 
-    public Switch_Ins(Expression cond, Block body) {
-        super(cond, body);
+    public Switch_Ins(Expression cond, Block body, int row) {
+        super(cond, body, row);
     }
 
     public String toString() {
@@ -26,8 +27,10 @@ public class Switch_Ins extends Instruction {
 
     @Override
     public void bind() {
+        Program.symbolsTable.newScope();
         this.argExpression.bind();
         this.body.bind();
+        Program.symbolsTable.closeScope();
     }
     
 }

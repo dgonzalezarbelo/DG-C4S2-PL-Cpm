@@ -4,8 +4,8 @@ import ast.sentences.instructions.Instruction;
 
 public class Error_Ins extends Instruction {
     
-    public Error_Ins() {
-        super(null, null);
+    public Error_Ins(int row) {
+        super(null, null, row);
     }
 
     @Override
@@ -19,5 +19,10 @@ public class Error_Ins extends Instruction {
         Utils.appendIndent(str, indentation);
         str.append("ERROR INS\n");
         return str.toString();
+    }
+
+    @Override
+    public void bind() {
+        // Nothing to do
     }
 }

@@ -1,14 +1,19 @@
 package ast.preamble;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ast.ASTNode;
 import ast.Expression;
+import ast.Utils;
 import exceptions.DuplicateDefinitionException;
 
 public class Define extends Definition {
     
     private Expression expression;
 
-    public Define(String id, Expression expression) {
-        super(id);
+    public Define(String id, Expression expression, int row) {
+        super(id, row);
         this.expression = expression;
     }
 
@@ -25,10 +30,19 @@ public class Define extends Definition {
 	@Override
 	public void bind() {
         try {
-            Program.symbolsTable.insertSymbol(id.getName(), id);
+            Program.symbolsTable.insertDefinitions(id.getName(), this); // We save the new definition (keyword)
+            Program.symbolsTable.insertSymbol(id.getName(), this); // We also save it as a symbol, as it acts as a "global variable"
         }
         catch (DuplicateDefinitionException e) {
             System.out.println(e);
+            Utils.printErrorRow(row);
         }
-	}        
+	}
+
+    @Override
+    public List<ASTNode> getReferences() {
+        List<ASTNode> list = new ArrayList<>();
+        list.add(this);
+        return list;
+    }        
 }

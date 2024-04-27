@@ -3,11 +3,12 @@ package ast.sentences.instructions;
 import ast.sentences.Block;
 import ast.KindE;
 import ast.Utils;
+import ast.preamble.Program;
 
 public class Default_Ins extends Instruction {
 
-    public Default_Ins(Block body) {
-        super(null, body);
+    public Default_Ins(Block body, int row) {
+        super(null, body, row);
     }
 
     public String toString() {
@@ -23,7 +24,9 @@ public class Default_Ins extends Instruction {
 
     @Override
     public void bind() {
-        
+        Program.symbolsTable.newScope();
+        body.bind();
+        Program.symbolsTable.closeScope();
     }
     
 }

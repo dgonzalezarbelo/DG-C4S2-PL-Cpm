@@ -6,8 +6,8 @@ import ast.Utils;
 
 public class Input_Ins extends Instruction {
 
-    public Input_Ins(Expression expression) {
-        super(expression, null);
+    public Input_Ins(Expression expression, int row) {
+        super(expression, null, row);
     }
 
     public String toString() {

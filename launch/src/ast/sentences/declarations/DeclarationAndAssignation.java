@@ -1,19 +1,17 @@
 package ast.sentences.declarations;
 
 import ast.Expression;
-import ast.preamble.Program;
 import ast.sentences.Sentence;
 import ast.sentences.instructions.Assignation_Ins;
 import ast.types.Id_Value;
-import exceptions.DuplicateDefinitionException;
 
 public class DeclarationAndAssignation extends Sentence {
     private Declaration d;
     private Assignation_Ins a;
 
-    public DeclarationAndAssignation(Declaration d, Expression a) {
+    public DeclarationAndAssignation(Declaration d, Expression a, int row) {
         this.d = d;
-        this.a = new Assignation_Ins(new Id_Value(d.getId().toString()), a);
+        this.a = new Assignation_Ins(new Id_Value(d.getId().toString(), row), a, row);
     }
 
     @Override

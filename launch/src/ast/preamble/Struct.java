@@ -1,16 +1,19 @@
 package ast.preamble;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import ast.ASTNode;
 import ast.Utils;
 import ast.sentences.declarations.Declaration;
+import exceptions.DuplicateDefinitionException;
 
 public class Struct extends Definition {
     private List<Declaration> atributes;
-    private List<Function> constructors;
+    private List<Constructor> constructors;
 
-    public Struct(String name, List<Declaration> atributes, List<Function> constructors) {
-        super(name);
+    public Struct(String name, List<Declaration> atributes, List<Constructor> constructors, int row) {
+        super(name, row);
         this.atributes = atributes;
         this.constructors = constructors;
     }
@@ -42,5 +45,36 @@ public class Struct extends Definition {
             d.propagateIndentation(indent + 1);
         for (Function f : this.constructors)
             f.propagateIndentation(indent + 1);
+    }
+
+    @Override
+    public void bind() {
+        Program.symbolsTable.newScope();
+        for (Declaration d : atributes)
+            d.bind();
+            
+        for (Constructor c : constructors) {
+            if (c.getId().getName() != this.id.getName()) {
+                System.out.println("The constructor's name doesn't match the name of the class");
+                continue;
+            }
+            c.bind();
+        }
+        try {
+            Program.symbolsTable.insertDefinitions(this.id.getName(), this);
+        } catch (DuplicateDefinitionException e) {
+            System.out.println(e);
+            Utils.printErrorRow(row);
+        }
+
+        Program.symbolsTable.closeScope();
+    }
+
+    @Override
+    public List<ASTNode> getReferences() {
+        List<ASTNode> list = new ArrayList<>();
+        for (Constructor c : constructors)
+            list.add(c);
+        return list;
     }        
 }

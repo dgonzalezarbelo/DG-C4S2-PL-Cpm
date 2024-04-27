@@ -2,6 +2,7 @@ package ast.preamble;
 
 import java.util.List;
 
+import ast.ASTNode;
 import ast.Expression;
 import ast.Utils;
 import ast.sentences.Block;
@@ -10,14 +11,14 @@ import ast.types.Type;
 import exceptions.DuplicateDefinitionException;
 
 public class Function extends Definition {
-    private List<Declaration> args;
-    private Block body;
-    private Type return_t;
-    private Expression return_var;
-    private Visibility visibility;
+    protected List<Declaration> args;
+    protected Block body;
+    protected Type return_t;
+    protected Expression return_var;
+    protected Visibility visibility;
 
-    public Function(String name, List<Declaration> args, Type return_t, Block body, Expression return_var) {
-        super(name);
+    public Function(String name, List<Declaration> args, Type return_t, Block body, Expression return_var, int row) {
+        super(name, row);
         this.args = args;
         this.return_t = return_t;
         this.body = body;
@@ -26,8 +27,8 @@ public class Function extends Definition {
     }
     
     // Adding visibility to the function
-    public Function(String name, List<Declaration> args, Type return_t, Block body, Expression return_var, Visibility visibility) {
-        this(name, args, return_t, body, return_var);
+    public Function(String name, List<Declaration> args, Type return_t, Block body, Expression return_var, Visibility visibility, int row) {
+        this(name, args, return_t, body, return_var, row);
         this.visibility = visibility;
     }
 
@@ -61,22 +62,34 @@ public class Function extends Definition {
         this.indentation = indent;
         this.body.propagateIndentation(indent + 1);
     }
-
+    
     @Override
     public void bind() {
         try {
             Program.symbolsTable.insertFunction(this.id.getName(), this);
-            Program.symbolsTable.newScope();
-            for (Declaration d : args)
-                d.bind();
-            return_t.bind();
-            body.bind();
-            return_var.bind();
-            Program.symbolsTable.closeScope();
+            propagateBind();
         }
         catch (DuplicateDefinitionException e) {
             System.out.println(e);
+            Utils.printErrorRow(row);
         }
+    }
+
+    protected void propagateBind() {
+        Program.symbolsTable.newScope();
+        for (Declaration d : args)
+            d.bind();
+        if (return_t != null)
+            return_t.bind();
+        body.bind();
+        if (return_var != null)
+            return_var.bind();
+        Program.symbolsTable.closeScope();
+    }
+
+    @Override
+    public List<ASTNode> getReferences() {
+        return null; // This method will not be used
     }
 
 }

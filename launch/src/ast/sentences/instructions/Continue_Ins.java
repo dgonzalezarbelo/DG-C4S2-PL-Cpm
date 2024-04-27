@@ -5,8 +5,8 @@ import ast.Utils;
 
 public class Continue_Ins extends Instruction {
 
-    public Continue_Ins() {
-        super(null, null);
+    public Continue_Ins(int row) {
+        super(null, null, row);
     }
 
     public String toString() {
@@ -23,7 +23,7 @@ public class Continue_Ins extends Instruction {
 
     @Override
     public void bind() {
-        
+        // Nothing to do
     }
     
 }

@@ -5,8 +5,8 @@ import ast.Utils;
 
 public class Empty_Ins extends Instruction {
 
-    public Empty_Ins() {
-        super(null, null);
+    public Empty_Ins(int row) {
+        super(null, null, row);
     }
 
     public String toString() {
@@ -23,7 +23,7 @@ public class Empty_Ins extends Instruction {
 
     @Override
     public void bind() {
-        
+        // Nothing to do
     }
     
 }

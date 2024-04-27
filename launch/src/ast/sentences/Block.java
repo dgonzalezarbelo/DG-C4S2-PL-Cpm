@@ -5,7 +5,6 @@ import java.util.List;
 
 import ast.ASTNode;
 import ast.NodeKind;
-import ast.preamble.Program;
 
 public class Block implements ASTNode {
     public List<Sentence> ins;
@@ -45,11 +44,9 @@ public class Block implements ASTNode {
 
     @Override
     public void bind() {
-        Program.symbolsTable.newScope();
         for (Sentence s : ins) {
             s.bind();
         }
-        Program.symbolsTable.closeScope();
     }
 
     @Override

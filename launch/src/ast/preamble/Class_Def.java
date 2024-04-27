@@ -1,7 +1,6 @@
 package ast.preamble;
 
 import java.util.ArrayList;
-import java.util.ArrayList;
 import java.util.List;
 
 import ast.ASTNode;
@@ -13,8 +12,8 @@ public class Class_Def extends Definition {
     private List<Declaration> atributes;
     private ClassFunctions functions;
 
-    public Class_Def(String name, List<Declaration> atributes, ClassFunctions functions) {
-        super(name);
+    public Class_Def(String name, List<Declaration> atributes, ClassFunctions functions, int row) {
+        super(name, row);
         this.atributes = atributes;
         this.functions = functions;
     }
@@ -50,25 +49,32 @@ public class Class_Def extends Definition {
         Program.symbolsTable.newScope();
         for (Declaration d : atributes)
             d.bind();
-        //TODO relajate primo hdp
-        List<ASTNode> putaCopiadeloscojones = new ArrayList<>();
+        
         for (Constructor c : functions.getConstructors()) {
             if (c.getId().getName() != this.id.getName()) {
                 System.out.println("The constructor's name doesn't match the name of the class");
                 continue;
             }
-            putaCopiadeloscojones.add((ASTNode)c);
             c.bind();
         }
         try {
-            Program.symbolsTable.insertDefinitions(this.id.getName(), putaCopiadeloscojones);
+            Program.symbolsTable.insertDefinitions(this.id.getName(), this);
         } catch (DuplicateDefinitionException e) {
             System.out.println(e);
+            Utils.printErrorRow(row);
         }
 
         for (Function m : functions.getMethods())
             m.bind();
         Program.symbolsTable.closeScope();
+    }
+
+    @Override
+    public List<ASTNode> getReferences() {
+        List<ASTNode> list = new ArrayList<>();
+        for (Constructor c : functions.getConstructors())
+            list.add(c);
+        return list;
     }
 }
 

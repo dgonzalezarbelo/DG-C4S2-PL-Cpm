@@ -1,7 +1,12 @@
 package ast.types;
 
 public class Int_Type extends Type {
-    public Int_Type() {
-        super(Type_T.INT);        
+    public Int_Type(int row) {
+        super(Type_T.INT, row);        
+    }
+
+    @Override
+    public void bind() {
+        // Nothing to do
     }    
 }

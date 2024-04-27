@@ -1,10 +1,9 @@
 package ast;
 
-
 public class Error_Exp extends Expression {
     
     public Error_Exp() {
-        super();
+        
     }
 
     @Override
@@ -22,7 +21,6 @@ public class Error_Exp extends Expression {
 
     @Override
     public void bind() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'bind'");
+        // Nothing to do
     }
 }

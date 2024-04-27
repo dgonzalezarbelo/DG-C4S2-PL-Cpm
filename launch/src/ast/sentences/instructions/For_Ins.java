@@ -8,12 +8,13 @@ import java.util.List;
 import ast.Expression;
 import ast.KindE;
 import ast.Utils;
+import ast.preamble.Program;
 
 public class For_Ins extends Instruction {
 
-    public For_Ins(Sentence first_ins, Expression cond, Sentence last_ins, Block body) {
-        super(null, null);
-        While_Ins inner_while = new While_Ins(cond, body.add_instruction(last_ins));
+    public For_Ins(Sentence first_ins, Expression cond, Sentence last_ins, Block body, int row) {
+        super(null, null, row);
+        While_Ins inner_while = new While_Ins(cond, body.add_instruction(last_ins), row);
         List<Sentence> for_ins = new ArrayList<>();
         for_ins.add(first_ins);
         for_ins.add(inner_while);
@@ -35,7 +36,9 @@ public class For_Ins extends Instruction {
 
     @Override
     public void bind() {        
+        Program.symbolsTable.newScope();
         this.body.bind();
+        Program.symbolsTable.closeScope();
     }
     
 }

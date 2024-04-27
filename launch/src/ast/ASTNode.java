@@ -6,5 +6,5 @@ public interface ASTNode {
     public void bind();
     public NodeKind nodeKind();
     public String toString();
-    public void propagateIndentation(int indent);
+    public void propagateIndentation(int indent); // To print the AST
 }

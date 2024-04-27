@@ -1,5 +1,5 @@
 package ast;
 
 public enum KindE {
-  SUMA,MUL,NUM   
+    SUMA,MUL,NUM   
 }

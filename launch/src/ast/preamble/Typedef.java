@@ -1,12 +1,18 @@
 package ast.preamble;
+import java.util.ArrayList;
+import java.util.List;
+
+import ast.ASTNode;
+import ast.Utils;
 import ast.sentences.declarations.Declaration;
 import ast.types.Type;
+import exceptions.DuplicateDefinitionException;
 
 public class Typedef extends Definition {
-    private Type type;
+    private Type type; // The previously existing type
     
-    public Typedef(Declaration dec) {
-        super(dec.getId().toString());
+    public Typedef(Declaration dec, int row) {
+        super(dec.getId().toString(), row); // We store the new alias in the id
         this.type = dec.getType();
     }
 
@@ -22,6 +28,25 @@ public class Typedef extends Definition {
 
     @Override
     public void bind() {
-        //TODO
+        type.bind();
+        try {
+            Program.symbolsTable.insertDefinitions(this.id.getName(), this);
+        } catch (DuplicateDefinitionException e) {
+            System.out.println(e);
+            Utils.printErrorRow(row);
+        }
+    }
+
+    @Override
+    public List<ASTNode> getReferences() {
+        List<ASTNode> list = new ArrayList<>();
+        list.add(this);
+        return list;
     }
 }
+
+//FIXME
+/*
+taipdef int i
+taipdef i entero
+ */
