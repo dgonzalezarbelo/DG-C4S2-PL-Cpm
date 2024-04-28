@@ -8,7 +8,7 @@ import ast.types.VariableID;
 import exceptions.InvalidTypeException;
 
 public class This_Op extends EUnary {
-    ASTNode thisReference;
+    private ASTNode thisReference;
 
     public This_Op(String opnd, int row) {
         super(new VariableID(opnd, row), row);
@@ -43,9 +43,15 @@ public class This_Op extends EUnary {
 
 /*
 clas Alumno {
-    public
+    public int a
 
+    Alumno() {
+
+    }
+
+func ....
 int a;
+
 this.a;
 }
 */

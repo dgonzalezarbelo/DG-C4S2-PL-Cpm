@@ -7,7 +7,7 @@ import exceptions.InvalidTypeException;
 
 public class Defined_Type extends Type { //User defined type 
     private String name;
-    private Definition type_definition; 
+    private Definition type_definition;
 
     public Defined_Type(String name, int row) {
         super(Type_T.TEMP_UNKNOWN, row);

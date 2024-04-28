@@ -73,7 +73,7 @@ public class Function extends Definition {
     }
     
     @Override
-    public void checkType() throws Exception {
+    public void checkType() throws Exception { // TODO
         body.checkType();
         return_var.checkType();
     }
