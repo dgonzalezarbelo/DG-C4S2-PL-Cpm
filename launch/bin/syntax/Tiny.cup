@@ -65,7 +65,7 @@ non terminal   Function MAIN_INS, FUNCTION_DEF, TYPED_FUNCTION, VOID_FUNCTION;
 
 non terminal   Constructor CONSTRUCTOR;
 
-non terminal   List<Function> METHODS;
+non terminal   List<Method> METHODS;
 
 non terminal   List<Constructor> MORE_CONSTRUCTORS;
 
@@ -116,7 +116,7 @@ MORE_CONSTRUCTORS    ::= /*EMPTY*/
 CONSTRUCTOR          ::= ID:id PARENTESIS_OPEN ARGUMENTS:args PARENTESIS_CLOSE BRACKET_OPEN FUNCTION_BODY:body BRACKET_CLOSE
 {: RESULT = new Constructor(id.lexeme, args, null, body, null, id.row); :};
 METHODS              ::= METHODS:array VISIBILITY:vis FUNCTION_DEF:func 
-{: func.setVisibility(vis); array.add(func); RESULT = array; :};
+{: method = new Method(func, vis); array.add(method); RESULT = array; :};
 METHODS              ::= /*EMPTY*/ 
 {: RESULT = new ArrayList<>(); :};
 VISIBILITY           ::= PUBLIC:p
@@ -514,7 +514,7 @@ BASIC_TYPE           ::= INT_T:i
 BASIC_TYPE           ::= BOOLEAN_T:b
 {: RESULT = new Bool_Type(b.row); :};
 BASIC_TYPE           ::= ID:id
-{: RESULT = new Id_Type(id.lexeme, id.row); :};
+{: RESULT = new Defined_Type(id.lexeme, id.row); :};
 BASIC_TYPE           ::= BASIC_TYPE:t POINTER_OP:p
 {: RESULT = new Pointer_Type(t, p.row); :};
 
@@ -554,7 +554,7 @@ SENTENCE             ::= SEMICOLON:s
 ID_EX                ::= THIS:t FIELD_ACCESS ID:id 
 {: RESULT = new This_Op(id.lexeme, t.row); :};
 ID_EX                ::= ID:id 
-{: RESULT = new Id_Value(id.lexeme, id.row); :};
+{: RESULT = new VariableID(id.lexeme, id.row); :};
 ID_EX                ::= ID_PARENTESIS:e 
 {: RESULT = e ; :};
 

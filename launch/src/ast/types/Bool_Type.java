@@ -8,5 +8,10 @@ public class Bool_Type extends Type {
     @Override
     public void bind() {
         // Nothing to do
+    }
+
+    @Override
+    public void checkType() {
+        // Nothing to do
     }    
 }

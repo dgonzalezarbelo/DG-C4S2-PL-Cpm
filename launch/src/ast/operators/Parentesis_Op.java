@@ -4,23 +4,22 @@ import java.util.List;
 
 import ast.ASTNode;
 import ast.Expression;
-import ast.KindE;
 import ast.Utils;
 import ast.preamble.Program;
-import ast.types.Id_Value;
+import ast.types.VariableID;
 import exceptions.InvalidIdException;
 
 public class Parentesis_Op extends Expression { 
     private List<ASTNode> functionReferences;
-    private Id_Value id;
+    private VariableID id;
     private List<Expression> args;
 
     public Parentesis_Op(String opnd1, List<Expression> opnd2, int row) {
-        this.id = new Id_Value(opnd1, row);
+        this.id = new VariableID(opnd1, row);
         this.args = opnd2;
         this.row = row;
     }
-    public KindE kind() {return KindE.SUMA;}
+    
     public String toString() {return id.toString() + args.toString();}
 
     @Override

@@ -1,7 +1,6 @@
 package ast.sentences.instructions;
 
 import ast.sentences.Block;
-import ast.KindE;
 import ast.Utils;
 import ast.preamble.Program;
 
@@ -17,10 +16,6 @@ public class Default_Ins extends Instruction {
         str.append("default" + '\n');
         str.append(body.toString());
         return str.toString();
-    }
-    @Override
-    public KindE kind() {
-        throw new UnsupportedOperationException("Unimplemented method 'kind'");
     }
 
     @Override

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ast.Expression;
-import ast.KindE;
 import ast.Utils;
 import ast.preamble.Program;
 
@@ -27,11 +26,6 @@ public class For_Ins extends Instruction {
         Utils.appendIndent(str, indentation);
         str.append("for(" + this.argExpression.toString() + ")\n");
         return str.toString();
-    }
-
-    @Override
-    public KindE kind() {
-       throw new UnsupportedOperationException("Unimplemented method 'kind'");
     }
 
     @Override

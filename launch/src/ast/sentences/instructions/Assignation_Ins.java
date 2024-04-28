@@ -1,7 +1,6 @@
 package ast.sentences.instructions;
 
 import ast.Expression;
-import ast.KindE;
 import ast.Utils;
 
 public class Assignation_Ins extends Instruction {
@@ -17,11 +16,6 @@ public class Assignation_Ins extends Instruction {
         Utils.appendIndent(str, indentation);
         str.append(leftSide.toString() + " = " + this.argExpression.toString() + '\n');
         return str.toString();
-    }
-
-    @Override
-    public KindE kind() {
-       throw new UnsupportedOperationException("Unimplemented method 'kind'");
     }
 
     @Override

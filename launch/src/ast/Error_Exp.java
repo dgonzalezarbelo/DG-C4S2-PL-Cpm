@@ -5,11 +5,6 @@ public class Error_Exp extends Expression {
     public Error_Exp() {
         
     }
-
-    @Override
-    public KindE kind() {
-       throw new UnsupportedOperationException("Unimplemented method 'kind'");
-    }
     
     @Override
     public String toString() {

@@ -10,5 +10,5 @@ public abstract class EBin extends Expression {
         this.row = row;
     }
     public Expression opnd1() {return opnd1;}
-    public Expression opnd2() {return opnd2;}    
+    public Expression opnd2() {return opnd2;}
 }

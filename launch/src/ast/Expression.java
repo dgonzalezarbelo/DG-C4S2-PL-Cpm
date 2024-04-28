@@ -1,13 +1,16 @@
 package ast;
 
+import ast.types.Type;
+import ast.types.Type.Type_T;
+
 public abstract class Expression implements ASTNode {
     protected int row;
+    protected Type type;
 
-    public abstract KindE kind();
-    public Expression opnd1() {throw new UnsupportedOperationException("opnd1");} 
-    public Expression opnd2() {throw new UnsupportedOperationException("opnd2");} 
-    public NodeKind nodeKind() {return NodeKind.EXPRESSION;}
+    public Expression opnd1() {throw new UnsupportedOperationException("opnd1");}
+    public Expression opnd2() {throw new UnsupportedOperationException("opnd2");}
     public String toString() {return "";}
+    public Type_T getType() {return this.type.getKind();};
 
     @Override
     public void propagateIndentation(int indent) {

@@ -5,13 +5,12 @@ import ast.preamble.Definition;
 import ast.preamble.Program;
 import exceptions.InvalidTypeException;
 
-public class Id_Type extends Type {
+public class Defined_Type extends Type { //User defined type 
     private String name;
-    private Definition type_definition;
-    private Definition root_definition;
+    private Definition type_definition; 
 
-    public Id_Type(String name, int row) {
-        super(Type_T.ID, row);
+    public Defined_Type(String name, int row) {
+        super(Type_T.TEMP_UNKNOWN, row);
         this.name = name;
     }
 
@@ -22,7 +21,7 @@ public class Id_Type extends Type {
     public String toString() {return name;}
 
     @Override
-    public void bind() { //TODO errores de binding tipado
+    public void bind() {
         try {
             this.type_definition = Program.symbolsTable.getDefinition(name);
         } catch (InvalidTypeException e) {

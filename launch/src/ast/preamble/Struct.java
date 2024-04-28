@@ -47,6 +47,7 @@ public class Struct extends Definition {
 
     @Override
     public void bind() {
+        Program.symbolsTable.setCurrentDefinition(this.id);
         Program.symbolsTable.newScope();
 
         try {
@@ -67,6 +68,7 @@ public class Struct extends Definition {
         }
 
         Program.symbolsTable.closeScope();
+        Program.symbolsTable.setCurrentDefinition("");
     }
 
     @Override

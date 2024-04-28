@@ -15,7 +15,6 @@ public class Function extends Definition {
     protected Block body;
     protected Type return_t;
     protected Expression return_var;
-    protected Visibility visibility;
 
     public Function(String name, List<Declaration> args, Type return_t, Block body, Expression return_var, int row) {
         super(name, row);
@@ -23,17 +22,6 @@ public class Function extends Definition {
         this.return_t = return_t;
         this.body = body;
         this.return_var = return_var;
-        this.visibility = null;
-    }
-    
-    // Adding visibility to the function
-    public Function(String name, List<Declaration> args, Type return_t, Block body, Expression return_var, Visibility visibility, int row) {
-        this(name, args, return_t, body, return_var, row);
-        this.visibility = visibility;
-    }
-
-    public void setVisibility(Visibility vis) {
-        this.visibility = vis;
     }
 
     @Override
@@ -41,11 +29,6 @@ public class Function extends Definition {
         if(this.indentation == null)
             this.propagateIndentation(0);
         StringBuilder str = new StringBuilder();
-        if (visibility != null) {
-            for (int j = 0; j < indentation; j++)
-                str.append(" ");
-            str.append("Visibility: " + visibility.toString() + "\n");
-        }
         Utils.appendIndent(str, indentation);
         str.append("Function: " + id + "\n");
         Utils.appendIndent(str, indentation);
@@ -57,39 +40,47 @@ public class Function extends Definition {
         return str.toString();
     }
 
-    @Override
-    public void propagateIndentation(int indent) {
-        this.indentation = indent;
-        this.body.propagateIndentation(indent + 1);
-    }
     
     @Override
     public void bind() {
         try {
             Program.symbolsTable.insertFunction(this.id, this);
+            Program.symbolsTable.setCurrentDefinition(this.id);
             propagateBind();
+            Program.symbolsTable.setCurrentDefinition("");
         }
         catch (DuplicateDefinitionException e) {
             System.out.println(e);
             Utils.printErrorRow(row);
         }
     }
-
+    
     protected void propagateBind() {
         Program.symbolsTable.newScope();
         for (Declaration d : args) 
-            d.bind(); 
+        d.bind(); 
         if (return_t != null)
-            return_t.bind();
+        return_t.bind();
         body.bind();
         if (return_var != null)
-            return_var.bind();
+        return_var.bind();
         Program.symbolsTable.closeScope();
     }
-
+    
     @Override
     public List<ASTNode> getReferences() {
         return null; // This method will not be used
     }
-
+    
+    @Override
+    public void checkType() throws Exception {
+        body.checkType();
+        return_var.checkType();
+    }
+    
+    @Override
+    public void propagateIndentation(int indent) {
+        this.indentation = indent;
+        this.body.propagateIndentation(indent + 1);
+    }
 }

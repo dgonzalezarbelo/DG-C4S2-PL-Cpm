@@ -5,18 +5,18 @@ import ast.preamble.Program;
 import ast.preamble.Visibility;
 import ast.sentences.Sentence;
 import ast.types.Array_Type;
-import ast.types.Id_Value;
+import ast.types.VariableID;
 import ast.types.Type;
 import exceptions.DuplicateDefinitionException;
 
 public class Declaration extends Sentence {
     private Type type;
-    private Id_Value id;
+    private VariableID id;
     private Visibility visibility;          // FIXME igual merece la pena hacer una clase atributo
 
     public Declaration(Type type, String id, int row) {
         this.type = type;
-        this.id = new Id_Value(id, row);
+        this.id = new VariableID(id, row);
         this.visibility = null;
         this.row = row;
     } 
@@ -31,7 +31,7 @@ public class Declaration extends Sentence {
         this.visibility = v;
     }
 
-    public Id_Value getId() {
+    public VariableID getId() {
         return this.id;
     }
 

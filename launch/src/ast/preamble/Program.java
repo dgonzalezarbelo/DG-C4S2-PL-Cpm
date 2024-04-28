@@ -3,7 +3,6 @@ package ast.preamble;
 import java.util.List;
 
 import ast.ASTNode;
-import ast.NodeKind;
 import ast.SymbolsTable;
 
 public class Program implements ASTNode {
@@ -37,14 +36,17 @@ public class Program implements ASTNode {
     }
 
     @Override
-    public NodeKind nodeKind() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'nodeKind'");
-    }
+    public void checkType() {
+        for (Definition d : definitions)
+            d.checkType();
+        mainFuncion.checkType();
+    }   
 
     @Override
     public void propagateIndentation(int indent) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'propagateIndentation'");
-    }     
+    }
+
+      
 }

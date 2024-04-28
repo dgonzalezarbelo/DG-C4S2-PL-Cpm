@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ast.ASTNode;
-import ast.NodeKind;
 
 public class Block implements ASTNode {
     public List<Sentence> ins;
@@ -48,11 +47,5 @@ public class Block implements ASTNode {
         for (Sentence s : ins) {
             s.bind();
         }
-    }
-
-    @Override
-    public NodeKind nodeKind() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'nodeKind'");
     }
 }

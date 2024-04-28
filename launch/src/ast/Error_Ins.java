@@ -7,12 +7,7 @@ public class Error_Ins extends Instruction {
     public Error_Ins(int row) {
         super(null, null, row);
     }
-
-    @Override
-    public KindE kind() {
-       throw new UnsupportedOperationException("Unimplemented method 'kind'");
-    }
-    
+   
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();

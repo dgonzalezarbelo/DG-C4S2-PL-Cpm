@@ -1,5 +1,6 @@
 package ast.preamble;
 
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,20 +38,21 @@ public class Class_Def extends Definition {
     }
 
     @Override
-    public void propagateIndentation(int indent) {
-        this.indentation = indent;
-        for (Declaration a : this.atributes)
-            a.propagateIndentation(indent + 1);
-        this.functions.propagateIndentation(indent + 1);
+    public List<ASTNode> getReferences() {
+        List<ASTNode> list = new ArrayList<>();
+        for (Constructor c : functions.getConstructors())
+        list.add(c);
+        return list;
     }
-
+    
     @Override
     public void bind() {
+        Program.symbolsTable.setCurrentDefinition(this.id);
         Program.symbolsTable.newScope();
         try {
             Program.symbolsTable.insertDefinitions(this.id, this);
             for (Declaration d : atributes)
-                d.bind();
+            d.bind();
             
             for (Constructor c : functions.getConstructors()) {
                 if (c.getId() != this.id) {
@@ -59,22 +61,34 @@ public class Class_Def extends Definition {
                 }
                 c.bind();
             }
-    
+            
             for (Function m : functions.getMethods())
-                m.bind();
+            m.bind();
         } catch (DuplicateDefinitionException e) {
             System.out.println(e);
             Utils.printErrorRow(row);
         }
         Program.symbolsTable.closeScope();
+        Program.symbolsTable.setCurrentDefinition(""); // empty String to represent that we are outside the class
+    }
+    
+    
+    @Override
+    public void checkType() {
+        for (Declaration a : atributes)
+            a.checkType();
+        for (Constructor c : functions.getConstructors())
+            c.checkType();
+        for (Function f : functions.getMethods())
+            f.checkType();
     }
 
     @Override
-    public List<ASTNode> getReferences() {
-        List<ASTNode> list = new ArrayList<>();
-        for (Constructor c : functions.getConstructors())
-            list.add(c);
-        return list;
+    public void propagateIndentation(int indent) {
+        this.indentation = indent;
+        for (Declaration a : this.atributes)
+            a.propagateIndentation(indent + 1);
+        this.functions.propagateIndentation(indent + 1);
     }
 }
 

@@ -3,7 +3,7 @@ package ast.sentences.declarations;
 import ast.Expression;
 import ast.sentences.Sentence;
 import ast.sentences.instructions.Assignation_Ins;
-import ast.types.Id_Value;
+import ast.types.VariableID;
 
 public class DeclarationAndAssignation extends Sentence {
     private Declaration d;
@@ -11,7 +11,7 @@ public class DeclarationAndAssignation extends Sentence {
 
     public DeclarationAndAssignation(Declaration d, Expression a, int row) {
         this.d = d;
-        this.a = new Assignation_Ins(new Id_Value(d.getId().toString(), row), a, row);
+        this.a = new Assignation_Ins(new VariableID(d.getId().toString(), row), a, row);
     }
 
     @Override

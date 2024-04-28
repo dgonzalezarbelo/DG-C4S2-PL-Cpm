@@ -1,7 +1,6 @@
 package ast.sentences.declarations;
 
 import ast.Expression;
-import ast.KindE;
 import ast.types.Type;
 
 public class New_Op extends Expression {
@@ -19,10 +18,6 @@ public class New_Op extends Expression {
     }
     
     public String toString() {return "niu " + (constructor != null ? constructor.toString() : type.toString());}
-    @Override
-    public KindE kind() {
-        throw new UnsupportedOperationException("Unimplemented method 'kind'");
-    }
   
     @Override
     public void bind() {

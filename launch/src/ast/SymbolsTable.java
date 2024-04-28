@@ -7,42 +7,44 @@ import java.util.List;
 import java.util.Map;
 
 import ast.preamble.Definition;
-import ast.types.Id_Type;
+import ast.types.Defined_Type;
 import exceptions.DuplicateDefinitionException;
 import exceptions.InvalidIdException;
 import exceptions.InvalidTypeException;
 
 public class SymbolsTable {
-    private LinkedList<Map<String, ASTNode>> stackScope;              // definitions table (id -> Declaration_Node)
-    private LinkedList<Map<String, List<ASTNode>>> functionsScope;    // functions table (id -> List<function>) [due tooverride]
+    private LinkedList<Map<String, ASTNode>> symbolsScope;              // definitions table (id -> Declaration_Node / Define)
+    private LinkedList<Map<String, List<ASTNode>>> functionsScope;      // functions table (id -> List<function>) [due tooverride]
     //FIXME El valor del siguiente mapa no es ASTNode y eso no es chulo, hay que ver si es evitable
-    private Map<String, Definition> definitions;                      // user-definitions table (id -> Definition_Node)
+    private Map<String, Definition> definitions;                        // user-definitions table (id -> Definition_Node)
+    private String currentDefinition;                                   // variable that represent the current defintion you are in 
 
     public SymbolsTable() {
-        this.stackScope = new LinkedList<>();
+        this.symbolsScope = new LinkedList<>();
         this.functionsScope = new LinkedList<>();
         this.definitions = new HashMap<>();
+        this.currentDefinition = "";
     }
 
     public void newScope() {
-        stackScope.addFirst(new HashMap<>());
+        symbolsScope.addFirst(new HashMap<>());
         functionsScope.addFirst(new HashMap<>());
     }
 
     public void closeScope() {
-        stackScope.removeFirst();
+        symbolsScope.removeFirst();
         functionsScope.removeFirst();
     }
 
     public void insertSymbol(String id, ASTNode node) throws DuplicateDefinitionException {
         if (definitions.containsKey(id)) // You can not use as an id a reserved word, such as a user defined type
             throw new DuplicateDefinitionException(String.format("The id %s is a reserved word", id));
-        if (stackScope.isEmpty())
-            stackScope.add(new HashMap<String, ASTNode>());
-        if (stackScope.getFirst().containsKey(id)) { // You can not redefine a variable in the same scope it has already been defined
+        if (symbolsScope.isEmpty())
+            symbolsScope.add(new HashMap<String, ASTNode>());
+        if (symbolsScope.getFirst().containsKey(id)) { // You can not redefine a variable in the same scope it has already been defined
             throw new DuplicateDefinitionException(String.format("The variable %s is already defined", id));
         }
-        stackScope.getFirst().put(id, node);
+        symbolsScope.getFirst().put(id, node);
     }
 
     public void insertFunction(String id, ASTNode node) throws DuplicateDefinitionException {
@@ -67,7 +69,7 @@ public class SymbolsTable {
     }
 
     public ASTNode getReference(String id) throws InvalidIdException {
-        for (Map<String, ASTNode> m : stackScope) {
+        for (Map<String, ASTNode> m : symbolsScope) {
             if (m.containsKey(id))
                 return m.get(id);
         }
@@ -100,8 +102,16 @@ public class SymbolsTable {
         return definitions.get(id);
     }
 
-    public boolean doesTypeExist(Id_Type type) {
+    public boolean doesTypeExist(Defined_Type type) {
         return definitions.containsKey(type.getName());
+    }
+
+    public void setCurrentDefinition(String s) {
+        this.currentDefinition = s;
+    }
+
+    public String getCurrentDefinition() {
+        return this.currentDefinition;
     }
 }
 

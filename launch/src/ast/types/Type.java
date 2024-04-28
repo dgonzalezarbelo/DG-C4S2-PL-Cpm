@@ -1,34 +1,24 @@
 package ast.types;
 
 import ast.ASTNode;
-import ast.NodeKind;
 
 public abstract class Type implements ASTNode {
-
     protected int row;
 
-    protected enum Type_T {
-        INT, BOOL, ARRAY, CLASS, STRUCT, POINTER, REFERENCE, ID;
-
-        public String toString() {
-            return this.name();
-        }
-    }
-
-    protected Type_T type;
+    protected Type_T kind;
+    public static enum Type_T { INT, BOOL, ARRAY, CLASS, STRUCT, POINTER, REFERENCE, TEMP_UNKNOWN };
 
     public Type(Type_T v, int row) {
-        this.type = v;
+        this.kind = v;
         this.row = row;
     }
 
-    public String toString() {
-        return this.type.toString().toLowerCase();
+    public Type_T getKind() {
+        return this.kind;
     }
 
-    @Override
-    public NodeKind nodeKind() {
-        throw new UnsupportedOperationException("Unimplemented method 'nodeKind'");
+    public String toString() {
+        return this.kind.name().toLowerCase();
     }
 
     @Override

@@ -1,7 +1,6 @@
 package ast.sentences.instructions;
 
 import ast.Expression;
-import ast.KindE;
 import ast.Utils;
 import ast.preamble.Program;
 import ast.sentences.Block;
@@ -18,11 +17,6 @@ public class Case_Ins extends Instruction {
         str.append("case: " + argExpression.toString() + '\n');
         str.append(body.toString());
         return str.toString();
-    }
-
-    @Override
-    public KindE kind() {
-        throw new UnsupportedOperationException("Unimplemented method 'kind'");
     }
 
     @Override

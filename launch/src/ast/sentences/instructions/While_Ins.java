@@ -2,7 +2,6 @@ package ast.sentences.instructions;
 
 import ast.sentences.Block;
 import ast.Expression;
-import ast.KindE;
 import ast.Utils;
 import ast.preamble.Program;
 
@@ -18,11 +17,6 @@ public class While_Ins extends Instruction {
         str.append("while(" + this.argExpression.toString() + ")\n");
         str.append(body.toString());
         return str.toString();
-    }
-
-    @Override
-    public KindE kind() {
-       throw new UnsupportedOperationException("Unimplemented method 'kind'");
     }
 
     @Override

@@ -2,8 +2,6 @@ package ast.sentences.instructions;
 
 import ast.sentences.Block;
 import ast.Expression;
-import ast.KindE;
-import ast.NodeKind;
 import ast.sentences.Sentence;
 
 public abstract class Instruction extends Sentence {
@@ -15,9 +13,6 @@ public abstract class Instruction extends Sentence {
         this.body = ins;
         this.row = row;
     }
-
-    @Override
-    public NodeKind nodeKind() {return NodeKind.EXPRESSION;}
     
     @Override
     public void propagateIndentation(int indent) {
@@ -25,6 +20,5 @@ public abstract class Instruction extends Sentence {
         if (body != null) body.propagateIndentation(indent + 1);
     }
 
-    public abstract KindE kind();
     public String toString() {return "";}
 }
