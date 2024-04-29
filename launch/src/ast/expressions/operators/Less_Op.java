@@ -28,7 +28,7 @@ public class Less_Op extends EBin {
         opnd1().checkType();
         opnd2().checkType();
         if (opnd1().getType() == opnd2().getType())
-            throw new MatchingTypeException("Operands have not the same type");
+            throw new MatchingTypeException("Operands do not have the same type");
         if (opnd1().getType() != Type_T.INT)
             throw new UnexpectedTypeException(Type_T.INT.name() + " was expected but " + opnd1().getType().name() + " was read");
         return type;   

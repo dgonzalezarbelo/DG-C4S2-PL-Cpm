@@ -30,7 +30,7 @@ public class Equal_Op extends EBin {
         opnd1().checkType();
         opnd2().checkType();
         if (opnd1().getType() == opnd2().getType())
-            throw new MatchingTypeException("Operands have not the same type");
+            throw new MatchingTypeException("Operands do not have the same type");
         if (opnd1().getType() != Type_T.INT && opnd1().getType() != Type_T.BOOL)
             throw new UnexpectedTypeException(Type_T.INT.name() + " or " + Type_T.BOOL + " was expected but " + opnd1().getType().name() + " was read");
         return type;   

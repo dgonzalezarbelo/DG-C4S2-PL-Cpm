@@ -2,7 +2,11 @@ package ast.preamble;
 
 import java.util.List;
 
+<<<<<<< HEAD
 import ast.ASTNode;
+=======
+import ast.Expression;
+>>>>>>> 6c500285bc399c5efadb035c5ffd6c743f16c618
 import ast.Utils;
 import ast.expressions.Expression;
 import ast.sentences.Block;
@@ -19,17 +23,19 @@ public class Method extends Function { // Class method represents the class func
     }
     
     // Adding visibility to the function
+    // TODO No se usa de momento
     public Method(String name, List<Declaration> args, Type return_t, Block body, Expression return_var, Visibility visibility, int row) {
         super(name, args, return_t, body, return_var, row);
         this.visibility = visibility;
     }
 
+    // TODO No se usa de momento
     public void setVisibility(Visibility vis) {
         this.visibility = vis;
     }
 
     @Override
-    public String toString() {
+    public String toString() { // TODO Esto es una duplicacion de codigo acojonante
         if(this.indentation == null)
             this.propagateIndentation(0);
         StringBuilder str = new StringBuilder();
@@ -48,7 +54,6 @@ public class Method extends Function { // Class method represents the class func
         str.append("Return: " + return_var + "\n");
         return str.toString();
     }
-
     
     @Override
     public void bind() {
@@ -71,11 +76,5 @@ public class Method extends Function { // Class method represents the class func
     public Type checkType() throws Exception {
         body.checkType();
         return return_var.checkType();
-    }
-    
-    @Override
-    public void propagateIndentation(int indent) {
-        this.indentation = indent;
-        this.body.propagateIndentation(indent + 1);
     }
 }
