@@ -3,8 +3,8 @@ package ast.preamble;
 import java.util.List;
 
 import ast.ASTNode;
-import ast.Expression;
 import ast.Utils;
+import ast.expressions.Expression;
 import ast.sentences.Block;
 import ast.sentences.declarations.Declaration;
 import ast.types.Type;
@@ -73,9 +73,9 @@ public class Function extends Definition {
     }
     
     @Override
-    public void checkType() throws Exception {
+    public Type checkType() throws Exception {
         body.checkType();
-        return_var.checkType();
+        return return_var.checkType();
     }
     
     @Override

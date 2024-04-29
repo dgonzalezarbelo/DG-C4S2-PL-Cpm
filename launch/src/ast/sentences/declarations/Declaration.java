@@ -1,34 +1,28 @@
 package ast.sentences.declarations;
 
 import ast.Utils;
+import ast.expressions.values.VariableID;
 import ast.preamble.Program;
-import ast.preamble.Visibility;
 import ast.sentences.Sentence;
 import ast.types.Array_Type;
-import ast.types.VariableID;
 import ast.types.Type;
+import ast.types.Type.Type_T;
 import exceptions.DuplicateDefinitionException;
 
 public class Declaration extends Sentence {
-    private Type type;
-    private VariableID id;
-    private Visibility visibility;          // FIXME igual merece la pena hacer una clase atributo
+    protected Type type;
+    protected VariableID id;
 
     public Declaration(Type type, String id, int row) {
         this.type = type;
         this.id = new VariableID(id, row);
-        this.visibility = null;
         this.row = row;
     } 
 
-    // Adding visibility to the declaration
-    public Declaration(Type type, String id, Visibility visibility, int row) {
-        this(type, id, row);
-        this.visibility = visibility;
-    }
-
-    public void setVisibility(Visibility v) {
-        this.visibility = v;
+    public Declaration(Declaration d) {
+        this.type = d.type;
+        this.id = d.id;
+        this.row = d.row;
     }
 
     public VariableID getId() {
@@ -55,8 +49,7 @@ public class Declaration extends Sentence {
     public String toString() {
         StringBuilder str = new StringBuilder();
         Utils.appendIndent(str, indentation);
-        str.append((visibility == null ? "" : visibility.toString() + " " )
-        + this.type.toString()
+        str.append(this.type.toString()
         + " " + id.toString() + '\n');
         return str.toString();
     }
@@ -71,5 +64,21 @@ public class Declaration extends Sentence {
             System.out.println(e);
             Utils.printErrorRow(row);
         }
-	}  
+	}
+
+    @Override
+    public Type checkType() throws Exception {
+        if (this.type != null && type.getKind() == Type_T.ARRAY) {
+            Array_Type array_type = (Array_Type) type;
+            if (array_type.getDim() == null) {
+                System.out.println("NoDimensionalArrayException: you can't declare the array " + id.toString()  + " with no dimension");
+                Utils.printErrorRow(row);
+                this.type = null;
+                return null;
+            }
+        }
+        return this.type;
+    }  
 }
+
+

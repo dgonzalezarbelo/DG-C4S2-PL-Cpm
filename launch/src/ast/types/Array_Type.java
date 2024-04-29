@@ -1,25 +1,19 @@
 package ast.types;
 
-import ast.Expression;
+import ast.expressions.Expression;
 
-public class Array_Type extends Type {
+public class Array_Type extends Envelope_Type {
     private Expression dim;
-    private Type inner_type;
-    private Type outer_type; // In case this array is also the type of another "bigger" array (in terms of dimensions)
+    private Type outer_type;        // In case this array is also the type of another "bigger" array (in terms of dimensions)
     private Type inner_terminal_type;
-    private int array_dimension; // Example: int[7][][8] has an array_dimension of 3
+    private int array_dimension;    // Example: int[7][][8] has an array_dimension of 3
 
     public Array_Type(Expression dim, int row) {
-        super(Type_T.ARRAY, row);
+        super(null, row);
         this.dim = dim;
-        this.inner_type = null;
         this.outer_type = null;
         this.inner_terminal_type = null;
         this.array_dimension = 0;
-    }
-
-    public Type_T type() {
-        return Type_T.ARRAY;
     }
 
     public void setInnerType(Type t) {
@@ -73,10 +67,18 @@ public class Array_Type extends Type {
         return str.toString();
     }
 
+    public Type getInnerTerminalType() {
+        return this.inner_terminal_type;
+    }
+
+    public Expression getDim() {
+        return dim;
+    }
+
     @Override
     public void bind() {
         if (dim != null)
             dim.bind();
-        inner_type.bind();
+        super.bind();
     }
 }

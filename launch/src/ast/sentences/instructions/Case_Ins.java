@@ -1,13 +1,13 @@
 package ast.sentences.instructions;
 
-import ast.Expression;
 import ast.Utils;
-import ast.preamble.Program;
+import ast.expressions.values.Literal;
 import ast.sentences.Block;
+import ast.types.Type;
 
 public class Case_Ins extends Instruction {
 
-    public Case_Ins(Expression cond, Block body, int row) {
+    public Case_Ins(Literal cond, Block body, int row) {
         super(cond, body, row);
     }
 
@@ -21,10 +21,19 @@ public class Case_Ins extends Instruction {
 
     @Override
     public void bind() {
-        Program.symbolsTable.newScope();
         argExpression.bind(); // argExpression should be a "constant" and the binding wont change anything
         body.bind();
-        Program.symbolsTable.closeScope();
     }
-    
+
+    @Override
+    public Type checkType() throws Exception {
+        try {
+            Type t = argExpression.checkType();
+            return t;
+        } catch (Exception e) {
+            System.out.println("Case expresion failed: " + e.getMessage());
+        }
+        body.checkType();
+        return null;
+    }
 }

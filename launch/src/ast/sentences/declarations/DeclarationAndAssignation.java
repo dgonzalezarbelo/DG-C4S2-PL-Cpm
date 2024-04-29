@@ -1,9 +1,10 @@
 package ast.sentences.declarations;
 
-import ast.Expression;
+import ast.expressions.Expression;
+import ast.expressions.values.VariableID;
 import ast.sentences.Sentence;
 import ast.sentences.instructions.Assignation_Ins;
-import ast.types.VariableID;
+import ast.types.Type;
 
 public class DeclarationAndAssignation extends Sentence {
     private Declaration d;
@@ -33,4 +34,11 @@ public class DeclarationAndAssignation extends Sentence {
         d.bind();
         a.bind();
 	}
+
+    @Override
+    public Type checkType() throws Exception {
+        Type t = this.d.checkType();
+        this.a.checkType();
+        return t;
+    }
 }

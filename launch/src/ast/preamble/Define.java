@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ast.ASTNode;
-import ast.Expression;
 import ast.Utils;
+import ast.expressions.values.Literal;
 import exceptions.DuplicateDefinitionException;
+import ast.types.Type;
 
 public class Define extends Definition {
-    private Expression expression; // TODO [dani, no lo quites] quiza podria ser un tipo Literal que sea una clase abstracta que englobe a los tipos basicos Integer, Bool 
+    private Literal expression; 
 
-    public Define(String id, Expression expression, int row) { //FIXME El id no deberia ser un Id_Type, sino Id_Value. El tipo es el de la expresion
+    public Define(String id, Literal expression, int row) { //FIXME El id no deberia ser un Id_Type, sino Id_Value. El tipo es el de la expresion
         super(id, row);
         this.expression = expression;
     }
@@ -42,8 +43,9 @@ public class Define extends Definition {
 	}
     
     @Override
-    public void checkType() {
-        // nothing to do
+    public Type checkType() throws Exception {
+        // Nothing to do
+        return expression.checkType();
     }
 
     

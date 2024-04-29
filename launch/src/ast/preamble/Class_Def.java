@@ -1,12 +1,12 @@
 package ast.preamble;
 
-import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
 import java.util.List;
 
 import ast.ASTNode;
 import ast.Utils;
 import ast.sentences.declarations.Declaration;
+import ast.types.Type;
 import exceptions.DuplicateDefinitionException;
 
 public class Class_Def extends Definition {
@@ -74,13 +74,14 @@ public class Class_Def extends Definition {
     
     
     @Override
-    public void checkType() {
+    public Type checkType() throws Exception {
         for (Declaration a : atributes)
             a.checkType();
         for (Constructor c : functions.getConstructors())
             c.checkType();
         for (Function f : functions.getMethods())
             f.checkType();
+        return null;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package ast.sentences.instructions;
 
 import ast.sentences.Block;
+import ast.types.Type;
 import ast.Utils;
 import ast.preamble.Program;
 
@@ -20,9 +21,13 @@ public class Default_Ins extends Instruction {
 
     @Override
     public void bind() {
-        Program.symbolsTable.newScope();
         body.bind();
-        Program.symbolsTable.closeScope();
+    }
+
+    @Override
+    public Type checkType() throws Exception {
+        body.checkType();
+        return null;
     }
     
 }

@@ -5,9 +5,9 @@ import ast.preamble.Definition;
 import ast.preamble.Program;
 import exceptions.InvalidTypeException;
 
-public class Defined_Type extends Type { //User defined type 
+public class Defined_Type extends Type {    // User defined type 
     private String name;
-    private Definition type_definition; 
+    private Definition type_definition;     // Contains the definition of this defined type
 
     public Defined_Type(String name, int row) {
         super(Type_T.TEMP_UNKNOWN, row);
@@ -28,5 +28,21 @@ public class Defined_Type extends Type { //User defined type
             System.out.println(e);
             Utils.printErrorRow(row);
         }
-    } 
+    }
+
+    @Override
+    public Type checkType() throws Exception { // TODO por si acaso falla
+        this.kind = type_definition.checkType().getKind();
+        return super.checkType();
+    }
+
+    @Override
+    public boolean equals(Type other) {
+        if (super.equals(other)) {
+            Defined_Type dother = (Defined_Type) other;
+            return this.getName().equals(dother.getName());
+        }            
+        else
+            return false;
+    }
 }

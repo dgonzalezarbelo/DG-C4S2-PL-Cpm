@@ -1,7 +1,9 @@
 package ast.sentences.instructions;
 
-import ast.Expression;
 import ast.Utils;
+import ast.expressions.Expression;
+import ast.types.Type;
+import exceptions.MatchingTypeException;
 
 public class Assignation_Ins extends Instruction {
     private Expression leftSide;
@@ -22,5 +24,19 @@ public class Assignation_Ins extends Instruction {
     public void bind() {
         leftSide.bind();
         argExpression.bind();
+    }
+
+    @Override
+    public Type checkType() throws Exception {
+        try {
+            Type left = leftSide.checkType();
+            Type right = argExpression.checkType();
+            if (!left.equals(right))
+                throw new MatchingTypeException("Left and right sides types in " + row + "assignation doesn't match");
+            return left;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
     }
 }

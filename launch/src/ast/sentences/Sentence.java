@@ -10,5 +10,9 @@ public abstract class Sentence implements ASTNode {
     public void propagateIndentation(int indent) {
         this.indentation = indent;
     }
+
+    public int getRow() {
+        return row;
+    }
     
 }

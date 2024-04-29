@@ -6,7 +6,9 @@ import lexicon.LexiconUnit;
 import lexicon.TokenValue;
 import errors.GestionErroresTiny;
 import ast.*;
-import ast.operators.*;
+import ast.expresions.*;
+import ast.expresions.operators.*;
+import ast.expresions.values.*;
 import ast.preamble.*;
 import ast.sentences.*;
 import ast.sentences.declarations.*;
@@ -48,7 +50,9 @@ non terminal   Program S;
 non terminal   Array_Type ARRAY_CONSTRUCTOR;
                
 non terminal   Expression EXPRESSION, B0, B1, B2, B3, B4, E0, E1, E2, E3, E4, E5, E6,
-               OPT_INTEGER, ID_EX, LITERAL, RETURN_VALUE, TERMINAL, ID_PARENTESIS;
+               OPT_INTEGER, ID_EX, RETURN_VALUE, TERMINAL, ID_PARENTESIS;
+
+non terminal   Literal LITERAL;
 
 non terminal   List<Expression> EXPRESSIONS, MORE_EXPRESSIONS;
 
@@ -124,7 +128,7 @@ VISIBILITY           ::= PUBLIC:p
 VISIBILITY           ::= PRIVATE:p
 {: RESULT = new Private_Vis(p.row); :};
 DECLARATIONS_CLASS   ::= DECLARATIONS_CLASS:array VISIBILITY:vis DECLARATION:dec SEMICOLON
-{: dec.setVisibility(vis); array.add(dec); RESULT = array; :};
+{: array.add(new Attribute(dec, vis)); RESULT = array; :};
 DECLARATIONS_CLASS   ::= /*EMPTY*/
 {: RESULT = new ArrayList<>(); :};
 
@@ -132,7 +136,7 @@ DECLARATIONS_CLASS   ::= /*EMPTY*/
 STRUCT_DEF           ::= STRUCT_T:s ID:id BRACKET_OPEN DECLARATIONS_STRUCT:declarations CONSTRUCTOR:c MORE_CONSTRUCTORS:constructors BRACKET_CLOSE
 {: List<Constructor> allConstructors = new ArrayList<>(); allConstructors.add(c); allConstructors.addAll(constructors); RESULT = new Struct(id.lexeme, declarations, allConstructors, s.row); :};
 DECLARATIONS_STRUCT  ::= DECLARATIONS_STRUCT:array DECLARATION:dec SEMICOLON
-{: array.add(dec); RESULT = array; :};
+{: array.add(new Attribute(dec)); RESULT = array; :};
 DECLARATIONS_STRUCT  ::= /*EMPTY*/
 {: RESULT = new ArrayList<>(); :};
 
@@ -156,7 +160,7 @@ MORE_ARGUMENTS    ::= MORE_ARGUMENTS:array ARGUMENT:arg COMMA
 MORE_ARGUMENTS    ::= /*EMPTY*/ 
 {: RESULT = new ArrayList<>(); :};
 ARGUMENT          ::= DECLARATION:dec 
-{: RESULT = dec; :};
+{: RESULT = new Argument(dec); :};
 FUNCTION_BODY     ::= FUNCTION_BODY:body SENTENCE:s 
 {: body.add_instruction(s); RESULT = body; :};
 FUNCTION_BODY     ::= /*EMPTY*/ 
@@ -545,11 +549,8 @@ SENTENCE             ::= IO_INS:e
 {: RESULT = e; :};
 SENTENCE             ::= SEMICOLON:s
 {: RESULT = new Empty_Ins(s.row); :};    // The last semicolon represents an empty instruction
-// SENTENCE             ::= error SEMICOLON 
-// {: RESULT = new Error_Ins(); :};
-// SENTENCE             ::= error BRACKET_CLOSE 
-// {: RESULT = new Error_Ins(); :}; 
-
+SENTENCE             ::= EXPRESSION SEMICOLON
+{: RESULT = new Expression_Ins(); :};
 
 ID_EX                ::= THIS:t FIELD_ACCESS ID:id 
 {: RESULT = new This_Op(id.lexeme, t.row); :};

@@ -1,8 +1,11 @@
 package ast.sentences.instructions;
 
 import ast.sentences.Block;
-import ast.Expression;
+import ast.types.Type;
+import ast.types.Type.Type_T;
+import exceptions.BooleanConditionException;
 import ast.Utils;
+import ast.expressions.Expression;
 import ast.preamble.Program;
 
 public class If_Ins extends Instruction {
@@ -44,5 +47,18 @@ public class If_Ins extends Instruction {
             elseBody.bind();
             Program.symbolsTable.closeScope();
         }
+    }
+
+    @Override
+    public Type checkType() throws Exception {
+        try {
+            Type_T t = argExpression.checkType().getKind();
+            if (t == null || t != Type_T.BOOL)
+                throw new BooleanConditionException("If condition must be bolean type in the row " + this.row);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        body.checkType();
+        return null;
     }
 }

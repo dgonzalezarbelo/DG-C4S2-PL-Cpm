@@ -1,12 +1,13 @@
 package ast.sentences.instructions;
 
 import ast.sentences.Sentence;
+import ast.types.Type;
 import ast.sentences.Block;
 import java.util.ArrayList;
 import java.util.List;
 
-import ast.Expression;
 import ast.Utils;
+import ast.expressions.Expression;
 import ast.preamble.Program;
 
 public class For_Ins extends Instruction {
@@ -33,6 +34,17 @@ public class For_Ins extends Instruction {
         Program.symbolsTable.newScope();
         this.body.bind();
         Program.symbolsTable.closeScope();
+    }
+
+    @Override
+    public Type checkType() throws Exception {
+        try {
+            Type t = body.checkType();
+            return t;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
     }
     
 }

@@ -1,7 +1,8 @@
 package ast.sentences.instructions;
 
-import ast.Expression;
 import ast.Utils;
+import ast.expressions.Expression;
+import ast.types.Type;
 
 public class Input_Ins extends Instruction {
 
@@ -20,5 +21,12 @@ public class Input_Ins extends Instruction {
     public void bind() {
         this.argExpression.bind();
     }
+
+    @Override
+    public Type checkType() throws Exception {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'checkType'");
+    }
+    
     
 }

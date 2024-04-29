@@ -1,6 +1,7 @@
 package ast.sentences.instructions;
 
 import ast.Utils;
+import ast.types.Type;
 
 public class Continue_Ins extends Instruction {
 
@@ -19,5 +20,4 @@ public class Continue_Ins extends Instruction {
     public void bind() {
         // Nothing to do
     }
-    
 }

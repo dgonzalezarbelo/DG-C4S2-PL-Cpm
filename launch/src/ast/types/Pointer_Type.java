@@ -1,17 +1,18 @@
 package ast.types;
 
-public class Pointer_Type extends Type {
-    private Type innerType;
+public class Pointer_Type extends Envelope_Type {
     
     public Pointer_Type(Type type, int row) {
-        super(Type_T.POINTER, row); 
-        this.innerType = type;       
+        super(type, row);
     }
 
-    public String toString() {return "~" + innerType.toString();}
+    public String toString() {return "~" + inner_type.toString();}
 
     @Override
-    public void bind() {
-        innerType.bind();
+    public boolean equals(Type other) {
+        if(other.getClass().isAssignableFrom(Envelope_Type.class))
+            return this.getInnerType().equals(((Envelope_Type) other).getInnerType());
+        else
+            return false;
     }
 }

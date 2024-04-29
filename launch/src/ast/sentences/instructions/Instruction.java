@@ -1,8 +1,9 @@
 package ast.sentences.instructions;
 
+import ast.expressions.Expression;
 import ast.sentences.Block;
-import ast.Expression;
 import ast.sentences.Sentence;
+import ast.types.Type;
 
 public abstract class Instruction extends Sentence {
     protected Expression argExpression;
@@ -21,4 +22,9 @@ public abstract class Instruction extends Sentence {
     }
 
     public String toString() {return "";}
+
+    public Type checkType() throws Exception {
+        return null;
+    }
+    
 }

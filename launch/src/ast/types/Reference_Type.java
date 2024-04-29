@@ -1,10 +1,10 @@
 package ast.types;
 
-public class Reference_Type extends Type {
+public class Reference_Type extends Type { // TODO Eliminar clase y arregla la gramatica acorde
     private Type innerType;
     
     public Reference_Type(Type t, int row) {
-        super(Type_T.REFERENCE, row);
+        super(Type_T.POINTER, row);
         this.innerType = t;
     }
 

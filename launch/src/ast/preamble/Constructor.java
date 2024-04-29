@@ -2,7 +2,7 @@ package ast.preamble;
 
 import java.util.List;
 
-import ast.Expression;
+import ast.expressions.Expression;
 import ast.sentences.Block;
 import ast.sentences.declarations.Declaration;
 import ast.types.Type;

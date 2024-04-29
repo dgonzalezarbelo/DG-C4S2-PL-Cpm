@@ -6,7 +6,7 @@ public abstract class Type implements ASTNode {
     protected int row;
 
     protected Type_T kind;
-    public static enum Type_T { INT, BOOL, ARRAY, CLASS, STRUCT, POINTER, REFERENCE, TEMP_UNKNOWN };
+    public static enum Type_T { INT, BOOL, CLASS, STRUCT, POINTER, ARRAY, TEMP_UNKNOWN };
 
     public Type(Type_T v, int row) {
         this.kind = v;
@@ -22,7 +22,16 @@ public abstract class Type implements ASTNode {
     }
 
     @Override
+    public Type checkType() throws Exception {
+        return this;
+    }
+
+    @Override
     public void propagateIndentation(int indent) {
         // Nothing to do
+    }
+
+    public boolean equals(Type other) {
+        return this.kind == other.kind;
     }
 } 

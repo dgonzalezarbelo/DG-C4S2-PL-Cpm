@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ast.ASTNode;
+import ast.types.Type;
 
 public class Block implements ASTNode {
     public List<Sentence> ins;
@@ -47,5 +48,12 @@ public class Block implements ASTNode {
         for (Sentence s : ins) {
             s.bind();
         }
+    }
+
+    @Override
+	public Type checkType() throws Exception {
+        for (Sentence s : ins)
+            s.checkType();
+        return null;
     }
 }

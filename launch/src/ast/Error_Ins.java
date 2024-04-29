@@ -20,4 +20,10 @@ public class Error_Ins extends Instruction {
     public void bind() {
         // Nothing to do
     }
+
+    @Override
+    public void checkType() throws Exception {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'checkType'");
+    }
 }
