@@ -36,7 +36,7 @@ public class Program implements ASTNode {
     }
 
     @Override
-    public void checkType() {
+    public Type checkType() {
         for (Definition d : definitions)
             d.checkType();
         mainFuncion.checkType();

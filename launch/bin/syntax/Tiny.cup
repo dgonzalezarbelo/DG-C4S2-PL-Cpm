@@ -63,7 +63,9 @@ non terminal   List<Sentence> CASES_INS;
 
 non terminal   Declaration DECLARATION, ARGUMENT;
 
-non terminal   List<Declaration>  DECLARATIONS_CLASS, DECLARATIONS_STRUCT, ARGUMENTS, MORE_ARGUMENTS;
+non terminal   List<Argument>  ARGUMENTS, MORE_ARGUMENTS;
+
+non terminal   List<Attribute>  DECLARATIONS_CLASS, DECLARATIONS_STRUCT;
 
 non terminal   Function MAIN_INS, FUNCTION_DEF, TYPED_FUNCTION, VOID_FUNCTION;
 
@@ -468,11 +470,13 @@ E3                ::= REFERENCE_OP error
 E3                ::= E4:e 
 {: RESULT = e; :};
 
-E4                ::= E5:iz FIELD_ACCESS:f E5:dc 
+E4                ::= E4:iz FIELD_ACCESS:f ID:id
+{: RESULT = new Field_Access_Op(iz, new VariableID(id.lexeme, id.row);, f.row); :};   // a.b.c = ((a.b).c)
+E4                ::= E4:iz FIELD_ACCESS:f ID_PARENTESIS:dc
 {: RESULT = new Field_Access_Op(iz, dc, f.row); :};
 E4                ::= error FIELD_ACCESS E5:dc 
 {: RESULT = new Error_Exp(); :};
-E4                ::= E5:iz FIELD_ACCESS error
+E4                ::= E4:iz FIELD_ACCESS error
 {: RESULT = new Error_Exp(); :};
 
 E4                ::= E5:e 

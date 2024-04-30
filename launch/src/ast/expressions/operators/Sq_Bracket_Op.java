@@ -2,6 +2,10 @@ package ast.expressions.operators;
 
 import ast.expressions.EBin;
 import ast.expressions.Expression;
+import ast.types.Envelope_Type;
+import ast.types.Type;
+import ast.types.Type.Type_T;
+import exceptions.InvalidTypeException;
 
 
 public class Sq_Bracket_Op extends EBin {
@@ -15,5 +19,16 @@ public class Sq_Bracket_Op extends EBin {
     public void bind() {
         opnd1().bind();
         opnd2().bind();
+    }
+
+    @Override
+    public Type checkType() throws Exception {
+        Type leftSide = this.opnd1().checkType();
+        Type rightSide = this.opnd2().checkType();
+        if (leftSide.getKind() != Type_T.ARRAY)
+            throw new InvalidTypeException("Array access operator '[]' is only applicable for array variables");
+        if (rightSide.getKind() != Type_T.INT)
+            throw new InvalidTypeException("Array access index '[index]' must be an integer");
+        return ((Envelope_Type) leftSide).getInnerType();
     }
 }

@@ -2,11 +2,7 @@ package ast.preamble;
 
 import java.util.List;
 
-<<<<<<< HEAD
 import ast.ASTNode;
-=======
-import ast.Expression;
->>>>>>> 6c500285bc399c5efadb035c5ffd6c743f16c618
 import ast.Utils;
 import ast.expressions.Expression;
 import ast.sentences.Block;

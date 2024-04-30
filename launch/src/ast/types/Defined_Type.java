@@ -31,7 +31,7 @@ public class Defined_Type extends Type {    // User defined type
     }
 
     @Override
-    public Type checkType() throws Exception { // TODO por si acaso falla
+    public Type checkType() throws Exception { // TODO por si acaso falla [tener en cuenta que subimos hasta la clase/struct]
         this.kind = type_definition.checkType().getKind();
         return super.checkType();
     }

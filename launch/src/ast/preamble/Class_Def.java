@@ -10,10 +10,10 @@ import ast.types.Type;
 import exceptions.DuplicateDefinitionException;
 
 public class Class_Def extends Definition {
-    private List<Declaration> atributes;
+    private List<Attribute> atributes;
     private ClassFunctions functions;
 
-    public Class_Def(String name, List<Declaration> atributes, ClassFunctions functions, int row) {
+    public Class_Def(String name, List<Attribute> atributes, ClassFunctions functions, int row) {
         super(name, row);
         this.atributes = atributes;
         this.functions = functions;
