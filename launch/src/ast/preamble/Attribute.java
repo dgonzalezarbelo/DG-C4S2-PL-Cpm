@@ -15,7 +15,7 @@ public class Attribute extends Declaration {
     public Attribute(Declaration d) {
         this(d, new Public_Vis(d.getRow()));
     }
-
+    
     public void setVisibility(Visibility v) {
         this.visibility = v;
     }

@@ -52,7 +52,7 @@ public class FunctionCall extends Expression {
             candidates.add((Function) node);
         Function matched = matchWith(candidates);
         matchedFunction = matched;
-        return matched.checkType();
+        return matched.getType();
     }
 
     public Function matchWith(List<Function> fs) {

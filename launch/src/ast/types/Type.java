@@ -13,6 +13,10 @@ public abstract class Type implements ASTNode {
         this.row = row;
     }
 
+    public int getRow() {
+        return row;
+    }
+
     public Type_T getKind() {
         return this.kind;
     }
@@ -29,6 +33,10 @@ public abstract class Type implements ASTNode {
     @Override
     public void propagateIndentation(int indent) {
         // Nothing to do
+    }
+
+    public Type getRootType() {
+        return this;
     }
 
     public boolean equals(Type other) {

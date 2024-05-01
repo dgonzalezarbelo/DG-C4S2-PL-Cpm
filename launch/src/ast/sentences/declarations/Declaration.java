@@ -29,7 +29,7 @@ public class Declaration extends Sentence {
         return this.id;
     }
 
-    public Type getType() {
+    public Type getType_T() {
         return this.type;
     }
 
@@ -83,6 +83,10 @@ public class Declaration extends Sentence {
         }
         return this.type;
     }  
+
+    public Type getType() {
+        return this.type;
+    }
 }
 
 

@@ -20,5 +20,10 @@ public abstract class Literal extends Expression {
     @Override
     public Type checkType() {
         return this.type;
-    } 
+    }
+    
+    @Override
+    public Type getType() {
+        return this.type;
+    }
 }

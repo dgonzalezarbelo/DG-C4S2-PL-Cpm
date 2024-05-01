@@ -6,9 +6,9 @@ import lexicon.LexiconUnit;
 import lexicon.TokenValue;
 import errors.GestionErroresTiny;
 import ast.*;
-import ast.expresions.*;
-import ast.expresions.operators.*;
-import ast.expresions.values.*;
+import ast.expressions.*;
+import ast.expressions.operators.*;
+import ast.expressions.values.*;
 import ast.preamble.*;
 import ast.sentences.*;
 import ast.sentences.declarations.*;
@@ -43,49 +43,53 @@ terminal       TokenValue ID, INTEGER, INT_T,SUM_OP, SUBS_OP,
                DEFAULT, WHILE, FOR, CONTINUE, INPUT_FUNC,
                OUTPUT_FUNC, RETURN, THIS, PUBLIC, PRIVATE, MAIN;
 
-// FIXME Borrar si funciona -> terminal       TokenValue ID, INTEGER;
-
-non terminal   Program S;
+non terminal   Argument ARGUMENT;
 
 non terminal   Array_Type ARRAY_CONSTRUCTOR;
-               
+
+non terminal   Block FUNCTION_BODY, ELSE_INS;
+
+non terminal   ClassFunctions CLASS_INIT;
+
+non terminal   Constructor CONSTRUCTOR;
+
+non terminal   Declaration DECLARATION;
+
+non terminal   Default_Ins DEFAULT_CASE;
+
+non terminal   Definition DEF, CLASS_DEF, STRUCT_DEF, DEFINE_DEF, TYPEDEF_DEF;
+
 non terminal   Expression EXPRESSION, B0, B1, B2, B3, B4, E0, E1, E2, E3, E4, E5, E6,
-               OPT_INTEGER, ID_EX, RETURN_VALUE, TERMINAL, ID_PARENTESIS;
+               OPT_INTEGER, ID_EX, RETURN_VALUE, TERMINAL;
 
-non terminal   Literal LITERAL;
-
-non terminal   List<Expression> EXPRESSIONS, MORE_EXPRESSIONS;
-
-non terminal   Sentence SENTENCE, IF_INS, SWITCH_INS, DEFAULT_CASE, WHILE_INS, BREAK_INS, CONTINUE_INS, FOR_INS,
-                        IO_INS, INPUT_INS, OUTPUT_INS, ASSIGNATION_INS, DECLARATION_AND_ASSIGNATION_INS;
-
-non terminal   List<Sentence> CASES_INS;
-
-non terminal   Declaration DECLARATION, ARGUMENT;
+non terminal   Function MAIN_INS, FUNCTION_DEF, TYPED_FUNCTION, VOID_FUNCTION;
+               
+non terminal   FunctionCall ID_PARENTESIS;
 
 non terminal   List<Argument>  ARGUMENTS, MORE_ARGUMENTS;
 
 non terminal   List<Attribute>  DECLARATIONS_CLASS, DECLARATIONS_STRUCT;
 
-non terminal   Function MAIN_INS, FUNCTION_DEF, TYPED_FUNCTION, VOID_FUNCTION;
-
-non terminal   Constructor CONSTRUCTOR;
-
-non terminal   List<Method> METHODS;
+non terminal   List<Case_Ins> CASES_INS;
 
 non terminal   List<Constructor> MORE_CONSTRUCTORS;
 
-non terminal   Definition DEF, CLASS_DEF, STRUCT_DEF, DEFINE_DEF, TYPEDEF_DEF;
-
 non terminal   List<Definition> S1;
 
-non terminal   Visibility VISIBILITY;
+non terminal   List<Expression> EXPRESSIONS, MORE_EXPRESSIONS;
 
-non terminal   ClassFunctions CLASS_INIT;
+non terminal   List<Method> METHODS;
 
-non terminal   Block FUNCTION_BODY, ELSE_INS;
+non terminal   Literal LITERAL;
+
+non terminal   Program S;
+
+non terminal   Sentence SENTENCE, IF_INS, SWITCH_INS, WHILE_INS, BREAK_INS, CONTINUE_INS, FOR_INS,
+                        IO_INS, INPUT_INS, OUTPUT_INS, ASSIGNATION_INS, DECLARATION_AND_ASSIGNATION_INS;
 
 non terminal   Type TYPE, BASIC_TYPE;
+
+non terminal   Visibility VISIBILITY;
 
 
 // Grammar start
@@ -122,7 +126,7 @@ MORE_CONSTRUCTORS    ::= /*EMPTY*/
 CONSTRUCTOR          ::= ID:id PARENTESIS_OPEN ARGUMENTS:args PARENTESIS_CLOSE BRACKET_OPEN FUNCTION_BODY:body BRACKET_CLOSE
 {: RESULT = new Constructor(id.lexeme, args, null, body, null, id.row); :};
 METHODS              ::= METHODS:array VISIBILITY:vis FUNCTION_DEF:func 
-{: method = new Method(func, vis); array.add(method); RESULT = array; :};
+{: Method method = new Method(func, vis); array.add(method); RESULT = array; :};
 METHODS              ::= /*EMPTY*/ 
 {: RESULT = new ArrayList<>(); :};
 VISIBILITY           ::= PUBLIC:p
@@ -223,7 +227,7 @@ DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION:dec ASSIGNATION_OP:a NEW_OP TYP
 //{: RESULT = new Error_Ins(); :};
 
 DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION:dec ASSIGNATION_OP:a NEW_OP ID_PARENTESIS:e SEMICOLON
-{: RESULT = new DeclarationAndAssignation(dec, new New_Op(new ConstructorCall(e), a.row), a.row); :};
+{: RESULT = new DeclarationAndAssignation(dec, new New_Op(e, a.row), a.row); :};
 //DECLARATION_AND_ASSIGNATION_INS  ::= error ASSIGNATION_OP NEW_OP ID_PARENTESIS:e SEMICOLON
 //{: RESULT = new Error_Ins(); :};
 //DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION:dec ASSIGNATION_OP NEW_OP error SEMICOLON
@@ -243,7 +247,7 @@ ASSIGNATION_INS                  ::= EXPRESSION:iz ASSIGNATION_OP:a NEW_OP TYPE:
 //{: RESULT = new Error_Ins(); :};
 
 ASSIGNATION_INS                  ::= EXPRESSION:iz ASSIGNATION_OP:a NEW_OP ID_PARENTESIS:dc SEMICOLON
-{: RESULT = new Assignation_Ins(iz, new New_Op(new ConstructorCall(dc), a.row), a.row); :};
+{: RESULT = new Assignation_Ins(iz, new New_Op(dc, a.row), a.row); :};
 //ASSIGNATION_INS                  ::= error ASSIGNATION_OP NEW_OP ID_PARENTESIS:dc SEMICOLON
 //{: RESULT = new Error_Ins(); :};
 //ASSIGNATION_INS                  ::= EXPRESSION:iz ASSIGNATION_OP NEW_OP error SEMICOLON
@@ -267,7 +271,7 @@ ELSE_INS    ::= /*EMPTY*/
 // Switch
 
 SWITCH_INS        ::= SWITCH:s PARENTESIS_OPEN EXPRESSION:e PARENTESIS_CLOSE BRACKET_OPEN CASES_INS:array DEFAULT_CASE:default_case BRACKET_CLOSE 
-{: array.add(default_case); RESULT = new Switch_Ins(e, new Block(array), s.row); :};
+{: RESULT = new Switch_Ins(e, array, default_case, s.row); :};
 
 CASES_INS         ::= CASES_INS:array CASE:c PARENTESIS_OPEN LITERAL:cond PARENTESIS_CLOSE COLON FUNCTION_BODY:body 
 {: array.add(new Case_Ins(cond, body, c.row)) ; RESULT = array; :};
@@ -473,7 +477,7 @@ E3                ::= E4:e
 E4                ::= E4:iz FIELD_ACCESS:f ID:id
 {: RESULT = new Field_Access_Op(iz, new FieldID(id.lexeme, id.row), f.row); :};   // a.b.c = ((a.b).c)
 E4                ::= E4:iz FIELD_ACCESS:f ID_PARENTESIS:dc
-{: RESULT = new Field_Access_Op(iz, new MethodCall(dc), f.row); :};
+{: RESULT = new Field_Access_Op(iz, new MethodCall(dc, f.row), f.row); :};
 E4                ::= error FIELD_ACCESS E5:dc
 {: RESULT = new Error_Exp(); :};
 E4                ::= E4:iz FIELD_ACCESS error
@@ -553,8 +557,8 @@ SENTENCE             ::= IO_INS:e
 {: RESULT = e; :};
 SENTENCE             ::= SEMICOLON:s
 {: RESULT = new Empty_Ins(s.row); :};    // The last semicolon represents an empty instruction
-SENTENCE             ::= EXPRESSION SEMICOLON
-{: RESULT = new Expression_Ins(); :};
+SENTENCE             ::= EXPRESSION:e SEMICOLON:s
+{: RESULT = new Expression_Ins(e, s.row); :};
 
 //ID_EX                ::= THIS:t FIELD_ACCESS ID:id 
 //{: RESULT = new This_Op(id.lexeme, t.row); :}; // se puede borrar

@@ -1,7 +1,5 @@
 package ast.expressions.operators;
 
-import javax.naming.InvalidNameException;
-
 import ast.expressions.EBin;
 import ast.expressions.Expression;
 import ast.preamble.Attribute;
@@ -30,18 +28,18 @@ public class Field_Access_Op extends EBin {
         Type leftSide = opnd1().checkType();
         Type rightSide = opnd2().checkType();
         if (leftSide.getKind() != Type_T.CLASS && leftSide.getKind() != Type_T.STRUCT)
-            throw new InvalidTypeException("Field access operator '.' only applicable to classes or structs");
-        
-        if (opnd2().getClass().equals("Metodo")) { // TODO esto está mal hecho es para apañarme conceptualmente
+            throw new InvalidTypeException("Field access operator '.' only applicable to classes or structs"); 
+        if (opnd2().getClass().equals(MethodCall.class)) {
             Method matched = ((Defined_Type) leftSide).hasMethod((MethodCall) opnd2()); 
-            ((MethodCall) opnd2()).matchedFunction = matched; 
+            ((MethodCall) opnd2()).matchedFunction = matched;
+            return matched.getType();
         }
-        else if (opnd2().getClass().equals("campo")) {  // TODO mismo que lo de arriba
+        else if (opnd2().getClass().equals(FieldID.class)) {
             Attribute matched = ((Defined_Type) leftSide).hasAttribute((FieldID) opnd2());
             ((FieldID) opnd2()).setReference(matched);
-        }
-        
-        return ???;
+            return matched.getType();
+        }        
+        return null;
     }
 }
 

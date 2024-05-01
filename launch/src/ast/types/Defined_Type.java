@@ -2,6 +2,8 @@ package ast.types;
 
 import ast.Utils;
 import ast.expressions.operators.MethodCall;
+import ast.expressions.values.FieldID;
+import ast.preamble.Attribute;
 import ast.preamble.Definition;
 import ast.preamble.Method;
 import ast.preamble.Program;
@@ -14,6 +16,12 @@ public class Defined_Type extends Type {    // User defined type
     public Defined_Type(String name, int row) {
         super(Type_T.TEMP_UNKNOWN, row);
         this.name = name;
+    }
+
+    public Defined_Type(String name, int row, Type_T real_type_t, Definition type_definition) {
+        super(real_type_t, row);
+        this.name = name;
+        this.type_definition = type_definition;
     }
 
     public String getName() {
@@ -33,9 +41,15 @@ public class Defined_Type extends Type {    // User defined type
     }
 
     @Override
-    public Type checkType() throws Exception { // TODO por si acaso falla [tener en cuenta que subimos hasta la clase/struct]
-        if (this.kind == Type_T.TEMP_UNKNOWN)
-            this.kind = type_definition.checkKind();
+    public Type checkType() throws Exception { 
+        try {
+            if (this.kind == Type_T.TEMP_UNKNOWN)
+                this.kind = type_definition.checkKind();
+        }
+        catch (Exception e) {
+            System.out.println(e);
+            Utils.printErrorRow(row);
+        }
         return super.checkType();
     }
 
@@ -49,11 +63,16 @@ public class Defined_Type extends Type {    // User defined type
             return false;
     }
 
-    public Method hasMethod(MethodCall m) {
+    public Method hasMethod(MethodCall m) throws Exception {
         return this.type_definition.hasMethod(m);
     }
 
-    public Type hasAttribute(String name) {
+    public Attribute hasAttribute(FieldID name) throws Exception {
         return this.type_definition.hasAttribute(name);
+    }
+
+    @Override
+    public Type getRootType() {
+        return this.type_definition.getRootType();
     }
 }

@@ -8,4 +8,7 @@ public interface ASTNode {
     public Type checkType() throws Exception;
     public String toString();
     public void propagateIndentation(int indent); // To print the AST
+    public default Type getType() {
+        return null;
+    }
 }

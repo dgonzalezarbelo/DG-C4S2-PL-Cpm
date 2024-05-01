@@ -24,8 +24,8 @@ public class Not_Op extends EUnary {
     @Override
     public Type checkType() throws Exception { 
         opnd1().checkType();
-        if (opnd1().getType() != Type_T.BOOL)
-            throw new UnexpectedTypeException(Type_T.BOOL.name() + " was expected but " + opnd1().getType().name() + " was read");
+        if (opnd1().getType_T() != Type_T.BOOL)
+            throw new UnexpectedTypeException(Type_T.BOOL.name() + " was expected but " + opnd1().getType_T().name() + " was read");
         return type;   
     }
 }

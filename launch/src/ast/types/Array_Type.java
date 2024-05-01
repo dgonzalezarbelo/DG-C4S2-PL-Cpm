@@ -4,9 +4,9 @@ import ast.expressions.Expression;
 
 public class Array_Type extends Envelope_Type {
     private Expression dim;
-    private Type outer_type;        // In case this array is also the type of another "bigger" array (in terms of dimensions)
-    private Type inner_terminal_type;
-    private int array_dimension;    // Example: int[7][][8] has an array_dimension of 3
+    private Type outer_type;            // In case this array is also the type of another "bigger" array (in terms of dimensions)
+    private Type inner_terminal_type;   // Example: int[7][][8] has an inner_terminal_type 
+    private int array_dimension;        // Example: int[7][][8] has an array_dimension of 3
 
     public Array_Type(Expression dim, int row) {
         super(null, row);

@@ -12,7 +12,7 @@ import exceptions.DuplicateDefinitionException;
 public class Method extends Function { // Class method represents the class functions
     protected Visibility visibility;
 
-    public Method(Function f, Visibility visibility, int row) {
+    public Method(Function f, Visibility visibility) {
         super(f.getId(), f.args, f.return_t, f.body, f.return_var, f.row);
         this.visibility = visibility;
     }

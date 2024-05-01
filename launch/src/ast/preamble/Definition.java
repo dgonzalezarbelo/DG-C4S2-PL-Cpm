@@ -5,8 +5,8 @@ import java.util.List;
 import ast.ASTNode;
 import ast.expressions.operators.MethodCall;
 import ast.expressions.values.FieldID;
-import ast.types.Type;
 import ast.types.Type.Type_T;
+import ast.types.Type;
 
 public abstract class Definition implements ASTNode {
     protected Integer indentation;
@@ -15,7 +15,6 @@ public abstract class Definition implements ASTNode {
     
     public Definition(String name, int row) {
         this.indentation = null;
-
         this.id = name;
         this.row = row;
     }
@@ -28,9 +27,14 @@ public abstract class Definition implements ASTNode {
         return this.row;
     }
 
-    public abstract Type_T checkKind();
-    public abstract Attribute hasAttribute(FieldID name);
-    public abstract Method hasMethod(MethodCall fc);
+    public Type getRootType() {
+        // Nothing to do in general
+        return null;
+    }
+
+    public abstract Type_T checkKind() throws Exception; // this function returns the kind of the definition of the defined type 
+    public abstract Attribute hasAttribute(FieldID name) throws Exception;
+    public abstract Method hasMethod(MethodCall fc) throws Exception;
     public abstract String toString();
     public abstract List<ASTNode> getReferences();
 }

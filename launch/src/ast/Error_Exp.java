@@ -1,6 +1,7 @@
 package ast;
 
 import ast.expressions.Expression;
+import ast.types.Type;
 
 public class Error_Exp extends Expression {
     
@@ -22,7 +23,7 @@ public class Error_Exp extends Expression {
     }
 
     @Override
-    public void checkType() throws Exception {
+    public Type checkType() throws Exception {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'checkType'");
     }

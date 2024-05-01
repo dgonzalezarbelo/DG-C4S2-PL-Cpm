@@ -39,8 +39,16 @@ public class Program implements ASTNode {
     @Override
     public Type checkType() {
         for (Definition d : definitions)
+            d.getRootType();
+        try {
+            for (Definition d : definitions)
             d.checkType();
-        mainFuncion.checkType();
+            mainFuncion.checkType();
+        } catch (Exception e) {
+            System.out.println("This exception indicates that something far away from typing went wrong (in other case the program would have restored at a class/struct/function definition)");
+        }
+        
+        return null;
     }   
 
     @Override

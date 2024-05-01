@@ -35,6 +35,6 @@ public class ThisID extends Expression {
 
     @Override
     public Type checkType() throws Exception {
-        return this.thisReference.checkType();
+        return this.thisReference.getType();
     } 
 }

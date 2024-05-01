@@ -16,6 +16,8 @@ public class ReconSyntax {
 		Program root = (Program) asint.parse().value;
 		Utils.clearConsole();
 		root.bind();
+		root.checkType();
+		Utils.clearConsole();
 		System.out.println(root);
 	}
 }   

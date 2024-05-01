@@ -9,11 +9,15 @@ import ast.ASTNode;
 import ast.Utils;
 import ast.expressions.Expression;
 import ast.expressions.operators.MethodCall;
+import ast.expressions.values.FieldID;
 import ast.sentences.Block;
 import ast.sentences.declarations.Declaration;
 import ast.types.Type;
 import ast.types.Type.Type_T;
 import exceptions.DuplicateDefinitionException;
+import exceptions.MatchingTypeException;
+import exceptions.UndefinedAttributeException;
+import exceptions.UndefinedFunctionException;
 
 public class Function extends Definition {
     protected List<Argument> args;
@@ -80,9 +84,18 @@ public class Function extends Definition {
     @Override
     public Type checkType() throws Exception {
         body.checkType();
-        return return_var.checkType();
+        try {
+            Type returnType = return_var.checkType();
+            if(returnType.equals(return_t)) {
+                throw new MatchingTypeException(String.format("The returning type of the function doesnt match the typeof the return value in the row %d", return_t.getRow()));
+            }
+        }
+        catch (Exception e) {
+            System.out.println(e);
+        }
+        return return_t;
     }
-    
+
     @Override
     public void propagateIndentation(int indent) {
         this.indentation = indent;
@@ -94,20 +107,24 @@ public class Function extends Definition {
         return null;
     }
 
-    @Override
-    public Attribute hasAttribute(String name) {
-        return null;
+    public Type getType(){
+        return return_t;
     }
 
     @Override
-    public Method hasMethod(MethodCall m) {
-        return null;
+    public Attribute hasAttribute(FieldID name) throws Exception {
+        throw new UndefinedAttributeException("There are no attributes defined inside a function");
+    }
+
+    @Override
+    public Method hasMethod(MethodCall m) throws Exception {
+        throw new UndefinedFunctionException("There are no methods defined inside a function");
     }
 
     public String hash() {
         List<Type> types = new ArrayList<>();
         for (Argument a : args)
-            types.add(a.getType());
+            types.add(a.getType_T());
         return hash(this.id, types);
     }
     

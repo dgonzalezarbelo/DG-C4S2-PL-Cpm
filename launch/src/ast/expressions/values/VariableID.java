@@ -30,6 +30,6 @@ public class VariableID extends Expression {
 
     @Override
     public Type checkType() throws Exception {
-        return this.id_node.checkType();
+        return this.id_node.getType();
     }  
 }
