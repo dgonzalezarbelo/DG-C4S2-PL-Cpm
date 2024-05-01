@@ -6,7 +6,6 @@ import ast.ASTNode;
 import ast.Utils;
 import ast.expressions.Expression;
 import ast.sentences.Block;
-import ast.sentences.declarations.Declaration;
 import ast.types.Type;
 import exceptions.DuplicateDefinitionException;
 
@@ -20,7 +19,7 @@ public class Method extends Function { // Class method represents the class func
     
     // Adding visibility to the function
     // TODO No se usa de momento
-    public Method(String name, List<Declaration> args, Type return_t, Block body, Expression return_var, Visibility visibility, int row) {
+    public Method(String name, List<Argument> args, Type return_t, Block body, Expression return_var, Visibility visibility, int row) {
         super(name, args, return_t, body, return_var, row);
         this.visibility = visibility;
     }

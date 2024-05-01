@@ -1,18 +1,17 @@
-package ast.expressions.operators;
+package ast.expressions.values;
 
 import ast.ASTNode;
 import ast.Utils;
-import ast.expressions.EUnary;
-import ast.expressions.values.VariableID;
+import ast.expressions.Expression;
 import ast.preamble.Program;
 import ast.types.Type;
 import exceptions.InvalidTypeException;
 
-public class This_Op extends EUnary {
-    private ASTNode thisReference;
+public class ThisID extends Expression {
+    private ASTNode thisReference; // This must be a class or a struct
 
-    public This_Op(String opnd, int row) {
-        super(new VariableID(opnd, row), row);
+    public ThisID(int row) {
+        this.row = row;
     }
     
     public String toString() {return "dis." + opnd1().toString();}
@@ -36,23 +35,6 @@ public class This_Op extends EUnary {
 
     @Override
     public Type checkType() throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'checkType'");
-    }
+        return this.thisReference.checkType();
+    } 
 }
-
-
-/*
-clas Alumno {
-    public int a
-
-    Alumno() {
-
-    }
-
-func ....
-int a;
-
-this.a;
-}
-*/

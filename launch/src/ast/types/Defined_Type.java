@@ -1,7 +1,9 @@
 package ast.types;
 
 import ast.Utils;
+import ast.expressions.operators.MethodCall;
 import ast.preamble.Definition;
+import ast.preamble.Method;
 import ast.preamble.Program;
 import exceptions.InvalidTypeException;
 
@@ -32,7 +34,8 @@ public class Defined_Type extends Type {    // User defined type
 
     @Override
     public Type checkType() throws Exception { // TODO por si acaso falla [tener en cuenta que subimos hasta la clase/struct]
-        this.kind = type_definition.checkType().getKind();
+        if (this.kind == Type_T.TEMP_UNKNOWN)
+            this.kind = type_definition.checkKind();
         return super.checkType();
     }
 
@@ -44,5 +47,13 @@ public class Defined_Type extends Type {    // User defined type
         }            
         else
             return false;
+    }
+
+    public Method hasMethod(MethodCall m) {
+        return this.type_definition.hasMethod(m);
+    }
+
+    public Type hasAttribute(String name) {
+        return this.type_definition.hasAttribute(name);
     }
 }

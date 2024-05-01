@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import ast.preamble.Definition;
-import ast.types.Defined_Type;
 import exceptions.DuplicateDefinitionException;
 import exceptions.InvalidIdException;
 import exceptions.InvalidTypeException;
@@ -102,9 +101,9 @@ public class SymbolsTable {
         return definitions.get(id);
     }
 
-    public boolean doesTypeExist(Defined_Type type) {
-        return definitions.containsKey(type.getName());
-    }
+    // public boolean doesTypeExist(Defined_Type type) {
+    //     return definitions.containsKey(type.getName());
+    // }
 
     public void setCurrentDefinition(String s) {
         this.currentDefinition = s;

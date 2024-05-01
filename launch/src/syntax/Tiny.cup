@@ -206,7 +206,7 @@ ARRAY_CONSTRUCTOR                ::= /*EMPTY*/
 {: RESULT = null; :};
 
 ID_PARENTESIS                    ::= ID:id PARENTESIS_OPEN EXPRESSIONS:expressions PARENTESIS_CLOSE
-{: RESULT = new Parentesis_Op(id.lexeme, expressions, id.row); :};
+{: RESULT = new FunctionCall(id.lexeme, expressions, id.row); :};
 
 DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION:dec ASSIGNATION_OP:a EXPRESSION:e SEMICOLON 
 {: RESULT = new DeclarationAndAssignation(dec, e, a.row); :};
@@ -223,7 +223,7 @@ DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION:dec ASSIGNATION_OP:a NEW_OP TYP
 //{: RESULT = new Error_Ins(); :};
 
 DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION:dec ASSIGNATION_OP:a NEW_OP ID_PARENTESIS:e SEMICOLON
-{: RESULT = new DeclarationAndAssignation(dec, new New_Op(e, a.row), a.row); :};
+{: RESULT = new DeclarationAndAssignation(dec, new New_Op(new ConstructorCall(e), a.row), a.row); :};
 //DECLARATION_AND_ASSIGNATION_INS  ::= error ASSIGNATION_OP NEW_OP ID_PARENTESIS:e SEMICOLON
 //{: RESULT = new Error_Ins(); :};
 //DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION:dec ASSIGNATION_OP NEW_OP error SEMICOLON
@@ -243,7 +243,7 @@ ASSIGNATION_INS                  ::= EXPRESSION:iz ASSIGNATION_OP:a NEW_OP TYPE:
 //{: RESULT = new Error_Ins(); :};
 
 ASSIGNATION_INS                  ::= EXPRESSION:iz ASSIGNATION_OP:a NEW_OP ID_PARENTESIS:dc SEMICOLON
-{: RESULT = new Assignation_Ins(iz, new New_Op(dc, a.row), a.row); :};
+{: RESULT = new Assignation_Ins(iz, new New_Op(new ConstructorCall(dc), a.row), a.row); :};
 //ASSIGNATION_INS                  ::= error ASSIGNATION_OP NEW_OP ID_PARENTESIS:dc SEMICOLON
 //{: RESULT = new Error_Ins(); :};
 //ASSIGNATION_INS                  ::= EXPRESSION:iz ASSIGNATION_OP NEW_OP error SEMICOLON
@@ -471,10 +471,10 @@ E3                ::= E4:e
 {: RESULT = e; :};
 
 E4                ::= E4:iz FIELD_ACCESS:f ID:id
-{: RESULT = new Field_Access_Op(iz, new VariableID(id.lexeme, id.row);, f.row); :};   // a.b.c = ((a.b).c)
+{: RESULT = new Field_Access_Op(iz, new FieldID(id.lexeme, id.row), f.row); :};   // a.b.c = ((a.b).c)
 E4                ::= E4:iz FIELD_ACCESS:f ID_PARENTESIS:dc
-{: RESULT = new Field_Access_Op(iz, dc, f.row); :};
-E4                ::= error FIELD_ACCESS E5:dc 
+{: RESULT = new Field_Access_Op(iz, new MethodCall(dc), f.row); :};
+E4                ::= error FIELD_ACCESS E5:dc
 {: RESULT = new Error_Exp(); :};
 E4                ::= E4:iz FIELD_ACCESS error
 {: RESULT = new Error_Exp(); :};
@@ -556,12 +556,16 @@ SENTENCE             ::= SEMICOLON:s
 SENTENCE             ::= EXPRESSION SEMICOLON
 {: RESULT = new Expression_Ins(); :};
 
-ID_EX                ::= THIS:t FIELD_ACCESS ID:id 
-{: RESULT = new This_Op(id.lexeme, t.row); :};
-ID_EX                ::= ID:id 
+//ID_EX                ::= THIS:t FIELD_ACCESS ID:id 
+//{: RESULT = new This_Op(id.lexeme, t.row); :}; // se puede borrar
+//ID_EX                ::= THIS:t FIELD_ACCESS ID_PARENTESIS:id 
+//{: RESULT = new This_Op(id.lexeme, t.row); :}; // se puede borrar
+ID_EX                ::= ID:id
 {: RESULT = new VariableID(id.lexeme, id.row); :};
 ID_EX                ::= ID_PARENTESIS:e 
 {: RESULT = e ; :};
+ID_EX                ::= THIS:t
+{: RESULT = new ThisID(t.row); ; :};
 
 LITERAL              ::= INTEGER:e 
 {: RESULT = new Int_Value(e.lexeme, e.row); :};

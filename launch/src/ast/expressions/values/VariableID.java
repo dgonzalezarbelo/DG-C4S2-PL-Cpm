@@ -8,8 +8,8 @@ import ast.types.Type;
 import exceptions.InvalidIdException;
 
 public class VariableID extends Expression {
-    private String v;
-    private ASTNode id_node; // Declaration or define node reference
+    protected String v;
+    protected ASTNode id_node; // Declaration or define node reference
 
     public VariableID(String v, int row) {
         this.v = v;
@@ -19,7 +19,7 @@ public class VariableID extends Expression {
     public String toString() {return v;}
 
     @Override
-    public void bind() {  //TODO errores de binding identificador
+    public void bind() {
         try {
           this.id_node = Program.symbolsTable.getReference(v);
         } catch (InvalidIdException e) {

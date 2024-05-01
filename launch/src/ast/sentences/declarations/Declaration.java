@@ -33,6 +33,10 @@ public class Declaration extends Sentence {
         return this.type;
     }
 
+    public String getName() {
+        return this.id.toString();
+    }
+
     public static Declaration manageDeclaration(Type t, String id, Array_Type array, int row) {
         return new Declaration(manageType(t, array), id, row);
     }

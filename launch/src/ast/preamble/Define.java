@@ -5,9 +5,11 @@ import java.util.List;
 
 import ast.ASTNode;
 import ast.Utils;
+import ast.expressions.operators.MethodCall;
 import ast.expressions.values.Literal;
 import exceptions.DuplicateDefinitionException;
 import ast.types.Type;
+import ast.types.Type.Type_T;
 
 public class Define extends Definition {
     private Literal expression; 
@@ -53,4 +55,19 @@ public class Define extends Definition {
     public void propagateIndentation(int indent) {
         this.indentation = indent;
     }
+
+	@Override
+	public Type_T checkKind() {
+		return null;
+	}
+
+	@Override
+	public Attribute hasAttribute(String name) {
+		return null;
+	}
+
+	@Override
+	public Method hasMethod(MethodCall fc) {
+		return null;
+	}
 }

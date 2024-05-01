@@ -4,6 +4,7 @@ import java.util.List;
 
 import ast.ASTNode;
 import ast.SymbolsTable;
+import ast.types.Type;
 
 public class Program implements ASTNode {
     private List<Definition> definitions;

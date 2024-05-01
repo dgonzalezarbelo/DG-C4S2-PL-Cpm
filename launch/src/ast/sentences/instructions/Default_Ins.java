@@ -3,7 +3,6 @@ package ast.sentences.instructions;
 import ast.sentences.Block;
 import ast.types.Type;
 import ast.Utils;
-import ast.preamble.Program;
 
 public class Default_Ins extends Instruction {
 
