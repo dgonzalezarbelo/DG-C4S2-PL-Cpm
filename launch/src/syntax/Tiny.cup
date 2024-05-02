@@ -87,7 +87,7 @@ non terminal   Program S;
 non terminal   Sentence SENTENCE, IF_INS, SWITCH_INS, WHILE_INS, BREAK_INS, CONTINUE_INS, FOR_INS,
                         IO_INS, INPUT_INS, OUTPUT_INS, ASSIGNATION_INS, DECLARATION_AND_ASSIGNATION_INS;
 
-non terminal   Type TYPE, BASIC_TYPE;
+non terminal   Type TYPE;
 
 non terminal   Visibility VISIBILITY;
 
@@ -227,7 +227,7 @@ DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION:dec ASSIGNATION_OP:a NEW_OP TYP
 //{: RESULT = new Error_Ins(); :};
 
 DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION:dec ASSIGNATION_OP:a NEW_OP ID_PARENTESIS:e SEMICOLON
-{: RESULT = new DeclarationAndAssignation(dec, new New_Op(e, a.row), a.row); :};
+{: RESULT = new DeclarationAndAssignation(dec, new New_Op(new ConstructorCall (e, a.row), a.row), a.row); :};
 //DECLARATION_AND_ASSIGNATION_INS  ::= error ASSIGNATION_OP NEW_OP ID_PARENTESIS:e SEMICOLON
 //{: RESULT = new Error_Ins(); :};
 //DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION:dec ASSIGNATION_OP NEW_OP error SEMICOLON
@@ -247,7 +247,7 @@ ASSIGNATION_INS                  ::= EXPRESSION:iz ASSIGNATION_OP:a NEW_OP TYPE:
 //{: RESULT = new Error_Ins(); :};
 
 ASSIGNATION_INS                  ::= EXPRESSION:iz ASSIGNATION_OP:a NEW_OP ID_PARENTESIS:dc SEMICOLON
-{: RESULT = new Assignation_Ins(iz, new New_Op(dc, a.row), a.row); :};
+{: RESULT = new Assignation_Ins(iz, new New_Op(new ConstructorCall (dc, a.row), a.row), a.row); :};
 //ASSIGNATION_INS                  ::= error ASSIGNATION_OP NEW_OP ID_PARENTESIS:dc SEMICOLON
 //{: RESULT = new Error_Ins(); :};
 //ASSIGNATION_INS                  ::= EXPRESSION:iz ASSIGNATION_OP NEW_OP error SEMICOLON
@@ -517,17 +517,13 @@ TERMINAL             ::= ID_EX:e
 
 // Frequently used expresions
 
-TYPE                 ::= BASIC_TYPE:t REFERENCE_OP:r
-{: RESULT = new Reference_Type(t, r.row); :};
-TYPE                 ::= BASIC_TYPE:t
-{: RESULT = t; :};
-BASIC_TYPE           ::= INT_T:i
+TYPE           ::= INT_T:i
 {: RESULT = new Int_Type(i.row); :};
-BASIC_TYPE           ::= BOOLEAN_T:b
+TYPE           ::= BOOLEAN_T:b
 {: RESULT = new Bool_Type(b.row); :};
-BASIC_TYPE           ::= ID:id
+TYPE           ::= ID:id
 {: RESULT = new Defined_Type(id.lexeme, id.row); :};
-BASIC_TYPE           ::= BASIC_TYPE:t POINTER_OP:p
+TYPE           ::= TYPE:t POINTER_OP:p
 {: RESULT = new Pointer_Type(t, p.row); :};
 
 OPT_INTEGER          ::= EXPRESSION: e

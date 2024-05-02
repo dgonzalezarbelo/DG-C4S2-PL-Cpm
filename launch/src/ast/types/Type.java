@@ -40,6 +40,9 @@ public abstract class Type implements ASTNode {
     }
 
     public boolean equals(Type other) {
-        return this.kind == other.kind;
+        if (other == null)
+            return false;
+        else
+            return this.kind == other.kind;
     }
 } 

@@ -19,8 +19,19 @@ public class Class_Def extends Struct {
 
     @Override
     public String toString() {
-        String sup = super.toString();
-        StringBuilder str = new StringBuilder(sup);
+        if(this.indentation == null)
+            this.propagateIndentation(0);
+        else
+            this.propagateIndentation(this.indentation);
+        StringBuilder str = new StringBuilder();
+        Utils.appendIndent(str, indentation);
+        str.append("Class: " + id + "\n");
+        for (Attribute i : attributes) {
+            str.append(i.toString());
+        }
+        for (Constructor f : functions.getConstructors()) {
+            str.append('\n' + f.toString());
+        }
         for (Method f : functions.getMethods())
             str.append('\n' + f.toString());
         return str.toString();
@@ -36,8 +47,8 @@ public class Class_Def extends Struct {
                     d.bind();
             
             for (Constructor c : functions.getConstructors()) {
-                if (c.getId() != this.id) {
-                    System.out.println("The constructor's name doesn't match the name of the class");
+                if (!c.getId().equals(this.id)) {
+                    System.out.format("The constructor's name '%s' doesn't match the name of the class '%s' at row %d\n", c.getId(), this.id, c.getRow());
                     continue;
                 }
                 c.bind();
@@ -54,7 +65,7 @@ public class Class_Def extends Struct {
     }
 
     @Override // TODO hacer las revisiones de public y privado
-    public Type checkType() throws Exception { // TODO revisar aqui la sobrecarga de funciones
+    public Type checkType() throws Exception {
         this.definedType = new Defined_Type(id, row, Type_T.CLASS, this);
         try {
             for (Attribute a : attributes)
@@ -65,7 +76,7 @@ public class Class_Def extends Struct {
                 f.checkType();
             functions.checkForDuplicates(); // We check if the constructors and methods are well defined or if there are duplicates (in which case we remove the duplicated definitions)
         } catch (Exception e) {
-            System.out.println("Class " + id + " definition typing failed");
+            System.out.format("Class '" + id + "' definition typing failed: %s\n", e.toString());
         }
         return this.definedType;
     }

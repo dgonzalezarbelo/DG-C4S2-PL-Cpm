@@ -18,15 +18,9 @@ public class Method extends Function { // Class method represents the class func
     }
     
     // Adding visibility to the function
-    // TODO No se usa de momento
     public Method(String name, List<Argument> args, Type return_t, Block body, Expression return_var, Visibility visibility, int row) {
         super(name, args, return_t, body, return_var, row);
         this.visibility = visibility;
-    }
-
-    // TODO No se usa de momento
-    public void setVisibility(Visibility vis) {
-        this.visibility = vis;
     }
 
     @Override
@@ -63,7 +57,7 @@ public class Method extends Function { // Class method represents the class func
     }
     
     @Override
-    public List<ASTNode> getReferences() {
+    public List<ASTNode> getConstructors() {
         return null; // This method will not be used
     }
     

@@ -42,7 +42,7 @@ public class Program implements ASTNode {
             d.getRootType();
         try {
             for (Definition d : definitions)
-            d.checkType();
+                d.checkType();
             mainFuncion.checkType();
         } catch (Exception e) {
             System.out.println("This exception indicates that something far away from typing went wrong (in other case the program would have restored at a class/struct/function definition)");

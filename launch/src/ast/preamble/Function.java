@@ -67,17 +67,17 @@ public class Function extends Definition {
     protected void propagateBind() {
         Program.symbolsTable.newScope();
         for (Declaration d : args) 
-        d.bind(); 
+            d.bind(); 
         if (return_t != null)
-        return_t.bind();
+            return_t.bind();
         body.bind();
         if (return_var != null)
-        return_var.bind();
+            return_var.bind();
         Program.symbolsTable.closeScope();
     }
 
     @Override
-    public List<ASTNode> getReferences() {
+    public List<ASTNode> getConstructors() {
         return null; // This method will not be used
     }
     
@@ -86,8 +86,8 @@ public class Function extends Definition {
         body.checkType();
         try {
             Type returnType = return_var.checkType();
-            if(returnType.equals(return_t)) {
-                throw new MatchingTypeException(String.format("The returning type of the function doesnt match the typeof the return value in the row %d", return_t.getRow()));
+            if(!returnType.equals(return_t)) {
+                throw new MatchingTypeException(String.format("The type of the returning expression at function %s '%s' doesnt match the typeof the declared return type '%s' at row %d\n", this.id, returnType, this.return_t, returnType.getRow()));
             }
         }
         catch (Exception e) {

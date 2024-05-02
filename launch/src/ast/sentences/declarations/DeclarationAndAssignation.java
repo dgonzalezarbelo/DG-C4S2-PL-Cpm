@@ -37,8 +37,7 @@ public class DeclarationAndAssignation extends Sentence {
 
     @Override
     public Type checkType() throws Exception {
-        Type t = this.d.checkType();
-        this.a.checkType();
+        Type t = this.d.checkType();        this.a.checkType();
         return t;
     }
 }

@@ -81,7 +81,7 @@ public class SymbolsTable {
         thats why we are using addAll method while iterating the Map List
         */
         if (definitions.containsKey(id))
-            return definitions.get(id).getReferences();
+            return definitions.get(id).getConstructors();
         else {
             List<ASTNode> list = new ArrayList<>();
             for (Map<String, List<ASTNode>> m : functionsScope) {
@@ -92,7 +92,6 @@ public class SymbolsTable {
                 throw new InvalidIdException("Required reference " + id + " not found");
             return list;
         }
-            
     }
 
     public Definition getDefinition(String id) throws InvalidTypeException {

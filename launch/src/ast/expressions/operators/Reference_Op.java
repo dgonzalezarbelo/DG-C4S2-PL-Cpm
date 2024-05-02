@@ -21,7 +21,7 @@ public class Reference_Op extends EUnary {
 
     @Override
     public Type checkType() throws Exception {
-        Type t = this.opnd1().checkType();
+        Type t = opnd1().checkType();
         if (t == null)
             throw new InvalidTypeException("Referenced expression must have type");
         return new Pointer_Type(t, row);

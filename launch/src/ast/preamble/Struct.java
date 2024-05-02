@@ -56,7 +56,7 @@ public class Struct extends Definition {
     }
     
     @Override
-    public List<ASTNode> getReferences() {
+    public List<ASTNode> getConstructors() {
         List<ASTNode> list = new ArrayList<>();
         for (Constructor c : functions.getConstructors())
             list.add(c);
@@ -84,8 +84,8 @@ public class Struct extends Definition {
                 d.bind();
             
             for (Constructor c : functions.getConstructors()) {
-                if (c.getId() != this.id) {
-                    System.out.println("The constructor's name doesn't match the name of the class");
+                if (!c.getId().equals(this.id)) {
+                    System.out.format("The constructor's name '%s' doesn't match the name of the struct '%s' at row %d\n", c.getId(), this.id, c.getRow());
                     continue;
                 }
                 c.bind();

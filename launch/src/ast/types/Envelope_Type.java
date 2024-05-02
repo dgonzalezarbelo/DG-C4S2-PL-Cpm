@@ -12,7 +12,14 @@ public abstract class Envelope_Type extends Type {
         return this.inner_type;
     }
 
+    @Override
     public void bind() {
         this.inner_type.bind();
+    }
+
+    @Override
+    public Type checkType() throws Exception {
+        this.inner_type.checkType();
+        return super.checkType();
     }
 }

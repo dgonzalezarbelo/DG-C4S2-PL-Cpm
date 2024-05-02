@@ -32,7 +32,7 @@ public class Assignation_Ins extends Instruction {
             Type left = leftSide.checkType();
             Type right = argExpression.checkType();
             if (!left.equals(right))
-                throw new MatchingTypeException("Left and right sides types in " + row + "assignation doesn't match");
+                throw new MatchingTypeException(String.format("Left and right sides types ('%s' and '%s') at row %d assignation doesn't match", left, right, this.row));
             return left;
         } catch (Exception e) {
             System.out.println(e);

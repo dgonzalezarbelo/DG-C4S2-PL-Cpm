@@ -27,12 +27,12 @@ public class Equal_Op extends EBin {
 
     @Override
     public Type checkType() throws Exception { 
-        opnd1().checkType();
-        opnd2().checkType();
-        if (opnd1().getType_T() == opnd2().getType_T())
-            throw new MatchingTypeException("Operands do not have the same type");
-        if (opnd1().getType_T() != Type_T.INT && opnd1().getType_T() != Type_T.BOOL)
-            throw new UnexpectedTypeException(Type_T.INT.name() + " or " + Type_T.BOOL + " was expected but " + opnd1().getType_T().name() + " was read");
+        Type left = opnd1().checkType();
+        Type right = opnd2().checkType();
+        if (left.getKind() != right.getKind())
+            throw new MatchingTypeException(String.format("'==' operands '%s' and '%s' do not have the same type at row %d", opnd1().toString(), opnd2().toString(), this.row));
+        if (left.getKind() != Type_T.INT && left.getKind() != Type_T.BOOL)
+            throw new UnexpectedTypeException(Type_T.INT.name() + " or " + Type_T.BOOL + " was expected but " + left.getKind().name() + " was read at row " + this.row);
         return type;   
     }
 }

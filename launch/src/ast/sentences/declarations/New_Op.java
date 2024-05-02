@@ -1,13 +1,16 @@
 package ast.sentences.declarations;
 
 import ast.expressions.Expression;
+import ast.expressions.operators.ConstructorCall;
+import ast.types.Pointer_Type;
 import ast.types.Type;
+import ast.types.Type.Type_T;
 
 public class New_Op extends Expression {
     Type type;
-    Expression constructor; // In case this attribute is not null then it has to be a constructor, otherwise it will not make sense
+    ConstructorCall constructor; // In case this attribute is not null then it has to be a constructor, otherwise it will not make sense
   
-    public New_Op(Expression constructor, int row) { // new for constructors [niu Alumno()]
+    public New_Op(ConstructorCall constructor, int row) { // new for constructors [niu Alumno()]
         this.constructor = constructor;
         this.row = row;
     }
@@ -22,13 +25,16 @@ public class New_Op extends Expression {
     @Override
     public void bind() {
         if (type != null)
-          type.bind();
+            type.bind();
         if (constructor != null)
-          constructor.bind();
+            constructor.bind();
     }
 
     @Override
     public Type checkType() throws Exception {
-        return this.type;
+        Type t = (constructor != null ? constructor.checkType() : this.type);
+        if (t.getKind() != Type_T.ARRAY)
+            t = new Pointer_Type(t, row);
+        return t;
     }
 }

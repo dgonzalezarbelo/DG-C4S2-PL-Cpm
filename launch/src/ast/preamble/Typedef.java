@@ -44,7 +44,7 @@ public class Typedef extends Definition {
     }
 
     @Override
-    public List<ASTNode> getReferences() {
+    public List<ASTNode> getConstructors() {
         List<ASTNode> list = new ArrayList<>();
         list.add(this);
         return list;

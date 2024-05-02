@@ -81,7 +81,7 @@ public class Declaration extends Sentence {
                 return null;
             }
         }
-        return this.type;
+        return this.type.checkType();
     }  
 
     public Type getType() {

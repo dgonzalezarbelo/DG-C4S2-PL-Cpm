@@ -36,5 +36,5 @@ public abstract class Definition implements ASTNode {
     public abstract Attribute hasAttribute(FieldID name) throws Exception;
     public abstract Method hasMethod(MethodCall fc) throws Exception;
     public abstract String toString();
-    public abstract List<ASTNode> getReferences();
+    public abstract List<ASTNode> getConstructors();
 }

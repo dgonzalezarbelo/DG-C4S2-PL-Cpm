@@ -13,7 +13,7 @@ public class Pointer_Op extends EUnary {
         super(opnd, row);
     }
     
-    public String toString() {return "~" + opnd1().toString();}
+    public String toString() {return opnd1().toString() + "~";}
 
     @Override
     public void bind() {

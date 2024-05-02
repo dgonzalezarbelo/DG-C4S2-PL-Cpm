@@ -14,7 +14,7 @@ public class ThisID extends Expression {
         this.row = row;
     }
     
-    public String toString() {return "dis." + opnd1().toString();}
+    public String toString() {return "dis";}
 
     @Override
     public void bind() {

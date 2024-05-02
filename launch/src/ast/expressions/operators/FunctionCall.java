@@ -42,7 +42,6 @@ public class FunctionCall extends Expression {
 
     @Override
     public Type checkType() throws Exception {
-        List<Type> typeArgs = new ArrayList<>();
         for (Expression arg : args)
             typeArgs.add(arg.checkType());
         if (functionReferences == null)
@@ -55,50 +54,11 @@ public class FunctionCall extends Expression {
         return matched.getType();
     }
 
-    public Function matchWith(List<Function> fs) {
+    public Function matchWith(List<Function> fs) throws UndefinedFunctionException{
         String hash = Function.hash(this.id, typeArgs);
         for (Function f : fs)
             if (f.hash().equals(hash))
                 return f;
-        return null;
+        throw new UndefinedFunctionException("There is no function that matches " + this.id + " at row " + this.row);
     }
-
-
-    /*
-     * int funcion1() {
-     *      ...
-     * }
-     * 
-     * class Clase1 {
-     * 
-     *      int funcion1() {
-     *          ...
-     *      }
-     * 
-     *      int funcion1(int a) {
-     *          ...
-     *      }
-     * }
-     * 
-     * ...
-     * 
-
-     * 
-     * int funcion1(int a) {
-     *      ...
-     * }
-     * 
-     * 
-     * int main() {
-     *      Clase1 clase;
-     *      
-     *      clase.funcion1();
-     *      funcion1(); // ARREGLADO
-     * }
-     * 
-     * 
-     */
-
-
-
 }
