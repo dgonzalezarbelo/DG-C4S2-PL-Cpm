@@ -67,6 +67,16 @@ public class SymbolsTable {
         definitions.put(id, def);
     }
 
+    public void copyDefinition(String newName, String oldName, Definition def) throws DuplicateDefinitionException {
+        if (definitions.containsKey(newName))
+            throw new DuplicateDefinitionException("There is a previous definition with the same name");
+        Definition d = definitions.get(oldName);
+        if (d != null)
+            definitions.put(newName, d);
+        else
+            definitions.put(newName, def);
+    }
+
     public ASTNode getReference(String id) throws InvalidIdException {
         for (Map<String, ASTNode> m : symbolsScope) {
             if (m.containsKey(id))

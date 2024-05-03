@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ast.ASTNode;
-import ast.Utils;
 import ast.expressions.operators.MethodCall;
 import ast.expressions.values.FieldID;
 import ast.sentences.declarations.Declaration;
@@ -36,11 +35,10 @@ public class Typedef extends Definition {
     public void bind() {
         type.bind();
         try {
-            Program.symbolsTable.insertDefinitions(this.id, this);
-        } catch (DuplicateDefinitionException e) {
-            System.out.println(e);
-            Utils.printErrorRow(row);
-        }
+			Program.symbolsTable.copyDefinition(this.id, type.getName(), this);
+		} catch (DuplicateDefinitionException e) {
+			System.out.println(e);
+		}
     }
 
     @Override
@@ -81,7 +79,7 @@ public class Typedef extends Definition {
 
     @Override
     public String getName() {
-        return this.root_definition.getName();
+        return this.type.getName();
     }
 }
 

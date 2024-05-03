@@ -51,7 +51,7 @@ public class Program implements ASTNode {
         }
         
         return null;
-    }   
+    }  
 
     @Override
     public void propagateIndentation(int indent) {

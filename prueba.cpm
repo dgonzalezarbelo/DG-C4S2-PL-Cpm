@@ -31,12 +31,18 @@ taipdef Josito Jos;
 taipdef Jos J;
 taipdef Jos Jo;
 taipdef int Enterito; 
+taipdef Enterito Ent;
+taipdef Ent E;
+taipdef Ent En;
 taipdef int arrayT[5];
 
 difain CONST_INT 10;
 difain CONST_BUL tru;
 
 func mein() : int {
+    Ent z = 1;
+    E~ a1200050 = niu En;
+    En~ b1200050 = niu Enterito;
     Enterito x = 0;
     bul y = fols;
     myClass~ c_alloc = niu myClass(x, y);
