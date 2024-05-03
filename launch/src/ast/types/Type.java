@@ -6,7 +6,7 @@ public abstract class Type implements ASTNode {
     protected int row;
 
     protected Type_T kind;
-    public static enum Type_T { INT, BOOL, CLASS, STRUCT, POINTER, ARRAY, TEMP_UNKNOWN };
+    public static enum Type_T { INT, BOOL, CLASS, STRUCT, POINTER, ARRAY, TEMP_UNKNOWN, CONST };
 
     public Type(Type_T v, int row) {
         this.kind = v;
@@ -21,12 +21,19 @@ public abstract class Type implements ASTNode {
         return this.kind;
     }
 
+    public abstract String getName();
+
     public String toString() {
         return this.kind.name().toLowerCase();
     }
 
     @Override
     public Type checkType() throws Exception {
+        return this;
+    }
+
+    @Override
+    public Type getType() {
         return this;
     }
 
@@ -39,10 +46,14 @@ public abstract class Type implements ASTNode {
         return this;
     }
 
+    public boolean canBeAssigned(Type other) {
+        return this.equals(other);
+    }
+
     public boolean equals(Type other) {
         if (other == null)
             return false;
         else
-            return this.kind == other.kind;
+            return this.getKind() == other.getKind();
     }
 } 

@@ -31,7 +31,7 @@ public class FunctionCall extends Expression {
     @Override
     public void bind() {
         try {
-            this.functionReferences = Program.symbolsTable.getMethodsDefinitions(this.id);
+            this.functionReferences = Program.symbolsTable.getFuncAndConstructsDefinitions(this.id);
         } catch (InvalidIdException e) {
             System.out.println(e);
             Utils.printErrorRow(row);
@@ -54,11 +54,21 @@ public class FunctionCall extends Expression {
         return matched.getType();
     }
 
-    public Function matchWith(List<Function> fs) throws UndefinedFunctionException{
-        String hash = Function.hash(this.id, typeArgs);
-        for (Function f : fs)
-            if (f.hash().equals(hash))
+    public Function matchWith(List<Function> fs) throws Exception {
+        for (Function f : fs) {
+            boolean match = true;
+            List<Type> types = f.getArgumentTypes();
+            if (typeArgs.size() != args.size())
+                continue;
+            for (int i = 0; i < args.size(); i++) {
+                if (!types.get(i).canBeAssigned(typeArgs.get(i))) {
+                    match = false;
+                    break;
+                }
+            }
+            if (match)
                 return f;
+        }
         throw new UndefinedFunctionException("There is no function that matches " + this.id + " at row " + this.row);
     }
 }

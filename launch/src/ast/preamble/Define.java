@@ -52,7 +52,11 @@ public class Define extends Definition {
         return expression.checkType();
     }
 
-    
+    @Override
+    public Type getRootType() {
+        return expression.getType();
+    }
+
     @Override
     public void propagateIndentation(int indent) {
         this.indentation = indent;
@@ -69,7 +73,7 @@ public class Define extends Definition {
     }
 
 	@Override
-	public Attribute hasAttribute(FieldID name) throws InvalidTypeException {
+	public Attribute hasAttribute(FieldID name, boolean insideClass) throws InvalidTypeException {
 		throw new InvalidTypeException("The defined constant shouldnt be used as a type");
 	}
 

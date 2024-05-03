@@ -1,6 +1,7 @@
 package ast.preamble;
 
 import ast.Utils;
+import ast.preamble.Visibility.Visibility_T;
 import ast.sentences.declarations.Declaration;
 import exceptions.DuplicateDefinitionException;
 
@@ -16,6 +17,10 @@ public class Attribute extends Declaration {
         this(d, new Public_Vis(d.getRow()));
     }
     
+    public boolean isPublic() {
+        return this.visibility.getVisibility() == Visibility_T.PUBLIC;
+    }
+
     public void setVisibility(Visibility v) {
         this.visibility = v;
     }

@@ -1,7 +1,5 @@
 package ast.preamble;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,9 +52,7 @@ public class Function extends Definition {
     public void bind() {
         try {
             Program.symbolsTable.insertFunction(this.id, this);
-            Program.symbolsTable.setCurrentDefinition(this.id);
             propagateBind();
-            Program.symbolsTable.setCurrentDefinition("");
         }
         catch (DuplicateDefinitionException e) {
             System.out.println(e);
@@ -80,13 +76,20 @@ public class Function extends Definition {
     public List<ASTNode> getConstructors() {
         return null; // This method will not be used
     }
+
+    public List<Type> getArgumentTypes() throws Exception {
+        List<Type> types = new ArrayList<>();
+        for (Argument a : args)
+            types.add(a.checkType());
+        return types;
+    }
     
     @Override
     public Type checkType() throws Exception {
         body.checkType();
         try {
             Type returnType = return_var.checkType();
-            if(!returnType.equals(return_t)) {
+            if(!returnType.canBeAssigned(return_t)) {
                 throw new MatchingTypeException(String.format("The type of the returning expression at function %s '%s' doesnt match the typeof the declared return type '%s' at row %d\n", this.id, returnType, this.return_t, returnType.getRow()));
             }
         }
@@ -112,7 +115,7 @@ public class Function extends Definition {
     }
 
     @Override
-    public Attribute hasAttribute(FieldID name) throws Exception {
+    public Attribute hasAttribute(FieldID name, boolean insideClass) throws Exception {
         throw new UndefinedAttributeException("There are no attributes defined inside a function");
     }
 
@@ -121,35 +124,4 @@ public class Function extends Definition {
         throw new UndefinedFunctionException("There are no methods defined inside a function");
     }
 
-    public String hash() {
-        List<Type> types = new ArrayList<>();
-        for (Argument a : args)
-            types.add(a.getType_T());
-        return hash(this.id, types);
-    }
-    
-    public static String hash(String id, List<Type> argsTypes) {
-        // Concatena el nombre de la función con los tipos de sus argumentos
-        StringBuilder hashString = new StringBuilder(id).append("(");
-        for (int i = 0; i < argsTypes.size(); i++) {
-            hashString.append(argsTypes.get(i).toString());
-            if (i < argsTypes.size() - 1)
-                hashString.append(", ");
-        }
-        hashString.append(")");
-        
-        // Aplica una función hash a la cadena resultante
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hashBytes = digest.digest(hashString.toString().getBytes());
-            StringBuilder hashHex = new StringBuilder();
-            for (byte b : hashBytes) {
-                hashHex.append(String.format("%02x", b));
-            }
-            return hashHex.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 }

@@ -15,7 +15,7 @@ public class Input_Ins extends Instruction {
     public String toString() {
         StringBuilder str = new StringBuilder();
         Utils.appendIndent(str, indentation);
-        str.append("reading " + this.argExpression.toString() + '\n');
+        str.append("writing in " + this.argExpression.toString() + '\n');
         return str.toString();
     }
 

@@ -7,7 +7,6 @@ public abstract class Literal extends Expression {
     
     public Literal(int row) {
         this.row = row;
-
     }
     
     public abstract String toString();
@@ -26,4 +25,6 @@ public abstract class Literal extends Expression {
     public Type getType() {
         return this.type;
     }
+
+    public abstract boolean equals(Literal other);
 }

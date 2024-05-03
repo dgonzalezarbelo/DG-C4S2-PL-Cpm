@@ -1,10 +1,14 @@
 package ast.sentences.declarations;
 
+import java.util.List;
+
 import ast.Utils;
+import ast.expressions.Expression;
 import ast.expressions.values.VariableID;
 import ast.preamble.Program;
 import ast.sentences.Sentence;
 import ast.types.Array_Type;
+import ast.types.Const_Type;
 import ast.types.Type;
 import ast.types.Type.Type_T;
 import exceptions.DuplicateDefinitionException;
@@ -80,12 +84,27 @@ public class Declaration extends Sentence {
                 this.type = null;
                 return null;
             }
+            if (!Const_Type.class.equals(array_type.getDim().checkType().getClass())) {
+                System.out.println("InvalidDimensionalArrayException: you can't declare the array " + id.toString()  + " with variable dimension");
+                Utils.printErrorRow(row);
+                this.type = null;
+                return null;
+            }
+            List<Expression> dimenssions = array_type.getDimenssions();
+            for (Expression e : dimenssions) {
+                if (e.checkType().getKind() != Type_T.INT) {
+                    System.out.println("InvalidDimensionalArrayException: you can't declare the array " + id.toString()  + " with no numeric dimension");
+                    Utils.printErrorRow(row);
+                    this.type = null;
+                    return null;
+                }
+            }
         }
         return this.type.checkType();
     }  
 
     public Type getType() {
-        return this.type;
+        return this.type.getType();
     }
 }
 

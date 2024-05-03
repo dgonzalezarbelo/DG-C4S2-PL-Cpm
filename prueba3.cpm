@@ -19,11 +19,10 @@ func mein() :int {
 
     // ------------------------------
 
-    errorB = fols;
+    bul errorB = fols;
     bul varBool = tru; //Bool variable
     bul varBoolToInt;
 
-/*
     suich (varBool) {
         queis (fols): 
             varBoolToInt = 0;
@@ -35,7 +34,6 @@ func mein() :int {
             errorB = tru;
             breic;
     }
-    */
 
     return 0;
 }

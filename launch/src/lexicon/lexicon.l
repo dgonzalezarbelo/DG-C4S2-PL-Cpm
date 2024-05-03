@@ -153,7 +153,7 @@ main = mein
 {cout}                          {return ops.coutUnit();}
 {return}                        {return ops.returnUnit();}
 {this}                          {return ops.thisUnit();}
-{public}                        {return ops.privateUnit();}
+{public}                        {return ops.publicUnit();}
 {private}                       {return ops.privateUnit();}
 {main}                          {return ops.mainUnit();}
 {identificator}                 {return ops.idUnit();}

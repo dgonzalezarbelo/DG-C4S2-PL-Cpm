@@ -1,23 +1,17 @@
 package ast.preamble;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import ast.types.Type;
 
 public class ClassFunctions {
     private List<Constructor> constructors;
     private List<Method> methods;
-    private Map<String, Constructor> constructorsHash;
-    private Map<String, Method> methodsHash;
-
-
 
     public ClassFunctions(List<Constructor> constructors, List<Method> methods) {
         this.constructors = constructors;
         this.methods = methods;
-        this.constructorsHash = new HashMap<>();
-        this.methodsHash = new HashMap<>();
     }
 
     public List<Constructor> getConstructors() {
@@ -36,29 +30,51 @@ public class ClassFunctions {
         constructors.remove(m);
     }
 
-    public void checkForDuplicates() {
-        List<Constructor> newConstructors = new ArrayList<>();
-        List<Method> newMethods = new ArrayList<>();
+    public void checkForDuplicates() throws Exception {
+        List<Function> newConstructors = new ArrayList<>();
+        List<Function> newMethods = new ArrayList<>();
+        boolean duplicate;
         for (Constructor c : constructors) {
-            String hash = c.hash();
-            if (constructorsHash.containsKey(hash))
+            duplicate = duplicateFunction(c, newConstructors);
+            if (duplicate)
                 System.out.format("There is a duplicated constructor definition at line %d\n", c.getRow());
-            else {
-                constructorsHash.put(hash, c);
+            else
                 newConstructors.add(c);
-            }
         }
         for (Method m : methods) {
-            String hash = m.hash();
-            if (methodsHash.containsKey(hash))
+            duplicate = duplicateFunction(m, newMethods);
+            if (duplicate)
                 System.out.format("There is a duplicated constructor definition at line %d\n", m.getRow());
-            else {
-                methodsHash.put(hash, m);
+            else
                 newMethods.add(m);
-            }
         }
-        this.constructors = newConstructors;
-        this.methods = newMethods;
+        this.constructors = new ArrayList<>();
+        for (Function c : newConstructors)
+            this.constructors.add((Constructor) c);
+        this.methods = new ArrayList<>();
+        for (Function m : newMethods)
+            this.methods.add((Method) m);
+    }
+
+    private boolean duplicateFunction(Function f, List<Function> functions) throws Exception {
+        List<Type> types1 = f.getArgumentTypes();
+        for (Function f2 : functions) {
+            boolean match = true;
+            if (!f2.getId().equals(f.getId()))
+                break;
+            List<Type> types2 = f2.getArgumentTypes();
+            if (types1.size() != types2.size())
+                break;
+            for (int i = 0; i < types1.size(); i++) {
+                if (!types1.get(i).equals(types2.get(i))) {
+                    match = false;
+                    break;
+                }
+            }
+            if (match)
+                return true;
+        }
+        return false;
     }
 
     public void propagateIndentation(int indent) {

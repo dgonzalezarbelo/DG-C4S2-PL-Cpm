@@ -19,6 +19,10 @@ public abstract class Visibility {
         this.row = row;
     }
 
+    public Visibility_T getVisibility() {
+        return this.visibility;
+    }
+
     @Override
     public String toString() {
         return visibility.toString();

@@ -13,6 +13,7 @@ import ast.types.Type.Type_T;
 import exceptions.DuplicateDefinitionException;
 import exceptions.UndefinedAttributeException;
 import exceptions.UndefinedFunctionException;
+import exceptions.VisibilityException;
 
 public class Struct extends Definition {
     protected List<Attribute> attributes;
@@ -22,11 +23,13 @@ public class Struct extends Definition {
     public Struct(String name, List<Attribute> attributes, int row) {
         super(name, row);
         this.attributes = attributes;
+        this.definedType = new Defined_Type(id, row, Type_T.STRUCT, this);
     }
     
     public Struct(String name, List<Attribute> attributes, List<Constructor> constructors, int row) {
         this(name, attributes, row);
         this.functions = new ClassFunctions(constructors, new ArrayList<>());
+        this.definedType = new Defined_Type(id, row, Type_T.STRUCT, this);
     }
 
     @Override
@@ -101,7 +104,6 @@ public class Struct extends Definition {
 
     @Override
     public Type checkType() throws Exception {
-        this.definedType = new Defined_Type(id, row, Type_T.STRUCT, this);
         try {
             for (Attribute a : attributes)
                 a.checkType();
@@ -120,10 +122,13 @@ public class Struct extends Definition {
     }
 
     @Override
-    public Attribute hasAttribute(FieldID name) throws Exception {
+    public Attribute hasAttribute(FieldID name, boolean insideClass) throws Exception {
         for (Attribute a : attributes)
-            if (a.getName().equals(name.toString()))
+            if (a.getName().equals(name.toString())) {
+                if (!insideClass && !a.isPublic())
+                    throw new VisibilityException(String.format("The attribute %s is not public", a.getName()));
                 return a;
+            }
         throw new UndefinedAttributeException("There is no attribute by the name " + name.toString() + " inside " + this.id);
     }
 

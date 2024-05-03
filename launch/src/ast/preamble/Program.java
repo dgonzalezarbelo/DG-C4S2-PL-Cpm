@@ -38,8 +38,10 @@ public class Program implements ASTNode {
 
     @Override
     public Type checkType() {
+        // Preprocess for the typedef and define statements
         for (Definition d : definitions)
             d.getRootType();
+
         try {
             for (Definition d : definitions)
                 d.checkType();

@@ -52,7 +52,8 @@ public class Typedef extends Definition {
 
     @Override
     public Type getRootType() {
-        return this.root_definition = type.getRootType();
+        this.root_definition = type.getRootType();
+        return this.root_definition;
     }
 
     @Override
@@ -69,13 +70,18 @@ public class Typedef extends Definition {
     }
 
     @Override
-    public Attribute hasAttribute(FieldID name) throws Exception {
-        return ((Defined_Type) root_definition).hasAttribute(name);
+    public Attribute hasAttribute(FieldID name, boolean insideClass) throws Exception {
+        return ((Defined_Type) root_definition).hasAttribute(name, insideClass);
     }
 
     @Override
     public Type checkType() throws Exception {
         return root_definition;
+    }
+
+    @Override
+    public String getName() {
+        return this.root_definition.getName();
     }
 }
 

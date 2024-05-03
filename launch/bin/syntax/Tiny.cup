@@ -138,7 +138,6 @@ DECLARATIONS_CLASS   ::= DECLARATIONS_CLASS:array VISIBILITY:vis DECLARATION:dec
 DECLARATIONS_CLASS   ::= /*EMPTY*/
 {: RESULT = new ArrayList<>(); :};
 
-
 STRUCT_DEF           ::= STRUCT_T:s ID:id BRACKET_OPEN DECLARATIONS_STRUCT:declarations CONSTRUCTOR:c MORE_CONSTRUCTORS:constructors BRACKET_CLOSE
 {: List<Constructor> allConstructors = new ArrayList<>(); allConstructors.add(c); allConstructors.addAll(constructors); RESULT = new Struct(id.lexeme, declarations, allConstructors, s.row); :};
 DECLARATIONS_STRUCT  ::= DECLARATIONS_STRUCT:array DECLARATION:dec SEMICOLON
@@ -526,8 +525,10 @@ TYPE           ::= ID:id
 TYPE           ::= TYPE:t POINTER_OP:p
 {: RESULT = new Pointer_Type(t, p.row); :};
 
-OPT_INTEGER          ::= EXPRESSION: e
+OPT_INTEGER          ::= LITERAL:e
 {: RESULT = e; :};
+OPT_INTEGER          ::= ID:e
+{: RESULT = new VariableID(e.lexeme, e.row); :};
 OPT_INTEGER          ::= /*EMPTY*/
 {: RESULT = null; :};
 

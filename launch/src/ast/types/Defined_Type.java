@@ -25,7 +25,7 @@ public class Defined_Type extends Type {    // User defined type
     }
 
     public String getName() {
-        return this.name;
+        return this.type_definition.getName();
     }
 
     public String toString() {return name;}
@@ -55,10 +55,8 @@ public class Defined_Type extends Type {    // User defined type
 
     @Override
     public boolean equals(Type other) {
-        if (super.equals(other)) {
-            Defined_Type dother = (Defined_Type) other;
-            return this.getName().equals(dother.getName());
-        }            
+        if (super.equals(other))
+            return this.getName().equals(other.getName());
         else
             return false;
     }
@@ -67,12 +65,17 @@ public class Defined_Type extends Type {    // User defined type
         return this.type_definition.hasMethod(m);
     }
 
-    public Attribute hasAttribute(FieldID name) throws Exception {
-        return this.type_definition.hasAttribute(name);
+    public Attribute hasAttribute(FieldID name, boolean insideClass) throws Exception {
+        return this.type_definition.hasAttribute(name, insideClass);
     }
 
     @Override
     public Type getRootType() {
         return this.type_definition.getRootType();
+    }
+
+    @Override
+    public Type getType() {
+        return getRootType();
     }
 }

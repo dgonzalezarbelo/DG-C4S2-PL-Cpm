@@ -13,6 +13,13 @@ public abstract class Envelope_Type extends Type {
     }
 
     @Override
+    public boolean equals(Type other) {
+        if(super.equals(other))
+            return this.getInnerType().equals(((Envelope_Type) other).getInnerType());
+        return false;
+    }
+
+    @Override
     public void bind() {
         this.inner_type.bind();
     }

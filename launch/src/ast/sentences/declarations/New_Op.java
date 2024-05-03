@@ -32,7 +32,13 @@ public class New_Op extends Expression {
 
     @Override
     public Type checkType() throws Exception {
-        Type t = (constructor != null ? constructor.checkType() : this.type);
+        Type t;
+        if (constructor != null)
+            t = constructor.checkType();
+        else {
+            t = this.type;
+            t.checkType();
+        }
         if (t.getKind() != Type_T.ARRAY)
             t = new Pointer_Type(t, row);
         return t;

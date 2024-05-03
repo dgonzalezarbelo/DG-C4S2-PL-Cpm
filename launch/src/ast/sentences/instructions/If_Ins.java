@@ -19,11 +19,11 @@ public class If_Ins extends Instruction {
     public String toString() {
         StringBuilder str = new StringBuilder();
         Utils.appendIndent(str, indentation);
-        str.append("if (" + this.argExpression.toString() + ")\n");
+        str.append(Utils.PURPLE + "if" + Utils.RESET + "(" + this.argExpression.toString() + ")\n");
         str.append(body.toString());
         if(!elseBody.empty()) {
             Utils.appendIndent(str, indentation);
-            str.append("else"  + '\n');
+            str.append(Utils.PURPLE + "else" + Utils.RESET + '\n');
             str.append(elseBody.toString());
         }
         return str.toString();

@@ -19,6 +19,11 @@ public class VariableID extends Expression {
     public String toString() {return v;}
 
     @Override
+    public Type getType() {
+      return id_node.getType();
+    }
+
+    @Override
     public void bind() {
         try {
           this.id_node = Program.symbolsTable.getReference(v);

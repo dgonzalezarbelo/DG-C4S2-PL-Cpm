@@ -32,8 +32,12 @@ public abstract class Definition implements ASTNode {
         return null;
     }
 
+    public String getName() {
+        return this.id;
+    }
+
     public abstract Type_T checkKind() throws Exception; // this function returns the kind of the definition of the defined type 
-    public abstract Attribute hasAttribute(FieldID name) throws Exception;
+    public abstract Attribute hasAttribute(FieldID name, boolean insideClass) throws Exception;
     public abstract Method hasMethod(MethodCall fc) throws Exception;
     public abstract String toString();
     public abstract List<ASTNode> getConstructors();

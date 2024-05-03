@@ -27,7 +27,6 @@ public class ThisID extends Expression {
             try {
                 thisReference = Program.symbolsTable.getDefinition(currDef);
             } catch (InvalidTypeException e) { // This shouldnt catch any exception
-                e.printStackTrace();
                 System.out.println("If this catch is activated means that we are having porblems inserting classes in the SymbolsTable");
             }
         }

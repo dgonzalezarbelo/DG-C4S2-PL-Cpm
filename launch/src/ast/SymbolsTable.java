@@ -75,13 +75,13 @@ public class SymbolsTable {
         throw new InvalidIdException("Required reference " + id + " not found");
     }
 
-    public List<ASTNode> getMethodsDefinitions(String id) throws InvalidIdException { 
+    public List<ASTNode> getFuncAndConstructsDefinitions(String id) throws InvalidIdException { 
         /*
         We admit inside classes functions overriding outside-defined functions
         thats why we are using addAll method while iterating the Map List
         */
         if (definitions.containsKey(id))
-            return definitions.get(id).getConstructors();
+                return definitions.get(id).getConstructors();
         else {
             List<ASTNode> list = new ArrayList<>();
             for (Map<String, List<ASTNode>> m : functionsScope) {

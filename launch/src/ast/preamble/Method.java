@@ -24,7 +24,7 @@ public class Method extends Function { // Class method represents the class func
     }
 
     @Override
-    public String toString() { // TODO Esto es una duplicacion de codigo acojonante
+    public String toString() {
         if(this.indentation == null)
             this.propagateIndentation(0);
         StringBuilder str = new StringBuilder();

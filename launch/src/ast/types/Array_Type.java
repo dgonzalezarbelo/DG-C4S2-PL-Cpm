@@ -1,5 +1,8 @@
 package ast.types;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ast.expressions.Expression;
 
 public class Array_Type extends Envelope_Type {
@@ -10,6 +13,7 @@ public class Array_Type extends Envelope_Type {
 
     public Array_Type(Expression dim, int row) {
         super(null, row);
+        this.kind = Type_T.ARRAY;
         this.dim = dim;
         this.outer_type = null;
         this.inner_terminal_type = null;
@@ -73,6 +77,25 @@ public class Array_Type extends Envelope_Type {
 
     public Expression getDim() {
         return dim;
+    }
+
+    public List<Expression> getDimenssions() {
+        List<Expression> dimenssions = new ArrayList<>();
+        dimenssions.add(dim);
+        if (array_dimension > 1) {
+            List<Expression> inner_dimenssions = ((Array_Type) inner_type).getDimenssions();
+            List<Expression> ret = new ArrayList<>();
+            ret.add(dim);
+            for (Expression e : inner_dimenssions)
+                ret.add(e);
+            return ret;
+        }
+        return dimenssions;
+    }
+
+    @Override
+    public String getName() {
+        return inner_type.getName() + "[" + this.dim + "]";
     }
 
     @Override

@@ -15,6 +15,7 @@ public class Class_Def extends Struct {
     public Class_Def(String name, List<Attribute> attributes, ClassFunctions functions, int row) {
         super(name, attributes, row);
         this.functions = functions;
+        this.definedType = new Defined_Type(id, row, Type_T.CLASS, this);
     }
 
     @Override
@@ -64,9 +65,8 @@ public class Class_Def extends Struct {
         Program.symbolsTable.setCurrentDefinition(""); // empty String to represent that we are outside the class
     }
 
-    @Override // TODO hacer las revisiones de public y privado
+    @Override
     public Type checkType() throws Exception {
-        this.definedType = new Defined_Type(id, row, Type_T.CLASS, this);
         try {
             for (Attribute a : attributes)
                 a.checkType();

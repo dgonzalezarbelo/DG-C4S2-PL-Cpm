@@ -1,8 +1,13 @@
 package ast.expressions.operators;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import ast.ASTNode;
 import ast.expressions.Expression;
+import ast.preamble.Function;
+import ast.types.Type;
+import exceptions.UndefinedFunctionException;
 
 
 public class MethodCall extends FunctionCall { 
@@ -19,5 +24,12 @@ public class MethodCall extends FunctionCall {
     public void bind() { 
         for (Expression exp : args)
           exp.bind();
+    }
+
+    @Override
+    public Type checkType() throws Exception {
+        for (Expression arg : args)
+            typeArgs.add(arg.checkType());
+        return null;
     }
 }

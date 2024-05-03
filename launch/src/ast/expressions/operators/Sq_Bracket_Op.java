@@ -26,9 +26,9 @@ public class Sq_Bracket_Op extends EBin {
         Type leftSide = this.opnd1().checkType();
         Type rightSide = this.opnd2().checkType();
         if (leftSide.getKind() != Type_T.ARRAY)
-            throw new InvalidTypeException("Array access operator '[]' is only applicable for array variables");
+            throw new InvalidTypeException("Array access operator '[]' is only applicable for array variables at row " + this.row);
         if (rightSide.getKind() != Type_T.INT)
-            throw new InvalidTypeException("Array access index '[index]' must be an integer");
+            throw new InvalidTypeException("Array access index '[index]' must be an integer at row " + this.row);
         return ((Envelope_Type) leftSide).getInnerType();
     }
 }
