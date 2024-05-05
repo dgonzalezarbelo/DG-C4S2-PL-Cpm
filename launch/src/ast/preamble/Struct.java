@@ -19,7 +19,7 @@ public class Struct extends Definition {
     protected List<Attribute> attributes;
     protected ClassFunctions functions;
     protected Type definedType;
-
+    
     public Struct(String name, List<Attribute> attributes, int row) {
         super(name, row);
         this.attributes = attributes;
@@ -136,4 +136,14 @@ public class Struct extends Definition {
     public Method hasMethod(MethodCall mc) throws Exception {
         throw new UndefinedFunctionException("There are no methods inside a struct");
     }      
+
+    @Override
+    public void maxMemory(Integer c, Integer max) {
+        maximumMemory = 0;
+        Integer curr = 0;
+        for (Attribute a : attributes)
+            a.maxMemory(curr, maximumMemory);
+        functions.maxMemory(0, 0);
+        maximumMemory = curr;
+    }
 }

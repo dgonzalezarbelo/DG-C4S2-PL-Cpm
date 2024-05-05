@@ -36,4 +36,10 @@ public class Case_Ins extends Instruction {
         body.checkType();
         return null;
     }
+
+    @Override
+    public void maxMemory(Integer c, Integer max) {
+        body.maxMemory(c, max);
+        // FIXME falta el literal 100 por 100 seguro
+    }
 }

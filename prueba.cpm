@@ -64,7 +64,7 @@ func mein() : int {
     
     arrayT a;
     a[1] = 1;
-    int array[CONST_INT] = niu int[CONST_INT];
+    int array[CONST_INT][10] = niu int[10][CONST_INT];
     array[2] = 7;
 
     // int array2[tru]; // ERROR

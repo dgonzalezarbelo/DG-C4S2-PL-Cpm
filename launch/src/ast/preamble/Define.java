@@ -19,6 +19,7 @@ public class Define extends Definition {
     public Define(String id, Literal expression, int row) { //FIXME El id no deberia ser un Id_Type, sino Id_Value. El tipo es el de la expresion
         super(id, row);
         this.expression = expression;
+        this.maximumMemory = 0;
     }
     
     @Override
@@ -81,4 +82,5 @@ public class Define extends Definition {
 	public Method hasMethod(MethodCall fc) throws InvalidTypeException {
 		throw new InvalidTypeException("The defined constant shouldnt be used as a type");
 	}
+
 }

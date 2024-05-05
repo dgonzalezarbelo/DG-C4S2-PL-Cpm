@@ -96,7 +96,6 @@ public class Class_Def extends Struct {
             return (Method) f;
         throw new UndefinedFunctionException("There is no methods that match " + mc.toString());
     }
-
 }
 
 /*

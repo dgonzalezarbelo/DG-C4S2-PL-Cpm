@@ -64,5 +64,12 @@ public class Switch_Ins extends Instruction {
         default_Ins.checkType();
         return null;
 	}
+
+    @Override
+    public void maxMemory(Integer c, Integer max) {
+        for (Case_Ins _case : clauses)
+            _case.maxMemory(c, max);
+        default_Ins.maxMemory(c, max);
+    }
     
 }

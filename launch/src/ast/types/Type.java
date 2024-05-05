@@ -7,6 +7,7 @@ public abstract class Type implements ASTNode {
 
     protected Type_T kind;
     public static enum Type_T { INT, BOOL, CLASS, STRUCT, POINTER, ARRAY, TEMP_UNKNOWN, CONST };
+    protected Integer size;
 
     public Type(Type_T v, int row) {
         this.kind = v;
@@ -55,5 +56,19 @@ public abstract class Type implements ASTNode {
             return false;
         else
             return this.getKind() == other.getKind();
+    }
+
+    public void calcSize() {
+        size = 4;
+    }
+
+    public Integer getSize() {
+        return size;
+    }
+
+    @Override
+    public void maxMemory(Integer c, Integer max) {
+        calcSize();
+        max = size;
     }
 } 

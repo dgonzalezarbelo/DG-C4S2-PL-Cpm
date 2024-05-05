@@ -12,6 +12,7 @@ public abstract class Definition implements ASTNode {
     protected Integer indentation;
     protected int row;
     protected String id;
+    protected Integer maximumMemory;
     
     public Definition(String name, int row) {
         this.indentation = null;
@@ -34,6 +35,10 @@ public abstract class Definition implements ASTNode {
 
     public String getName() {
         return this.id;
+    }
+
+    public Integer getSize() {
+        return maximumMemory;
     }
 
     public abstract Type_T checkKind() throws Exception; // this function returns the kind of the definition of the defined type 

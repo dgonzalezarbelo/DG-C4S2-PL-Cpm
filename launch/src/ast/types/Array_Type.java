@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ast.expressions.Expression;
+import ast.expressions.values.Int_Value;
+import ast.expressions.values.Int_Value;
+import ast.expressions.values.Literal;
 
 public class Array_Type extends Envelope_Type {
     private Expression dim;
@@ -103,5 +106,17 @@ public class Array_Type extends Envelope_Type {
         if (dim != null)
             dim.bind();
         super.bind();
+    }
+
+    public void calcSize() {
+        inner_type.calcSize();
+        Integer inner_size = inner_type.getSize();
+        if (dim != null) {
+            Literal l = ((Const_Type)dim.getType()).getConstValue();
+            int dim_value = ((Int_Value)l).num();
+            size = dim_value * inner_size;
+        }
+        else
+            size = 0; //FIXME Ni puta idea chaval
     }
 }

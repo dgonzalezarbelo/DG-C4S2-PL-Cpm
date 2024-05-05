@@ -8,23 +8,24 @@ import ast.types.Type;
 
 public class Program implements ASTNode {
     private List<Definition> definitions;
-    private Function mainFuncion;
+    private Function mainFunction;
     public static SymbolsTable symbolsTable = new SymbolsTable();
+    private Integer maximumMemory;
 
     public Program(List<Definition> definitions, Function mainFunction) {
         this.definitions = definitions;
-        this.mainFuncion = mainFunction;
+        this.mainFunction = mainFunction;
     }
 
     public String toString() {
         for(Definition d : definitions)
             d.propagateIndentation(0);
-        mainFuncion.propagateIndentation(0);
+        mainFunction.propagateIndentation(0);
         StringBuilder str = new StringBuilder();
         str.append("PROGRAM: \n");
         for (Definition d : definitions)
             str.append(d.toString() + "\n");
-        str.append(mainFuncion.toString() + "\n");
+        str.append(mainFunction.toString() + "\n");
         return str.toString();
     }
 
@@ -33,7 +34,7 @@ public class Program implements ASTNode {
         for (Definition d : definitions) {
             d.bind();
         }
-        mainFuncion.bind();
+        mainFunction.bind();
     }
 
     @Override
@@ -45,13 +46,20 @@ public class Program implements ASTNode {
         try {
             for (Definition d : definitions)
                 d.checkType();
-            mainFuncion.checkType();
+            mainFunction.checkType();
         } catch (Exception e) {
             System.out.println("This exception indicates that something far away from typing went wrong (in other case the program would have restored at a class/struct/function definition)");
         }
         
         return null;
-    }  
+    }
+
+    @Override
+    public void maxMemory(Integer c, Integer max) {
+        for (Definition d : definitions)
+            d.maxMemory(0, 0);
+        mainFunction.maxMemory(0, maximumMemory);
+    }
 
     @Override
     public void propagateIndentation(int indent) {

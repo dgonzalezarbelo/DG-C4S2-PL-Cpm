@@ -124,4 +124,13 @@ public class Function extends Definition {
         throw new UndefinedFunctionException("There are no methods defined inside a function");
     }
 
+    @Override
+    public void maxMemory(Integer c, Integer maxi) {
+        maximumMemory = 0;
+        for (Argument a : args)
+            a.maxMemory(0, maximumMemory);          // FIXME
+        body.maxMemory(0, maximumMemory);
+        return_t.maxMemory(0, maximumMemory);       // FIXME
+        maxi += maximumMemory;
+    }
 }

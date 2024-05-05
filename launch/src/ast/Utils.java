@@ -16,7 +16,7 @@ public class Utils {
     }
 
     public static void printErrorRow(int row) {
-        System.out.println("↑ ERROR row: " + row);
+        System.out.println("↑ ERROR row: " + row); // TODO Igual ese simbolo es fliparse
     }
 
     private static void clear() {

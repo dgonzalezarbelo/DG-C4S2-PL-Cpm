@@ -110,10 +110,6 @@ public class SymbolsTable {
         return definitions.get(id);
     }
 
-    // public boolean doesTypeExist(Defined_Type type) {
-    //     return definitions.containsKey(type.getName());
-    // }
-
     public void setCurrentDefinition(String s) {
         this.currentDefinition = s;
     }
@@ -122,20 +118,3 @@ public class SymbolsTable {
         return this.currentDefinition;
     }
 }
-
-/*
-//FIXME
-clas Alumno {
-    public Alumno(int a) {
-
-    }
-}
-
-func Alumno(int a) : Alumno { <-- Los cojones (ya está definido)
-    ...
-}
-
-{Alumno: nodo1, nodo2}
-
-Alumno a = Alumno(0); <-- Se llama a la función
- */

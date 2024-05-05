@@ -29,4 +29,8 @@ public class Default_Ins extends Instruction {
         return null;
     }
     
+    @Override
+    public void maxMemory(Integer c, Integer max) {
+        body.maxMemory(c, max);
+    }
 }

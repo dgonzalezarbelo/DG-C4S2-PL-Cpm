@@ -106,6 +106,11 @@ public class Declaration extends Sentence {
     public Type getType() {
         return this.type.getType();
     }
+
+    @Override
+    public void maxMemory(Integer c, Integer max) {
+        Integer _max = 0;
+        type.maxMemory(0, _max);
+        c += _max;
+    }
 }
-
-

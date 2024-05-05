@@ -78,4 +78,14 @@ public class Defined_Type extends Type {    // User defined type
     public Type getType() {
         return getRootType();
     }
+
+    public void calcSize() {
+        size = type_definition.getSize();
+    }
+
+    public Integer getSize() {
+        calcSize();
+        return size;
+    }
+
 }

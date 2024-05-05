@@ -83,4 +83,11 @@ public class ClassFunctions {
         for (Function f : this.methods)
             f.propagateIndentation(indent);
     }
+
+    public void maxMemory(Integer c, Integer max) {
+        for (Function _c : constructors)
+            _c.maxMemory(0, 0);
+        for (Function _m : methods)
+            _m.maxMemory(0, 0);
+    }
 }

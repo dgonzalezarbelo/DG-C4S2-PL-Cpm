@@ -8,6 +8,7 @@ import ast.types.Type;
 
 public class Block implements ASTNode {
     public List<Sentence> ins;
+    private Integer maximumMemory;
 
     public Block() {
         this.ins = new ArrayList<>();
@@ -56,4 +57,29 @@ public class Block implements ASTNode {
             s.checkType();
         return null;
     }
+
+    @Override
+    public void maxMemory(Integer c, Integer maxi) {
+        maximumMemory = 0;
+        Integer curr = 0;
+        for (Sentence s : ins) {
+            s.maxMemory(curr, maximumMemory); // Only the declarations will change the curr value
+            if (curr > maximumMemory)
+                maximumMemory = curr;
+        }
+        if (c + maximumMemory > maxi)
+            maxi = c + maximumMemory;
+    }
 }
+
+/* // 20
+
+declaraciones... //10 c = max (c apunta a curr del bloque de antes)
+{
+
+} // 10 curr = max
+
+{ // curr = 10
+
+} // 5
+*/

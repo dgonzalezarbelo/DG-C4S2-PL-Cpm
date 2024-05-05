@@ -42,5 +42,10 @@ public class While_Ins extends Instruction {
         body.checkType();
         return null;
 	}
+
+    @Override
+    public void maxMemory(Integer c, Integer max) {
+        body.maxMemory(c, max);
+    }
     
 }

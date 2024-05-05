@@ -81,6 +81,16 @@ public class Typedef extends Definition {
     public String getName() {
         return this.type.getName();
     }
+
+    @Override
+    public void maxMemory(Integer c, Integer max) {
+        root_definition.maxMemory(c, max);
+    }
+
+    @Override
+    public Integer getSize() {
+        return root_definition.getSize();
+    }
 }
 
 //FIXME

@@ -41,4 +41,9 @@ public class DeclarationAndAssignation extends Sentence {
         this.a.checkType();
         return t;
     }
+
+    @Override
+    public void maxMemory(Integer c, Integer max) {
+        d.maxMemory(c, max);
+    }
 }
