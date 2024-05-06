@@ -3,6 +3,7 @@ package ast.types.definitions;
 import java.util.ArrayList;
 import java.util.List;
 
+import ast.Delta;
 import ast.preamble.Constructor;
 import ast.preamble.Function;
 import ast.preamble.Method;
@@ -85,5 +86,19 @@ public class ClassFunctions {
             f.propagateIndentation(indent);
         for (Function f : this.methods)
             f.propagateIndentation(indent);
+    }
+
+    public void maxMemory(Integer c, Integer max) {
+        for (Function _c : constructors)
+            _c.maxMemory(null, null);
+        for (Function _m : methods)
+            _m.maxMemory(null, null);
+    }
+
+    public void computeOffset(Delta delta) {
+        for (Constructor c : constructors)
+            c.computeOffset(delta);
+        for (Method m : methods)
+            m.computeOffset(delta);
     }
 }

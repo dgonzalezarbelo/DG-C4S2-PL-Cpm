@@ -3,6 +3,7 @@ package ast.preamble;
 import java.util.List;
 
 import ast.ASTNode;
+import ast.Delta;
 import ast.SymbolsTable;
 import ast.types.definitions.BoolDefinition;
 import ast.types.definitions.Definition;
@@ -53,5 +54,19 @@ public class Program extends ASTNode {
             System.err.println("This exception indicates that something far away from typing went wrong (in other case the program would have restored at a class/struct/function definition or inside main function)");
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void maxMemory(Integer c, Integer max) {
+        for (Definition d : definitions)
+            d.maxMemory(null, null);
+        mainFunction.maxMemory(null, maximumMemory);
+    }
+
+    @Override
+    public void computeOffset(Delta delta) {
+        for (Definition d : definitions)
+            d.computeOffset(delta);
+        mainFunction.computeOffset(delta);
     }
 }

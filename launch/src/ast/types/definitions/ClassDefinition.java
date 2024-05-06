@@ -48,39 +48,3 @@ public class ClassDefinition extends ObjectDefinition {
         throw new UndefinedFunctionException("There is no methods that match " + mc.toString());
     }
 }
-
-/*
-FIXME
-
-typedef long long ll
-typedef ll larguito
-typedef larguito hola
-typedef hola holita
-
-clas Alumno {
-    holita a;
-    larguito d;
-    ll b;
-    hola c;
-}
-
-func mein(): int {
-    int Alumno;
-    int Alumno = 0;
-    ll a = 0;
-    int ll = 0;
-    Alumno a = 0;
-    Alumno a = new Alumno(1);
-    if(true) {
-        Alumno a = new Alumno(2);
-    }
-    return 0;
-}
-
-
-int a =  0;
-if (...) {
-    int a = 1;
-    ceaut(a);
-}
-*/

@@ -1,17 +1,18 @@
 package ast.types.interfaces;
 
 import ast.ASTNodeTypable;
+import ast.Delta;
 import ast.Utils;
 import ast.preamble.Program;
 import ast.types.definitions.Definition;
 import exceptions.InvalidTypeException;
 
 public abstract class Type extends ASTNodeTypable {
-    public static enum Type_T { INT, BOOL, CLASS, STRUCT, POINTER, ARRAY, TEMP_UNKNOWN, CONST };
+    public static enum Type_T { INT, BOOL, CLASS, STRUCT, POINTER, ARRAY, TEMP_UNKNOWN, CONST }
     protected String typename;
     protected Definition type_definition;
     protected Type_T kind;
-    
+
     public Type(Type_T v, int row) {
         this.kind = v;
         this.row = row;
@@ -61,4 +62,20 @@ public abstract class Type extends ASTNodeTypable {
         else
             return this.getKind() == other.getKind();
     }
-} 
+
+    public abstract void calcSize();
+
+    public Integer getSize() { 
+        return maximumMemory;
+    }
+
+    @Override
+    public void maxMemory(Integer c, Integer max) { 
+        calcSize();
+    }
+
+    @Override
+    public void computeOffset(Delta delta) {
+        // Nothing to do
+    }
+}

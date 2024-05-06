@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ast.expressions.Expression;
+import ast.expressions.operands.Int_Value;
+import ast.expressions.operands.Literal;
 
 public class Array_Type extends Envelope_Type {
     private Expression dim;
@@ -39,6 +41,7 @@ public class Array_Type extends Envelope_Type {
          * Now, back to the definition, the right [5] is generating another dimension. We will consider this to be newArray,
          * and we will define this to be the type of prevArray, so that it will now be an "array of arrays".
          * 
+         * //TODO Update this
          * Use:
          * DECLARATION                      ::= TYPE:t ID:id ARRAY_CONSTRUCTOR:array
          * {: RESULT = Declaration.manageDeclaration(t, id, array); :};
@@ -110,5 +113,17 @@ public class Array_Type extends Envelope_Type {
         if (this.dim != null)
             this.dim.checkType();
         super.checkType();
+    }
+
+    public void calcSize() {
+        inner_type.calcSize();
+        Integer inner_size = inner_type.getSize();
+        if (dim != null) {
+            Literal l = ((Const_Type) dim.getType()).getConstValue();
+            int dim_value = ((Int_Value)l).num();
+            maximumMemory = dim_value * inner_size;
+        }
+        else
+            maximumMemory = 0; //FIXME Ni puta idea chaval [Dani]
     }
 }

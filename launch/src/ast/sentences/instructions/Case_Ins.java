@@ -23,4 +23,8 @@ public class Case_Ins extends Instruction {
         str.append(body.toString());
         return str.toString();
     }
+
+
+    // FIXME no sabemos si el literal irá a memoria o a pila
+    // public void maxMemory(Integer c, Integer maxi);
 }

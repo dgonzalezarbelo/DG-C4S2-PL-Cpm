@@ -41,5 +41,10 @@ public class IntDefinition extends Definition {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'hasMethod'");
     }
+
+    @Override
+    public void maxMemory(Integer c, Integer maxi) {
+        maximumMemory = 0;
+    }
     
 }

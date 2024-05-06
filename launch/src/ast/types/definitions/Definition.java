@@ -4,6 +4,7 @@ import java.util.List;
 
 import ast.ASTNode;
 import ast.ASTNodeTypable;
+import ast.Delta;
 import ast.Indentable;
 import ast.Utils;
 import ast.expressions.operands.AttributeID;
@@ -47,5 +48,14 @@ public abstract class Definition extends ASTNodeTypable implements Indentable {
 
     public void propagateIndentation(int indent) {
         // Nothing to do by default
+    }
+
+    public Integer getSize() {
+        return maximumMemory;
+    }
+
+    @Override
+    public void computeOffset(Delta delta) {
+        // Nothing to do
     }
 }

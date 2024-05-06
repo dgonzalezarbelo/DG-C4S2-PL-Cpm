@@ -41,5 +41,10 @@ public class BoolDefinition extends Definition {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'hasMethod'");
     }
+
+    @Override
+    public void maxMemory(Integer c, Integer max) {
+        maximumMemory = 0;
+    }
     
 }

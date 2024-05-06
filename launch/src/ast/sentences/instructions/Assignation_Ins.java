@@ -44,10 +44,10 @@ public class Assignation_Ins extends Instruction {
             if (left.getKind() == Type_T.ARRAY) {
                 List<Expression> l1 = ((Array_Type)left).getDimenssions(), l2 = ((Array_Type)right).getDimenssions();
                 if (l1.size() != l2.size())
-                    throw new DimenssionException("Number of dimenssions at both sides of assignation do not match at row " + row); //TODO
+                    throw new DimenssionException("Number of dimenssions at both sides of assignation do not match");
                 for (int i = 0; i < l1.size(); i++) {
                     if (!((Const_Type) l1.get(i).getType()).getConstValue().equals(((Const_Type) l2.get(i).getType()).getConstValue()))
-                        throw new DimenssionException("Array sizes at both sides of assignation do not match at row " + row);         
+                        throw new DimenssionException("Array sizes at both sides of assignation do not match");         
                 }
             }
         } catch (Exception e) {
@@ -55,5 +55,4 @@ public class Assignation_Ins extends Instruction {
             Utils.printErrorRow(row);
         }
     }
-
 }

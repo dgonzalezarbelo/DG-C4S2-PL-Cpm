@@ -1,5 +1,6 @@
 package ast.sentences.declarations;
 
+import ast.Delta;
 import ast.expressions.Expression;
 import ast.expressions.operands.VariableID;
 import ast.sentences.Sentence;
@@ -38,5 +39,17 @@ public class DeclarationAndAssignation extends Sentence {
     public void checkType() throws Exception {
         this.d.checkType();
         this.a.checkType();
+    }
+
+    @Override
+    public void maxMemory(Integer c, Integer max) {
+        d.maxMemory(c, max);
+        a.maxMemory(c, max);
+    }
+
+    @Override
+    public void computeOffset(Delta delta) {
+        this.d.computeOffset(delta);
+        this.a.computeOffset(delta);
     }
 }

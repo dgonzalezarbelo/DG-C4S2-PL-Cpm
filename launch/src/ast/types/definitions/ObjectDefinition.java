@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ast.ASTNode;
+import ast.Delta;
 import ast.Utils;
 import ast.expressions.operands.AttributeID;
 import ast.preamble.Attribute;
@@ -114,4 +115,24 @@ public abstract class ObjectDefinition extends Definition {
         throw new UndefinedAttributeException("There is no attribute by the name " + name.toString() + " inside " + this.definitionName);
     }
 
+    @Override
+    public void maxMemory(Integer c, Integer maxi) {
+        maximumMemory = 0;
+        Integer curr = 0;                           // FIXME igual no hay que pasar un copia y hay que pasar el de arriba, darle una vuelta
+        for (Attribute a : attributes) {
+            a.maxMemory(curr, maximumMemory);       // Only the declarations will change the curr value
+            if(curr > maximumMemory)
+                maximumMemory = curr;
+        }
+        functions.maxMemory(null, null);
+    }
+
+    @Override
+    public void computeOffset(Delta delta) {
+        delta.pushScope();
+        for (Attribute a : attributes)
+            a.computeOffset(delta);
+        functions.computeOffset(delta);
+        delta.popScope();
+    }
 }

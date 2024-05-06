@@ -7,7 +7,6 @@ import ast.preamble.Method;
 import exceptions.UndefinedFunctionException;
 import exceptions.VisibilityException;
 
-
 public class MethodCall extends Field {
     private FunctionCall func;
 

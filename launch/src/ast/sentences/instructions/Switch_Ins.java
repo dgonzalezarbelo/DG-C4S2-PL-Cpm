@@ -5,6 +5,7 @@ import exceptions.MatchingTypeException;
 
 import java.util.List;
 
+import ast.Delta;
 import ast.Utils;
 import ast.expressions.Expression;
 import ast.preamble.Program;
@@ -67,4 +68,31 @@ public class Switch_Ins extends Instruction {
             Utils.printErrorRow(row);
         }
 	}
+
+    
+    @Override
+    public void maxMemory(Integer c, Integer maxi) { 
+        /*
+         * The memory occupied by the switch will be the accumulated memory
+         * of all the cases and the default
+         */
+        maximumMemory = 0;
+        Integer curr = 0;
+        for (Case_Ins _case : clauses) {
+            _case.maxMemory(curr, maximumMemory);
+            curr = maximumMemory;
+        }
+        default_Ins.maxMemory(curr, maximumMemory);
+        curr = maximumMemory;
+        if (c + maximumMemory > maxi)
+            maxi = c + maximumMemory;
+    }
+
+    @Override
+    public void computeOffset(Delta delta) {
+        super.computeOffset(delta);
+        for (Case_Ins c : clauses)
+            c.computeOffset(delta);
+        default_Ins.computeOffset(delta);
+    }
 }

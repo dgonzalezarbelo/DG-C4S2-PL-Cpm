@@ -1,5 +1,6 @@
 package ast.sentences.instructions;
 
+import ast.Delta;
 import ast.expressions.Expression;
 import ast.sentences.Block;
 import ast.sentences.Sentence;
@@ -40,5 +41,19 @@ public abstract class Instruction extends Sentence {
             this.body.checkType();
     }
 
-    
+    @Override
+    public void maxMemory(Integer c, Integer maxi) {
+        if (this.argExpression != null)
+            this.argExpression.maxMemory(c, maxi);
+        if (this.body != null)
+            this.body.maxMemory(c, maxi);
+    }
+
+    @Override
+    public void computeOffset(Delta delta) {
+        if (this.argExpression != null)
+            this.argExpression.computeOffset(delta);
+        if (this.body != null)
+            this.body.computeOffset(delta);
+    }
 }

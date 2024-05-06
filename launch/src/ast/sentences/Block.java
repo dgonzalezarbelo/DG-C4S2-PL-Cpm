@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ast.ASTNode;
+import ast.Delta;
 import ast.Indentable;
 
 public class Block extends ASTNode implements Indentable {
@@ -55,16 +56,28 @@ public class Block extends ASTNode implements Indentable {
         for (Sentence s : ins)
             s.checkType();
     }
+
+    @Override
+    public void maxMemory(Integer c, Integer maxi) { 
+        /* 
+         * The parameters are refering the current memory and the maximun memory of the scope that call me
+         * and internally im creating new ones to control my local memory limits. Thus, although i can have
+         * another block below me, he will never change my curr value, because he is as careful as me.
+        */
+        maximumMemory = 0;
+        Integer curr = 0;
+        for (Sentence s : ins) { 
+            s.maxMemory(curr, maximumMemory); // Only the declarations will change the curr value
+            if (curr > maximumMemory)
+                maximumMemory = curr;
+        }
+        if (c + maximumMemory > maxi)
+            maxi = c + maximumMemory;
+    }
+
+    @Override
+    public void computeOffset(Delta delta) {
+        for (Sentence s : ins)
+            s.computeOffset(delta);
+    }
 }
-
-/* // 20
-
-declaraciones... //10 c = max (c apunta a curr del bloque de antes)
-{
-
-} // 10 curr = max
-
-{ // curr = 10
-
-} // 5
-*/

@@ -83,4 +83,11 @@ public class FunctionCall extends Expression {
     public Expression opnd2() {
         throw new UnsupportedOperationException("Function calls does not have operands");
     }
+
+    
+    // FIXME igual hay que hacer aquí algo
+    // public void computeOffset();
+    
+    // FIXME igual hay que hacer aquí algo
+    // public void maxMemory(Integer c, Integer maxi)
 }

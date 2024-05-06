@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ast.ASTNode;
+import ast.Delta;
 import ast.Utils;
 import ast.expressions.Expression;
 import ast.expressions.operands.AttributeID;
@@ -47,7 +48,6 @@ public class Function extends Definition {
         return str.toString();
     }
 
-    
     @Override
     public void bind() {
         try {
@@ -59,7 +59,7 @@ public class Function extends Definition {
             Utils.printErrorRow(row);
         }
     }
-    
+
     protected void propagateBind() {
         Program.symbolsTable.newScope();
         for (Argument d : args) 
@@ -83,7 +83,7 @@ public class Function extends Definition {
             types.add(a.getType());
         return types;
     }
-    
+
     @Override
     public void checkType() throws Exception {
         try {
@@ -118,5 +118,33 @@ public class Function extends Definition {
     @Override
     public Method hasMethod(FunctionCall m) throws Exception {
         throw new UndefinedFunctionException("There are no methods defined inside a function");
+    }
+
+    @Override
+    public void maxMemory(Integer c, Integer maxi) {
+        maximumMemory = 0;
+        Integer curr = 0;                           // FIXME igual no hay que pasar un copia y hay que pasar el de arriba, darle una vuelta
+        for (Argument a : args) {
+            a.maxMemory(curr, maximumMemory);       // Only the declarations will change the curr value
+            if(curr > maximumMemory)
+                maximumMemory = curr;
+        }
+        body.maxMemory(curr, maximumMemory);
+        if (return_t != null)
+            return_t.maxMemory(null, null);
+        maximumMemory += return_t.getSize();
+        if (maxi != null)
+            maxi += maximumMemory;
+    }
+
+    @Override
+    public void computeOffset(Delta delta) {
+        delta.pushScope();
+        for (Argument a : args)
+            a.computeOffset(delta);
+        body.computeOffset(delta);
+        if (return_var != null)             // FIXME igual esto no se devuelve por la pila
+            return_var.computeOffset(delta);
+        delta.popScope();
     }
 }

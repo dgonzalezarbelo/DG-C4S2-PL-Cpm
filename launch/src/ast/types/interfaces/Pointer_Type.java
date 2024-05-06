@@ -1,6 +1,7 @@
 package ast.types.interfaces;
 
 public class Pointer_Type extends Envelope_Type {
+    private static final int BYTES_SIZE = 4;
     
     public Pointer_Type(Type type, int row) {
         super(type, row);
@@ -21,6 +22,11 @@ public class Pointer_Type extends Envelope_Type {
     @Override
     public String getTypename() {
         return this.inner_type.getTypename() + "~";
+    }
+
+    @Override
+    public void calcSize() { 
+        maximumMemory = BYTES_SIZE;
     }
 }
 

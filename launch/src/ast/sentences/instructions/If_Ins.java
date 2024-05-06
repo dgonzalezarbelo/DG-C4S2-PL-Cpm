@@ -4,6 +4,7 @@ import ast.sentences.Block;
 import ast.types.interfaces.Type;
 import ast.types.interfaces.Type.Type_T;
 import exceptions.BooleanConditionException;
+import ast.Delta;
 import ast.Utils;
 import ast.expressions.Expression;
 import ast.preamble.Program;
@@ -58,5 +59,19 @@ public class If_Ins extends Instruction {
             System.out.println(e);
             Utils.printErrorRow(row);
         }
+    }
+
+    @Override
+    public void maxMemory(Integer c, Integer max) {
+        super.maxMemory(c, max);
+        if (elseBody != null)
+            elseBody.maxMemory(c, max);
+    }
+
+    @Override
+    public void computeOffset(Delta delta) {
+        super.computeOffset(delta);
+        if (elseBody != null)
+            elseBody.computeOffset(delta);
     }
 }

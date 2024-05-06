@@ -39,7 +39,7 @@ public class Define extends Definition {
 	public void bind() {
         try {
             // The order matters!
-            Program.symbolsTable.insertSymbol(definitionName, this);        // We also save it as a symbol, as it acts as a "global variable"
+            Program.symbolsTable.insertSymbol(definitionName, this);    // We also save it as a symbol, as it acts as a "global variable"
             super.bind();
         }
         catch (DuplicateDefinitionException e) {
@@ -70,5 +70,10 @@ public class Define extends Definition {
     public Method hasMethod(FunctionCall mc) throws Exception {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'hasMethod'");
+    }
+
+    @Override
+    public void maxMemory(Integer c, Integer maxi) {
+        maximumMemory = 0;
     }
 }

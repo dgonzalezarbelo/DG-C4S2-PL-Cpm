@@ -2,6 +2,7 @@ package ast.sentences.declarations;
 
 import java.util.List;
 
+import ast.Delta;
 import ast.Utils;
 import ast.expressions.Expression;
 import ast.expressions.operands.VariableID;
@@ -16,6 +17,7 @@ import exceptions.DuplicateDefinitionException;
 public class Declaration extends Sentence {
     protected VariableID varname;
     protected int indentation;
+    protected Integer position;
 
     public Declaration(Type type, String id, int row) {
         this.type = type;
@@ -37,7 +39,6 @@ public class Declaration extends Sentence {
         return this.type;
     }
 
-    
     public String toString() {
         StringBuilder str = new StringBuilder();
         Utils.appendIndent(str, indentation);
@@ -45,7 +46,7 @@ public class Declaration extends Sentence {
         + " " + varname.toString() + '\n');
         return str.toString();
     }
-    
+
     @Override
 	public void bind() {
         type.bind();
@@ -57,7 +58,7 @@ public class Declaration extends Sentence {
             Utils.printErrorRow(row);
         }
 	}
-    
+
     @Override
     public void checkType() throws Exception {
         this.type.checkType();
@@ -84,7 +85,7 @@ public class Declaration extends Sentence {
     public static Declaration manageDeclaration(Type t, String id, Array_Type array, int row) {
         return new Declaration(manageType(t, array), id, row);
     }
-    
+
     public static Type manageType(Type t, Array_Type array) {
         if (array != null) {
             array.setInnerType(t);
@@ -92,5 +93,17 @@ public class Declaration extends Sentence {
         }
         else
             return t;
+    }
+
+    @Override
+    public void maxMemory(Integer c, Integer max) {
+        type.maxMemory(null, null); // this will calculate the size needed for that type and update his internal size value
+        maximumMemory = type.getSize();
+        c += maximumMemory;
+    }
+
+    @Override
+    public void computeOffset(Delta delta) {
+        this.position = delta.getAndUpdateOffset(maximumMemory);
     }
 }

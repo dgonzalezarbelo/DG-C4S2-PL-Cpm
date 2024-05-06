@@ -42,4 +42,12 @@ public class Defined_Type extends Type {    // User defined type
     public Attribute hasAttribute(AttributeID name, boolean isThis) throws Exception {
         return this.type_definition.hasAttribute(name, isThis);
     }
+
+    public void calcSize() {
+        maximumMemory = type_definition.getSize();
+    }
+
+    public Integer getSize() {
+        return maximumMemory;
+    }
 }
