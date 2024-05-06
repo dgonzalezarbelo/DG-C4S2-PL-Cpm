@@ -1,14 +1,14 @@
 package ast.expressions.operators;
 
-import ast.expressions.EUnary;
+import ast.expressions.UnaryExpression;
+import ast.types.interfaces.Int_Type;
+import ast.types.interfaces.Type;
+import ast.types.interfaces.Type.Type_T;
 import ast.expressions.Expression;
-import ast.types.Int_Type;
-import ast.types.Type;
-import ast.types.Type.Type_T;
 import exceptions.UnexpectedTypeException;
 
 
-public class Minus_Op extends EUnary {
+public class Minus_Op extends UnaryExpression {
     public Minus_Op(Expression opnd, int row) {
         super(opnd, row);
         this.type = new Int_Type(row);
@@ -21,13 +21,15 @@ public class Minus_Op extends EUnary {
     public void bind() {
         opnd1().bind();
         opnd2().bind();
+        this.type.bind();
     }
 
     @Override
-    public Type checkType() throws Exception { 
-        Type t = opnd1().checkType();
+    public void checkType() throws Exception {
+        super.checkType();
+        Type t = opnd1().getType();
         if (t.getKind() != Type_T.INT)
-            throw new UnexpectedTypeException(Type_T.INT.name() + " was expected but " + t.getKind().name() + " was read at row " + this.row);
-        return type;   
+            throw new UnexpectedTypeException(String.format("'%s' was expected but '%s' was read", Type_T.INT.name(), t.getKind().name()));
+        this.type.checkType();
     }
 }

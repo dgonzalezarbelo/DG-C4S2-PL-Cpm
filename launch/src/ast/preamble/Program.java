@@ -4,13 +4,14 @@ import java.util.List;
 
 import ast.ASTNode;
 import ast.SymbolsTable;
-import ast.types.Type;
+import ast.types.definitions.BoolDefinition;
+import ast.types.definitions.Definition;
+import ast.types.definitions.IntDefinition;
 
-public class Program implements ASTNode {
+public class Program extends ASTNode {
     private List<Definition> definitions;
     private Function mainFunction;
     public static SymbolsTable symbolsTable = new SymbolsTable();
-    private Integer maximumMemory;
 
     public Program(List<Definition> definitions, Function mainFunction) {
         this.definitions = definitions;
@@ -31,41 +32,26 @@ public class Program implements ASTNode {
 
     @Override
     public void bind() {
-        for (Definition d : definitions) {
+        /*
+         * TODO Esto parece más feo de lo que es porque habría que hacerlo con un for y un "conjunto de definiciones de tipos básicos", pero hay que hacerlo
+         * para estandarizar los tipos y no permitir declaraciones con el mismo nombre que otras (aunque sean de tipos basicos)
+         */
+        definitions.addFirst(new BoolDefinition());
+        definitions.addFirst(new IntDefinition());
+        for (Definition d : definitions)
             d.bind();
-        }
         mainFunction.bind();
     }
 
     @Override
-    public Type checkType() {
-        // Preprocess for the typedef and define statements
-        for (Definition d : definitions)
-            d.getRootType();
-
+    public void checkType() {
         try {
             for (Definition d : definitions)
                 d.checkType();
             mainFunction.checkType();
         } catch (Exception e) {
-            System.out.println("This exception indicates that something far away from typing went wrong (in other case the program would have restored at a class/struct/function definition)");
+            System.err.println("This exception indicates that something far away from typing went wrong (in other case the program would have restored at a class/struct/function definition or inside main function)");
+            e.printStackTrace();
         }
-        
-        return null;
     }
-
-    @Override
-    public void maxMemory(Integer c, Integer max) {
-        for (Definition d : definitions)
-            d.maxMemory(0, 0);
-        mainFunction.maxMemory(0, maximumMemory);
-    }
-
-    @Override
-    public void propagateIndentation(int indent) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'propagateIndentation'");
-    }
-
-      
 }

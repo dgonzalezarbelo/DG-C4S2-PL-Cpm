@@ -6,22 +6,21 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import ast.preamble.Definition;
+import ast.types.definitions.Definition;
 import exceptions.DuplicateDefinitionException;
 import exceptions.InvalidIdException;
 import exceptions.InvalidTypeException;
 
 public class SymbolsTable {
-    private LinkedList<Map<String, ASTNode>> symbolsScope;              // definitions table (id -> Declaration_Node / Define)
+    private LinkedList<Map<String, ASTNodeTypable>> symbolsScope;       // definitions table (id -> Declaration_Node / Define)
     private LinkedList<Map<String, List<ASTNode>>> functionsScope;      // functions table (id -> List<function>) [due tooverride]
-    //FIXME El valor del siguiente mapa no es ASTNode y eso no es chulo, hay que ver si es evitable
-    private Map<String, Definition> definitions;                        // user-definitions table (id -> Definition_Node)
+    private Map<String, Definition> typeDefinitions;                    // user-definitions table (id -> Definition_Node)
     private String currentDefinition;                                   // variable that represent the current defintion you are in 
 
     public SymbolsTable() {
         this.symbolsScope = new LinkedList<>();
         this.functionsScope = new LinkedList<>();
-        this.definitions = new HashMap<>();
+        this.typeDefinitions = new HashMap<>();
         this.currentDefinition = "";
     }
 
@@ -35,11 +34,11 @@ public class SymbolsTable {
         functionsScope.removeFirst();
     }
 
-    public void insertSymbol(String id, ASTNode node) throws DuplicateDefinitionException {
-        if (definitions.containsKey(id)) // You can not use as an id a reserved word, such as a user defined type
+    public void insertSymbol(String id, ASTNodeTypable node) throws DuplicateDefinitionException {
+        if (typeDefinitions.containsKey(id)) // You can not use as an id a reserved word, such as a user defined type
             throw new DuplicateDefinitionException(String.format("The id %s is a reserved word", id));
         if (symbolsScope.isEmpty())
-            symbolsScope.add(new HashMap<String, ASTNode>());
+            symbolsScope.add(new HashMap<String, ASTNodeTypable>());
         if (symbolsScope.getFirst().containsKey(id)) { // You can not redefine a variable in the same scope it has already been defined
             throw new DuplicateDefinitionException(String.format("The variable %s is already defined", id));
         }
@@ -47,7 +46,7 @@ public class SymbolsTable {
     }
 
     public void insertFunction(String id, ASTNode node) throws DuplicateDefinitionException {
-        if (definitions.containsKey(id))
+        if (typeDefinitions.containsKey(id))
             throw new DuplicateDefinitionException("There is a previous definition with the same name");
         if (functionsScope.isEmpty())
             functionsScope.add(new HashMap<String, List<ASTNode>>());
@@ -62,23 +61,22 @@ public class SymbolsTable {
         When a new user-type is defined we consider that type as a keyword in order
         to prevent variables or new user-types with the same name 
         */ 
-        if (definitions.containsKey(id))
+        if (typeDefinitions.containsKey(id))
             throw new DuplicateDefinitionException("There is a previous definition with the same name");
-        definitions.put(id, def);
+        typeDefinitions.put(id, def);
     }
 
-    public void copyDefinition(String newName, String oldName, Definition def) throws DuplicateDefinitionException {
-        if (definitions.containsKey(newName))
+    public void copyDefinition(String newName, String oldName) throws Exception {
+        if (typeDefinitions.containsKey(newName))
             throw new DuplicateDefinitionException("There is a previous definition with the same name");
-        Definition d = definitions.get(oldName);
-        if (d != null)
-            definitions.put(newName, d);
-        else
-            definitions.put(newName, def);
+        if (!typeDefinitions.containsKey(oldName))
+            throw new InvalidTypeException(String.format("There is no definition named '%s'", oldName));
+        Definition d = typeDefinitions.get(oldName);
+        typeDefinitions.put(newName, d);
     }
 
-    public ASTNode getReference(String id) throws InvalidIdException {
-        for (Map<String, ASTNode> m : symbolsScope) {
+    public ASTNodeTypable getReference(String id) throws InvalidIdException {
+        for (Map<String, ASTNodeTypable> m : symbolsScope) {
             if (m.containsKey(id))
                 return m.get(id);
         }
@@ -90,24 +88,22 @@ public class SymbolsTable {
         We admit inside classes functions overriding outside-defined functions
         thats why we are using addAll method while iterating the Map List
         */
-        if (definitions.containsKey(id))
-                return definitions.get(id).getConstructors();
+        if (typeDefinitions.containsKey(id))
+                return typeDefinitions.get(id).getConstructors();
         else {
             List<ASTNode> list = new ArrayList<>();
             for (Map<String, List<ASTNode>> m : functionsScope) {
                 if (m.containsKey(id))
                     list.addAll(m.get(id));
             }
-            if (list.isEmpty())
-                throw new InvalidIdException("Required reference " + id + " not found");
             return list;
         }
     }
 
     public Definition getDefinition(String id) throws InvalidTypeException {
-        if (!definitions.containsKey(id))
+        if (!typeDefinitions.containsKey(id))
             throw new InvalidTypeException(String.format("The type %s does not exist", id));
-        return definitions.get(id);
+        return typeDefinitions.get(id);
     }
 
     public void setCurrentDefinition(String s) {

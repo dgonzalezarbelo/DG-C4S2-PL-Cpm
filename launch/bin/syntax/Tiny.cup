@@ -8,12 +8,13 @@ import errors.GestionErroresTiny;
 import ast.*;
 import ast.expressions.*;
 import ast.expressions.operators.*;
-import ast.expressions.values.*;
+import ast.expressions.operands.*;
 import ast.preamble.*;
 import ast.sentences.*;
 import ast.sentences.declarations.*;
 import ast.sentences.instructions.*;
-import ast.types.*;
+import ast.types.interfaces.*;
+import ast.types.definitions.*;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -116,7 +117,7 @@ DEF                  ::= FUNCTION_DEF:f
 {: RESULT = f; :};
 
 CLASS_DEF            ::= CLASS_T:c ID:id BRACKET_OPEN DECLARATIONS_CLASS:dec_class CLASS_INIT:class_func BRACKET_CLOSE
-{: RESULT = new Class_Def(id.lexeme, dec_class, class_func, c.row); :};
+{: RESULT = new ClassDefinition(id.lexeme, dec_class, class_func, c.row); :};
 CLASS_INIT           ::= CONSTRUCTOR:c MORE_CONSTRUCTORS:constructors METHODS:methods
 {: List<Constructor> allConstructors = new ArrayList<>(); allConstructors.add(c); allConstructors.addAll(constructors); RESULT = new ClassFunctions(allConstructors, methods); :};
 MORE_CONSTRUCTORS    ::= MORE_CONSTRUCTORS:array CONSTRUCTOR:c
@@ -129,17 +130,17 @@ METHODS              ::= METHODS:array VISIBILITY:vis FUNCTION_DEF:func
 {: Method method = new Method(func, vis); array.add(method); RESULT = array; :};
 METHODS              ::= /*EMPTY*/ 
 {: RESULT = new ArrayList<>(); :};
-VISIBILITY           ::= PUBLIC:p
-{: RESULT = new Public_Vis(p.row); :};
-VISIBILITY           ::= PRIVATE:p
-{: RESULT = new Private_Vis(p.row); :};
+VISIBILITY           ::= PUBLIC
+{: RESULT = new Public_Vis(); :};
+VISIBILITY           ::= PRIVATE
+{: RESULT = new Private_Vis(); :};
 DECLARATIONS_CLASS   ::= DECLARATIONS_CLASS:array VISIBILITY:vis DECLARATION:dec SEMICOLON
 {: array.add(new Attribute(dec, vis)); RESULT = array; :};
 DECLARATIONS_CLASS   ::= /*EMPTY*/
 {: RESULT = new ArrayList<>(); :};
 
 STRUCT_DEF           ::= STRUCT_T:s ID:id BRACKET_OPEN DECLARATIONS_STRUCT:declarations CONSTRUCTOR:c MORE_CONSTRUCTORS:constructors BRACKET_CLOSE
-{: List<Constructor> allConstructors = new ArrayList<>(); allConstructors.add(c); allConstructors.addAll(constructors); RESULT = new Struct(id.lexeme, declarations, allConstructors, s.row); :};
+{: List<Constructor> allConstructors = new ArrayList<>(); allConstructors.add(c); allConstructors.addAll(constructors); RESULT = new StructDefinition(id.lexeme, declarations, allConstructors, s.row); :};
 DECLARATIONS_STRUCT  ::= DECLARATIONS_STRUCT:array DECLARATION:dec SEMICOLON
 {: array.add(new Attribute(dec)); RESULT = array; :};
 DECLARATIONS_STRUCT  ::= /*EMPTY*/
@@ -474,7 +475,7 @@ E3                ::= E4:e
 {: RESULT = e; :};
 
 E4                ::= E4:iz FIELD_ACCESS:f ID:id
-{: RESULT = new Field_Access_Op(iz, new FieldID(id.lexeme, id.row), f.row); :};   // a.b.c = ((a.b).c)
+{: RESULT = new Field_Access_Op(iz, new AttributeID(id.lexeme, id.row), f.row); :};   // a.b.c = ((a.b).c)
 E4                ::= E4:iz FIELD_ACCESS:f ID_PARENTESIS:dc
 {: RESULT = new Field_Access_Op(iz, new MethodCall(dc, f.row), f.row); :};
 E4                ::= error FIELD_ACCESS E5:dc

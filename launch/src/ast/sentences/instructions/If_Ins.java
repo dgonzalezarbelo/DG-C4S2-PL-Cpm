@@ -1,8 +1,8 @@
 package ast.sentences.instructions;
 
 import ast.sentences.Block;
-import ast.types.Type;
-import ast.types.Type.Type_T;
+import ast.types.interfaces.Type;
+import ast.types.interfaces.Type.Type_T;
 import exceptions.BooleanConditionException;
 import ast.Utils;
 import ast.expressions.Expression;
@@ -31,16 +31,14 @@ public class If_Ins extends Instruction {
     
     @Override
     public void propagateIndentation(int indent) {
-        this.indentation = indent;
-        this.body.propagateIndentation(indent + 1);
+        super.propagateIndentation(indent);
         this.elseBody.propagateIndentation(indent + 1);
     }
 
     @Override
     public void bind() {
         Program.symbolsTable.newScope();
-        this.argExpression.bind();
-        this.body.bind();
+        super.bind();
         Program.symbolsTable.closeScope();
         if (!elseBody.empty()) {
             Program.symbolsTable.newScope();
@@ -50,22 +48,15 @@ public class If_Ins extends Instruction {
     }
 
     @Override
-    public Type checkType() throws Exception {
+    public void checkType() throws Exception {
         try {
-            Type_T t = argExpression.checkType().getKind();
-            if (t == null || t != Type_T.BOOL)
-                throw new BooleanConditionException("If condition must be bolean type in the row " + this.row);
+            super.checkType();
+            Type condType = argExpression.getType();
+            if (condType.getKind() == null || condType.getKind() != Type_T.BOOL)
+                throw new BooleanConditionException("'If' condition must be bolean type");
         } catch (Exception e) {
             System.out.println(e);
+            Utils.printErrorRow(row);
         }
-        body.checkType();
-        return null;
-    }
-
-    @Override
-    public void maxMemory(Integer c, Integer max) {
-        body.maxMemory(c, max);
-        if (elseBody != null)
-            elseBody.maxMemory(c, max);
     }
 }

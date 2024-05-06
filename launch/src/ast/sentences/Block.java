@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ast.ASTNode;
-import ast.types.Type;
+import ast.Indentable;
 
-public class Block implements ASTNode {
+public class Block extends ASTNode implements Indentable {
     public List<Sentence> ins;
-    private Integer maximumMemory;
-
+    
     public Block() {
         this.ins = new ArrayList<>();
     }
@@ -30,6 +29,7 @@ public class Block implements ASTNode {
         return this.ins == null || this.ins.isEmpty();
     }
 
+    @Override
     public void propagateIndentation(int indent) {
         if (this.ins == null) return;
         for (Sentence s : this.ins)
@@ -46,29 +46,14 @@ public class Block implements ASTNode {
 
     @Override
     public void bind() {
-        for (Sentence s : ins) {
+        for (Sentence s : ins)
             s.bind();
-        }
     }
 
     @Override
-	public Type checkType() throws Exception {
+	public void checkType() throws Exception {
         for (Sentence s : ins)
             s.checkType();
-        return null;
-    }
-
-    @Override
-    public void maxMemory(Integer c, Integer maxi) {
-        maximumMemory = 0;
-        Integer curr = 0;
-        for (Sentence s : ins) {
-            s.maxMemory(curr, maximumMemory); // Only the declarations will change the curr value
-            if (curr > maximumMemory)
-                maximumMemory = curr;
-        }
-        if (c + maximumMemory > maxi)
-            maxi = c + maximumMemory;
     }
 }
 

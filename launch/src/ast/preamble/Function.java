@@ -6,18 +6,18 @@ import java.util.List;
 import ast.ASTNode;
 import ast.Utils;
 import ast.expressions.Expression;
-import ast.expressions.operators.MethodCall;
-import ast.expressions.values.FieldID;
+import ast.expressions.operands.AttributeID;
+import ast.expressions.operands.FunctionCall;
 import ast.sentences.Block;
-import ast.sentences.declarations.Declaration;
-import ast.types.Type;
-import ast.types.Type.Type_T;
+import ast.types.definitions.Definition;
+import ast.types.interfaces.Type;
 import exceptions.DuplicateDefinitionException;
 import exceptions.MatchingTypeException;
 import exceptions.UndefinedAttributeException;
 import exceptions.UndefinedFunctionException;
 
 public class Function extends Definition {
+    protected Integer indentation;
     protected List<Argument> args;
     protected Block body;
     protected Type return_t;
@@ -37,7 +37,7 @@ public class Function extends Definition {
             this.propagateIndentation(0);
         StringBuilder str = new StringBuilder();
         Utils.appendIndent(str, indentation);
-        str.append("Function: " + id + "\n");
+        str.append("Function: " + definitionName + "\n");
         Utils.appendIndent(str, indentation);
         str.append("Tipo: " + return_t + "\n");
         Utils.appendIndent(str, indentation);
@@ -51,7 +51,7 @@ public class Function extends Definition {
     @Override
     public void bind() {
         try {
-            Program.symbolsTable.insertFunction(this.id, this);
+            Program.symbolsTable.insertFunction(this.definitionName, this);
             propagateBind();
         }
         catch (DuplicateDefinitionException e) {
@@ -62,7 +62,7 @@ public class Function extends Definition {
     
     protected void propagateBind() {
         Program.symbolsTable.newScope();
-        for (Declaration d : args) 
+        for (Argument d : args) 
             d.bind(); 
         if (return_t != null)
             return_t.bind();
@@ -80,23 +80,28 @@ public class Function extends Definition {
     public List<Type> getArgumentTypes() throws Exception {
         List<Type> types = new ArrayList<>();
         for (Argument a : args)
-            types.add(a.checkType());
+            types.add(a.getType());
         return types;
     }
     
     @Override
-    public Type checkType() throws Exception {
-        body.checkType();
+    public void checkType() throws Exception {
         try {
-            Type returnType = return_var.checkType();
+            for (Argument a : args)
+                a.checkType();
+            body.checkType();
+            return_var.checkType();
+
+            Type returnType = return_var.getType();
             if(!returnType.canBeAssigned(return_t)) {
-                throw new MatchingTypeException(String.format("The type of the returning expression at function %s '%s' doesnt match the typeof the declared return type '%s' at row %d\n", this.id, returnType, this.return_t, returnType.getRow()));
+                throw new MatchingTypeException(String.format("The type of the returning expression at function %s '%s' doesnt match the typeof the declared return type '%s'", this.definitionName, returnType, this.return_t));
             }
         }
         catch (Exception e) {
             System.out.println(e);
+            Utils.printErrorRow(row);
         }
-        return return_t;
+        this.type = return_t;
     }
 
     @Override
@@ -106,31 +111,12 @@ public class Function extends Definition {
     }
 
     @Override
-    public Type_T checkKind() {
-        return null;
-    }
-
-    public Type getType(){
-        return return_t;
-    }
-
-    @Override
-    public Attribute hasAttribute(FieldID name, boolean insideClass) throws Exception {
+    public Attribute hasAttribute(AttributeID name, boolean insideClass) throws Exception {
         throw new UndefinedAttributeException("There are no attributes defined inside a function");
     }
 
     @Override
-    public Method hasMethod(MethodCall m) throws Exception {
+    public Method hasMethod(FunctionCall m) throws Exception {
         throw new UndefinedFunctionException("There are no methods defined inside a function");
-    }
-
-    @Override
-    public void maxMemory(Integer c, Integer maxi) {
-        maximumMemory = 0;
-        for (Argument a : args)
-            a.maxMemory(0, maximumMemory);          // FIXME
-        body.maxMemory(0, maximumMemory);
-        return_t.maxMemory(0, maximumMemory);       // FIXME
-        maxi += maximumMemory;
     }
 }

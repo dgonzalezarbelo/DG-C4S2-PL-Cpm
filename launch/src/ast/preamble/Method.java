@@ -2,18 +2,17 @@ package ast.preamble;
 
 import java.util.List;
 
-import ast.ASTNode;
 import ast.Utils;
 import ast.expressions.Expression;
 import ast.sentences.Block;
-import ast.types.Type;
+import ast.types.interfaces.Type;
 import exceptions.DuplicateDefinitionException;
 
 public class Method extends Function { // Class method represents the class functions
     protected Visibility visibility;
 
     public Method(Function f, Visibility visibility) {
-        super(f.getId(), f.args, f.return_t, f.body, f.return_var, f.row);
+        super(f.getDefinitionName(), f.args, f.return_t, f.body, f.return_var, f.getRow());
         this.visibility = visibility;
     }
     
@@ -34,7 +33,7 @@ public class Method extends Function { // Class method represents the class func
             str.append("Visibility: " + visibility.toString() + "\n");
         }
         Utils.appendIndent(str, indentation);
-        str.append("Function: " + id + "\n");
+        str.append("Function: " + definitionName + "\n");
         Utils.appendIndent(str, indentation);
         str.append("Tipo: " + return_t + "\n");
         Utils.appendIndent(str, indentation);
@@ -47,23 +46,12 @@ public class Method extends Function { // Class method represents the class func
     @Override
     public void bind() {
         try {
-            Program.symbolsTable.insertFunction(this.id, this);
+            Program.symbolsTable.insertFunction(this.definitionName, this);
             propagateBind();
         }
         catch (DuplicateDefinitionException e) {
             System.out.println(e);
             Utils.printErrorRow(row);
         }
-    }
-    
-    @Override
-    public List<ASTNode> getConstructors() {
-        return null; // This method will not be used
-    }
-    
-    @Override
-    public Type checkType() throws Exception {
-        body.checkType();
-        return return_var.checkType();
     }
 }

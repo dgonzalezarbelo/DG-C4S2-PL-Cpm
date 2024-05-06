@@ -1,10 +1,9 @@
 package ast.sentences.declarations;
 
 import ast.expressions.Expression;
-import ast.expressions.values.VariableID;
+import ast.expressions.operands.VariableID;
 import ast.sentences.Sentence;
 import ast.sentences.instructions.Assignation_Ins;
-import ast.types.Type;
 
 public class DeclarationAndAssignation extends Sentence {
     private Declaration d;
@@ -12,7 +11,7 @@ public class DeclarationAndAssignation extends Sentence {
 
     public DeclarationAndAssignation(Declaration d, Expression a, int row) {
         this.d = d;
-        this.a = new Assignation_Ins(new VariableID(d.getId().toString(), row), a, row);
+        this.a = new Assignation_Ins(new VariableID(d.getVarname(), row), a, row);
     }
 
     @Override
@@ -36,14 +35,8 @@ public class DeclarationAndAssignation extends Sentence {
 	}
 
     @Override
-    public Type checkType() throws Exception {
-        Type t = this.d.checkType();
+    public void checkType() throws Exception {
+        this.d.checkType();
         this.a.checkType();
-        return t;
-    }
-
-    @Override
-    public void maxMemory(Integer c, Integer max) {
-        d.maxMemory(c, max);
     }
 }

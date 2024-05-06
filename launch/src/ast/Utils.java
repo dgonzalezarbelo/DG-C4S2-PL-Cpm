@@ -15,8 +15,13 @@ public class Utils {
         System.out.println(msg);
     }
 
+    public static void printError(String msg, int row) {
+        System.out.println(msg);
+        printErrorRow(row);
+    }
+
     public static void printErrorRow(int row) {
-        System.out.println("↑ ERROR row: " + row); // TODO Igual ese simbolo es fliparse
+        System.out.println("↑ ERROR row: " + row);
     }
 
     private static void clear() {

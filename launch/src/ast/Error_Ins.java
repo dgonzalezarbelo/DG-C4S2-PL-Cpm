@@ -1,7 +1,6 @@
 package ast;
  
 import ast.sentences.instructions.Instruction;
-import ast.types.Type;
 
 public class Error_Ins extends Instruction {
     
@@ -23,7 +22,7 @@ public class Error_Ins extends Instruction {
     }
 
     @Override
-    public Type checkType() throws Exception {
+    public void checkType() throws Exception {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'checkType'");
     }

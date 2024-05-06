@@ -1,13 +1,13 @@
 package ast.expressions.operators;
 
-import ast.expressions.EUnary;
+import ast.expressions.UnaryExpression;
+import ast.types.interfaces.Pointer_Type;
+import ast.types.interfaces.Type;
 import ast.expressions.Expression;
-import ast.types.Pointer_Type;
-import ast.types.Type;
 import exceptions.InvalidTypeException;
 
 
-public class Reference_Op extends EUnary {
+public class Reference_Op extends UnaryExpression {
     public Reference_Op(Expression opnd, int row) {
         super(opnd, row);
     }
@@ -20,10 +20,12 @@ public class Reference_Op extends EUnary {
     }
 
     @Override
-    public Type checkType() throws Exception {
-        Type t = opnd1().checkType();
+    public void checkType() throws Exception {
+        super.checkType();
+        Type t = opnd1().getType();
         if (t == null)
-            throw new InvalidTypeException("Referenced expression must have type");
-        return new Pointer_Type(t, row);
+            throw new InvalidTypeException(String.format("Referenced expression must have type"));
+        this.type = new Pointer_Type(t, row); // aquí no pasa nada por no bindear Pointer_Type porque su interno ya estaba bindeado
+        this.type.checkType();
     }
 }

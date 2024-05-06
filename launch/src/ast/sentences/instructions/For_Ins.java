@@ -1,7 +1,6 @@
 package ast.sentences.instructions;
 
 import ast.sentences.Sentence;
-import ast.types.Type;
 import ast.sentences.Block;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,21 +34,4 @@ public class For_Ins extends Instruction {
         this.body.bind();
         Program.symbolsTable.closeScope();
     }
-
-    @Override
-    public Type checkType() throws Exception {
-        try {
-            Type t = body.checkType();
-            return t;
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return null;
-    }
-
-    @Override
-    public void maxMemory(Integer c, Integer max) {
-        body.maxMemory(c, max);
-    }
-    
 }

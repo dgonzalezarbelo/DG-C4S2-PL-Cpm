@@ -1,7 +1,6 @@
 package ast.sentences.instructions;
 
 import ast.Utils;
-import ast.types.Type;
 
 public class Continue_Ins extends Instruction {
 
@@ -14,10 +13,5 @@ public class Continue_Ins extends Instruction {
         Utils.appendIndent(str, indentation);
         str.append("continue" + '\n');
         return str.toString();
-    }
-
-    @Override
-    public void bind() {
-        // Nothing to do
     }
 }

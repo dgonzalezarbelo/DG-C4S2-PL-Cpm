@@ -1,14 +1,14 @@
 package ast.expressions.operators;
 
-import ast.expressions.EUnary;
+import ast.expressions.UnaryExpression;
+import ast.types.interfaces.Pointer_Type;
+import ast.types.interfaces.Type;
+import ast.types.interfaces.Type.Type_T;
 import ast.expressions.Expression;
-import ast.types.Envelope_Type;
-import ast.types.Type;
-import ast.types.Type.Type_T;
 import exceptions.InvalidTypeException;
 
 
-public class Pointer_Op extends EUnary {
+public class Pointer_Op extends UnaryExpression {
     public Pointer_Op(Expression opnd, int row) {
         super(opnd, row);
     }
@@ -21,10 +21,12 @@ public class Pointer_Op extends EUnary {
     }
 
     @Override
-    public Type checkType() throws Exception {
-        Type t = this.opnd1().checkType();
+    public void checkType() throws Exception {
+        super.checkType();
+        Type t = opnd1().getType();
         if (t.getKind() != Type_T.POINTER)
-            throw new InvalidTypeException("Pointer operator '~' is only applicable for expressions of pointer type");
-        return ((Envelope_Type) t).getInnerType();
+            throw new InvalidTypeException(String.format("'%s' was expected but '%s' was read", Type_T.POINTER.name(), t.getKind().name()));
+        this.type = ((Pointer_Type) t).getInnerType();
+        this.type.checkType();
     }
 }

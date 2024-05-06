@@ -1,7 +1,6 @@
 package ast.sentences.instructions;
 
 import ast.sentences.Block;
-import ast.types.Type;
 import ast.Utils;
 
 public class Default_Ins extends Instruction {
@@ -16,21 +15,5 @@ public class Default_Ins extends Instruction {
         str.append("default" + '\n');
         str.append(body.toString());
         return str.toString();
-    }
-
-    @Override
-    public void bind() {
-        body.bind();
-    }
-
-    @Override
-    public Type checkType() throws Exception {
-        body.checkType();
-        return null;
-    }
-    
-    @Override
-    public void maxMemory(Integer c, Integer max) {
-        body.maxMemory(c, max);
     }
 }

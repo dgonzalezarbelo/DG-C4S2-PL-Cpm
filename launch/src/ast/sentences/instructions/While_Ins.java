@@ -1,8 +1,8 @@
 package ast.sentences.instructions;
 
 import ast.sentences.Block;
-import ast.types.Type;
-import ast.types.Type.Type_T;
+import ast.types.interfaces.Type;
+import ast.types.interfaces.Type.Type_T;
 import exceptions.BooleanConditionException;
 import ast.Utils;
 import ast.expressions.Expression;
@@ -25,27 +25,20 @@ public class While_Ins extends Instruction {
     @Override
     public void bind() {
         Program.symbolsTable.newScope();
-        this.argExpression.bind();
-        this.body.bind();
+        super.bind();
         Program.symbolsTable.closeScope();
     }
 
 	@Override
-	public Type checkType() throws Exception {
-		try {
-            if (argExpression != null && argExpression.checkType().getKind() != Type_T.BOOL) {
-                throw new BooleanConditionException("While condition must be bool type");
-            } 
+	public void checkType() throws Exception {
+        try {
+            super.checkType();
+            Type condType = argExpression.getType();
+            if (condType.getKind() == null || condType.getKind() != Type_T.BOOL)
+                throw new BooleanConditionException("'If' condition must be bolean type");
         } catch (Exception e) {
             System.out.println(e);
+            Utils.printErrorRow(row);
         }
-        body.checkType();
-        return null;
 	}
-
-    @Override
-    public void maxMemory(Integer c, Integer max) {
-        body.maxMemory(c, max);
-    }
-    
 }

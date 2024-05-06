@@ -1,20 +1,16 @@
 package ast.expressions.operators;
 
-import ast.expressions.EBin;
+import ast.expressions.BinaryExpression;
 import ast.expressions.Expression;
-import ast.preamble.Attribute;
-import ast.preamble.Method;
-import ast.preamble.Visibility;
-import ast.types.Defined_Type;
-import ast.types.Type;
-import ast.types.Type.Type_T;
+import ast.expressions.operands.Field;
+import ast.expressions.operands.ThisID;
+import ast.types.interfaces.Defined_Type;
+import ast.types.interfaces.Type;
+import ast.types.interfaces.Type.Type_T;
 import exceptions.InvalidTypeException;
-import exceptions.VisibilityException;
-import ast.expressions.values.FieldID;
-import ast.expressions.values.ThisID;
 
-public class Field_Access_Op extends EBin {
-    public Field_Access_Op(Expression opnd1, Expression opnd2, int row) { 
+public class Field_Access_Op extends BinaryExpression {
+    public Field_Access_Op(Expression opnd1, Field opnd2, int row) { // TODO hay que cambiar esto en el cup
         super(opnd1, opnd2, row);
     }
     
@@ -27,31 +23,15 @@ public class Field_Access_Op extends EBin {
     }
 
     @Override
-    public Type checkType() throws Exception {
-        Type leftSide = opnd1().checkType();
-        Type rightSide = opnd2().checkType();
+    public void checkType() throws Exception {
+        opnd1().checkType();
+        Type leftSide = opnd1().getType();
         if (leftSide.getKind() != Type_T.CLASS && leftSide.getKind() != Type_T.STRUCT)
-            throw new InvalidTypeException("Field access operator '.' only applicable to classes or structs at row " + this.row); 
-        if (opnd2().getClass().equals(MethodCall.class)) {
-            try {
-                Method matched = ((Defined_Type) leftSide).hasMethod((MethodCall) opnd2()); 
-                ((MethodCall) opnd2()).matchedFunction = matched;
-                return matched.getType();
-            } catch (Exception e) {
-                throw new VisibilityException(e.getMessage() + " at row " + this.row);
-            }
-        }
-        else if (opnd2().getClass().equals(FieldID.class)) {
-            try {
-                boolean isThis = opnd1().getClass().equals(ThisID.class);
-                Attribute matched = ((Defined_Type) leftSide).hasAttribute((FieldID) opnd2(), isThis);
-                ((FieldID) opnd2()).setReference(matched);
-                return matched.getType();
-            } catch (Exception e) {
-                throw new VisibilityException(e.getMessage() + " at row " + this.row);
-            }
-        }
-        return null;
+            throw new InvalidTypeException("Field access operator '.' only applicable to classes or structs");
+        boolean isThis = opnd1().getClass().equals(ThisID.class);
+        ((Field) opnd2()).setClassFrom(((Defined_Type) opnd1().getType()), isThis);
+        opnd2().checkType();
+        this.type = opnd2().getType();
     }
 }
 

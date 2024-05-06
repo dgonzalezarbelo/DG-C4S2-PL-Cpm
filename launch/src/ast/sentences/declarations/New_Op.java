@@ -1,14 +1,13 @@
 package ast.sentences.declarations;
 
 import ast.expressions.Expression;
-import ast.expressions.operators.ConstructorCall;
-import ast.types.Pointer_Type;
-import ast.types.Type;
-import ast.types.Type.Type_T;
+import ast.expressions.operands.ConstructorCall;
+import ast.types.interfaces.Pointer_Type;
+import ast.types.interfaces.Type;
+import ast.types.interfaces.Type.Type_T;
 
 public class New_Op extends Expression {
-    Type type;
-    ConstructorCall constructor; // In case this attribute is not null then it has to be a constructor, otherwise it will not make sense
+    private ConstructorCall constructor; // In case this attribute is not null then it has to be a constructor, otherwise it will not make sense
   
     public New_Op(ConstructorCall constructor, int row) { // new for constructors [niu Alumno()]
         this.constructor = constructor;
@@ -31,16 +30,32 @@ public class New_Op extends Expression {
     }
 
     @Override
-    public Type checkType() throws Exception {
-        Type t;
-        if (constructor != null)
-            t = constructor.checkType();
-        else {
-            t = this.type;
-            t.checkType();
+    public void checkType() throws Exception {
+        Type newType;
+        if (constructor != null) {
+            constructor.checkType();
+            newType = constructor.getType();
         }
-        if (t.getKind() != Type_T.ARRAY)
-            t = new Pointer_Type(t, row);
-        return t;
+        else {
+            newType = this.type;
+            newType.checkType();
+        }
+        if (newType.getKind() != Type_T.ARRAY) {
+            newType = new Pointer_Type(newType, row);
+            newType.checkType();
+        }
+        this.type = newType;
+    }
+
+    @Override
+    public Expression opnd1() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'opnd1'");
+    }
+
+    @Override
+    public Expression opnd2() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'opnd2'");
     }
 }

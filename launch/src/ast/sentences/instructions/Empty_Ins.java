@@ -14,10 +14,4 @@ public class Empty_Ins extends Instruction {
         str.append("<empty_ins>" + '\n');
         return str.toString();
     }
-
-    @Override
-    public void bind() {
-        // Nothing to do
-    }
-    
 }

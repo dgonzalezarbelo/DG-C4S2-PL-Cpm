@@ -1,18 +1,17 @@
 package ast.sentences;
 
-import ast.ASTNode;
+import ast.ASTNodeTypable;
+import ast.Indentable;
 
-public abstract class Sentence implements ASTNode {
-
+public abstract class Sentence extends ASTNodeTypable implements Indentable {
     protected int indentation;
-    protected int row;
 
+    public Sentence() {
+        this.type = null;
+    }
+
+    @Override
     public void propagateIndentation(int indent) {
         this.indentation = indent;
     }
-
-    public int getRow() {
-        return row;
-    }
-    
 }

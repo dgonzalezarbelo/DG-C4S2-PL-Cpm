@@ -14,10 +14,4 @@ public class Break_Ins extends Instruction {
         str.append("break" + '\n');
         return str.toString();
     }
-
-    @Override
-    public void bind() {
-        // Nothing to do
-    }
-    
 }

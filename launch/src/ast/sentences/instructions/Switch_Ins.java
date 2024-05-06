@@ -1,7 +1,5 @@
 package ast.sentences.instructions;
 
-import ast.types.Type;
-import ast.types.Type.Type_T;
 import exceptions.InvalidTypeException;
 import exceptions.MatchingTypeException;
 
@@ -10,6 +8,8 @@ import java.util.List;
 import ast.Utils;
 import ast.expressions.Expression;
 import ast.preamble.Program;
+import ast.types.interfaces.Type;
+import ast.types.interfaces.Type.Type_T;
 
 public class Switch_Ins extends Instruction {
     List<Case_Ins> clauses;
@@ -42,34 +42,29 @@ public class Switch_Ins extends Instruction {
     }
 
 	@Override
-	public Type checkType() throws Exception {
-        Type_T t = null;
+	public void checkType() throws Exception {
+        super.checkType();
+        for(Case_Ins clause : clauses)
+            clause.checkType();
+        default_Ins.checkType();
+
+        Type condType;        
 		try {
-            t = argExpression.checkType().getKind();
-            if (t == null || (t != Type_T.BOOL && t != Type_T.INT))
-                throw new InvalidTypeException("Switch in row " + row + " condition must be bool type or int type");
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        try {
+            // Condition check
+            condType = argExpression.getType();
+            if (condType == null || (condType.getKind() != Type_T.BOOL && condType.getKind() != Type_T.INT))
+                throw new InvalidTypeException(String.format("Switch condition must be '%s' type or int '%s'", Type_T.BOOL.name(), Type_T.INT.name()));
+            
+            // Matching cases with condition check
             Type clauseType;
             for(Case_Ins clause : clauses) {
-                clauseType = clause.checkType();
-                if(clauseType.getKind() != t)
-                    throw new MatchingTypeException("Case in the row " + clause.getRow() + " doesnt match the type in the Switch condition");
+                clauseType = clause.getType();
+                if(clauseType.getKind() != condType.getKind())
+                    throw new MatchingTypeException("Case doesn't match the type in the Switch condition");
             }
         } catch (Exception e) {
             System.out.println(e);
+            Utils.printErrorRow(row);
         }
-        default_Ins.checkType();
-        return null;
 	}
-
-    @Override
-    public void maxMemory(Integer c, Integer max) {
-        for (Case_Ins _case : clauses)
-            _case.maxMemory(c, max);
-        default_Ins.maxMemory(c, max);
-    }
-    
 }

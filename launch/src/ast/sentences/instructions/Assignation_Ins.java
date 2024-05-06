@@ -4,10 +4,10 @@ import java.util.List;
 
 import ast.Utils;
 import ast.expressions.Expression;
-import ast.types.Array_Type;
-import ast.types.Const_Type;
-import ast.types.Type;
-import ast.types.Type.Type_T;
+import ast.types.interfaces.Array_Type;
+import ast.types.interfaces.Const_Type;
+import ast.types.interfaces.Type;
+import ast.types.interfaces.Type.Type_T;
 import exceptions.DimenssionException;
 import exceptions.MatchingTypeException;
 
@@ -29,16 +29,18 @@ public class Assignation_Ins extends Instruction {
     @Override
     public void bind() {
         leftSide.bind();
-        argExpression.bind();
+        super.bind();
     }
 
     @Override
-    public Type checkType() throws Exception {
+    public void checkType() throws Exception {
         try {
-            Type left = leftSide.checkType();
-            Type right = argExpression.checkType();
+            super.checkType();
+            leftSide.checkType();
+            Type left = leftSide.getType();
+            Type right = argExpression.getType();
             if (!left.canBeAssigned(right))
-                throw new MatchingTypeException(String.format("Left and right sides types ('%s' and '%s') at row %d assignation doesn't match", left, right, this.row));
+                throw new MatchingTypeException(String.format("Left and right sides types ('%s' and '%s') of assignation doesn't match", left, right));
             if (left.getKind() == Type_T.ARRAY) {
                 List<Expression> l1 = ((Array_Type)left).getDimenssions(), l2 = ((Array_Type)right).getDimenssions();
                 if (l1.size() != l2.size())
@@ -48,10 +50,9 @@ public class Assignation_Ins extends Instruction {
                         throw new DimenssionException("Array sizes at both sides of assignation do not match at row " + row);         
                 }
             }
-            return left;
         } catch (Exception e) {
             System.out.println(e);
-            return null;
+            Utils.printErrorRow(row);
         }
     }
 

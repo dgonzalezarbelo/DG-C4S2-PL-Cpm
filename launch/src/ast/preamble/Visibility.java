@@ -2,8 +2,6 @@ package ast.preamble;
 
 public abstract class Visibility {
 
-    protected int row;
-
     protected enum Visibility_T {
         PUBLIC, PRIVATE;
 
@@ -14,9 +12,8 @@ public abstract class Visibility {
 
     protected Visibility_T visibility;
 
-    public Visibility(Visibility_T v, int row) {
+    public Visibility(Visibility_T v) {
         this.visibility = v;
-        this.row = row;
     }
 
     public Visibility_T getVisibility() {

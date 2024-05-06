@@ -2,7 +2,7 @@ package ast.preamble;
 
 import ast.Utils;
 import ast.sentences.declarations.Declaration;
-import ast.types.Type;
+import ast.types.interfaces.Type;
 
 public class Argument extends Declaration {
 
@@ -18,13 +18,8 @@ public class Argument extends Declaration {
         StringBuilder str = new StringBuilder();
         Utils.appendIndent(str, indentation);
         str.append(this.type.toString()
-        + " " + id.toString() + '\n');
+        + " " + varname.toString() + '\n');
         return str.toString();
-    }
-
-    @Override
-    public Type checkType() throws Exception {
-        return this.type;
     }
 }
 

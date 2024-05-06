@@ -4,47 +4,87 @@ import java.util.List;
 
 import ast.Utils;
 import ast.expressions.Expression;
-import ast.expressions.values.VariableID;
+import ast.expressions.operands.VariableID;
 import ast.preamble.Program;
 import ast.sentences.Sentence;
-import ast.types.Array_Type;
-import ast.types.Const_Type;
-import ast.types.Type;
-import ast.types.Type.Type_T;
+import ast.types.interfaces.Array_Type;
+import ast.types.interfaces.Const_Type;
+import ast.types.interfaces.Type;
+import ast.types.interfaces.Type.Type_T;
 import exceptions.DuplicateDefinitionException;
 
 public class Declaration extends Sentence {
-    protected Type type;
-    protected VariableID id;
+    protected VariableID varname;
+    protected int indentation;
 
     public Declaration(Type type, String id, int row) {
         this.type = type;
-        this.id = new VariableID(id, row);
+        this.varname = new VariableID(id, row);
         this.row = row;
     } 
 
     public Declaration(Declaration d) {
         this.type = d.type;
-        this.id = d.id;
+        this.varname = d.varname;
         this.row = d.row;
     }
 
-    public VariableID getId() {
-        return this.id;
+    public String getVarname() {
+        return this.varname.toString();
     }
 
-    public Type getType_T() {
+    public Type getType() {
         return this.type;
     }
 
-    public String getName() {
-        return this.id.toString();
+    
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        Utils.appendIndent(str, indentation);
+        str.append(this.type.toString()
+        + " " + varname.toString() + '\n');
+        return str.toString();
+    }
+    
+    @Override
+	public void bind() {
+        type.bind();
+        try {
+            Program.symbolsTable.insertSymbol(varname.getValue(), this);
+        }
+        catch (DuplicateDefinitionException e) {
+            System.out.println(e);
+            Utils.printErrorRow(row);
+        }
+	}
+    
+    @Override
+    public void checkType() throws Exception {
+        this.type.checkType();
+        if (this.type != null && type.getKind() == Type_T.ARRAY) {
+            Array_Type array_type = (Array_Type) type;
+            if (array_type.getDim() == null) {
+                System.out.println("NoDimensionalArrayException: you can't declare the array " + varname.toString()  + " with no dimension");
+                Utils.printErrorRow(row);
+            }
+            if (!Const_Type.class.equals(array_type.getDim().getType().getClass())) {
+                System.out.println("InvalidDimensionalArrayException: you can't declare the array " + varname.toString()  + " with variable dimension");
+                Utils.printErrorRow(row);
+            }
+            List<Expression> dimenssions = array_type.getDimenssions();
+            for (Expression e : dimenssions) {
+                if (e.getType().getKind() != Type_T.INT) {
+                    System.out.println("InvalidDimensionalArrayException: you can't declare the array " + varname.toString()  + " with no numeric dimension");
+                    Utils.printErrorRow(row);
+                }
+            }
+        }
     }
 
     public static Declaration manageDeclaration(Type t, String id, Array_Type array, int row) {
         return new Declaration(manageType(t, array), id, row);
     }
-
+    
     public static Type manageType(Type t, Array_Type array) {
         if (array != null) {
             array.setInnerType(t);
@@ -52,65 +92,5 @@ public class Declaration extends Sentence {
         }
         else
             return t;
-    }
-
-    public String toString() {
-        StringBuilder str = new StringBuilder();
-        Utils.appendIndent(str, indentation);
-        str.append(this.type.toString()
-        + " " + id.toString() + '\n');
-        return str.toString();
-    }
-
-    @Override
-	public void bind() {
-        type.bind();
-        try {
-            Program.symbolsTable.insertSymbol(id.getValue(), this);
-        }
-        catch (DuplicateDefinitionException e) {
-            System.out.println(e);
-            Utils.printErrorRow(row);
-        }
-	}
-
-    @Override
-    public Type checkType() throws Exception {
-        if (this.type != null && type.getKind() == Type_T.ARRAY) {
-            Array_Type array_type = (Array_Type) type;
-            if (array_type.getDim() == null) {
-                System.out.println("NoDimensionalArrayException: you can't declare the array " + id.toString()  + " with no dimension");
-                Utils.printErrorRow(row);
-                this.type = null;
-                return null;
-            }
-            if (!Const_Type.class.equals(array_type.getDim().checkType().getClass())) {
-                System.out.println("InvalidDimensionalArrayException: you can't declare the array " + id.toString()  + " with variable dimension");
-                Utils.printErrorRow(row);
-                this.type = null;
-                return null;
-            }
-            List<Expression> dimenssions = array_type.getDimenssions();
-            for (Expression e : dimenssions) {
-                if (e.checkType().getKind() != Type_T.INT) {
-                    System.out.println("InvalidDimensionalArrayException: you can't declare the array " + id.toString()  + " with no numeric dimension");
-                    Utils.printErrorRow(row);
-                    this.type = null;
-                    return null;
-                }
-            }
-        }
-        return this.type.checkType();
-    }  
-
-    public Type getType() {
-        return this.type.getType();
-    }
-
-    @Override
-    public void maxMemory(Integer c, Integer max) {
-        Integer _max = 0;
-        type.maxMemory(0, _max);
-        c += _max;
     }
 }
