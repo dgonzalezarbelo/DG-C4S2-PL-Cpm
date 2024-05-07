@@ -10,6 +10,7 @@ import exceptions.InvalidTypeException;
 public class Reference_Op extends UnaryExpression {
     public Reference_Op(Expression opnd, int row) {
         super(opnd, row);
+        this.operator = Operator_T.REFERENCE;
     }
     
     public String toString() {return "&" + opnd1().toString();}

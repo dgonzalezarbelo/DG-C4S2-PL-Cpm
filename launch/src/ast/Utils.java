@@ -24,7 +24,7 @@ public class Utils {
         System.out.println("↑ ERROR row: " + row);
     }
 
-    private static void clear() {
+    public static void clear() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }

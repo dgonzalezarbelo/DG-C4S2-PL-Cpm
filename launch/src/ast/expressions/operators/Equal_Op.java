@@ -13,6 +13,7 @@ public class Equal_Op extends BinaryExpression {
     public Equal_Op(Expression opnd1, Expression opnd2, int row) {
         super(opnd1, opnd2, row);
         this.type = new Bool_Type(row); 
+        this.operator = Operator_T.EQ;
     }
 
     public String toString() {

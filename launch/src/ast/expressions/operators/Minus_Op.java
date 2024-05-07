@@ -12,6 +12,7 @@ public class Minus_Op extends UnaryExpression {
     public Minus_Op(Expression opnd, int row) {
         super(opnd, row);
         this.type = new Int_Type(row);
+        this.operator = Operator_T.MINUS;
     }
     
     

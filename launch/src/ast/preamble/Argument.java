@@ -1,5 +1,6 @@
 package ast.preamble;
 
+import ast.Josito;
 import ast.Utils;
 import ast.sentences.declarations.Declaration;
 import ast.types.interfaces.Type;
@@ -20,6 +21,11 @@ public class Argument extends Declaration {
         str.append(this.type.toString()
         + " " + varname.toString() + '\n');
         return str.toString();
+    }
+
+    @Override
+    public void generateCode(Josito jose) { // TODO
+        this.type.generateCode(jose);
     }
 }
 

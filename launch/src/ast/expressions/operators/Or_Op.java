@@ -13,6 +13,7 @@ public class Or_Op extends BinaryExpression {
     public Or_Op(Expression opnd1, Expression opnd2, int row) {
         super(opnd1, opnd2, row);
         this.type = new Bool_Type(row);
+        this.operator = Operator_T.OR;
     }
     
     public String toString() {return opnd1().toString() + " or " +opnd2().toString();}

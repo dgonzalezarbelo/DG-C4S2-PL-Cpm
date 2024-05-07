@@ -13,6 +13,7 @@ public class Mod_Op extends BinaryExpression {
     public Mod_Op(Expression opnd1, Expression opnd2, int row) {
         super(opnd1, opnd2, row);  
         this.type = new Int_Type(row);
+        this.operator = Operator_T.MOD;
     }
     
     public String toString() {return opnd1().toString() + " % " + opnd2().toString();}

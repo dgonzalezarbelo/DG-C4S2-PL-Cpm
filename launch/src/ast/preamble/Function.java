@@ -5,6 +5,7 @@ import java.util.List;
 
 import ast.ASTNode;
 import ast.Delta;
+import ast.Josito;
 import ast.Utils;
 import ast.expressions.Expression;
 import ast.expressions.operands.AttributeID;
@@ -146,5 +147,16 @@ public class Function extends Definition {
         if (return_var != null)             // FIXME igual esto no se devuelve por la pila
             return_var.computeOffset(delta);
         delta.popScope();
+    }
+
+    @Override
+    public void generateCode(Josito jose) {
+        jose.funcHeader(this.definitionName);
+        for (Argument a : args)
+            a.generateCode(jose);
+        // TODO poner codigo del result
+        body.generateCode(jose);
+        return_var.generateCode(jose);  // TODO se supone que aquí calculas el valor de retorno
+        jose.funcTail();                // TODO y aquí se apila si procede para ser devuelto
     }
 }

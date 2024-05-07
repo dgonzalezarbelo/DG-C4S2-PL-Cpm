@@ -1,6 +1,7 @@
 package ast.expressions.operands;
 
 import ast.ASTNodeTypable;
+import ast.Josito;
 import ast.Utils;
 import ast.expressions.Expression;
 import ast.preamble.Program;
@@ -46,5 +47,12 @@ public class VariableID extends Expression {
 	@Override
 	public Expression opnd2() {
 		throw new UnsupportedOperationException("Variables do not have operands");
+	}
+
+	@Override
+	public void generateCode(Josito jose) {
+		// TODO esto hay que darle una vuelta para que se haga encapsulado
+		// jose.createIdentifier(delta); // si el id_node es un declaracion
+		// jose.createConst(value) 	// si el id_node es un define en lugar de una declaracion
 	}
 }

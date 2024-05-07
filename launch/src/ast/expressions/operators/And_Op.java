@@ -13,6 +13,7 @@ public class And_Op extends BinaryExpression {
     public And_Op(Expression opnd1, Expression opnd2, int row) {
         super(opnd1, opnd2, row);
         this.type = new Bool_Type(row);
+        this.operator = Operator_T.AND;
     }
     
     public String toString() {return opnd1().toString() + " an " +opnd2().toString();}

@@ -24,4 +24,9 @@ public class Int_Value extends Literal {
     public void checkType() throws Exception {
         this.type = new Const_Type(new Int_Type(row), row, this);
     }
+    
+    @Override
+    public int toIntConst() {
+        return this.v;
+    }
 }

@@ -11,6 +11,7 @@ import exceptions.InvalidTypeException;
 public class Pointer_Op extends UnaryExpression {
     public Pointer_Op(Expression opnd, int row) {
         super(opnd, row);
+        this.operator = Operator_T.PTR;
     }
     
     public String toString() {return opnd1().toString() + "~";}

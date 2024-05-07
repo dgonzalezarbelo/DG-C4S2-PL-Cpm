@@ -13,10 +13,10 @@ public class ReconSyntax {
 		Reader input = new InputStreamReader(new FileInputStream(args[0]));
 		AnalizadorLexicoTiny alex = new AnalizadorLexicoTiny(input);
 		AnalizadorSintacticoTiny asint = new AnalizadorSintacticoTiny(alex);
-		Utils.clearConsole();
+		Utils.clear();
 		Program root = (Program) asint.parse().value;
 		root.bind();
 		root.checkType();
 		System.out.println(root);
 	}
-}   
+}

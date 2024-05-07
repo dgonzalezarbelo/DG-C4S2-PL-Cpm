@@ -25,4 +25,9 @@ public class Bool_Value extends Literal {
             return this.v == ((Bool_Value) other).v;
         return false;
     }
+
+    @Override
+    public int toIntConst() {
+        return (v) ? 1 : 0;
+    }
 }

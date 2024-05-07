@@ -12,6 +12,7 @@ public class Not_Op extends UnaryExpression {
     public Not_Op(Expression opnd, int row) {
         super(opnd, row);
         this.type = new Bool_Type(row);
+        this.operator = Operator_T.NOT;
     }
     
     public String toString() {return "!" + opnd1().toString();};

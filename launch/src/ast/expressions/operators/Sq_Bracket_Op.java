@@ -11,6 +11,7 @@ import exceptions.InvalidTypeException;
 public class Sq_Bracket_Op extends BinaryExpression {
     public Sq_Bracket_Op(Expression opnd1, Expression opnd2, int row) {
         super(opnd1, opnd2, row);
+        this.operator = Operator_T.SQ_BRACKET;
     }
     
     public String toString() {return opnd1().toString() + "[" + opnd2().toString() + "]";}

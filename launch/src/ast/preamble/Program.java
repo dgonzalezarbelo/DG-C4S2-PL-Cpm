@@ -4,6 +4,7 @@ import java.util.List;
 
 import ast.ASTNode;
 import ast.Delta;
+import ast.Josito;
 import ast.SymbolsTable;
 import ast.types.definitions.BoolDefinition;
 import ast.types.definitions.Definition;
@@ -34,7 +35,7 @@ public class Program extends ASTNode {
     @Override
     public void bind() {
         /*
-         * TODO Esto parece más feo de lo que es porque habría que hacerlo con un for y un "conjunto de definiciones de tipos básicos", pero hay que hacerlo
+         * Esto parece más feo de lo que es porque habría que hacerlo con un for y un "conjunto de definiciones de tipos básicos", pero hay que hacerlo
          * para estandarizar los tipos y no permitir declaraciones con el mismo nombre que otras (aunque sean de tipos basicos)
          */
         definitions.addFirst(new BoolDefinition());
@@ -68,5 +69,13 @@ public class Program extends ASTNode {
         for (Definition d : definitions)
             d.computeOffset(delta);
         mainFunction.computeOffset(delta);
+    }
+
+    @Override
+    public void generateCode(Josito jose) {
+        jose.programHeader();
+        for (Definition d : definitions)
+            d.generateCode(jose);
+        mainFunction.generateCode(jose);
     }
 }

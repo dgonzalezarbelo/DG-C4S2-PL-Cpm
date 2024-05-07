@@ -10,8 +10,9 @@ import ast.types.interfaces.Type.Type_T;
 import exceptions.InvalidTypeException;
 
 public class Field_Access_Op extends BinaryExpression {
-    public Field_Access_Op(Expression opnd1, Field opnd2, int row) { // TODO hay que cambiar esto en el cup
+    public Field_Access_Op(Expression opnd1, Field opnd2, int row) {
         super(opnd1, opnd2, row);
+        this.operator = Operator_T.FIELD_ACCESS;
     }
     
     public String toString() {return opnd1().toString() + "." + opnd2().toString(); };
@@ -33,6 +34,16 @@ public class Field_Access_Op extends BinaryExpression {
         opnd2().checkType();
         this.type = opnd2().getType();
     }
+
+    // TODO hay que hacer el Field_Access_Op el translateOperator()
+    @Override
+    public void generateCode(Josito jose) {
+        opnd1().generateCode(jose); // code_D(opnd1)
+        opnd2().generateCode(jose);
+        jose.translateOperator(this.operator);
+    }
+
+
 }
 
 

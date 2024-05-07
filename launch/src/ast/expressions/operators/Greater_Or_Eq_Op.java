@@ -13,6 +13,7 @@ public class Greater_Or_Eq_Op extends BinaryExpression {
     public Greater_Or_Eq_Op(Expression opnd1, Expression opnd2, int row) {
         super(opnd1, opnd2, row);
         this.type = new Bool_Type(row);
+        this.operator = Operator_T.GEQ;
     }
 
     public String toString() {return opnd1().toString() + " >= " +opnd2().toString();}
