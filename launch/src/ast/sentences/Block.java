@@ -6,6 +6,7 @@ import java.util.List;
 import ast.ASTNode;
 import ast.Delta;
 import ast.Indentable;
+import ast.Josito;
 
 public class Block extends ASTNode implements Indentable {
     public List<Sentence> ins;
@@ -79,5 +80,11 @@ public class Block extends ASTNode implements Indentable {
     public void computeOffset(Delta delta) {
         for (Sentence s : ins)
             s.computeOffset(delta);
+    }
+
+    @Override
+    public void generateCode(Josito jose) { 
+        for(Sentence instruction : ins)
+            instruction.generateCode(jose);
     }
 }

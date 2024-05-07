@@ -5,6 +5,7 @@ import ast.sentences.Block;
 import java.util.ArrayList;
 import java.util.List;
 
+import ast.Josito;
 import ast.Utils;
 import ast.expressions.Expression;
 import ast.preamble.Program;
@@ -33,5 +34,10 @@ public class For_Ins extends Instruction {
         Program.symbolsTable.newScope();
         this.body.bind();
         Program.symbolsTable.closeScope();
+    }
+
+    @Override
+    public void generateCode(Josito jose) { 
+        body.generateCode(jose);
     }
 }

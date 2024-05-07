@@ -1,5 +1,6 @@
 package ast.sentences.instructions;
 
+import ast.Josito;
 import ast.Utils;
 
 public class Continue_Ins extends Instruction {
@@ -13,5 +14,14 @@ public class Continue_Ins extends Instruction {
         Utils.appendIndent(str, indentation);
         str.append("continue" + '\n');
         return str.toString();
+    }
+
+    @Override
+    public void generateCode(Josito jose) { 
+        /*
+         * The continue instruction will skip the current iteration of the 
+         * innermost nested block by labelling it with the number 0
+         */
+        jose.jump(0); 
     }
 }

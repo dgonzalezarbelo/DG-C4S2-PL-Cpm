@@ -1,6 +1,7 @@
 package ast.sentences.declarations;
 
 import ast.Delta;
+import ast.Josito;
 import ast.expressions.Expression;
 import ast.expressions.operands.VariableID;
 import ast.sentences.Sentence;
@@ -51,5 +52,11 @@ public class DeclarationAndAssignation extends Sentence {
     public void computeOffset(Delta delta) {
         this.d.computeOffset(delta);
         this.a.computeOffset(delta);
+    }
+
+    @Override
+    public void generateCode(Josito jose) { 
+        d.generateCode(jose);
+        a.generateCode(jose);
     }
 }

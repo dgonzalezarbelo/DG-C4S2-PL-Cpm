@@ -2,6 +2,7 @@ package ast.types.interfaces;
 
 import ast.ASTNodeTypable;
 import ast.Delta;
+import ast.Josito;
 import ast.Utils;
 import ast.preamble.Program;
 import ast.types.definitions.Definition;

@@ -15,4 +15,6 @@ public class ConstructorCall extends FunctionCall {
         if (!matchingBind.getClass().equals(Constructor.class))
             throw new InvalidTypeException("Constructor call expected but function call was written");
     }
+
+    // TODO del Code_E o el Code_D
 }

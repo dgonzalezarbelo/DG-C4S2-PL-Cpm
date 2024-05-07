@@ -20,7 +20,7 @@ public abstract class Literal extends Expression {
     public Expression opnd2() { throw new UnsupportedOperationException("Literals does not have operands"); }
 
     @Override
-    public void generateCode(Josito jose) {
+    public void generateValue(Josito jose) { // Code_E
         jose.createConst(this.toIntConst());
     }
 

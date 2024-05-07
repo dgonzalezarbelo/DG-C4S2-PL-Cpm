@@ -1,5 +1,6 @@
 package ast.sentences.instructions;
 
+import ast.Josito;
 import ast.Utils;
 
 public class Break_Ins extends Instruction {
@@ -13,5 +14,15 @@ public class Break_Ins extends Instruction {
         Utils.appendIndent(str, indentation);
         str.append("break" + '\n');
         return str.toString();
+    }
+
+    @Override
+    public void generateCode(Josito jose) { 
+        /*
+         * The break instruction will exit the current loop of 
+         * innermost nested block by labelling it with the number 1
+         */
+
+        jose.jump(1); 
     }
 }

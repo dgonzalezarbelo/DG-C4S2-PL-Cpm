@@ -1,5 +1,6 @@
 package ast.sentences.instructions;
 
+import ast.Josito;
 import ast.Utils;
 import ast.expressions.Expression;
 import ast.types.interfaces.Type;
@@ -32,4 +33,10 @@ public class Input_Ins extends Instruction {
         }
     }
     
+    @Override
+    public void generateCode(Josito jose) { 
+        argExpression.generateAddress(jose);
+        jose.readCall();
+        jose.store();
+    }
 }

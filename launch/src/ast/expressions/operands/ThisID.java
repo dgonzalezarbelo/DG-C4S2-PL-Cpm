@@ -1,6 +1,7 @@
 package ast.expressions.operands;
 
 import ast.ASTNodeTypable;
+import ast.Josito;
 import ast.Utils;
 import ast.expressions.Expression;
 import ast.preamble.Program;
@@ -45,4 +46,13 @@ public class ThisID extends Expression {
     public Expression opnd2() {
         throw new UnsupportedOperationException("'This' operator does not have operands");
     } 
+
+    @Override
+	public void generateAddress(Josito jose) { // Code_D
+		// TODO ponerte al inicio de la clase (entiendo que esto solo se llamada desde clases
+        // y por ende cuando llamemos a un metodo, se cargara la clase primero)
+		// jose.createIdentifier(delta); // si el id_node es un declaracion
+	
+	}
+    
 }

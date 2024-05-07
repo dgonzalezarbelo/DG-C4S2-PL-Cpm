@@ -3,6 +3,7 @@ package ast.sentences.declarations;
 import java.util.List;
 
 import ast.Delta;
+import ast.Josito;
 import ast.Utils;
 import ast.expressions.Expression;
 import ast.expressions.operands.VariableID;
@@ -105,5 +106,10 @@ public class Declaration extends Sentence {
     @Override
     public void computeOffset(Delta delta) {
         this.position = delta.getAndUpdateOffset(maximumMemory);
+    }
+
+    @Override // TODO esta sin hacer nada, porque deberian ser las asignaciones las que cambian la memoria lineal y una declaracion como tal no afecta a nada, ni si quiera haria los locals, haria que todo fuese con asignaciones y stores
+    public void generateCode(Josito jose) { 
+        // Nothing to do
     }
 }

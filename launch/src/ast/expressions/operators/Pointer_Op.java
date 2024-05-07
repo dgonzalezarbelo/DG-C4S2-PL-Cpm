@@ -4,6 +4,7 @@ import ast.expressions.UnaryExpression;
 import ast.types.interfaces.Pointer_Type;
 import ast.types.interfaces.Type;
 import ast.types.interfaces.Type.Type_T;
+import ast.Josito;
 import ast.expressions.Expression;
 import exceptions.InvalidTypeException;
 
@@ -30,4 +31,23 @@ public class Pointer_Op extends UnaryExpression {
         this.type = ((Pointer_Type) t).getInnerType();
         this.type.checkType();
     }
+
+    @Override
+    public void generateAddress(Josito jose) { // Code_D
+        opnd1().generateValue(jose); // this must be a ptr with the address
+    }
+    
+    @Override
+    public void generateValue(Josito jose) { // Code_E
+        generateAddress(jose);
+        jose.load();
+    }
 }
+
+/**
+ * int ~a = &d;
+ * int b;
+ * b = ~a;
+ * ~a = 5;
+ * 
+ */

@@ -1,5 +1,6 @@
 package ast.types.interfaces;
 
+import ast.Josito;
 import exceptions.InvalidTypeException;
 
 public class Int_Type extends Type {
@@ -20,5 +21,11 @@ public class Int_Type extends Type {
     @Override
     public void calcSize() { 
         maximumMemory = BYTES_SIZE;
+    }
+    
+    @Override
+    public void generateCode(Josito jose) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'generateCode'");
     }
 }

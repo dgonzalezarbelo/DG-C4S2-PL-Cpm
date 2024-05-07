@@ -4,6 +4,7 @@ import ast.sentences.Block;
 import ast.types.interfaces.Type;
 import ast.types.interfaces.Type.Type_T;
 import exceptions.BooleanConditionException;
+import ast.Josito;
 import ast.Utils;
 import ast.expressions.Expression;
 import ast.preamble.Program;
@@ -41,4 +42,16 @@ public class While_Ins extends Instruction {
             Utils.printErrorRow(row);
         }
 	}
+
+    @Override
+    public void generateCode(Josito jose) { 
+        jose.loopInit();
+        argExpression.generateValue(jose);
+        jose.eqZero();
+        jose.conditionalJump(1);
+        body.generateCode(jose);
+        jose.jump(0);
+        jose.endBlock();
+        jose.endBlock();
+    }
 }

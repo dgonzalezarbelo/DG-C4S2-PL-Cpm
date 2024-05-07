@@ -6,6 +6,7 @@ import exceptions.MatchingTypeException;
 import java.util.List;
 
 import ast.Delta;
+import ast.Josito;
 import ast.Utils;
 import ast.expressions.Expression;
 import ast.preamble.Program;
@@ -95,4 +96,12 @@ public class Switch_Ins extends Instruction {
             c.computeOffset(delta);
         default_Ins.computeOffset(delta);
     }
+
+/* 
+    @Override
+    public void generateCode(Josito jose) { 
+        argExpression.generateValue(jose);
+
+    }
+    */ // TODO hay que pensarla bien
 }

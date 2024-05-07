@@ -5,6 +5,7 @@ import ast.types.interfaces.Type;
 import ast.types.interfaces.Type.Type_T;
 import exceptions.BooleanConditionException;
 import ast.Delta;
+import ast.Josito;
 import ast.Utils;
 import ast.expressions.Expression;
 import ast.preamble.Program;
@@ -73,5 +74,17 @@ public class If_Ins extends Instruction {
         super.computeOffset(delta);
         if (elseBody != null)
             elseBody.computeOffset(delta);
+    }
+
+    @Override
+    public void generateCode(Josito jose) { 
+        argExpression.generateValue(jose);
+        jose.ifInit();
+        body.generateCode(jose);
+        if(elseBody != null) {
+            jose.elseInit();
+            elseBody.generateCode(jose);
+        }
+        jose.endBlock();  
     }
 }

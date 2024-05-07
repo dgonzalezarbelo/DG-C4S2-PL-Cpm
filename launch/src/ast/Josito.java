@@ -14,7 +14,8 @@ public class Josito {
     // Output
     
     private int indentation;
-    private int markPointer;    // points
+    private int dynamicLink;    // points to the beginning of its dynamic predecessor's frame (who call him)
+    private int defaultSize = 4;
     private int stackPointer;   // points to the last occupied position of the memory 
     private int newPointer;     // points to the last occupied position of the heap
 
@@ -40,16 +41,92 @@ public class Josito {
         code.add("call $exception");
         code.add("end");
         code.add(")");
+        loadFunctions(code);
     }
 
-    public void funcHeader(String name) {
-        append(indentate("(func $%s"), name);
+    public void loadFunctions(StringJoiner code) {
+        /*
+         * Function that loads into the memory stack a variable of size n (for example, a Class or Struct instance)
+         */
+        code.add("(func $load_size (param $size i32)"); //FIXME Comprobar esta funcion
+        code.add("  (local $cur_size i32)");
+        code.add("  (local $cur_pos i32)");
+        code.add("  local.set $cur_pos ;; Initial position has already been pushed");
+        code.add("  local.set $cur_size (i32.const 0))");
+        code.add("  (block");
+        code.add("    (loop");
+        code.add("      (if (i32.ge_s (local.get $cur_size) (local.get $size))");
+        code.add("        (then");
+        code.add("          (br $end_loop)");
+        code.add("        )");
+        code.add("      )");
+        code.add("");
+        code.add("      local.get $cur_pos");
+        code.add("      i32.load");
+        code.add("");
+        code.add("      local.get $cur_pos");
+        code.add("      i32.const 4");
+        code.add("      i32.add");
+        code.add("      local.set $cur_pos");
+        code.add("");
+        code.add("      local.get $cur_size");
+        code.add("      i32.const 4");
+        code.add("      i32.add");
+        code.add("      local.set $cur_size");
+        code.add("");
+        code.add("      (br $loop)");
+        code.add("    )");
+        code.add("  )");
+        code.add(")");
+
+        /*
+         * Function that store into the memory a variable of size n (for example, a Class or Struct instance), with the values already loaded into the stack
+         */
+        code.add("(func $store_size (param $size i32)"); //FIXME Comprobar esta funcion
+        code.add("  (local $cur_size i32)");
+        code.add("  (local $initial_pos i32)");
+        code.add("  (local $cur_pos i32)");
+        code.add("  (local $aux i32)        ;; Variable to de-stack elements, push the address and re-stack them to then store");
+        code.add("  local.set $initial_pos  ;; Initial position has already been pushed");
+        
+        code.add("  local.set $cur_size (i32.const 0))");
+        code.add("  (block");
+        code.add("    (loop");
+        code.add("      (if (i32.ge_s (local.get $cur_size) (local.get $size))");
+        code.add("        (then");
+        code.add("          (br $end_loop)");
+        code.add("        )");
+        code.add("      )");
+        code.add("");
+        code.add("      local.set $aux");
+        code.add("      local.get $cur_pos");
+        code.add("      local.get $aux");
+        code.add("      i32.store");
+        code.add("");
+        code.add("      local.get $cur_pos");
+        code.add("      i32.const 4");
+        code.add("      i32.add");
+        code.add("      local.set $cur_pos");
+        code.add("");
+        code.add("      local.get $cur_size");
+        code.add("      i32.const 4");
+        code.add("      i32.add");
+        code.add("      local.set $cur_size");
+        code.add("");
+        code.add("      (br $loop)");
+        code.add("    )");
+        code.add("  )");
+        code.add(")");
+    }
+
+    public void funcHeader(String name) { // FIXME Falta la posibilidad de argumentos y el tipo de retorno
+        append("(func $%s", name);
         indentation++;
     }
 
     public void funcTail() {
         indentation--;
-        append(indentate(")"));
+        append(")");
     }
 
     public void addArgument() {
@@ -62,11 +139,70 @@ public class Josito {
 
     public void createIdentifier(int delta) { //TODO dani, esto no tiene indentate
         append("i32.const %d", delta);
-        append("i32.const %d", markPointer); // TODO obtener inicio del marco de id
+        append("i32.const %d", dynamicLink); // TODO obtener inicio del marco de id
         append("i32.add");
     }
 
-    
+    public void load() {
+        append("i32.load");
+    }
+
+    public void load(int init_pos, int size) {
+        if (size == defaultSize)
+            load();
+        else {
+            int end_pos = init_pos + size - 4;
+            append("i32.const %d", init_pos); //FIXME No se si el orden de apilar es este
+            append("i32.const %d", size);
+            append("call $load_size");
+        }
+    }
+
+    public void store() {
+        append("i32.store");
+    }
+
+    public void store(int init_pos, int size) {
+
+    }
+
+    public void ifInit() {
+        append("if");
+    }
+
+    public void elseInit() {
+        append("else");
+    }
+
+    public void endBlock() {
+        append("end");
+    }
+
+    public void loopInit() {
+        append("block");
+        append("loop");
+    }
+
+    public void eqZero() {
+        append("i32.eqz");
+    }
+
+    public void conditionalJump(int label) { // conditional-jump to the label
+        append("br_if %d", label);
+    }
+
+    public void jump(int label) { // inconditional-jump to the label
+        append("br %d", label);
+    }
+
+    public void printCall() { // inconditional-jump to the label
+        append("call $print");
+    }
+
+    public void readCall() { // inconditional-jump to the label
+        append("call $read");
+    }
+
     // AND, DIV, EQ, FIELD_ACCESS, GREATER, GEQ, LESS, LEQ, MINUS, MOD, MULT, NEQ, NOT, OR, PTR, POW, REFERENCE, SQ_BRACKET, SUB, ADD }
 
     public void translateOperator(Operator_T operator) {
@@ -77,7 +213,8 @@ public class Josito {
                 break;
             case Operator_T.EQ:
                 break;
-            case Operator_T.FIELD_ACCESS:
+            case Operator_T.FIELD_ACCESS: // Field Access only need to calculate Code_D(left_part) + delta(field) 
+                append("i32.add");
                 break;
             case Operator_T.GREATER:
                 break;
@@ -110,6 +247,7 @@ public class Josito {
             case Operator_T.SUB:
                 break;
             case Operator_T.ADD:
+                append("i32.add");
                 break;
         }
     }
@@ -121,7 +259,7 @@ public class Josito {
     private String indentate(String instruction) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < indentation; i++)
-            sb.append("    ");
+            sb.append("  ");
         sb.append(instruction);
         return sb.toString();
     }

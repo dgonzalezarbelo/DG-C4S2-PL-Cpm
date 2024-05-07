@@ -1,5 +1,6 @@
 package ast.expressions.operators;
 
+import ast.Josito;
 import ast.expressions.BinaryExpression;
 import ast.expressions.Expression;
 import ast.expressions.operands.Field;
@@ -32,44 +33,18 @@ public class Field_Access_Op extends BinaryExpression {
         boolean isThis = opnd1().getClass().equals(ThisID.class);
         ((Field) opnd2()).setClassFrom(((Defined_Type) opnd1().getType()), isThis);
         opnd2().checkType();
-        this.type = opnd2().getType();
+        this.type = opnd2().getType(); 
     }
 
-    // TODO hay que hacer el Field_Access_Op el translateOperator()
+    public void generateAddress(Josito jose) { // Code_D(d.id)
+        opnd1().generateAddress(jose); // Code_D(d)
+        opnd2().generateAddress(jose); // Code_D(id)
+        jose.translateOperator(this.operator); // This internally is an i32.add
+    }
+    
     @Override
-    public void generateCode(Josito jose) {
-        opnd1().generateCode(jose); // code_D(opnd1)
-        opnd2().generateCode(jose);
-        jose.translateOperator(this.operator);
+    public void generateValue(Josito jose) {
+        generateAddress(jose);
+        jose.load(); //FIXME Hay que pasar el size
     }
-
-
 }
-
-
-/*
- * struct CS1 {
- *      int c;
- * }
- * 
- * struct CS2{
- *      CS1 b;
- * }
- * 
- * 
- * int main() {
- *      CS2 a;
- *      ...
- * 
- *      a.b.c
- * 
- *      (a.b).c
- * 
- *      a.d()
- * 
- *      a.(3+3)
- * 
- * }
- * 
- * 
- */

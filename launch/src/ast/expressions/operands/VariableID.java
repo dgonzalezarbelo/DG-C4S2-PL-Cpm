@@ -50,9 +50,23 @@ public class VariableID extends Expression {
 	}
 
 	@Override
-	public void generateCode(Josito jose) {
-		// TODO esto hay que darle una vuelta para que se haga encapsulado
+	public void generateAddress(Josito jose) { // Code_D
+		// TODO esto tiene que ser asi y que el delta sea el de la declaracion del id_node 
+		// y no puede ser un define porque no se haría generateAddress a defines
 		// jose.createIdentifier(delta); // si el id_node es un declaracion
-		// jose.createConst(value) 	// si el id_node es un define en lugar de una declaracion
+	
 	}
+    
+	@Override
+    public void generateValue(Josito jose) { // Code_E
+		// TODO esto hay que darle una vuelta para que se haga encapsulado
+
+		// si el id_node es un declaracion
+		// generateAdress(jose);
+		// jose.load()
+
+		// si el id_node es un define en lugar de una declaracion
+		// jose.createConst(value) 	
+	
+    }
 }

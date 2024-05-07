@@ -1,5 +1,6 @@
 package ast.expressions.operands;
 
+import ast.Josito;
 import ast.preamble.Attribute;
 import exceptions.VisibilityException;
 
@@ -27,5 +28,11 @@ public class AttributeID extends Field {
     @Override
     public String toString() {
         return this.fieldname;
+    }
+
+    @Override //TODO
+    public void generateCode(Josito jose) { // TODO, conseguir el delta del atributo correspondiente en la clase
+        // int delta = 
+        //jose.createConst(delta);
     }
 }

@@ -2,6 +2,7 @@ package ast.sentences.instructions;
 
 import java.util.List;
 
+import ast.Josito;
 import ast.Utils;
 import ast.expressions.Expression;
 import ast.types.interfaces.Array_Type;
@@ -54,5 +55,12 @@ public class Assignation_Ins extends Instruction {
             System.out.println(e);
             Utils.printErrorRow(row);
         }
+    }
+
+    @Override
+    public void generateCode(Josito jose) { 
+        leftSide.generateAddress(jose);
+        argExpression.generateValue(jose); // right side
+        jose.store(); //TODO dani
     }
 }

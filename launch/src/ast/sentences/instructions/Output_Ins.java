@@ -1,5 +1,6 @@
 package ast.sentences.instructions;
 
+import ast.Josito;
 import ast.Utils;
 import ast.expressions.Expression;
 import ast.types.interfaces.Type;
@@ -30,5 +31,11 @@ public class Output_Ins extends Instruction {
             System.out.println(e);
             Utils.printErrorRow(row);
         }
+    }
+
+    @Override
+    public void generateCode(Josito jose) { 
+        argExpression.generateValue(jose);
+        jose.printCall();
     }
 }

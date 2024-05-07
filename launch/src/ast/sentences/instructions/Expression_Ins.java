@@ -1,5 +1,6 @@
 package ast.sentences.instructions;
 
+import ast.Josito;
 import ast.Utils;
 import ast.expressions.Expression;
 
@@ -20,5 +21,10 @@ public class Expression_Ins extends Instruction {
         Utils.appendIndent(str, indentation);
         str.append(argExpression.toString() + '\n');
         return str.toString();
+    }
+
+    @Override
+    public void generateCode(Josito jose) { 
+        argExpression.generateValue(jose); // TODO he puesto eso asumiendo que con code_E se bien las functionCall
     }
 }
