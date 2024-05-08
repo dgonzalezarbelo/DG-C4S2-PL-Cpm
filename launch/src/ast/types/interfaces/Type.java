@@ -2,6 +2,7 @@ package ast.types.interfaces;
 
 import ast.ASTNodeTypable;
 import ast.Delta;
+import ast.Josito;
 import ast.Utils;
 import ast.preamble.Program;
 import ast.types.definitions.Definition;
@@ -77,5 +78,11 @@ public abstract class Type extends ASTNodeTypable {
     @Override
     public void computeOffset(Delta delta) {
         // Nothing to do
+    }
+    
+    @Override
+    public void generateCode(Josito jose) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'generateCode'");
     }
 }

@@ -1,10 +1,29 @@
 package ast;
 
+
+import java.util.Set;
+
 public class Utils {
     public static void appendIndent(StringBuilder str, int indent) {
         String token = "    ", lastToken = "|---";
         for (int i = 0; i < indent; i++)
             str.append(i == indent - 1 ? lastToken : token);
+    }
+
+    public static Integer getMinSet(Set<Integer> list) {
+        if (list == null || list.size() == 0) return null;
+        Integer ret = Integer.MAX_VALUE;
+        for (Integer i: list)
+            if (i <= ret) ret = i;
+        return ret;
+    }
+
+    public static Integer getMaxSet(Set<Integer> list) {
+        if (list == null || list.size() == 0) return null;
+        Integer ret = Integer.MIN_VALUE;
+        for (Integer i: list)
+            if (i >= ret) ret = i;
+        return ret;
     }
 
     public static void clearConsole() {

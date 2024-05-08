@@ -26,6 +26,10 @@ public class Array_Type extends Envelope_Type {
         this.inner_type = t;
     }
 
+    public boolean isSubarray() {
+        return this.outer_type != null;
+    }
+
     public void setOuterType(Type t) {
         this.outer_type = t;
     }

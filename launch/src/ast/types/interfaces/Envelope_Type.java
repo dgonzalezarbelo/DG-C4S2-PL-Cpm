@@ -23,7 +23,7 @@ public abstract class Envelope_Type extends Type {
     public void checkType() throws Exception {
         this.inner_type.checkType();
     }
-    
+
     @Override
     public void copyType(Type type) throws Exception {
         if (type.getKind() != this.getKind() || ((Envelope_Type) type).inner_type.getKind() != this.inner_type.getKind())

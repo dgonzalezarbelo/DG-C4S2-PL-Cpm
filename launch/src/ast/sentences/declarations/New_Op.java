@@ -8,7 +8,7 @@ import ast.types.interfaces.Type.Type_T;
 
 public class New_Op extends Expression {
     private ConstructorCall constructor; // In case this attribute is not null then it has to be a constructor, otherwise it will not make sense
-  
+
     public New_Op(ConstructorCall constructor, int row) { // new for constructors [niu Alumno()]
         this.constructor = constructor;
         this.row = row;
@@ -20,7 +20,7 @@ public class New_Op extends Expression {
     }
     
     public String toString() {return "niu " + (constructor != null ? constructor.toString() : type.toString());}
-  
+
     @Override
     public void bind() {
         if (type != null)
@@ -58,4 +58,6 @@ public class New_Op extends Expression {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'opnd2'");
     }
+
+    // TODO creo que aqui solo hace falta el generateValue (Code_E)
 }

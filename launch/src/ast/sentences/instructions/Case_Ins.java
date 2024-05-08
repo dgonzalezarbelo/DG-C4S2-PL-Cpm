@@ -24,6 +24,9 @@ public class Case_Ins extends Instruction {
         return str.toString();
     }
 
+    public Integer getCaseValue() {
+        return ((Literal) argExpression).toIntConst();
+    }
 
     // FIXME no sabemos si el literal irá a memoria o a pila
     // public void maxMemory(Integer c, Integer maxi);

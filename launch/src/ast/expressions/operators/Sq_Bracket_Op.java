@@ -38,31 +38,46 @@ public class Sq_Bracket_Op extends BinaryExpression {
 
     @Override
     public void generateAddress(Josito jose) { // Code_D
-        // opnd1.generateAddress(jose);
-        // type.getSize()
-        // opnd2.generateValue(jose);
-        // jose.mult
-        // jose.suma
+        Expression op1 = opnd1();
+        if (op1 instanceof Sq_Bracket_Op)   // If we have more brackets to the left then everything work as per usual
+            op1.generateAddress(jose);
+        else
+            op1.generateValue(jose);        // In other case, we want the first position pointed by the (outer) array, so we want the value, not the address of the array  itself
+        jose.createConst(type.getSize());
+        opnd2().generateValue(jose);
+        jose.translateOperator(this.operator);
     }
     
     @Override
     public void generateValue(Josito jose) { // Code_E
-        // opnd1.generateAddress(jose);
-        // opnd2.generateValue(jose);
-        // jose.suma
-        // jose.load
+        generateAddress(jose);
+        if (type.getKind() != Type_T.ARRAY) // If the type is an array itself we just want the address
+            jose.load(type.getSize());
     }
 }
 
-/*
- * int a[6][10]
+/* // FIXME Quitar esto
+ * int a[6][10][2]
  * a[5]         <- Este
  * a[5][1][3]      <- Y este te dan la misma address al hacer Code_D
- *
+ * a[0][0][0]
+ * a[0][0][1]
+ * a[0][0][2]
+ * a[0][1][0]
+ * a[1]
+ * a[2]
+ * a[3]
+ * a[4]
+ * int * ptr;
+ * ptr = a[0][0]; <- Queremos la direccion de a[0][0]
  * 
  * int c[100];
  * ~b = c[5];
  * 
+ * a[1]
+ * int aa[2][400][5][6];
+ * int bb[2][400][5][6];
+ * aa[1] = bb[1];
  * 
  * int d;
  * int j[10]; // j[0] = j mismo CODE_D

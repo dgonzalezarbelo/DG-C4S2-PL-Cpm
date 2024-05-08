@@ -108,6 +108,10 @@ public class Declaration extends Sentence {
         this.position = delta.getAndUpdateOffset(maximumMemory);
     }
 
+    public Integer getOffset() {
+        return this.position;
+    }
+
     @Override // TODO esta sin hacer nada, porque deberian ser las asignaciones las que cambian la memoria lineal y una declaracion como tal no afecta a nada, ni si quiera haria los locals, haria que todo fuese con asignaciones y stores
     public void generateCode(Josito jose) { 
         // Nothing to do

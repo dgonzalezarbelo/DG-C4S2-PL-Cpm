@@ -3,7 +3,10 @@ package ast.sentences.instructions;
 import exceptions.InvalidTypeException;
 import exceptions.MatchingTypeException;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import ast.Delta;
 import ast.Josito;
@@ -14,6 +17,7 @@ import ast.types.interfaces.Type;
 import ast.types.interfaces.Type.Type_T;
 
 public class Switch_Ins extends Instruction {
+    HashMap<Integer, Case_Ins> mapValuesToCases;
     List<Case_Ins> clauses;
     Default_Ins default_Ins;
 
@@ -32,6 +36,25 @@ public class Switch_Ins extends Instruction {
         str.append(default_Ins.toString());
         return str.toString();
     }
+
+    public List<Boolean> caseRange(Integer ini, Integer fin) { 
+    /*
+    * Return a boolean list that says in the interval 
+    * [ini, fin] which cases are implemented
+    */ 
+        mapValuesToCases  = new HashMap<>();
+        for(Case_Ins clause : clauses) { // The cases values will be all different
+            int key = clause.getCaseValue();
+            mapValuesToCases.put(key, clause);
+        }
+        Set<Integer> clauseValues = mapValuesToCases.keySet();
+        ini = Utils.getMinSet(clauseValues);
+        fin = Utils.getMaxSet(clauseValues);
+        List<Boolean> casesImplemented = new ArrayList<>();
+        for(int i = 0; i <= fin; i++)
+            casesImplemented.add(mapValuesToCases.containsKey(ini + i));
+        return casesImplemented;
+    }   
 
     @Override
     public void bind() {
@@ -104,4 +127,11 @@ public class Switch_Ins extends Instruction {
 
     }
     */ // TODO hay que pensarla bien
+
+    @Override // TODO queda terminarla bien
+    public void generateCode(Josito jose) { 
+        
+        argExpression.generateValue(jose);
+
+    }
 }

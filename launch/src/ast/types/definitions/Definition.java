@@ -6,6 +6,7 @@ import ast.ASTNode;
 import ast.ASTNodeTypable;
 import ast.Delta;
 import ast.Indentable;
+import ast.Josito;
 import ast.Utils;
 import ast.expressions.operands.AttributeID;
 import ast.expressions.operands.FunctionCall;
@@ -56,6 +57,11 @@ public abstract class Definition extends ASTNodeTypable implements Indentable {
 
     @Override
     public void computeOffset(Delta delta) {
+        // Nothing to do
+    }
+
+    @Override
+    public void generateCode(Josito jose) {
         // Nothing to do
     }
 }

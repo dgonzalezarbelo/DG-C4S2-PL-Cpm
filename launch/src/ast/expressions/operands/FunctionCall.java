@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ast.ASTNode;
+import ast.Josito;
 import ast.Utils;
 import ast.expressions.Expression;
+import ast.preamble.Argument;
 import ast.preamble.Function;
 import ast.preamble.Program;
 import ast.types.interfaces.Type;
@@ -17,7 +19,7 @@ public class FunctionCall extends Expression {
     protected List<ASTNode> possibleBinds;          // Constructor and Parenthesis list
     protected List<Expression> args;
     protected List<Type> typeArgs;
-    protected ASTNode matchingBind;                 // FIXME igual esto debería ser una definicion de funcion y no un astnode
+    protected Function matchingBind;
 
     public FunctionCall(String funcname, List<Expression> funcargs, int row) {
         this.funcname = funcname;
@@ -91,5 +93,19 @@ public class FunctionCall extends Expression {
     // FIXME igual hay que hacer aquí algo
     // public void maxMemory(Integer c, Integer maxi)
 
-    // TODO del Code_E
+    public void generateValue(Josito jose) { // Code_E 
+        jose.createConst(matchingBind.getSize());   // calc new scope size
+        jose.reserveStackCall();                    // calc new limits MP and SP of scope
+        jose.setDynamicLink();                      // saves previous MP to return in DL of new scope
+        jose.setReference(0);                       // saves the reference object since we need to calc the direction (if needed), in this case 0 because we are not inside one
+        int i = 0;                     
+        for(Argument arg : matchingBind.getArgumentsList()) {   // TODO es prácticamente igual que el de la asignación así que hay que ver como se cambia
+            jose.getLocalDirUsingMP(arg.getOffset());   // Code_D of the argument
+            args.get(i).generateValue(jose);            // Code_E of the parameter
+            i++;
+        } // TODO en el for hacer distinto si es parametro por referencia
+        jose.callFunction(matchingBind.getWASMId());    //calling the WASM function with the unique id
+        // return value (if any) is now at top of the stack, so the generateValue() is complete for functionCall
+        jose.freeStackCall(); // FIXME esto podría petar porque el return value está en la pila y estamos llamando a otra función, pero pensamos que no
+    }
 }

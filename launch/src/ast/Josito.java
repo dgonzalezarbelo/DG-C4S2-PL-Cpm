@@ -12,7 +12,10 @@ public class Josito {
     // Interpreter
     // Translator
     // Output
+
+    public static final int NUM_FUNC_POINTERS_SIZE = 8;
     
+    private int functionWASMId = 0; // The id of the functions of the compiling program
     private int indentation;
     private int dynamicLink;    // points to the beginning of its dynamic predecessor's frame (who call him)
     private int defaultSize = 4;
@@ -21,107 +24,83 @@ public class Josito {
 
     public void programHeader() {
         code.add("(memory 2000)");
-        code.add("(global $SP (mut i32) (i32.const 0)) ;; start of stack");
-        code.add("(global $MP (mut i32) (i32.const 0)) ;; mark pointer");
-        code.add("(global $NP (mut i32) (i32.const 131071996)) ;; heap 2000*64*1024-4");
-        code.add("(func $reserveStack (param $size i32)");
-        code.add("(result i32)");
-        code.add("get_global $MP");
-        code.add("get_global $SP");
-        code.add("set_global $MP");
-        code.add("get_global $SP");
-        code.add("get_local $size");
-        code.add("i32.add");
-        code.add("set_global $SP");
-        code.add("get_global $SP");
-        code.add("get_global $NP");
-        code.add("i32.gt_u");
-        code.add("if");
-        code.add("i32.const 3");
-        code.add("call $exception");
-        code.add("end");
-        code.add(")");
+        code.add("(global $SP (mut i32) (i32.const 0))          ;; start of stack");     // points the next free address (SP)
+        code.add("(global $MP (mut i32) (i32.const 0))          ;; mark pointer");       // points the first address of the current scope (MP)
+        code.add("(global $NP (mut i32) (i32.const 131071996))  ;; heap 2000*64*1024-4");
+        code.add("(global $swap (mut i32) (i32.const 0))");
         loadFunctions(code);
     }
 
     public void loadFunctions(StringJoiner code) {
         /*
-         * Function that loads into the memory stack a variable of size n (for example, a Class or Struct instance)
+         * Function that reserves enough memory for the new scope
          */
-        code.add("(func $load_size (param $size i32)"); //FIXME Comprobar esta funcion
-        code.add("  (local $cur_size i32)");
-        code.add("  (local $cur_pos i32)");
-        code.add("  local.set $cur_pos ;; Initial position has already been pushed");
-        code.add("  local.set $cur_size (i32.const 0))");
-        code.add("  (block");
-        code.add("    (loop");
-        code.add("      (if (i32.ge_s (local.get $cur_size) (local.get $size))");
-        code.add("        (then");
-        code.add("          (br $end_loop)");
-        code.add("        )");
-        code.add("      )");
-        code.add("");
-        code.add("      local.get $cur_pos");
-        code.add("      i32.load");
-        code.add("");
-        code.add("      local.get $cur_pos");
-        code.add("      i32.const 4");
-        code.add("      i32.add");
-        code.add("      local.set $cur_pos");
-        code.add("");
-        code.add("      local.get $cur_size");
-        code.add("      i32.const 4");
-        code.add("      i32.add");
-        code.add("      local.set $cur_size");
-        code.add("");
-        code.add("      (br $loop)");
-        code.add("    )");
-        code.add("  )");
+        code.add("(func $reserveStack (param $size i32)");  // this argument is the maximunMemoy of the new scope
+        code.add("  (result i32)");                         // returning value will be the Mark Pointer (MP) of the calling scope <-- Dynamic Link
+        code.add("  get_global $MP");
+        code.add("  get_global $SP");
+        code.add("  set_global $MP");
+        code.add("  get_global $SP");
+        code.add("  get_local $size");
+        code.add("  i32.add");
+        code.add("  set_global $SP");
+        code.add("  get_global $SP");
+        code.add("  get_global $NP");
+        code.add("  i32.gt_u");
+        code.add("  if");
+        code.add("  i32.const 3");
+        code.add("  call $exception");
+        code.add("  end");
+        code.add(")");
+        
+        /*
+         * Function that restores the memory when exiting the scope
+         */
+        code.add("(func $freeStack (type $_sig_void)"); // TODO esta hecho por nosotros porque el dado por el profe creo q esta algo mal
+        code.add("   get_global $MP");
+        code.add("   set_global $SP"); // SP <-- MP (the first next free address (SP) will be the first address of the current scope that are we freeing (MP))
+        code.add("   get_global $MP"); // MP points to the current DL that points to the previous MP so we restore it
+        code.add("   i32.load");
+        code.add("   set_global $MP");
         code.add(")");
 
         /*
-         * Function that store into the memory a variable of size n (for example, a Class or Struct instance), with the values already loaded into the stack
-         */
-        code.add("(func $store_size (param $size i32)"); //FIXME Comprobar esta funcion
-        code.add("  (local $cur_size i32)");
-        code.add("  (local $initial_pos i32)");
-        code.add("  (local $cur_pos i32)");
-        code.add("  (local $aux i32)        ;; Variable to de-stack elements, push the address and re-stack them to then store");
-        code.add("  local.set $initial_pos  ;; Initial position has already been pushed");
-        code.add("  local.get $initial_pos");
-        code.add("  local.get $size");
-        code.add("  i32.add");
-        code.add("  i32.const 4");
-        code.add("  i32.sub");
-        code.add("  local.set $cur_pos");
-        code.add("  local.set $cur_size (i32.const 0))");
-        code.add("  (block");
-        code.add("    (loop");
-        code.add("      (if (i32.lt (local.get $cur_pos) (local.get $initial_pos))");
-        code.add("        (then");
-        code.add("          (br $end_loop)");
-        code.add("        )");
-        code.add("      )");
-        code.add("");
-        code.add("      local.set $aux");
-        code.add("      local.get $cur_pos");
-        code.add("      local.get $aux");
-        code.add("      i32.store");
-        code.add("");
-        code.add("      local.get $cur_pos");
-        code.add("      i32.const 4");
-        code.add("      i32.sub");
-        code.add("      local.set $cur_pos");
-        code.add("");
-        code.add("      (br $loop)");
-        code.add("    )");
-        code.add("  )");
+        * Copy n
+        */
+        code.add("(func $copyn (type $_sig_i32i32i32) ;; copy $n i32 slots from $src to $dest");
+        code.add("(param $src i32)");           // origin
+        code.add("(param $dest i32)");          // destination
+        code.add("(param $n i32)");             // n elements
+        code.add("block");
+        code.add("    loop");
+        code.add("    local.get $n");
+        code.add("    i32.eqz");
+        code.add("    br_if 1");
+        code.add("    local.get $n");
+        code.add("    i32.const 1");
+        code.add("    i32.sub");
+        code.add("    local.set $n");
+        code.add("    local.get $dest");
+        code.add("    local.get $src");
+        code.add("    i32.load");
+        code.add("    i32.store");
+        code.add("    local.get $dest");
+        code.add("    i32.const 4");
+        code.add("    i32.add");
+        code.add("    local.set $dest");
+        code.add("    local.get $src");
+        code.add("    i32.const 4");
+        code.add("    i32.add");
+        code.add("    local.set $src");
+        code.add("    br 0");
+        code.add("    end");
+        code.add("end");
         code.add(")");
 
         /*
          * Power function (base^exp)
          */
-        code.add("(module");
+        code.add("(module"); // TODO solo hay un module en todo el codigo, no puede ser ese
         code.add("    (func $exponentiation (param $base i32) (param $exponent i32) (param $modulus i32) (result i32)");
         code.add("        (local $result i32)");
         code.add("        (local $base_temp i32)");
@@ -179,8 +158,13 @@ public class Josito {
 
     }
 
-    public void funcHeader(String name) { // FIXME Falta la posibilidad de argumentos y el tipo de retorno
-        append("(func $%s", name);
+    public void funcHeader(Integer WASMId) { // FIXME Falta la posibilidad de argumentos y el tipo de retorno
+        append("(func $%d", WASMId);
+        indentation++;
+    }
+
+    public void funcResult() { // FIXME Falta la posibilidad de argumentos y el tipo de retorno
+        append("(result i32)");
         indentation++;
     }
 
@@ -197,19 +181,56 @@ public class Josito {
         append("i32.const %d", val);
     }
 
-    public void createIdentifier(int delta) { //TODO dani, esto no tiene indentate
+    public void reserveStackCall() {
+        code.add("call $reserveStack");
+    }
+
+    public void freeStackCall() {
+        code.add("call $freeStack");
+    }
+
+    public void getLocalDirUsingMP(int delta) { // Get the local direction of a identifier using MP
         append("i32.const %d", delta);
-        append("i32.const %d", dynamicLink); // TODO obtener inicio del marco de id
+        append("global.get $MP");
         append("i32.add");
     }
 
-    public void load(int size) {
-        append("i32.const %d", size);
-        append("call $load_size");
+    public void getLocalDirUsingRef(int delta) { // Get the local direction of a identifier using reference
+        append("global.get $MP"); 
+        append("i32.const 4"); // MP + 4 its the reference value
+        append("i32.add");
+        append("i32.load");
+        append("i32.const %d", delta);
+        append("i32.add");
     }
 
-    public void store(int size) {
-        append("i32.const %d", size);
+    public void setDynamicLink(){
+        append("global.set $swap");
+        append("global.get $MP");
+        append("global.get $swap");
+        append("i32.store");
+    }
+
+    public void setReference(int value) {
+        append("global.get $MP");
+        append("i32.const 4");
+        append("i32.add");
+        append("i32.const %d", value);
+        append("i32.store");
+    }
+
+    public void callFunction(int WASMId) {
+        append("call $%d", WASMId);
+    }
+
+    public void load() { // TODO quiza este solo hace load si tenemos el getLocalDirUsingMP
+        append("global.get $MP");
+        append("i32.add");
+        append("i32.load");
+    }
+
+    public void store() { // TODO arreglarlo
+        append("i32.const %d");
         append("call $store_size");
     }
 
@@ -301,12 +322,11 @@ public class Josito {
                 break;
             case REFERENCE:
                 break;
-            case SQ_BRACKET:
-                // TODO
-                break;
             case SUB:
                 append("i32.sub_s");
                 break;
+            case SQ_BRACKET: // Take into account that there is no break
+                append("i32.mul");
             case FIELD_ACCESS: // Field Access only need to calculate Code_D(left_part) + delta(field) 
             case ADD:
                 append("i32.add_s");
@@ -316,6 +336,12 @@ public class Josito {
 
     public String toString() {
         return code.toString();
+    }
+
+    public int getAndIncrementId() {
+        int ret = this.functionWASMId;
+        functionWASMId++;
+        return ret;
     }
     
     private String indentate(String instruction) {
@@ -333,4 +359,6 @@ public class Josito {
     private void append(String instruction, Object... args) {
         append(String.format(instruction, args));
     }
+
+
 }

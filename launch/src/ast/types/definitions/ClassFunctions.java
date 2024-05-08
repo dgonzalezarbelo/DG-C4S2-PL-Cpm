@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ast.Delta;
+import ast.Josito;
 import ast.preamble.Constructor;
 import ast.preamble.Function;
 import ast.preamble.Method;
@@ -100,5 +101,12 @@ public class ClassFunctions {
             c.computeOffset(delta);
         for (Method m : methods)
             m.computeOffset(delta);
+    }
+
+    public void generateCode(Josito jose) {
+        for (Function _c : constructors)
+            _c.generateCode(jose);;
+        for (Function _m : methods)
+            _m.generateCode(jose);;
     }
 }

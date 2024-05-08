@@ -11,6 +11,7 @@ import ast.types.interfaces.Type;
 import ast.types.interfaces.Type.Type_T;
 import exceptions.DimenssionException;
 import exceptions.MatchingTypeException;
+import exceptions.UnexpectedTypeException;
 
 public class Assignation_Ins extends Instruction {
     private Expression leftSide;
@@ -43,6 +44,9 @@ public class Assignation_Ins extends Instruction {
             if (!left.canBeAssigned(right))
                 throw new MatchingTypeException(String.format("Left and right sides types ('%s' and '%s') of assignation doesn't match", left, right));
             if (left.getKind() == Type_T.ARRAY) {
+                Array_Type cast = (Array_Type)left;
+                if (cast.isSubarray())
+                    throw new UnexpectedTypeException("A non-singular subarray can not be to the left of an assignation");
                 List<Expression> l1 = ((Array_Type)left).getDimenssions(), l2 = ((Array_Type)right).getDimenssions();
                 if (l1.size() != l2.size())
                     throw new DimenssionException("Number of dimenssions at both sides of assignation do not match");
@@ -61,6 +65,6 @@ public class Assignation_Ins extends Instruction {
     public void generateCode(Josito jose) { 
         argExpression.generateValue(jose); // Right side
         leftSide.generateAddress(jose);
-        jose.store(leftSide.getType().getSize()); //TODO juandi revisa lo del tipo de getType y el size
+        jose.store();
     }
 }

@@ -7,7 +7,7 @@
 		{
 			"label": "preLaunchTasks",
 			"type": "shell",
-			"dependsOn": ["generateLexiconAnalyzer", "generateSyntaxAnalyzer"],
+			"dependsOn": ["generateLexiconAnalyzer", "generateSyntaxAnalyzer"]
 		},
 		// Configuración de generación de la clase AnalizadorLexicoTiny por parte de JFLEX
 		{

@@ -5,6 +5,7 @@ import java.util.List;
 
 import ast.ASTNode;
 import ast.Delta;
+import ast.Josito;
 import ast.Utils;
 import ast.expressions.operands.AttributeID;
 import ast.preamble.Attribute;
@@ -134,5 +135,10 @@ public abstract class ObjectDefinition extends Definition {
             a.computeOffset(delta);
         functions.computeOffset(delta);
         delta.popScope();
+    }
+
+    @Override
+    public void generateCode(Josito jose) {
+        functions.generateCode(jose);
     }
 }

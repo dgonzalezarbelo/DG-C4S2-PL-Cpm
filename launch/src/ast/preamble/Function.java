@@ -20,6 +20,7 @@ import exceptions.UndefinedFunctionException;
 
 public class Function extends Definition {
     protected Integer indentation;
+    protected Integer WASMId; // Function Id in wasm to recognize it
     protected List<Argument> args;
     protected Block body;
     protected Type return_t;
@@ -73,6 +74,10 @@ public class Function extends Definition {
         Program.symbolsTable.closeScope();
     }
 
+    public List<Argument> getArgumentsList() {
+        return this.args;
+    }
+
     @Override
     public List<ASTNode> getConstructors() {
         return null; // This method will not be used
@@ -83,6 +88,9 @@ public class Function extends Definition {
         for (Argument a : args)
             types.add(a.getType());
         return types;
+    }
+    public Integer getWASMId() {
+        return this.WASMId;
     }
 
     @Override
@@ -123,7 +131,7 @@ public class Function extends Definition {
 
     @Override
     public void maxMemory(Integer c, Integer maxi) {
-        maximumMemory = 0;
+        maximumMemory = Josito.NUM_FUNC_POINTERS_SIZE;
         Integer curr = 0;                           // FIXME igual no hay que pasar un copia y hay que pasar el de arriba, darle una vuelta
         for (Argument a : args) {
             a.maxMemory(curr, maximumMemory);       // Only the declarations will change the curr value
@@ -149,14 +157,27 @@ public class Function extends Definition {
         delta.popScope();
     }
 
+    /*
     @Override
-    public void generateCode(Josito jose) {
+    public void generateCode(Josito jose) { // TODO Este era el anterior
         jose.funcHeader(this.definitionName);
         for (Argument a : args)
             a.generateCode(jose);
         // TODO poner codigo del result
         body.generateCode(jose);
         return_var.generateCode(jose);  // TODO se supone que aquí calculas el valor de retorno
+        jose.funcTail();                // TODO y aquí se apila si procede para ser devuelto
+    } */
+
+    @Override
+    public void generateCode(Josito jose) { // TODO hecho por javi, quiza revisar
+        WASMId = jose.getAndIncrementId();  // Get the unique function Id
+        jose.funcHeader(WASMId);
+        if (return_t != null)               // Check if its a typed function or not
+            jose.funcResult();
+        body.generateCode(jose);
+        if (return_var != null)
+            return_var.generateValue(jose);  // TODO se supone que aquí calculas el valor de retorno
         jose.funcTail();                // TODO y aquí se apila si procede para ser devuelto
     }
 }
