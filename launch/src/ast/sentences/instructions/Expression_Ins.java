@@ -14,6 +14,7 @@ public class Expression_Ins extends Instruction {
     public void checkType() throws Exception {
         super.checkType();
         this.type = this.argExpression.getType();
+        // TODO esto peta cuando llamas solo a una funcion que no devuelve nada
     }
 
     public String toString() {

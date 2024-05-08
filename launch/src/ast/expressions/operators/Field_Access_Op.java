@@ -45,6 +45,6 @@ public class Field_Access_Op extends BinaryExpression {
     @Override
     public void generateValue(Josito jose) {
         generateAddress(jose);
-        jose.load(); //FIXME Hay que pasar el size
+        jose.load(opnd2().getType().getSize());
     }
 }

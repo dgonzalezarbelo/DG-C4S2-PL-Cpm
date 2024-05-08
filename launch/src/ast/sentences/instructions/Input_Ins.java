@@ -35,8 +35,8 @@ public class Input_Ins extends Instruction {
     
     @Override
     public void generateCode(Josito jose) { 
-        argExpression.generateAddress(jose);
         jose.readCall();
-        jose.store();
+        argExpression.generateAddress(jose);
+        jose.store(argExpression.getType().getSize()); //TODO juandi revisa lo del tipo de getType y el size
     }
 }

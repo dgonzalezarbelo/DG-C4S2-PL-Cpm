@@ -1,5 +1,6 @@
 package ast.expressions.operators;
 
+import ast.Josito;
 import ast.expressions.BinaryExpression;
 import ast.expressions.Expression;
 import ast.types.interfaces.Array_Type;
@@ -34,4 +35,46 @@ public class Sq_Bracket_Op extends BinaryExpression {
         this.type = ((Array_Type) leftSide).getInnerType(); // aquí no pasa nada por no bindear Array_Type porque su interno ya estaba bindeado
         this.type.checkType();
     }
+
+    @Override
+    public void generateAddress(Josito jose) { // Code_D
+        // opnd1.generateAddress(jose);
+        // type.getSize()
+        // opnd2.generateValue(jose);
+        // jose.mult
+        // jose.suma
+    }
+    
+    @Override
+    public void generateValue(Josito jose) { // Code_E
+        // opnd1.generateAddress(jose);
+        // opnd2.generateValue(jose);
+        // jose.suma
+        // jose.load
+    }
 }
+
+/*
+ * int a[6][10]
+ * a[5]         <- Este
+ * a[5][1][3]      <- Y este te dan la misma address al hacer Code_D
+ *
+ * 
+ * int c[100];
+ * ~b = c[5];
+ * 
+ * 
+ * int d;
+ * int j[10]; // j[0] = j mismo CODE_D
+ * // *j = j[0];
+ * j = a[5];
+ * a[5] = j;
+ * j[0] = a[5]
+ * d = a[5][0]
+ * 
+ * int~ b;
+ * b = a[5][2];
+ * 
+ * int e[5][10];
+ * e[2] = a[2];
+ */

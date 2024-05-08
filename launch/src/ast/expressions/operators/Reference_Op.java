@@ -3,6 +3,7 @@ package ast.expressions.operators;
 import ast.expressions.UnaryExpression;
 import ast.types.interfaces.Pointer_Type;
 import ast.types.interfaces.Type;
+import ast.Josito;
 import ast.expressions.Expression;
 import exceptions.InvalidTypeException;
 
@@ -26,7 +27,17 @@ public class Reference_Op extends UnaryExpression {
         Type t = opnd1().getType();
         if (t == null)
             throw new InvalidTypeException(String.format("Referenced expression must have type"));
-        this.type = new Pointer_Type(t, row); // aquí no pasa nada por no bindear Pointer_Type porque su interno ya estaba bindeado
+        this.type = new Pointer_Type(t, row); // Aquí no pasa nada por no bindear Pointer_Type porque su interno ya estaba bindeado
         this.type.checkType();
+    }
+
+    @Override
+    public void generateAddress(Josito jose) { // Code_D
+        // Nothing to do (because the reference_Op shouldnt be on the left side of an assignation)
+    }
+    
+    @Override
+    public void generateValue(Josito jose) { // Code_E
+        opnd1().generateAddress(jose);                // Requests pointed dir (! not pointer) because its a reference (&) access
     }
 }

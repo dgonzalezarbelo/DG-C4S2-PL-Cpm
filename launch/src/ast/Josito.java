@@ -88,11 +88,16 @@ public class Josito {
         code.add("  (local $cur_pos i32)");
         code.add("  (local $aux i32)        ;; Variable to de-stack elements, push the address and re-stack them to then store");
         code.add("  local.set $initial_pos  ;; Initial position has already been pushed");
-        
+        code.add("  local.get $initial_pos");
+        code.add("  local.get $size");
+        code.add("  i32.add");
+        code.add("  i32.const 4");
+        code.add("  i32.sub");
+        code.add("  local.set $cur_pos");
         code.add("  local.set $cur_size (i32.const 0))");
         code.add("  (block");
         code.add("    (loop");
-        code.add("      (if (i32.ge_s (local.get $cur_size) (local.get $size))");
+        code.add("      (if (i32.lt (local.get $cur_pos) (local.get $initial_pos))");
         code.add("        (then");
         code.add("          (br $end_loop)");
         code.add("        )");
@@ -105,18 +110,73 @@ public class Josito {
         code.add("");
         code.add("      local.get $cur_pos");
         code.add("      i32.const 4");
-        code.add("      i32.add");
+        code.add("      i32.sub");
         code.add("      local.set $cur_pos");
-        code.add("");
-        code.add("      local.get $cur_size");
-        code.add("      i32.const 4");
-        code.add("      i32.add");
-        code.add("      local.set $cur_size");
         code.add("");
         code.add("      (br $loop)");
         code.add("    )");
         code.add("  )");
         code.add(")");
+
+        /*
+         * Power function (base^exp)
+         */
+        code.add("(module");
+        code.add("    (func $exponentiation (param $base i32) (param $exponent i32) (param $modulus i32) (result i32)");
+        code.add("        (local $result i32)");
+        code.add("        (local $base_temp i32)");
+        code.add("        (local $exponent_temp i32)");
+        code.add("");
+        code.add("        (set_local $result i32.const 1)                        ;; Result is initialized to 1");
+        code.add("        (set_local $base_temp (i32.rem_s (get_local $base) (get_local $modulus)))  ;; base_temp = base % modulus");
+        code.add("        (set_local $exponent_temp (get_local $exponent))      ;; exponent_temp = exponent");
+        code.add("");
+        code.add("        (block");
+        code.add("        (loop");
+        code.add("            (br_if  ;; Exit loop if exponent_temp is 0");
+        code.add("            (i32.eqz (get_local $exponent_temp))");
+        code.add("            )");
+        code.add("");
+        code.add("            (if");
+        code.add("            (result i32)");
+        code.add("            (i32.eqz (i32.rem_s (get_local $exponent_temp) (i32.const 2)))  ;; If exponent_temp is even");
+        code.add("            (then");
+        code.add("                (set_local $base_temp");
+        code.add("                (i32.rem_s");
+        code.add("                    (i32.mul (get_local $base_temp) (get_local $base_temp))");
+        code.add("                    (get_local $modulus)");
+        code.add("                )");
+        code.add("                )");
+        code.add("            )");
+        code.add("            (else");
+        code.add("                (set_local $result");
+        code.add("                (i32.rem_s");
+        code.add("                    (i32.mul (get_local $result) (get_local $base_temp))");
+        code.add("                    (get_local $modulus)");
+        code.add("                )");
+        code.add("                )");
+        code.add("                (set_local $exponent_temp");
+        code.add("                (i32.div_s (get_local $exponent_temp) (i32.const 2))");
+        code.add("                )");
+        code.add("                (br  ;; Salta al inicio del bucle");
+        code.add("                0");
+        code.add("                )");
+        code.add("            )");
+        code.add("            )");
+        code.add("            (set_local $exponent_temp");
+        code.add("            (i32.div_s (get_local $exponent_temp) (i32.const 2))");
+        code.add("            )");
+        code.add("            (br  ;; Salta al inicio del bucle");
+        code.add("            0");
+        code.add("            )");
+        code.add("        )");
+        code.add("        )");
+        code.add("        (get_local $result)");
+        code.add("    )");
+        code.add("");
+        code.add("    (export \"exponentiation\" (func $exponentiation))");
+        code.add("    )");
+
     }
 
     public void funcHeader(String name) { // FIXME Falta la posibilidad de argumentos y el tipo de retorno
@@ -143,27 +203,14 @@ public class Josito {
         append("i32.add");
     }
 
-    public void load() {
-        append("i32.load");
+    public void load(int size) {
+        append("i32.const %d", size);
+        append("call $load_size");
     }
 
-    public void load(int init_pos, int size) {
-        if (size == defaultSize)
-            load();
-        else {
-            int end_pos = init_pos + size - 4;
-            append("i32.const %d", init_pos); //FIXME No se si el orden de apilar es este
-            append("i32.const %d", size);
-            append("call $load_size");
-        }
-    }
-
-    public void store() {
-        append("i32.store");
-    }
-
-    public void store(int init_pos, int size) {
-
+    public void store(int size) {
+        append("i32.const %d", size);
+        append("call $store_size");
     }
 
     public void ifInit() {
@@ -187,67 +234,82 @@ public class Josito {
         append("i32.eqz");
     }
 
-    public void conditionalJump(int label) { // conditional-jump to the label
+    public void conditionalJump(int label) { // Conditional_jump to the label
         append("br_if %d", label);
     }
 
-    public void jump(int label) { // inconditional-jump to the label
+    public void jump(int label) { // Inconditional_jump to the label
         append("br %d", label);
     }
 
-    public void printCall() { // inconditional-jump to the label
+    public void printCall() { // Inconditional_jump to the label
         append("call $print");
     }
 
-    public void readCall() { // inconditional-jump to the label
+    public void readCall() { // Inconditional_jump to the label
         append("call $read");
     }
 
-    // AND, DIV, EQ, FIELD_ACCESS, GREATER, GEQ, LESS, LEQ, MINUS, MOD, MULT, NEQ, NOT, OR, PTR, POW, REFERENCE, SQ_BRACKET, SUB, ADD }
+    public void exponentiation() {
+        append("call $exponentiation");
+    }
 
     public void translateOperator(Operator_T operator) {
         switch (operator) {
-            case Operator_T.AND:
+            case AND:
+                append("i32.and");
                 break;
-            case Operator_T.DIV:
+            case DIV:
+                append("i32.div_s");
                 break;
-            case Operator_T.EQ:
+            case EQ:
+                append("i32.eq_s");
                 break;
-            case Operator_T.FIELD_ACCESS: // Field Access only need to calculate Code_D(left_part) + delta(field) 
-                append("i32.add");
+            case GREATER:
+                append("i32.gt_s");
                 break;
-            case Operator_T.GREATER:
+            case GEQ:
+                append("i32.ge_s");
                 break;
-            case Operator_T.GEQ:
+            case LESS:
+                append("i32.lt_s");
                 break;
-            case Operator_T.LESS:
+            case LEQ:
+                append("i32.le_s");
                 break;
-            case Operator_T.LEQ:
+            case MOD:
+                append("i32.rem_s");
                 break;
-            case Operator_T.MINUS:
+            case MINUS: // Take into account that there is no break
+                append("i32.const -1");
+            case MULT:
+                append("i32.mul_s");
                 break;
-            case Operator_T.MOD:
+            case NEQ:
+                append("i32.ne_s");
                 break;
-            case Operator_T.MULT:
+            case NOT:
+                append("i32.eqz");
                 break;
-            case Operator_T.NEQ:
+            case OR:
+                append("i32.or");
                 break;
-            case Operator_T.NOT:
+            case PTR:
                 break;
-            case Operator_T.OR:
+            case POW:
+                exponentiation();
                 break;
-            case Operator_T.PTR:
+            case REFERENCE:
                 break;
-            case Operator_T.POW:
+            case SQ_BRACKET:
+                // TODO
                 break;
-            case Operator_T.REFERENCE:
+            case SUB:
+                append("i32.sub_s");
                 break;
-            case Operator_T.SQ_BRACKET:
-                break;
-            case Operator_T.SUB:
-                break;
-            case Operator_T.ADD:
-                append("i32.add");
+            case FIELD_ACCESS: // Field Access only need to calculate Code_D(left_part) + delta(field) 
+            case ADD:
+                append("i32.add_s");
                 break;
         }
     }

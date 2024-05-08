@@ -59,8 +59,8 @@ public class Assignation_Ins extends Instruction {
 
     @Override
     public void generateCode(Josito jose) { 
+        argExpression.generateValue(jose); // Right side
         leftSide.generateAddress(jose);
-        argExpression.generateValue(jose); // right side
-        jose.store(); //TODO dani
+        jose.store(leftSide.getType().getSize()); //TODO juandi revisa lo del tipo de getType y el size
     }
 }

@@ -91,7 +91,7 @@ public class Function extends Definition {
             for (Argument a : args)
                 a.checkType();
             body.checkType();
-            return_var.checkType();
+            return_var.checkType();             // TODO esto peta si es una función que no devuelve nada
 
             Type returnType = return_var.getType();
             if(!returnType.canBeAssigned(return_t)) {

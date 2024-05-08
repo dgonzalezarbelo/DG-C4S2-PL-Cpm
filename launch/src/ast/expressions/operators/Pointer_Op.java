@@ -34,20 +34,34 @@ public class Pointer_Op extends UnaryExpression {
 
     @Override
     public void generateAddress(Josito jose) { // Code_D
-        opnd1().generateValue(jose); // this must be a ptr with the address
+        opnd1().generateValue(jose);                // Requests pointed dir (! not pointer)
     }
     
     @Override
     public void generateValue(Josito jose) { // Code_E
-        generateAddress(jose);
-        jose.load();
+        opnd1().generateValue(jose);                // Requests pointed dir (! not pointer)
+        jose.load(this.getType().getSize());        // Loads the value stored in previous dir
     }
-}
 
-/**
- * int ~a = &d;
- * int b;
- * b = ~a;
- * ~a = 5;
- * 
- */
+
+    /**
+     * int ~ a = 0;
+     */
+
+    /**
+     * ~d
+     * 
+     * int a;
+     * int~ d, b;
+     * d = b;
+     * 
+     * int~~ c;
+     * ~(~c) = a;
+     * 
+     * ~d = a;
+     * a = ~d;
+     * d = b;
+     * ~d = ~b;
+     * a = ~d
+     */
+}
