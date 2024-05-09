@@ -9,8 +9,8 @@ public class Delta {
         this.offsets = new Stack<>();
     }
 
-    public void pushScope() {
-        offsets.push(0);
+    public void pushScope(int inicialDelta) {
+        offsets.push(inicialDelta);
     }
 
     public void popScope() {

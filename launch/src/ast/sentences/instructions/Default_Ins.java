@@ -1,6 +1,7 @@
 package ast.sentences.instructions;
 
 import ast.sentences.Block;
+import ast.Josito;
 import ast.Utils;
 
 public class Default_Ins extends Instruction {
@@ -15,5 +16,10 @@ public class Default_Ins extends Instruction {
         str.append("default" + '\n');
         str.append(body.toString());
         return str.toString();
+    }
+
+    @Override
+    public void generateCode(Josito jose) { 
+        body.generateCode(jose);
     }
 }

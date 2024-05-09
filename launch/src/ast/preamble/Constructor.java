@@ -2,6 +2,7 @@ package ast.preamble;
 
 import java.util.List;
 
+import ast.Josito;
 import ast.expressions.Expression;
 import ast.sentences.Block;
 import ast.types.definitions.Definition;
@@ -35,5 +36,18 @@ public class Constructor extends Method {
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+
+    @Override
+    public void generateCode(Josito jose) { 
+        WASMId = jose.getAndIncrementId();  // Get the unique function Id
+        jose.funcHeader(WASMId);
+        if (return_t != null)               // Check if its a typed function or not
+            jose.funcResult();
+        body.generateCode(jose);
+        jose.returnReference();
+        // METO ESTE VALOR EN LA ZONA RESERVADA
+            // pushear direccion zona reservada  
+        jose.funcTail();
     }
 }

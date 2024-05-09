@@ -29,15 +29,13 @@ public abstract class Expression extends ASTNodeTypable implements Indentable {
     }
 
     @Override
-    public void generateCode(Josito jose) { // TODO explicar a Juandi
+    public void generateCode(Josito jose) {
         // Nothing to do
     }
     
-    public void generateAddress(Josito jose) { // Code_D
-        // Nothing to do (in default, for example in field_address_op an overriding is needed)
-    }
+    public abstract void generateAddress(Josito jose) throws Exception;// Code_D
     
-    public void generateValue(Josito jose) { // Code_E
+    public void generateValue(Josito jose) throws Exception { // Code_E
         if (opnd1() != null)
             opnd1().generateValue(jose);
         if (opnd2() != null)

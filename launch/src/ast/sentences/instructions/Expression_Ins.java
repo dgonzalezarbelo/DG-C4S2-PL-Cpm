@@ -25,7 +25,14 @@ public class Expression_Ins extends Instruction {
     }
 
     @Override
-    public void generateCode(Josito jose) { 
-        argExpression.generateValue(jose); // TODO he puesto eso asumiendo que con code_E se bien las functionCall
+    public void generateCode(Josito jose) {
+        try {
+            argExpression.generateValue(jose);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            Utils.printErrorRow(row);
+        }
+        if (argExpression.getType() != null)
+            jose.consumeTrash();
     }
 }

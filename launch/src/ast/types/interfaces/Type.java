@@ -47,7 +47,7 @@ public abstract class Type extends ASTNodeTypable {
     }
 
     public abstract void copyType(Type type) throws Exception;
-
+    
     @Override
     public Type getType() {
         return this;

@@ -5,6 +5,7 @@ import ast.types.interfaces.Pointer_Type;
 import ast.types.interfaces.Type;
 import ast.Josito;
 import ast.expressions.Expression;
+import exceptions.InvalidDirectionException;
 import exceptions.InvalidTypeException;
 
 
@@ -32,12 +33,12 @@ public class Reference_Op extends UnaryExpression {
     }
 
     @Override
-    public void generateAddress(Josito jose) { // Code_D
-        // Nothing to do (because the reference_Op shouldnt be on the left side of an assignation)
+    public void generateAddress(Josito jose) throws Exception { // Code_D
+        throw new InvalidDirectionException(String.format("Referenced expression is not directionable"));
     }
     
     @Override
-    public void generateValue(Josito jose) { // Code_E
+    public void generateValue(Josito jose) throws Exception { // Code_E
         opnd1().generateAddress(jose);                // Requests pointed dir (! not pointer) because its a reference (&) access
     }
 }

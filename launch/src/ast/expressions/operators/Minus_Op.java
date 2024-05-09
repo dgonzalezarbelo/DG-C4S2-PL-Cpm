@@ -4,7 +4,9 @@ import ast.expressions.UnaryExpression;
 import ast.types.interfaces.Int_Type;
 import ast.types.interfaces.Type;
 import ast.types.interfaces.Type.Type_T;
+import ast.Josito;
 import ast.expressions.Expression;
+import exceptions.InvalidDirectionException;
 import exceptions.UnexpectedTypeException;
 
 
@@ -32,5 +34,10 @@ public class Minus_Op extends UnaryExpression {
         if (t.getKind() != Type_T.INT)
             throw new UnexpectedTypeException(String.format("'%s' was expected but '%s' was read", Type_T.INT.name(), t.getKind().name()));
         this.type.checkType();
+    }
+
+    @Override
+    public void generateAddress(Josito jose) throws Exception {
+        throw new InvalidDirectionException("Minus operation is not directionable");
     }
 }

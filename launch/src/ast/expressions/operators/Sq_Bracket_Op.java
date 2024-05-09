@@ -37,7 +37,7 @@ public class Sq_Bracket_Op extends BinaryExpression {
     }
 
     @Override
-    public void generateAddress(Josito jose) { // Code_D
+    public void generateAddress(Josito jose) throws Exception { // Code_D
         Expression op1 = opnd1();
         if (op1 instanceof Sq_Bracket_Op)   // If we have more brackets to the left then everything work as per usual
             op1.generateAddress(jose);
@@ -49,11 +49,12 @@ public class Sq_Bracket_Op extends BinaryExpression {
     }
     
     @Override
-    public void generateValue(Josito jose) { // Code_E
+    public void generateValue(Josito jose) throws Exception { // Code_E
         generateAddress(jose);
         if (type.getKind() != Type_T.ARRAY) // If the type is an array itself we just want the address
-            jose.load(type.getSize());
-    }
+            jose.load();
+    } // TODO aquí hay que mirar este load si se hace así o no
+
 }
 
 /* // FIXME Quitar esto
@@ -76,9 +77,10 @@ public class Sq_Bracket_Op extends BinaryExpression {
  * 
  * a[1]
  * int aa[2][400][5][6];
- * int bb[2][400][5][6];
- * aa[1] = bb[1];
- * 
+ * int bb[7][2][400][5][6];
+ * aa[1] = bb[1]; <- No se puede hacer
+ * aa = bb[0]; <- Esto sí se puede hacer
+ * aa[0][0][0][0] = bb[0][0][0][0];
  * int d;
  * int j[10]; // j[0] = j mismo CODE_D
  * // *j = j[0];

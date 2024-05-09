@@ -4,7 +4,9 @@ import ast.expressions.UnaryExpression;
 import ast.types.interfaces.Bool_Type;
 import ast.types.interfaces.Type;
 import ast.types.interfaces.Type.Type_T;
+import ast.Josito;
 import ast.expressions.Expression;
+import exceptions.InvalidDirectionException;
 import exceptions.UnexpectedTypeException;
 
 
@@ -30,5 +32,10 @@ public class Not_Op extends UnaryExpression {
         if (t.getKind() != Type_T.BOOL)
             throw new UnexpectedTypeException(String.format("'%s' was expected but '%s' was read", Type_T.BOOL.name(), t.getKind().name()));
         this.type.checkType(); 
+    }
+
+    @Override
+    public void generateAddress(Josito jose) throws Exception {
+        throw new InvalidDirectionException("Not operation is not directionable");
     }
 }

@@ -33,15 +33,15 @@ public class Pointer_Op extends UnaryExpression {
     }
 
     @Override
-    public void generateAddress(Josito jose) { // Code_D
+    public void generateAddress(Josito jose) throws Exception { // Code_D
         opnd1().generateValue(jose);                // Requests pointed dir (! not pointer)
     }
     
     @Override
-    public void generateValue(Josito jose) { // Code_E
+    public void generateValue(Josito jose) throws Exception {   // Code_E
         opnd1().generateValue(jose);                // Requests pointed dir (! not pointer)
-        jose.load(this.getType().getSize());        // Loads the value stored in previous dir
-    }
+        // jose.load();                             // Loads the value stored in previous dir
+    } // TODO estoy convencido de que este load no tiene que estar. El motivo es que si llamo a puntero de una clase quiero que se guarde en pila el valor de la referencia a dicha clase (por como hemos devuelto los tipos no básicos) y si es un tipo básico se guardará en pila el valor del tipo básico no su dirección. Posteriormente, es FUERA donde se sabe si hacer load o copy_n
 
 
     /**

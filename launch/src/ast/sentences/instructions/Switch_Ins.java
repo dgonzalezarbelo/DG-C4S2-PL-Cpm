@@ -18,6 +18,9 @@ import ast.types.interfaces.Type.Type_T;
 
 public class Switch_Ins extends Instruction {
     HashMap<Integer, Case_Ins> mapValuesToCases;
+    Integer min; // Min value of the cases
+    Integer max; // Max value of the cases
+    Integer size; // How many cases are
     List<Case_Ins> clauses;
     Default_Ins default_Ins;
 
@@ -36,25 +39,6 @@ public class Switch_Ins extends Instruction {
         str.append(default_Ins.toString());
         return str.toString();
     }
-
-    public List<Boolean> caseRange(Integer ini, Integer fin) { 
-    /*
-    * Return a boolean list that says in the interval 
-    * [ini, fin] which cases are implemented
-    */ 
-        mapValuesToCases  = new HashMap<>();
-        for(Case_Ins clause : clauses) { // The cases values will be all different
-            int key = clause.getCaseValue();
-            mapValuesToCases.put(key, clause);
-        }
-        Set<Integer> clauseValues = mapValuesToCases.keySet();
-        ini = Utils.getMinSet(clauseValues);
-        fin = Utils.getMaxSet(clauseValues);
-        List<Boolean> casesImplemented = new ArrayList<>();
-        for(int i = 0; i <= fin; i++)
-            casesImplemented.add(mapValuesToCases.containsKey(ini + i));
-        return casesImplemented;
-    }   
 
     @Override
     public void bind() {
@@ -128,10 +112,64 @@ public class Switch_Ins extends Instruction {
     }
     */ // TODO hay que pensarla bien
 
-    @Override // TODO queda terminarla bien
+    @Override
     public void generateCode(Josito jose) { 
-        
-        argExpression.generateValue(jose);
+        min = 0; max = 0; size = 0;
+        caseRange();
+        jose.multipleBlocks(size + 2);  // You need size and two more (default and exit switch)
+        try {
+            argExpression.generateValue(jose);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            Utils.printErrorRow(row);
+        }
+        jose.switchVar(min); // At the top of stack will be argExpression - min
+        jose.jumpTable(br_table_list());
+        generateCasesCode(jose);
 
     }
+
+    private void generateCasesCode(Josito jose) { 
+        for (int i = min; i < max; i++) {
+            if(mapValuesToCases.containsKey(i)) {
+                jose.endBlock();
+                mapValuesToCases.get(i).generateCode(jose);
+            }
+        }
+        jose.endBlock();
+        default_Ins.generateCode(jose);
+        jose.endBlock();
+    }
+
+    private List<Integer> br_table_list() {
+        List<Integer> ret = new ArrayList<>();
+        int current = 0; // Current b_table label
+        for (int i = min; i < max; i++) {
+            if(mapValuesToCases.containsKey(i)) {
+                ret.add(current);
+                current++;
+            }
+            else
+                ret.add(size);
+        }
+        ret.add(size);
+        return ret;
+    }
+
+    public void caseRange() { 
+        /*
+        * Fill the mapValuesToCases map and gives the cases value interval 
+        * [min, max] and how many clauses are (size)
+        */ 
+   
+        mapValuesToCases  = new HashMap<>();
+        for(Case_Ins clause : clauses) { // The cases values will be all different
+            int key = clause.getCaseValue();
+            mapValuesToCases.put(key, clause);
+        }
+        Set<Integer> clauseValues = mapValuesToCases.keySet();
+        min = Utils.getMinSet(clauseValues);
+        max = Utils.getMaxSet(clauseValues);
+        size = clauseValues.size();
+    }   
 }

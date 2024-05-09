@@ -6,6 +6,7 @@ import ast.expressions.Expression;
 import ast.types.interfaces.Int_Type;
 import ast.types.interfaces.Type;
 import ast.types.interfaces.Type.Type_T;
+import exceptions.InvalidDirectionException;
 import exceptions.InvalidTypeException;
 
 
@@ -40,12 +41,17 @@ public class Pow_Op extends BinaryExpression {
     }
 
     @Override
-    public void generateValue(Josito jose) { // Code_E
+    public void generateValue(Josito jose) throws Exception { // Code_E
         if (opnd1() != null)
             opnd1().generateValue(jose);
         if (opnd2() != null)
             opnd2().generateValue(jose);
         jose.createConst(MOD);
         jose.translateOperator(this.operator);
+    }
+
+    @Override
+    public void generateAddress(Josito jose) throws Exception {
+        throw new InvalidDirectionException("Pow operation is not directionable");
     }
 }

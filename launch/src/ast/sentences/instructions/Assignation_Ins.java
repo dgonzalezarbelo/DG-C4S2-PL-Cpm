@@ -63,8 +63,27 @@ public class Assignation_Ins extends Instruction {
 
     @Override
     public void generateCode(Josito jose) { 
-        argExpression.generateValue(jose); // Right side
-        leftSide.generateAddress(jose);
-        jose.store();
+        Type t = leftSide.getType();
+        switch (t.getKind()) {
+            case INT:
+            case BOOL:
+			case POINTER:
+                leftSide.generateAddress(jose);
+                argExpression.generateValue(jose);  // Right side
+				jose.store();
+				break;
+			case ARRAY:
+			case CLASS:
+            case STRUCT:
+                argExpression.generateValue(jose);  // Src address
+                leftSide.generateAddress(jose);     // Dest address
+                jose.createConst(t.getSize());      // N size to copy
+                jose.copy_n();
+                break;
+            case CONST:
+                // A const type can not be to the left of an assignation
+            default:
+                break;
+        }
     }
 }

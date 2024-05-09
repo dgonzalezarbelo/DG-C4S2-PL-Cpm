@@ -5,6 +5,7 @@ import ast.Josito;
 import ast.Utils;
 import ast.expressions.Expression;
 import ast.preamble.Program;
+import exceptions.InvalidDirectionException;
 import exceptions.InvalidTypeException;
 
 public class ThisID extends Expression {
@@ -45,14 +46,16 @@ public class ThisID extends Expression {
     @Override
     public Expression opnd2() {
         throw new UnsupportedOperationException("'This' operator does not have operands");
-    } 
+    }
 
     @Override
-	public void generateAddress(Josito jose) { // Code_D
-		// TODO ponerte al inicio de la clase (entiendo que esto solo se llamada desde clases
-        // y por ende cuando llamemos a un metodo, se cargara la clase primero)
-		// jose.createIdentifier(delta); // si el id_node es un declaracion
-	
+	public void generateAddress(Josito jose) throws Exception { // Code_D
+		jose.getLocalDirUsingRef(0); // When using "this" you will be using it with a Field_Access_Op (this.), hence why you do not need to add the address of the instance of the Class/Struct you are in, because we are computing the position with respect to it already. That is why, we add 0
 	}
+
+    @Override
+    public void generateValue(Josito jose) throws Exception {
+        throw new InvalidDirectionException("This must not be directionable in a class definition");
+    }
     
 }

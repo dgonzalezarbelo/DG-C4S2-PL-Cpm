@@ -4,10 +4,14 @@ import ast.ASTNodeTypable;
 import ast.Josito;
 import ast.Utils;
 import ast.expressions.Expression;
+import ast.preamble.Attribute;
 import ast.preamble.Program;
 import ast.sentences.declarations.Declaration;
 import ast.types.interfaces.Const_Type;
+import ast.types.interfaces.Type.Type_T;
+import exceptions.InvalidDirectionException;
 import exceptions.InvalidIdException;
+import ast.types.definitions.Define;
 
 public class VariableID extends Expression {
 	protected String varname;
@@ -52,29 +56,40 @@ public class VariableID extends Expression {
 	}
 
 	@Override
-	public void generateAddress(Josito jose) { // Code_D
+	public void generateAddress(Josito jose) throws Exception { // Code_D
 		if (!this.type.getClass().equals(Const_Type.class)) {
 			Declaration cast = (Declaration)id_node;
 			Integer delta = cast.getOffset();
-			jose.createConst(delta);
-			jose.load();
+			if (cast instanceof Attribute)
+				jose.getLocalDirUsingRef(delta);
+			else
+				jose.getLocalDirUsingMP(delta);
 		}
-		// TODO esto tiene que ser asi y que el delta sea el de la declaracion del id_node 
-		// y no puede ser un define porque no se haría generateAddress a defines
-		// jose.createIdentifier(delta); // si el id_node es un declaracion
-	
+		else {
+			throw new InvalidDirectionException("Const values can not be directionable");
+		}
 	}
     
 	@Override
-    public void generateValue(Josito jose) { // Code_E
-		// TODO esto hay que darle una vuelta para que se haga encapsulado
-
-		// si el id_node es un declaracion
-		// generateAdress(jose);
-		// jose.load()
-
-		// si el id_node es un define en lugar de una declaracion
-		// jose.createConst(value) 	
-	
+    public void generateValue(Josito jose) throws Exception { // Code_E
+		generateAddress(jose);
+		Type_T t = this.type.getKind();
+		switch (t) {
+            case INT:
+            case BOOL:
+			case POINTER:
+				jose.load();
+				break;
+			case ARRAY:
+			case CLASS:
+            case STRUCT:
+				// In this case, the returned value is the object reference to copy it later, so with generateAddress everything is done
+                break;
+            case CONST: // This will only be a define
+				jose.createConst(((Define)id_node).getLiteral().toIntConst());
+                break;
+            default:
+                break;
+        }
     }
 }

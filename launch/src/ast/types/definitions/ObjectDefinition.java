@@ -130,7 +130,7 @@ public abstract class ObjectDefinition extends Definition {
 
     @Override
     public void computeOffset(Delta delta) {
-        delta.pushScope();
+        delta.pushScope(0);
         for (Attribute a : attributes)
             a.computeOffset(delta);
         functions.computeOffset(delta);

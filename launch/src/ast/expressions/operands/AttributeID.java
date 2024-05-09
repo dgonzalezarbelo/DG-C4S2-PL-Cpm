@@ -2,9 +2,11 @@ package ast.expressions.operands;
 
 import ast.Josito;
 import ast.preamble.Attribute;
+import ast.types.interfaces.Type.Type_T;
 import exceptions.VisibilityException;
 
 public class AttributeID extends Field {
+    private Attribute matchedAttribute;
     
     public AttributeID(String v, int row) {
         super(v, row);
@@ -16,10 +18,10 @@ public class AttributeID extends Field {
     }
 
     @Override
-    public void checkType() throws Exception { // TODO posiblemente haya que "bindear" a la definición del atributo cuando se tipe
+    public void checkType() throws Exception {
         try {
-            Attribute matched = classFrom.hasAttribute(this, accessingFromInside);
-            this.type = matched.getType();
+            matchedAttribute = classFrom.hasAttribute(this, accessingFromInside);
+            this.type = matchedAttribute.getType();
         } catch (Exception e) {
             throw new VisibilityException(e.getMessage());
         }
@@ -30,9 +32,30 @@ public class AttributeID extends Field {
         return this.fieldname;
     }
 
-    @Override //TODO
-    public void generateCode(Josito jose) { // TODO, conseguir el delta del atributo correspondiente en la clase
-        // int delta = 
-        //jose.createConst(delta);
+    @Override
+    public void generateAddress(Josito jose) {
+        jose.createConst(matchedAttribute.getOffset());
+    }
+
+    @Override
+    public void generateValue(Josito jose) {
+        Type_T t = this.type.getKind();
+		switch (t) {
+            case INT:
+            case BOOL:
+			case POINTER:
+				jose.load();
+				break;
+			case ARRAY:
+			case CLASS:
+            case STRUCT:
+				// In this case, the returned value is the object reference to copy it later, so with generateAddress everything is done
+                break;
+            case CONST: // This will only be a define
+				// This will never be the case
+                break;
+            default:
+                break;
+        }
     }
 }

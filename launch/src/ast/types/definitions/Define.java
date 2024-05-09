@@ -48,6 +48,10 @@ public class Define extends Definition {
         }
 	}
     
+    public Literal getLiteral() {
+        return this.value;
+    }
+
     @Override
     public void checkType() throws Exception {
         // Nothing to do

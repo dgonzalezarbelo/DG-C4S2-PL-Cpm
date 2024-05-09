@@ -148,7 +148,7 @@ public class Function extends Definition {
 
     @Override
     public void computeOffset(Delta delta) {
-        delta.pushScope();
+        delta.pushScope(Josito.NUM_FUNC_POINTERS_SIZE); // To have in consideration the DL and reference in the local memory of the function
         for (Argument a : args)
             a.computeOffset(delta);
         body.computeOffset(delta);
@@ -170,14 +170,19 @@ public class Function extends Definition {
     } */
 
     @Override
-    public void generateCode(Josito jose) { // TODO hecho por javi, quiza revisar
+    public void generateCode(Josito jose) { 
         WASMId = jose.getAndIncrementId();  // Get the unique function Id
         jose.funcHeader(WASMId);
         if (return_t != null)               // Check if its a typed function or not
             jose.funcResult();
         body.generateCode(jose);
         if (return_var != null)
-            return_var.generateValue(jose);  // TODO se supone que aquí calculas el valor de retorno
-        jose.funcTail();                // TODO y aquí se apila si procede para ser devuelto
+            try {
+                return_var.generateValue(jose);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                Utils.printErrorRow(return_var.getRow());
+            }
+        jose.funcTail();
     }
 }

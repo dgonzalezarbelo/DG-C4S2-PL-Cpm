@@ -1,5 +1,6 @@
 package ast;
 
+import java.util.List;
 import java.util.StringJoiner;
 
 import ast.expressions.Expression.Operator_T;
@@ -28,7 +29,18 @@ public class Josito {
         code.add("(global $MP (mut i32) (i32.const 0))          ;; mark pointer");       // points the first address of the current scope (MP)
         code.add("(global $NP (mut i32) (i32.const 131071996))  ;; heap 2000*64*1024-4");
         code.add("(global $swap (mut i32) (i32.const 0))");
+        append("(global $trash (mut i32) (i32.const 0))");
         loadFunctions(code);
+    }
+
+    public void consumeTrash() {
+        append("get_global $trash");
+    }
+
+    public void getReturnAddress(int size) { 
+        code.add("get_global $SP");
+        append("i32.const %size", size);
+        code.add("i32.sub");
     }
 
     public void loadFunctions(StringJoiner code) {
@@ -173,10 +185,6 @@ public class Josito {
         append(")");
     }
 
-    public void addArgument() {
-        
-    }
-
     public void createConst(int val) { //TODO dani, esto no tiene indentate
         append("i32.const %d", val);
     }
@@ -197,9 +205,9 @@ public class Josito {
 
     public void getLocalDirUsingRef(int delta) { // Get the local direction of a identifier using reference
         append("global.get $MP"); 
-        append("i32.const 4"); // MP + 4 its the reference value
+        append("i32.const 4");  // Address MP + 4 contains the reference value
         append("i32.add");
-        append("i32.load");
+        append("i32.load");     // The stack now contains the address of the instance of the Class/Struct you are in
         append("i32.const %d", delta);
         append("i32.add");
     }
@@ -211,12 +219,40 @@ public class Josito {
         append("i32.store");
     }
 
-    public void setReference(int value) {
+    
+    public void setReferenceConstructor(int tamConstructor) { // This uses the size of the constructor type to point SP - constructor type size
         append("global.get $MP");
         append("i32.const 4");
         append("i32.add");
-        append("i32.const %d", value);
+        append("i32.get $SP");
+        append("i32.const %d", tamConstructor);
+        append("i32.sub");
         append("i32.store");
+    } 
+
+    public void returnReference() { // This uses the size of the constructor type to point SP - constructor type size
+        append("global.get $MP");
+        append("i32.const 4");
+        append("i32.add");
+        append("i32.load");
+    } 
+
+    public void setReference(int value) {
+        if (value == 0) { // Function Call
+            append("global.get $MP");
+            append("i32.const 4");
+            append("i32.add");
+            append("i32.const 0");
+            append("i32.store");
+        }
+        else if (value != 0) { // Method Call
+            append("global.set $swap");
+            append("global.get $MP");
+            append("i32.const 4");
+            append("i32.add");
+            append("global.get $swap");
+            append("i32.store");
+        }
     }
 
     public void callFunction(int WASMId) {
@@ -224,14 +260,15 @@ public class Josito {
     }
 
     public void load() { // TODO quiza este solo hace load si tenemos el getLocalDirUsingMP
-        append("global.get $MP");
-        append("i32.add");
         append("i32.load");
     }
 
     public void store() { // TODO arreglarlo
-        append("i32.const %d");
-        append("call $store_size");
+        append("i32.store");
+    }
+
+    public void copy_n() {
+        append("call $copyn");
     }
 
     public void ifInit() {
@@ -261,6 +298,23 @@ public class Josito {
 
     public void jump(int label) { // Inconditional_jump to the label
         append("br %d", label);
+    }
+
+    public void jumpTable(List<Integer> br_table_values) { // Inconditional_jump to the label
+        StringBuilder jump_list = new StringBuilder();
+        for (Integer i : br_table_values) 
+            jump_list.append(String.format("%d ", i)); // FIXME quiza puede que pete este espacio de mas
+        append("br %s", jump_list);
+    }
+
+    public void multipleBlocks(int num) { // Inconditional_jump to the label
+        for (int i = 0; i < num; i++) 
+            append("block");
+    }
+
+    public void switchVar(int min) {
+        append("i32.const %d", min);
+        append("i32.sub");
     }
 
     public void printCall() { // Inconditional_jump to the label
@@ -359,6 +413,4 @@ public class Josito {
     private void append(String instruction, Object... args) {
         append(String.format(instruction, args));
     }
-
-
 }

@@ -1,5 +1,6 @@
 package ast.sentences.instructions;
 
+import ast.Josito;
 import ast.Utils;
 import ast.expressions.operands.Literal;
 import ast.sentences.Block;
@@ -26,6 +27,11 @@ public class Case_Ins extends Instruction {
 
     public Integer getCaseValue() {
         return ((Literal) argExpression).toIntConst();
+    }
+
+    @Override
+    public void generateCode(Josito jose) { 
+        body.generateCode(jose);
     }
 
     // FIXME no sabemos si el literal irá a memoria o a pila

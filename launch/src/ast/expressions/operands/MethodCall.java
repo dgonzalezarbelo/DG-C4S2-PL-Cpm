@@ -2,6 +2,7 @@ package ast.expressions.operands;
 
 import java.util.List;
 
+import ast.Josito;
 import ast.expressions.Expression;
 import ast.preamble.Method;
 import exceptions.UndefinedFunctionException;
@@ -46,5 +47,42 @@ public class MethodCall extends Field {
         }
     }
 
-    // TODO del Code_E
+    @Override
+    public void generateAddress(Josito jose) throws Exception { // Code_D
+        func.setReference(1);
+        this.func.generateAddress(jose);        // Nothing to do
+    }
+
+    
+    @Override
+    public void generateValue(Josito jose) throws Exception { // Code_E
+        func.setReference(1);
+        func.generateValue(jose);
+    }
 }
+
+/**
+ * class Alumno { // 8
+ * 		private int notas;
+ * 		public int notitas;
+ * 
+ * 		Alumno(int a, int b) {
+ * 			notas = a;
+ * 			dis.notitas = b;
+ * 		}
+ * 
+ * 		public int calculaNotas() { // 4
+ * 			notas = 3;
+ * 			dis.notitas = 2;	
+ * 		}
+ * }
+ * 
+ * 
+ * int main() {
+ * 	int num = 0;
+ * 	Alumno jose = Alumno(0, 1);
+ * 	jose.notitas = 3;
+ * 	
+ * 
+ * }
+ */
