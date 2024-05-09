@@ -1,5 +1,6 @@
 package ast.sentences.declarations;
 
+import ast.Josito;
 import ast.expressions.Expression;
 import ast.expressions.operands.ConstructorCall;
 import ast.types.interfaces.Pointer_Type;
@@ -57,6 +58,12 @@ public class New_Op extends Expression {
     public Expression opnd2() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'opnd2'");
+    }
+
+    @Override
+    public void generateAddress(Josito jose) throws Exception {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'generateAddress'");
     }
 
     // TODO creo que aqui solo hace falta el generateValue (Code_E)

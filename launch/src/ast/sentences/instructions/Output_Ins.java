@@ -35,7 +35,12 @@ public class Output_Ins extends Instruction {
 
     @Override
     public void generateCode(Josito jose) { 
-        argExpression.generateValue(jose);
+        try {
+            argExpression.generateValue(jose);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            Utils.printErrorRow(row);
+        }
         jose.printCall();
     }
 }

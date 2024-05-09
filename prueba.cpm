@@ -2,9 +2,9 @@ clas myClass {
     public int a;
     praivet bul b;
 
-    myClass(int a, bul b) {
+    myClass(int a, bul c) {
         dis.a = a;
-        dis.b = b;
+        b = c;
     }
 
     public func classMethod(bul result, int num): bul {

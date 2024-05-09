@@ -46,7 +46,12 @@ public class While_Ins extends Instruction {
     @Override
     public void generateCode(Josito jose) { 
         jose.loopInit();
-        argExpression.generateValue(jose);
+        try {
+            argExpression.generateValue(jose);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            Utils.printErrorRow(row);
+        }
         jose.eqZero();
         jose.conditionalJump(1);
         body.generateCode(jose);

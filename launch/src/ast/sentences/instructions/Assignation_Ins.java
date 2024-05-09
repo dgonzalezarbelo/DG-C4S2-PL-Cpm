@@ -68,15 +68,25 @@ public class Assignation_Ins extends Instruction {
             case INT:
             case BOOL:
 			case POINTER:
-                leftSide.generateAddress(jose);
-                argExpression.generateValue(jose);  // Right side
+            try {
+                    leftSide.generateAddress(jose);
+                    argExpression.generateValue(jose);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    Utils.printErrorRow(row);
+                }  // Right side
 				jose.store();
 				break;
 			case ARRAY:
 			case CLASS:
             case STRUCT:
-                argExpression.generateValue(jose);  // Src address
-                leftSide.generateAddress(jose);     // Dest address
+                try {
+                    argExpression.generateValue(jose);
+                    leftSide.generateAddress(jose);     // Dest address
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    Utils.printErrorRow(row);
+                }  // Src address
                 jose.createConst(t.getSize());      // N size to copy
                 jose.copy_n();
                 break;

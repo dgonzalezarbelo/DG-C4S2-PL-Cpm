@@ -26,4 +26,10 @@ public class Error_Ins extends Instruction {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'checkType'");
     }
+
+    @Override
+    public void generateCode(Josito jose) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'generateCode'");
+    }
 }

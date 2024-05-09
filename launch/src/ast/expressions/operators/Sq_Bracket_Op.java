@@ -48,13 +48,32 @@ public class Sq_Bracket_Op extends BinaryExpression {
         jose.translateOperator(this.operator);
     }
     
+    // TODO yo creo que esta funcion deberia ser asi rapidito
     @Override
     public void generateValue(Josito jose) throws Exception { // Code_E
         generateAddress(jose);
-        if (type.getKind() != Type_T.ARRAY) // If the type is an array itself we just want the address
-            jose.load();
-    } // TODO aquí hay que mirar este load si se hace así o no
-
+        if (type.getKind() != Type_T.ARRAY) { // If the type is an array itself we just want the address
+            //jose.load();  // <--- esto ya no funciona  
+            Type_T t = this.type.getKind();
+            switch (t) {
+                case INT:
+                case BOOL:
+                case POINTER:
+                    jose.load();
+                    break;
+                case ARRAY:
+                case CLASS:
+                case STRUCT:
+                    // In this case, the returned value is the object reference to copy it later, so with generateAddress everything is done
+                    break;
+                case CONST: // This will only be a define
+                    // This will never be the case
+                    break;
+                default:
+                    break;    
+            }
+        }
+    }
 }
 
 /* // FIXME Quitar esto

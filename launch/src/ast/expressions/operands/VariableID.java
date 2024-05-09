@@ -74,7 +74,7 @@ public class VariableID extends Expression {
     public void generateValue(Josito jose) throws Exception { // Code_E
 		generateAddress(jose);
 		Type_T t = this.type.getKind();
-		switch (t) {
+		switch (t) {		// TODO igual esto puede ir en el tipo haciendo type.generateValue() y nos quitamos problemas de varios sitios
             case INT:
             case BOOL:
 			case POINTER:
