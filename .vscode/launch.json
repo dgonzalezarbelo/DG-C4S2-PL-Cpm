@@ -6,22 +6,21 @@
         // Configuración de ejecución para lanzar el analizador léxico
         {
             "type": "java",
-            "name": "ReconLaunch",
+            "name": "CompilerDebug",
             "request": "launch",
-            "mainClass": "Main",
+            "mainClass": "mainApp.Main",
             "preLaunchTask": "preLaunchTasks",
-            "args":["cositas.cpm"],
-            //"stopOnEntry": true
+            "args":["debug.cpm"],
+            "stopOnEntry": true
         },
         // Configuración de ejecución para lanzar el analizador léxico
         {
             "type": "java",
-            "name": "ReconDebug",
+            "name": "CompilerLauncher",
             "request": "launch",
-            "mainClass": "Main",
+            "mainClass": "mainApp.Main",
             "preLaunchTask": "preLaunchTasks",
-            "args":["${input:args}"],
-            "stopOnEntry": true
+            "args":["${input:args}"]
         }
     ],
     // Sección para que se pidan los argumentos explícitamente desde VScode

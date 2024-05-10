@@ -20,9 +20,10 @@ public class Break_Ins extends Instruction {
     public void generateCode(Josito jose) { 
         /*
          * The break instruction will exit the current loop of 
-         * innermost nested block by labelling it with the number 1
+         * innermost nested block by labelling it with the number 1 
+         * (if we are inside whiles but with switches its more trickier)
          */
 
-        jose.jump(1); 
+        jose.jump(jose.getBreakJumpScope()); 
     }
 }

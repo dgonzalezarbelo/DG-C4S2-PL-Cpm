@@ -5,8 +5,23 @@
         "launch\\lib\\junit-4.13.2.jar",
         "launch\\lib\\jflex.jar"
     ],
+    "java.test.config": {
+        "sourcePaths": [
+            "./launch/src",
+            "./launch/test" // Asegúrate de incluir aquí la carpeta de tus pruebas
+        ],
+        "workingDirectory": "${workspaceFolder}",
+        "classpath": [
+            "${workspaceFolder}/launch/bin",
+            "${workspaceFolder}/launch/lib/**/*.jar"
+        ],
+        "vmargs": [
+            "-Xmx1G"
+        ]
+    },
     "java.project.sourcePaths": [
-        "launch\\src"
+        "launch\\src",
+        "launch/test"
     ],
     "java.project.outputPath": "launch\\bin",
 }

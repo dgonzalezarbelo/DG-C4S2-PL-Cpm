@@ -35,13 +35,11 @@ public class Utils {
         System.out.println(msg);
     }
 
-    public static void printError(String msg, int row) {
-        System.out.println(msg);
-        printErrorRow(row);
-    }
-
     public static void printErrorRow(int row) {
         System.out.println("↑ ERROR row: " + row);
+    }
+    public static void printErrorRowCol(int row, int col) {
+        System.out.println("↑ ERROR row " + row + " and col " + col);
     }
 
     public static void clear() {

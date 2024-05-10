@@ -1,4 +1,4 @@
-package launch.test.lexicon.JunitTests;
+package lexicon.JunitTests;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,17 +7,22 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import launch.src.lexicon.ALexOperations;
-import launch.src.lexicon.ReconLexicon;
-import lexicon.src.*;
-
+import java_cup.internal_error;
+import lexicon.ALexOperations;
+import lexicon.ReconLexicon;
 
 public class intOperationsCorrect {
 
     @Test
     public void testintOperationsCorrect() throws FileNotFoundException, IOException {
         String[] args = {"lexicon/test/testingCodes/intOperationsCorrect.cpm"}; // File that will be tested
-        ReconLexicon.main(args);
+        try {
+            ReconLexicon.main(args);
+        } catch (internal_error e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         
         // this test shouldnt detect any errors in the lexic
         assertEquals(false, ALexOperations.errorDetected);

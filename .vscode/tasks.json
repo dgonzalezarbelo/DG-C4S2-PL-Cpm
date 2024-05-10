@@ -32,7 +32,7 @@
 		{
 			"label": "generateWebAssembly",
 			"type": "shell",
-			"command": "./launch/src/wat2wasm.exe ./launch/src/Main.wat",
+			"command": ".\\launch\\src\\webAssembly\\WatToWasm.bat",
 			"group": {
 				"kind": "build",
 				"isDefault": true

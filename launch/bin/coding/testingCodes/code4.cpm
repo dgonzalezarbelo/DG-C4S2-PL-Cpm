@@ -1,0 +1,10 @@
+// Reference Op Test
+
+func mein():int {
+    int result = 5;
+    int~ ptr = &result; 
+    ceaut(~ptr);
+    return 0;
+}
+
+// RESULT: 5

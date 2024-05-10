@@ -3,6 +3,7 @@ package ast;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Stack;
 import java.util.StringJoiner;
 
 import ast.expressions.Expression.Operator_T;
@@ -19,6 +20,8 @@ public class Josito {
     public static final int NUM_FUNC_POINTERS_SIZE = 8;
     
     private int functionWASMId = 1; // The id of the functions of the compiling program
+    private Stack<Integer> breakJumpScope = new Stack<Integer>();  // This stack scope controls the break jumps
+    private int prevBreakJump;
     private int indentation;
     private int dynamicLink;    // points to the beginning of its dynamic predecessor's frame (who call him)
     private int defaultSize = 4;
@@ -321,7 +324,7 @@ public class Josito {
         StringBuilder jump_list = new StringBuilder();
         for (Integer i : br_table_values) 
             jump_list.append(String.format("%d ", i)); // FIXME quiza puede que pete este espacio de mas
-        append("br %s", jump_list);
+        append("br_table %s", jump_list);
     }
 
     public void multipleBlocks(int num) { // Inconditional_jump to the label
@@ -413,6 +416,23 @@ public class Josito {
         int ret = this.functionWASMId;
         functionWASMId++;
         return ret;
+    }
+
+    public int getBreakJumpScope() {
+        return this.breakJumpScope.peek();
+    }
+
+    public void popBreakJumpScope() {
+        this.breakJumpScope.pop();
+    }
+
+    public void pushBreakJumpScope(int value) {
+        this.breakJumpScope.push(value);
+    }
+
+    public void updateBreakJumpScopeTop(int value){  // This function only used in the switch to pop the current top and insert new Value
+        this.breakJumpScope.pop();
+        this.breakJumpScope.push(value);
     }
     
     private String indentate(String instruction) {

@@ -46,6 +46,7 @@ public class While_Ins extends Instruction {
     @Override
     public void generateCode(Josito jose) { 
         jose.loopInit();
+        jose.pushBreakJumpScope(1); // Update breakJumpScope pushing a new while break value
         try {
             argExpression.generateValue(jose);
         } catch (Exception e) {
@@ -58,5 +59,6 @@ public class While_Ins extends Instruction {
         jose.jump(0);
         jose.endBlock();
         jose.endBlock();
+        jose.popBreakJumpScope(); // Update breakJumpScope poping the while break value
     }
 }

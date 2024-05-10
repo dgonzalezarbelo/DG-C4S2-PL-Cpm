@@ -299,7 +299,7 @@ CONTINUE_INS   ::= CONTINUE:c SEMICOLON
 // For
 
 FOR_INS  ::= FOR:f PARENTESIS_OPEN SENTENCE:s1 SEMICOLON EXPRESSION:cond SEMICOLON SENTENCE:s2 PARENTESIS_CLOSE BRACKET_OPEN FUNCTION_BODY:body BRACKET_CLOSE 
-{: RESULT = new For_Ins(s1, cond, s2, body, f.row); :};
+{: RESULT = new For_Ins(s1, cond, s2, body, f.row); System.out.println("putamierdadepractica"); :};
 FOR_INS  ::= FOR:f error
 {: RESULT = new Error_Ins(f.row); :};
 
