@@ -67,4 +67,8 @@ public class New_Op extends Expression {
     }
 
     // TODO creo que aqui solo hace falta el generateValue (Code_E)
+    @Override
+    public void generateValue(Josito jose) {
+        
+    }
 }
