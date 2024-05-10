@@ -284,6 +284,10 @@ public class Josito {
         append("call $copyn");
     }
 
+    public void mul() {
+        append("i32.mul");
+    }
+
     public void ifInit() {
         append("if");
     }
