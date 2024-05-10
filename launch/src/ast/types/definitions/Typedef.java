@@ -2,7 +2,6 @@ package ast.types.definitions;
 import java.util.List;
 
 import ast.ASTNode;
-import ast.Utils;
 import ast.expressions.operands.AttributeID;
 import ast.expressions.operands.FunctionCall;
 import ast.preamble.Attribute;
@@ -10,6 +9,8 @@ import ast.preamble.Method;
 import ast.preamble.Program;
 import ast.sentences.declarations.Declaration;
 import ast.types.interfaces.Type;
+import utils.GoodInteger;
+import utils.Utils;
 
 public class Typedef extends Definition {
     private Type existing_type;     // The previously existing type
@@ -59,8 +60,8 @@ public class Typedef extends Definition {
     }
 
     @Override
-    public void maxMemory(Integer c, Integer max) {
-        maximumMemory = 0;
+    public void maxMemory(GoodInteger c, GoodInteger max) {
+        maximumMemory.setValue(0);
     }
 }
 

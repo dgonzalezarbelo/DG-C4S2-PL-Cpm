@@ -62,6 +62,12 @@ public class Pointer_Op extends UnaryExpression {
     }
 }
 
+
+/**
+ * int~ ptr = _;
+ * int~ ptr2 = &(~(ptr + 3));
+ */
+
 /**
      * int ~ a = 0;
      */

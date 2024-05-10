@@ -35,4 +35,10 @@ public class Error_Exp extends Expression {
     public Expression opnd2() {
         throw new UnsupportedOperationException("Unimplemented method 'opnd2'");
     }
+
+    @Override
+    public void generateAddress(Josito jose) throws Exception {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'generateAddress'");
+    }
 }

@@ -7,7 +7,6 @@ import ast.ASTNodeTypable;
 import ast.Delta;
 import ast.Indentable;
 import ast.Josito;
-import ast.Utils;
 import ast.expressions.operands.AttributeID;
 import ast.expressions.operands.FunctionCall;
 import ast.preamble.Attribute;
@@ -15,6 +14,7 @@ import ast.preamble.Method;
 import ast.preamble.Program;
 import ast.types.interfaces.Type;
 import exceptions.DuplicateDefinitionException;
+import utils.Utils;
 
 public abstract class Definition extends ASTNodeTypable implements Indentable {
     protected Integer indentation;
@@ -51,8 +51,8 @@ public abstract class Definition extends ASTNodeTypable implements Indentable {
         // Nothing to do by default
     }
 
-    public Integer getSize() {
-        return maximumMemory;
+    public int getSize() {
+        return maximumMemory.toInt();
     }
 
     @Override

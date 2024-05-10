@@ -9,6 +9,7 @@ import ast.SymbolsTable;
 import ast.types.definitions.BoolDefinition;
 import ast.types.definitions.Definition;
 import ast.types.definitions.IntDefinition;
+import utils.GoodInteger;
 
 public class Program extends ASTNode {
     private List<Definition> definitions;
@@ -18,6 +19,7 @@ public class Program extends ASTNode {
     public Program(List<Definition> definitions, Function mainFunction) {
         this.definitions = definitions;
         this.mainFunction = mainFunction;
+        this.mainFunction.setAsMain();
     }
 
     public String toString() {
@@ -34,7 +36,7 @@ public class Program extends ASTNode {
 
     @Override
     public void bind() {
-        /*
+        /* TODO valorar como poner este comentario (y si ponerlo)
          * Esto parece más feo de lo que es porque habría que hacerlo con un for y un "conjunto de definiciones de tipos básicos", pero hay que hacerlo
          * para estandarizar los tipos y no permitir declaraciones con el mismo nombre que otras (aunque sean de tipos basicos)
          */
@@ -58,7 +60,7 @@ public class Program extends ASTNode {
     }
 
     @Override
-    public void maxMemory(Integer c, Integer max) {
+    public void maxMemory(GoodInteger c, GoodInteger max) {
         for (Definition d : definitions)
             d.maxMemory(null, null);
         mainFunction.maxMemory(null, maximumMemory);
@@ -73,9 +75,15 @@ public class Program extends ASTNode {
 
     @Override
     public void generateCode(Josito jose) {
+        GoodInteger c = new GoodInteger(0), max = new GoodInteger(0);
+        this.maxMemory(c, max);
+        Delta delta = new Delta();
+        this.computeOffset(delta);
+        
         jose.programHeader();
         for (Definition d : definitions)
             d.generateCode(jose);
         mainFunction.generateCode(jose);
+        jose.closeProgram();
     }
 }

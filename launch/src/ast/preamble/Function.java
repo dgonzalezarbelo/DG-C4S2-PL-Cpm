@@ -6,7 +6,6 @@ import java.util.List;
 import ast.ASTNode;
 import ast.Delta;
 import ast.Josito;
-import ast.Utils;
 import ast.expressions.Expression;
 import ast.expressions.operands.AttributeID;
 import ast.expressions.operands.FunctionCall;
@@ -17,6 +16,8 @@ import exceptions.DuplicateDefinitionException;
 import exceptions.MatchingTypeException;
 import exceptions.UndefinedAttributeException;
 import exceptions.UndefinedFunctionException;
+import utils.GoodInteger;
+import utils.Utils;
 
 public class Function extends Definition {
     protected Integer indentation;
@@ -32,6 +33,7 @@ public class Function extends Definition {
         this.return_t = return_t;
         this.body = body;
         this.return_var = return_var;
+        this.WASMId = -1;
     }
 
     @Override
@@ -130,20 +132,20 @@ public class Function extends Definition {
     }
 
     @Override
-    public void maxMemory(Integer c, Integer maxi) {
-        maximumMemory = Josito.NUM_FUNC_POINTERS_SIZE;
-        Integer curr = 0;                           // FIXME igual no hay que pasar un copia y hay que pasar el de arriba, darle una vuelta
+    public void maxMemory(GoodInteger c, GoodInteger maxi) {
+        maximumMemory.setValue(Josito.NUM_FUNC_POINTERS_SIZE);
+        GoodInteger curr = new GoodInteger(0);                           // FIXME igual no hay que pasar un copia y hay que pasar el de arriba, darle una vuelta
         for (Argument a : args) {
             a.maxMemory(curr, maximumMemory);       // Only the declarations will change the curr value
-            if(curr > maximumMemory)
-                maximumMemory = curr;
+            if(curr.toInt() > maximumMemory.toInt())
+                maximumMemory.setValue(curr.toInt());
         }
         body.maxMemory(curr, maximumMemory);
         if (return_t != null)
             return_t.maxMemory(null, null);
-        maximumMemory += return_t.getSize();
+        maximumMemory.setValue(maximumMemory.toInt() + return_t.getSize());
         if (maxi != null)
-            maxi += maximumMemory;
+            maxi.setValue(maxi.toInt() + maximumMemory.toInt());
     }
 
     @Override
@@ -170,8 +172,9 @@ public class Function extends Definition {
     } */
 
     @Override
-    public void generateCode(Josito jose) { 
-        WASMId = jose.getAndIncrementId();  // Get the unique function Id
+    public void generateCode(Josito jose) {
+        if (WASMId != 0)                        // If the WASMId is 0 then this function is the Main, so we keep the WASMId 0
+            WASMId = jose.getAndIncrementId();  // Get the unique function Id
         jose.funcHeader(WASMId);
         if (return_t != null)               // Check if its a typed function or not
             jose.funcResult();
@@ -184,5 +187,9 @@ public class Function extends Definition {
                 Utils.printErrorRow(return_var.getRow());
             }
         jose.funcTail();
+    }
+
+    public void setAsMain() {
+        this.WASMId = 0;
     }
 }

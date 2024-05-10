@@ -1,12 +1,12 @@
 package ast.sentences.instructions;
 
 import ast.sentences.Sentence;
+import utils.Utils;
 import ast.sentences.Block;
 import java.util.ArrayList;
 import java.util.List;
 
 import ast.Josito;
-import ast.Utils;
 import ast.expressions.Expression;
 import ast.preamble.Program;
 

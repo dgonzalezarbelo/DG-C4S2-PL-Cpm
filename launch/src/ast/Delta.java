@@ -19,8 +19,10 @@ public class Delta {
 
     public int getAndUpdateOffset(Integer size) {
         Integer top = offsets.peek();
+        offsets.pop();
         int ret_value = top.intValue();
         top += size;
+        offsets.push(top);
         return ret_value;
     }
 }

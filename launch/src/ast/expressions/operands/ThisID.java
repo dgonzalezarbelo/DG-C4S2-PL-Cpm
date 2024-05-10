@@ -2,11 +2,11 @@ package ast.expressions.operands;
 
 import ast.ASTNodeTypable;
 import ast.Josito;
-import ast.Utils;
 import ast.expressions.Expression;
 import ast.preamble.Program;
 import exceptions.InvalidDirectionException;
 import exceptions.InvalidTypeException;
+import utils.Utils;
 
 public class ThisID extends Expression {
     private ASTNodeTypable thisReference; // This must be a class or a struct

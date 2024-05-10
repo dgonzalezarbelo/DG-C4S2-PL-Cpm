@@ -2,6 +2,8 @@ package ast.sentences.instructions;
 
 import exceptions.InvalidTypeException;
 import exceptions.MatchingTypeException;
+import utils.GoodInteger;
+import utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +12,6 @@ import java.util.Set;
 
 import ast.Delta;
 import ast.Josito;
-import ast.Utils;
 import ast.expressions.Expression;
 import ast.preamble.Program;
 import ast.types.interfaces.Type;
@@ -79,21 +80,21 @@ public class Switch_Ins extends Instruction {
 
     
     @Override
-    public void maxMemory(Integer c, Integer maxi) { 
+    public void maxMemory(GoodInteger c, GoodInteger maxi) { 
         /*
          * The memory occupied by the switch will be the accumulated memory
          * of all the cases and the default
          */
-        maximumMemory = 0;
-        Integer curr = 0;
+        maximumMemory.setValue(0);
+        GoodInteger curr = new GoodInteger(0);
         for (Case_Ins _case : clauses) {
             _case.maxMemory(curr, maximumMemory);
-            curr = maximumMemory;
+            curr.setValue(maximumMemory.toInt());
         }
         default_Ins.maxMemory(curr, maximumMemory);
-        curr = maximumMemory;
-        if (c + maximumMemory > maxi)
-            maxi = c + maximumMemory;
+        curr.setValue(maximumMemory.toInt());
+        if (c.toInt() + maximumMemory.toInt() > maxi.toInt())
+            maxi.setValue(c.toInt() + maximumMemory.toInt());
     }
 
     @Override

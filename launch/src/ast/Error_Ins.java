@@ -1,6 +1,7 @@
 package ast;
  
 import ast.sentences.instructions.Instruction;
+import utils.Utils;
 
 public class Error_Ins extends Instruction {
     

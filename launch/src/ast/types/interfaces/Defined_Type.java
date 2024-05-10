@@ -44,10 +44,6 @@ public class Defined_Type extends Type {    // User defined type
     }
 
     public void calcSize() {
-        maximumMemory = type_definition.getSize();
-    }
-
-    public Integer getSize() {
-        return maximumMemory;
+        maximumMemory.setValue(type_definition.getSize());
     }
 }

@@ -6,7 +6,6 @@ import java.util.List;
 import ast.ASTNode;
 import ast.Delta;
 import ast.Josito;
-import ast.Utils;
 import ast.expressions.operands.AttributeID;
 import ast.preamble.Attribute;
 import ast.preamble.Constructor;
@@ -15,6 +14,8 @@ import ast.preamble.Program;
 import ast.types.interfaces.Type;
 import exceptions.UndefinedAttributeException;
 import exceptions.VisibilityException;
+import utils.GoodInteger;
+import utils.Utils;
 
 public abstract class ObjectDefinition extends Definition {
     protected Integer indentation;
@@ -117,13 +118,13 @@ public abstract class ObjectDefinition extends Definition {
     }
 
     @Override
-    public void maxMemory(Integer c, Integer maxi) {
-        maximumMemory = 0;
-        Integer curr = 0;                           // FIXME igual no hay que pasar un copia y hay que pasar el de arriba, darle una vuelta
+    public void maxMemory(GoodInteger c, GoodInteger maxi) {
+        maximumMemory.setValue(0);
+        GoodInteger curr = new GoodInteger(0);                           // FIXME igual no hay que pasar un copia y hay que pasar el de arriba, darle una vuelta
         for (Attribute a : attributes) {
             a.maxMemory(curr, maximumMemory);       // Only the declarations will change the curr value
-            if(curr > maximumMemory)
-                maximumMemory = curr;
+            if(curr.toInt() > maximumMemory.toInt())
+                maximumMemory.setValue(curr.toInt());
         }
         functions.maxMemory(null, null);
     }

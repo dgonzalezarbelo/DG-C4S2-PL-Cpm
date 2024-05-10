@@ -40,7 +40,8 @@ public class MethodCall extends Field {
         }
         
         try {
-            Method matched = classFrom.hasMethod(func); 
+            Method matched = classFrom.hasMethod(func);
+            func.matchingBind = matched;
             this.type = matched.getType();
         } catch (Exception e) {
             throw new VisibilityException(e.getMessage());

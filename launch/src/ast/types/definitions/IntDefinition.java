@@ -8,6 +8,7 @@ import ast.expressions.operands.FunctionCall;
 import ast.preamble.Attribute;
 import ast.preamble.Method;
 import ast.types.interfaces.Int_Type;
+import utils.GoodInteger;
 
 public class IntDefinition extends Definition {
 
@@ -43,8 +44,8 @@ public class IntDefinition extends Definition {
     }
 
     @Override
-    public void maxMemory(Integer c, Integer maxi) {
-        maximumMemory = 0;
+    public void maxMemory(GoodInteger c, GoodInteger maxi) {
+        maximumMemory.setValue(0);
     }
     
 }

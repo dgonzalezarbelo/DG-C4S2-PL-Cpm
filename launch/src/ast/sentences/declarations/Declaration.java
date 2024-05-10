@@ -4,7 +4,6 @@ import java.util.List;
 
 import ast.Delta;
 import ast.Josito;
-import ast.Utils;
 import ast.expressions.Expression;
 import ast.expressions.operands.VariableID;
 import ast.preamble.Program;
@@ -14,6 +13,8 @@ import ast.types.interfaces.Const_Type;
 import ast.types.interfaces.Type;
 import ast.types.interfaces.Type.Type_T;
 import exceptions.DuplicateDefinitionException;
+import utils.GoodInteger;
+import utils.Utils;
 
 public class Declaration extends Sentence {
     protected VariableID varname;
@@ -97,15 +98,15 @@ public class Declaration extends Sentence {
     }
 
     @Override
-    public void maxMemory(Integer c, Integer max) {
+    public void maxMemory(GoodInteger c, GoodInteger max) {
         type.maxMemory(null, null); // this will calculate the size needed for that type and update his internal size value
-        maximumMemory = type.getSize();
-        c += maximumMemory;
+        maximumMemory.setValue(type.getSize());
+        c.setValue(c.toInt() + maximumMemory.toInt());
     }
 
     @Override
     public void computeOffset(Delta delta) {
-        this.position = delta.getAndUpdateOffset(maximumMemory);
+        this.position = delta.getAndUpdateOffset(maximumMemory.toInt());
     }
 
     public Integer getOffset() {

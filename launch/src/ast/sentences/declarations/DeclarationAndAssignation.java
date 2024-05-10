@@ -6,6 +6,7 @@ import ast.expressions.Expression;
 import ast.expressions.operands.VariableID;
 import ast.sentences.Sentence;
 import ast.sentences.instructions.Assignation_Ins;
+import utils.GoodInteger;
 
 public class DeclarationAndAssignation extends Sentence {
     private Declaration d;
@@ -43,7 +44,7 @@ public class DeclarationAndAssignation extends Sentence {
     }
 
     @Override
-    public void maxMemory(Integer c, Integer max) {
+    public void maxMemory(GoodInteger c, GoodInteger max) {
         d.maxMemory(c, max);
         a.maxMemory(c, max);
     }

@@ -26,7 +26,7 @@ public class Pointer_Type extends Envelope_Type {
 
     @Override
     public void calcSize() { 
-        maximumMemory = BYTES_SIZE;
+        maximumMemory.setValue(BYTES_SIZE);
     }
 }
 

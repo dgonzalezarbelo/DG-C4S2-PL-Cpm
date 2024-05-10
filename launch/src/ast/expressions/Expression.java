@@ -4,6 +4,7 @@ import ast.ASTNodeTypable;
 import ast.Delta;
 import ast.Indentable;
 import ast.Josito;
+import utils.GoodInteger;
 
 public abstract class Expression extends ASTNodeTypable implements Indentable {
     public static enum Operator_T { AND, DIV, EQ, FIELD_ACCESS, GREATER, GEQ, LESS, LEQ, MINUS, MOD, MULT, NEQ, NOT, OR, PTR, POW, REFERENCE, SQ_BRACKET, SUB, ADD }
@@ -18,9 +19,8 @@ public abstract class Expression extends ASTNodeTypable implements Indentable {
     }
 
     @Override
-    public void maxMemory(Integer c, Integer maxi) { 
-        maximumMemory = 0;
-        // Nothing to do
+    public void maxMemory(GoodInteger c, GoodInteger maxi) { 
+        maximumMemory.setValue(0);
     }
 
     @Override

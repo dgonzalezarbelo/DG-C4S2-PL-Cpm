@@ -8,6 +8,7 @@ import ast.expressions.operands.FunctionCall;
 import ast.preamble.Attribute;
 import ast.preamble.Method;
 import ast.types.interfaces.Bool_Type;
+import utils.GoodInteger;
 
 public class BoolDefinition extends Definition {
 
@@ -43,8 +44,8 @@ public class BoolDefinition extends Definition {
     }
 
     @Override
-    public void maxMemory(Integer c, Integer max) {
-        maximumMemory = 0;
+    public void maxMemory(GoodInteger c, GoodInteger max) {
+        maximumMemory.setValue(0);
     }
     
 }

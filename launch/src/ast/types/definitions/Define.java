@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ast.ASTNode;
-import ast.Utils;
 import ast.expressions.operands.AttributeID;
 import ast.expressions.operands.FunctionCall;
 import ast.expressions.operands.Literal;
@@ -14,6 +13,8 @@ import ast.preamble.Program;
 import ast.types.interfaces.Const_Type;
 import ast.types.interfaces.Type;
 import exceptions.DuplicateDefinitionException;
+import utils.GoodInteger;
+import utils.Utils;
 
 public class Define extends Definition {
     private Literal value; 
@@ -77,7 +78,7 @@ public class Define extends Definition {
     }
 
     @Override
-    public void maxMemory(Integer c, Integer maxi) {
-        maximumMemory = 0;
+    public void maxMemory(GoodInteger c, GoodInteger maxi) {
+        maximumMemory.setValue(0);
     }
 }

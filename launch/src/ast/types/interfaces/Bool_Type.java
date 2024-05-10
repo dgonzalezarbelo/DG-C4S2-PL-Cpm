@@ -19,6 +19,6 @@ public class Bool_Type extends Type {
 
     @Override
     public void calcSize() { 
-        maximumMemory = BYTES_SIZE;
+        maximumMemory.setValue(BYTES_SIZE);
     }
 }

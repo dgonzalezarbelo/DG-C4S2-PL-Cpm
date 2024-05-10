@@ -2,7 +2,6 @@ package ast.expressions.operands;
 
 import ast.ASTNodeTypable;
 import ast.Josito;
-import ast.Utils;
 import ast.expressions.Expression;
 import ast.preamble.Attribute;
 import ast.preamble.Program;
@@ -11,6 +10,7 @@ import ast.types.interfaces.Const_Type;
 import ast.types.interfaces.Type.Type_T;
 import exceptions.InvalidDirectionException;
 import exceptions.InvalidIdException;
+import utils.Utils;
 import ast.types.definitions.Define;
 
 public class VariableID extends Expression {
@@ -57,6 +57,7 @@ public class VariableID extends Expression {
 
 	@Override
 	public void generateAddress(Josito jose) throws Exception { // Code_D
+	//TODO Va a haber que hacer una distincion en caso de ser una referencia
 		if (!this.type.getClass().equals(Const_Type.class)) {
 			Declaration cast = (Declaration)id_node;
 			Integer delta = cast.getOffset();
@@ -72,6 +73,7 @@ public class VariableID extends Expression {
     
 	@Override
     public void generateValue(Josito jose) throws Exception { // Code_E
+	//TODO Va a haber que hacer una distincion en caso de ser una referencia
 		generateAddress(jose);
 		Type_T t = this.type.getKind();
 		switch (t) {		// TODO igual esto puede ir en el tipo haciendo type.generateValue() y nos quitamos problemas de varios sitios

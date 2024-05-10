@@ -4,6 +4,7 @@ import ast.Delta;
 import ast.expressions.Expression;
 import ast.sentences.Block;
 import ast.sentences.Sentence;
+import utils.GoodInteger;
 
 public abstract class Instruction extends Sentence {
     protected int indentation;
@@ -42,7 +43,7 @@ public abstract class Instruction extends Sentence {
     }
 
     @Override
-    public void maxMemory(Integer c, Integer maxi) {
+    public void maxMemory(GoodInteger c, GoodInteger maxi) {
         if (this.argExpression != null)
             this.argExpression.maxMemory(c, maxi);
         if (this.body != null)

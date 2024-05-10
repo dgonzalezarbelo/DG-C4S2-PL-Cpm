@@ -1,7 +1,7 @@
 package ast.sentences.instructions;
 
 import ast.Josito;
-import ast.Utils;
+import utils.Utils;
 
 public class Continue_Ins extends Instruction {
 

@@ -4,9 +4,10 @@ import ast.sentences.Block;
 import ast.types.interfaces.Type;
 import ast.types.interfaces.Type.Type_T;
 import exceptions.BooleanConditionException;
+import utils.GoodInteger;
+import utils.Utils;
 import ast.Delta;
 import ast.Josito;
-import ast.Utils;
 import ast.expressions.Expression;
 import ast.preamble.Program;
 
@@ -63,7 +64,7 @@ public class If_Ins extends Instruction {
     }
 
     @Override
-    public void maxMemory(Integer c, Integer max) {
+    public void maxMemory(GoodInteger c, GoodInteger max) {
         super.maxMemory(c, max);
         if (elseBody != null)
             elseBody.maxMemory(c, max);

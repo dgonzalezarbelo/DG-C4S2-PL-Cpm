@@ -53,7 +53,6 @@ public class Sq_Bracket_Op extends BinaryExpression {
     public void generateValue(Josito jose) throws Exception { // Code_E
         generateAddress(jose);
         if (type.getKind() != Type_T.ARRAY) { // If the type is an array itself we just want the address
-            //jose.load();  // <--- esto ya no funciona  
             Type_T t = this.type.getKind();
             switch (t) {
                 case INT:
@@ -62,6 +61,7 @@ public class Sq_Bracket_Op extends BinaryExpression {
                     jose.load();
                     break;
                 case ARRAY:
+                    // This will never be the case
                 case CLASS:
                 case STRUCT:
                     // In this case, the returned value is the object reference to copy it later, so with generateAddress everything is done

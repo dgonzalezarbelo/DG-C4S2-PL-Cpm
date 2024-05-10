@@ -2,11 +2,11 @@ package ast.preamble;
 
 import java.util.List;
 
-import ast.Utils;
 import ast.expressions.Expression;
 import ast.sentences.Block;
 import ast.types.interfaces.Type;
 import exceptions.DuplicateDefinitionException;
+import utils.Utils;
 
 public class Method extends Function { // Class method represents the class functions
     protected Visibility visibility;

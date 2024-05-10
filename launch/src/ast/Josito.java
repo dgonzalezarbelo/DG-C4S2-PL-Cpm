@@ -1,5 +1,7 @@
 package ast;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -16,21 +18,34 @@ public class Josito {
 
     public static final int NUM_FUNC_POINTERS_SIZE = 8;
     
-    private int functionWASMId = 0; // The id of the functions of the compiling program
+    private int functionWASMId = 1; // The id of the functions of the compiling program
     private int indentation;
     private int dynamicLink;    // points to the beginning of its dynamic predecessor's frame (who call him)
     private int defaultSize = 4;
     private int stackPointer;   // points to the last occupied position of the memory 
     private int newPointer;     // points to the last occupied position of the heap
-
+    
     public void programHeader() {
-        code.add("(memory 2000)");
-        code.add("(global $SP (mut i32) (i32.const 0))          ;; start of stack");     // points the next free address (SP)
-        code.add("(global $MP (mut i32) (i32.const 0))          ;; mark pointer");       // points the first address of the current scope (MP)
-        code.add("(global $NP (mut i32) (i32.const 131071996))  ;; heap 2000*64*1024-4");
-        code.add("(global $swap (mut i32) (i32.const 0))");
+        append("(module");
+        append ("(type $_sig_i32i32i32 (func (param i32 i32 i32) ))");
+        append("(type $_sig_i32 (func (param i32)))");
+        append("(type $_sig_ri32 (func (result i32)))");
+        append("(type $_sig_void (func ))");
+        append("(import \"runtime\" \"exceptionHandler\" (func $exception (type $_sig_i32)))");
+        append("(import \"runtime\" \"print\" (func $print (type $_sig_i32)))");
+        append("(import \"runtime\" \"read\" (func $read (type $_sig_ri32)))");
+        append("(memory 2000)");
+        append("(start $init)");
+        append("(global $SP (mut i32) (i32.const 0))          ;; start of stack");     // points the next free address (SP)
+        append("(global $MP (mut i32) (i32.const 0))          ;; mark pointer");       // points the first address of the current scope (MP)
+        append("(global $NP (mut i32) (i32.const 131071996))  ;; heap 2000*64*1024-4");
+        append("(global $swap (mut i32) (i32.const 0))");
         append("(global $trash (mut i32) (i32.const 0))");
         loadFunctions(code);
+    }
+
+    public void closeProgram() {
+        append(")");
     }
 
     public void consumeTrash() {
@@ -38,136 +53,138 @@ public class Josito {
     }
 
     public void getReturnAddress(int size) { 
-        code.add("get_global $SP");
-        append("i32.const %size", size);
-        code.add("i32.sub");
+        append("get_global $SP");
+        append("i32.const %d", size);
+        append("i32.sub");
     }
 
     public void loadFunctions(StringJoiner code) {
         /*
+         * Function ini
+        */
+        append("(func $init");
+        append("    call $0");
+        append("    set_global $trash");
+        append(")");
+        
+        /*
          * Function that reserves enough memory for the new scope
          */
-        code.add("(func $reserveStack (param $size i32)");  // this argument is the maximunMemoy of the new scope
-        code.add("  (result i32)");                         // returning value will be the Mark Pointer (MP) of the calling scope <-- Dynamic Link
-        code.add("  get_global $MP");
-        code.add("  get_global $SP");
-        code.add("  set_global $MP");
-        code.add("  get_global $SP");
-        code.add("  get_local $size");
-        code.add("  i32.add");
-        code.add("  set_global $SP");
-        code.add("  get_global $SP");
-        code.add("  get_global $NP");
-        code.add("  i32.gt_u");
-        code.add("  if");
-        code.add("  i32.const 3");
-        code.add("  call $exception");
-        code.add("  end");
-        code.add(")");
+        append("(func $reserveStack (param $size i32)");  // this argument is the maximunMemoy of the new scope
+        append("    (result i32)");                         // returning value will be the Mark Pointer (MP) of the calling scope <-- Dynamic Link
+        append("    get_global $MP");
+        append("    get_global $SP");
+        append("    set_global $MP");
+        append("    get_global $SP");
+        append("    get_local $size");
+        append("    i32.add");
+        append("    set_global $SP");
+        append("    get_global $SP");
+        append("    get_global $NP");
+        append("    i32.gt_u");
+        append("    if");
+        append("        i32.const 3");
+        append("        call $exception");
+        append("    end");
+        append(")");
         
         /*
          * Function that restores the memory when exiting the scope
          */
-        code.add("(func $freeStack (type $_sig_void)"); // TODO esta hecho por nosotros porque el dado por el profe creo q esta algo mal
-        code.add("   get_global $MP");
-        code.add("   set_global $SP"); // SP <-- MP (the first next free address (SP) will be the first address of the current scope that are we freeing (MP))
-        code.add("   get_global $MP"); // MP points to the current DL that points to the previous MP so we restore it
-        code.add("   i32.load");
-        code.add("   set_global $MP");
-        code.add(")");
+        append("(func $freeStack (type $_sig_void)"); // TODO esta hecho por nosotros porque el dado por el profe creo q esta algo mal
+        append("   get_global $MP");
+        append("   set_global $SP"); // SP <-- MP (the first next free address (SP) will be the first address of the current scope that are we freeing (MP))
+        append("   get_global $MP"); // MP points to the current DL that points to the previous MP so we restore it
+        append("   i32.load");
+        append("   set_global $MP");
+        append(")");
+
+    
+        append("(func $setDynamicLink");
+        append("(param $dynamicLink i32)");
+        append("    global.get $MP");
+        append("    local.get $dynamicLink");
+        append("    i32.store");
+        append(")"); 
 
         /*
         * Copy n
         */
-        code.add("(func $copyn (type $_sig_i32i32i32) ;; copy $n i32 slots from $src to $dest");
-        code.add("(param $src i32)");           // origin
-        code.add("(param $dest i32)");          // destination
-        code.add("(param $n i32)");             // n elements
-        code.add("block");
-        code.add("    loop");
-        code.add("    local.get $n");
-        code.add("    i32.eqz");
-        code.add("    br_if 1");
-        code.add("    local.get $n");
-        code.add("    i32.const 1");
-        code.add("    i32.sub");
-        code.add("    local.set $n");
-        code.add("    local.get $dest");
-        code.add("    local.get $src");
-        code.add("    i32.load");
-        code.add("    i32.store");
-        code.add("    local.get $dest");
-        code.add("    i32.const 4");
-        code.add("    i32.add");
-        code.add("    local.set $dest");
-        code.add("    local.get $src");
-        code.add("    i32.const 4");
-        code.add("    i32.add");
-        code.add("    local.set $src");
-        code.add("    br 0");
-        code.add("    end");
-        code.add("end");
-        code.add(")");
+        append("(func $copyn (type $_sig_i32i32i32) ;; copy $n i32 slots from $src to $dest");
+        append("    (param $src i32)");           // origin
+        append("    (param $dest i32)");          // destination
+        append("    (param $n i32)");             // n elements
+        append("    block");
+        append("        loop");
+        append("        local.get $n");
+        append("        i32.eqz");
+        append("        br_if 1");
+        append("        local.get $n");
+        append("        i32.const 1");
+        append("        i32.sub");
+        append("        local.set $n");
+        append("        local.get $dest");
+        append("        local.get $src");
+        append("        i32.load");
+        append("        i32.store");
+        append("        local.get $dest");
+        append("        i32.const 4");
+        append("        i32.add");
+        append("        local.set $dest");
+        append("        local.get $src");
+        append("        i32.const 4");
+        append("        i32.add");
+        append("        local.set $src");
+        append("        br 0");
+        append("        end");
+        append("    end");
+        append(")");
 
         /*
          * Power function (base^exp)
          */
-        code.add("(module"); // TODO solo hay un module en todo el codigo, no puede ser ese
-        code.add("    (func $exponentiation (param $base i32) (param $exponent i32) (param $modulus i32) (result i32)");
-        code.add("        (local $result i32)");
-        code.add("        (local $base_temp i32)");
-        code.add("        (local $exponent_temp i32)");
-        code.add("");
-        code.add("        (set_local $result i32.const 1)                        ;; Result is initialized to 1");
-        code.add("        (set_local $base_temp (i32.rem_s (get_local $base) (get_local $modulus)))  ;; base_temp = base % modulus");
-        code.add("        (set_local $exponent_temp (get_local $exponent))      ;; exponent_temp = exponent");
-        code.add("");
-        code.add("        (block");
-        code.add("        (loop");
-        code.add("            (br_if  ;; Exit loop if exponent_temp is 0");
-        code.add("            (i32.eqz (get_local $exponent_temp))");
-        code.add("            )");
-        code.add("");
-        code.add("            (if");
-        code.add("            (result i32)");
-        code.add("            (i32.eqz (i32.rem_s (get_local $exponent_temp) (i32.const 2)))  ;; If exponent_temp is even");
-        code.add("            (then");
-        code.add("                (set_local $base_temp");
-        code.add("                (i32.rem_s");
-        code.add("                    (i32.mul (get_local $base_temp) (get_local $base_temp))");
-        code.add("                    (get_local $modulus)");
-        code.add("                )");
-        code.add("                )");
-        code.add("            )");
-        code.add("            (else");
-        code.add("                (set_local $result");
-        code.add("                (i32.rem_s");
-        code.add("                    (i32.mul (get_local $result) (get_local $base_temp))");
-        code.add("                    (get_local $modulus)");
-        code.add("                )");
-        code.add("                )");
-        code.add("                (set_local $exponent_temp");
-        code.add("                (i32.div_s (get_local $exponent_temp) (i32.const 2))");
-        code.add("                )");
-        code.add("                (br  ;; Salta al inicio del bucle");
-        code.add("                0");
-        code.add("                )");
-        code.add("            )");
-        code.add("            )");
-        code.add("            (set_local $exponent_temp");
-        code.add("            (i32.div_s (get_local $exponent_temp) (i32.const 2))");
-        code.add("            )");
-        code.add("            (br  ;; Salta al inicio del bucle");
-        code.add("            0");
-        code.add("            )");
-        code.add("        )");
-        code.add("        )");
-        code.add("        (get_local $result)");
-        code.add("    )");
-        code.add("");
-        code.add("    (export \"exponentiation\" (func $exponentiation))");
-        code.add("    )");
-
+        append("(func $exponentiation (param $base i32) (param $exponent i32) (param $modulus i32) (result i32)");
+        append("    (local $result i32)");
+        append("    (local $baseSquared i32)");
+        append("    (local $exponentCopy i32)");
+        append("    (local $modulusCopy i32)");
+        append("");
+        append("    ;; Inicializar variables locales");
+        append("    (local.set $result (i32.const 1))");
+        append("    (local.set $baseSquared (local.get $base))");
+        append("    (local.set $exponentCopy (local.get $exponent))");
+        append("    (local.set $modulusCopy (local.get $modulus))");
+        append("");
+        append("    (block $endLoop");
+        append("        (loop $mainLoop");
+        append("            ;; Chequear si el exponente es cero");
+        append("            ( if (i32.eqz (local.get $exponentCopy))");
+        append("                (then");
+        append("                    (br $endLoop)");
+        append("                )");
+        append("            )");
+        append("");
+        append("            ;; Chequear si el exponente es impar");
+        append("            (if (i32.and (local.get $exponentCopy) (i32.const 1))");
+        append("                (then");
+        append("                    ;; result = (result * base) % modulus");
+        append("                    (local.set $result (i32.rem_s (i32.mul (local.get $result) (local.get $base)) (local.get $modulusCopy)))");
+        append("                )");
+        append("            )");
+        append("");
+        append("            ;; exponent >>= 1 (Dividir el exponente por 2)");
+        append("            (local.set $exponentCopy (i32.shr_s (local.get $exponentCopy) (i32.const 1)))");
+        append("");
+        append("            ;; base = (base * base) % modulus");
+        append("            (local.set $baseSquared (i32.rem_s (i32.mul (local.get $baseSquared) (local.get $baseSquared)) (local.get $modulusCopy)))");
+        append("");
+        append("            ;; continue main loop");
+        append("            (br $mainLoop)");
+        append("        )");
+        append("    )");
+        append("");
+        append("    (local.get $result) ;; Poner el resultado en el stack");
+        append(")");
     }
 
     public void funcHeader(Integer WASMId) { // FIXME Falta la posibilidad de argumentos y el tipo de retorno
@@ -177,7 +194,6 @@ public class Josito {
 
     public void funcResult() { // FIXME Falta la posibilidad de argumentos y el tipo de retorno
         append("(result i32)");
-        indentation++;
     }
 
     public void funcTail() {
@@ -190,11 +206,11 @@ public class Josito {
     }
 
     public void reserveStackCall() {
-        code.add("call $reserveStack");
+        append("call $reserveStack");
     }
 
     public void freeStackCall() {
-        code.add("call $freeStack");
+        append("call $freeStack");
     }
 
     public void getLocalDirUsingMP(int delta) { // Get the local direction of a identifier using MP
@@ -213,10 +229,7 @@ public class Josito {
     }
 
     public void setDynamicLink(){
-        append("global.set $swap");
-        append("global.get $MP");
-        append("global.get $swap");
-        append("i32.store");
+        append("call $setDynamicLink");
     }
 
     
@@ -338,30 +351,30 @@ public class Josito {
                 append("i32.div_s");
                 break;
             case EQ:
-                append("i32.eq_s");
+                append("i32.eq");
                 break;
             case GREATER:
-                append("i32.gt_s");
+                append("i32.gt");
                 break;
             case GEQ:
-                append("i32.ge_s");
+                append("i32.ge");
                 break;
             case LESS:
-                append("i32.lt_s");
+                append("i32.lt");
                 break;
             case LEQ:
-                append("i32.le_s");
+                append("i32.le");
                 break;
             case MOD:
-                append("i32.rem_s");
+                append("i32.rem");
                 break;
             case MINUS: // Take into account that there is no break
                 append("i32.const -1");
             case MULT:
-                append("i32.mul_s");
+                append("i32.mul");
                 break;
             case NEQ:
-                append("i32.ne_s");
+                append("i32.ne");
                 break;
             case NOT:
                 append("i32.eqz");
@@ -377,13 +390,13 @@ public class Josito {
             case REFERENCE:
                 break;
             case SUB:
-                append("i32.sub_s");
+                append("i32.sub");
                 break;
             case SQ_BRACKET: // Take into account that there is no break
                 append("i32.mul");
             case FIELD_ACCESS: // Field Access only need to calculate Code_D(left_part) + delta(field) 
             case ADD:
-                append("i32.add_s");
+                append("i32.add");
                 break;
         }
     }
@@ -401,7 +414,7 @@ public class Josito {
     private String indentate(String instruction) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < indentation; i++)
-            sb.append("  ");
+            sb.append("    ");
         sb.append(instruction);
         return sb.toString();
     }

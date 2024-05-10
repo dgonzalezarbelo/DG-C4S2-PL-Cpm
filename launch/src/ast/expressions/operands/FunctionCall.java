@@ -5,7 +5,6 @@ import java.util.List;
 
 import ast.ASTNode;
 import ast.Josito;
-import ast.Utils;
 import ast.expressions.Expression;
 import ast.preamble.Argument;
 import ast.preamble.Function;
@@ -13,6 +12,7 @@ import ast.preamble.Program;
 import ast.types.interfaces.Type;
 import exceptions.InvalidIdException;
 import exceptions.UndefinedFunctionException;
+import utils.Utils;
 
 public class FunctionCall extends Expression { 
     protected String funcname;
@@ -64,7 +64,7 @@ public class FunctionCall extends Expression {
         for (Function f : fs) {
             boolean match = true;
             List<Type> types = f.getArgumentTypes();
-            if (typeArgs.size() != args.size())
+            if (types.size() != args.size())
                 continue;
             for (int i = 0; i < args.size(); i++) {
                 if (!types.get(i).canBeAssigned(typeArgs.get(i))) {

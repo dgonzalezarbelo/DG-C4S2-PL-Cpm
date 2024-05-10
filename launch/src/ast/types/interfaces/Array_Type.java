@@ -125,9 +125,9 @@ public class Array_Type extends Envelope_Type {
         if (dim != null) {
             Literal l = ((Const_Type) dim.getType()).getConstValue();
             int dim_value = ((Int_Value)l).num();
-            maximumMemory = dim_value * inner_size;
+            maximumMemory.setValue(dim_value * inner_size);
         }
         else
-            maximumMemory = 0; //FIXME Ni puta idea chaval [Dani]
+            maximumMemory.setValue(0); //FIXME No se si esto estara bien
     }
 }

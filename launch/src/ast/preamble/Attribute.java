@@ -1,8 +1,8 @@
 package ast.preamble;
 
-import ast.Utils;
 import ast.preamble.Visibility.Visibility_T;
 import ast.sentences.declarations.Declaration;
+import utils.Utils;
 
 public class Attribute extends Declaration {
     private Visibility visibility;

@@ -10,7 +10,7 @@
             "request": "launch",
             "mainClass": "Main",
             "preLaunchTask": "preLaunchTasks",
-            "args":["prueba.cpm"],
+            "args":["cositas.cpm"],
             //"stopOnEntry": true
         },
         // Configuración de ejecución para lanzar el analizador léxico

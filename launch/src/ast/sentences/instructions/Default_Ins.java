@@ -1,8 +1,8 @@
 package ast.sentences.instructions;
 
 import ast.sentences.Block;
+import utils.Utils;
 import ast.Josito;
-import ast.Utils;
 
 public class Default_Ins extends Instruction {
 

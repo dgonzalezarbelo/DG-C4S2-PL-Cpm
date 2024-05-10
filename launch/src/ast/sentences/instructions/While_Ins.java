@@ -4,8 +4,8 @@ import ast.sentences.Block;
 import ast.types.interfaces.Type;
 import ast.types.interfaces.Type.Type_T;
 import exceptions.BooleanConditionException;
+import utils.Utils;
 import ast.Josito;
-import ast.Utils;
 import ast.expressions.Expression;
 import ast.preamble.Program;
 

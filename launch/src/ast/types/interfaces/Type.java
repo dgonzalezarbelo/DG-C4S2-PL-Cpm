@@ -3,10 +3,11 @@ package ast.types.interfaces;
 import ast.ASTNodeTypable;
 import ast.Delta;
 import ast.Josito;
-import ast.Utils;
 import ast.preamble.Program;
 import ast.types.definitions.Definition;
 import exceptions.InvalidTypeException;
+import utils.GoodInteger;
+import utils.Utils;
 
 public abstract class Type extends ASTNodeTypable {
     public static enum Type_T { INT, BOOL, CLASS, STRUCT, POINTER, ARRAY, TEMP_UNKNOWN, CONST }
@@ -66,12 +67,13 @@ public abstract class Type extends ASTNodeTypable {
 
     public abstract void calcSize();
 
-    public Integer getSize() { 
-        return maximumMemory;
+    public int getSize() {
+        this.calcSize();
+        return maximumMemory.toInt();
     }
 
     @Override
-    public void maxMemory(Integer c, Integer max) { 
+    public void maxMemory(GoodInteger c, GoodInteger max) { 
         calcSize();
     }
 

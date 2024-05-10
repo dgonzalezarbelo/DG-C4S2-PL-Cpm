@@ -28,6 +28,15 @@
 				"kind": "build",
 				"isDefault": true
 			}
+		},
+		{
+			"label": "generateWebAssembly",
+			"type": "shell",
+			"command": "./launch/src/wat2wasm.exe ./launch/src/Main.wat",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
 		}
 	]
 }

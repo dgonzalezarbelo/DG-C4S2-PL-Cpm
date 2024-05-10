@@ -3,7 +3,6 @@ package ast.types.definitions;
 import java.util.ArrayList;
 import java.util.List;
 
-import ast.Utils;
 import ast.expressions.operands.FunctionCall;
 import ast.preamble.Attribute;
 import ast.preamble.Constructor;
@@ -11,6 +10,7 @@ import ast.preamble.Method;
 import ast.types.interfaces.Defined_Type;
 import ast.types.interfaces.Type;
 import ast.types.interfaces.Type.Type_T;
+import utils.Utils;
 
 public class StructDefinition extends ObjectDefinition {
     protected List<Attribute> attributes;

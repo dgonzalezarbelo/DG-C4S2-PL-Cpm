@@ -1,9 +1,9 @@
 package ast.preamble;
 
 import ast.Josito;
-import ast.Utils;
 import ast.sentences.declarations.Declaration;
 import ast.types.interfaces.Type;
+import utils.Utils;
 
 public class Argument extends Declaration {
 

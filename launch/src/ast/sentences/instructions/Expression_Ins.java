@@ -1,8 +1,8 @@
 package ast.sentences.instructions;
 
 import ast.Josito;
-import ast.Utils;
 import ast.expressions.Expression;
+import utils.Utils;
 
 public class Expression_Ins extends Instruction {
 

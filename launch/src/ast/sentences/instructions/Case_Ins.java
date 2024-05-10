@@ -1,9 +1,9 @@
 package ast.sentences.instructions;
 
 import ast.Josito;
-import ast.Utils;
 import ast.expressions.operands.Literal;
 import ast.sentences.Block;
+import utils.Utils;
 
 public class Case_Ins extends Instruction {
 

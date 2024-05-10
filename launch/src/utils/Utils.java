@@ -1,9 +1,10 @@
-package ast;
+package utils;
 
 
 import java.util.Set;
 
 public class Utils {
+
     public static void appendIndent(StringBuilder str, int indent) {
         String token = "    ", lastToken = "|---";
         for (int i = 0; i < indent; i++)

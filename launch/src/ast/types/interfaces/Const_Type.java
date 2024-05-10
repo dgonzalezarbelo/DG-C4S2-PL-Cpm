@@ -44,6 +44,6 @@ public class Const_Type extends Envelope_Type {    // User defined type
     @Override
     public void calcSize() { 
         this.inner_type.getType().calcSize();
-        maximumMemory = this.inner_type.getSize();
+        maximumMemory.setValue(this.inner_type.getSize());
     }
 }

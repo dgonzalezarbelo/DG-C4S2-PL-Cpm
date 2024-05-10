@@ -32,6 +32,7 @@ public class Sum_Op extends BinaryExpression {
         super.checkType();
         Type left = opnd1().getType();
         Type right = opnd2().getType();
+        //TODO Aqui vamos a tener que hacer algo especial para el caso puntero-entero (el orden no importa)
         if (left.getKind() != right.getKind())
             throw new MatchingTypeException(String.format("'+' operands '%s' and '%s' do not have the same type", opnd1().toString(), opnd2().toString()));
         if (left.getKind() != Type_T.INT)

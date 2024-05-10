@@ -9,6 +9,7 @@ import ast.preamble.Constructor;
 import ast.preamble.Function;
 import ast.preamble.Method;
 import ast.types.interfaces.Type;
+import utils.GoodInteger;
 
 public class ClassFunctions {
     private List<Constructor> constructors;
@@ -89,7 +90,7 @@ public class ClassFunctions {
             f.propagateIndentation(indent);
     }
 
-    public void maxMemory(Integer c, Integer max) {
+    public void maxMemory(GoodInteger c, GoodInteger max) {
         for (Function _c : constructors)
             _c.maxMemory(null, null);
         for (Function _m : methods)

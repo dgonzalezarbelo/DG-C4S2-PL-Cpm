@@ -3,7 +3,6 @@ package ast.sentences.instructions;
 import java.util.List;
 
 import ast.Josito;
-import ast.Utils;
 import ast.expressions.Expression;
 import ast.types.interfaces.Array_Type;
 import ast.types.interfaces.Const_Type;
@@ -12,6 +11,7 @@ import ast.types.interfaces.Type.Type_T;
 import exceptions.DimenssionException;
 import exceptions.MatchingTypeException;
 import exceptions.UnexpectedTypeException;
+import utils.Utils;
 
 public class Assignation_Ins extends Instruction {
     private Expression leftSide;
