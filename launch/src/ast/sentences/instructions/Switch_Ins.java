@@ -146,7 +146,7 @@ public class Switch_Ins extends Instruction {
 
     private List<Integer> br_table_list() {
         List<Integer> ret = new ArrayList<>();
-        for (int i = min; i < max; i++) {
+        for (int i = min; i <= max; i++) {
             if(mapCaseValuesToPosition.containsKey(i)) {
                 ret.add(mapCaseValuesToPosition.get(i));
             }

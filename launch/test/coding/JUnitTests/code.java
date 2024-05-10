@@ -17,7 +17,7 @@ public abstract class code {
 
     public code(String name, String answer) {
         this.codePath = ".\\launch\\test\\coding\\testingCodes\\" + name + ".cpm";
-        this.ANSWER = answer;
+        this.ANSWER = answer + "\n";
     }
     
     @Test

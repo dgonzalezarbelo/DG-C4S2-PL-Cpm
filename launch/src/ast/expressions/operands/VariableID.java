@@ -74,24 +74,29 @@ public class VariableID extends Expression {
 	@Override
     public void generateValue(Josito jose) throws Exception { // Code_E
 	//TODO Va a haber que hacer una distincion en caso de ser una referencia
-		generateAddress(jose);
 		Type_T t = this.type.getKind();
-		switch (t) {		// TODO igual esto puede ir en el tipo haciendo type.generateValue() y nos quitamos problemas de varios sitios
-            case INT:
-            case BOOL:
-			case POINTER:
-				jose.load();
-				break;
-			case ARRAY:
-			case CLASS:
-            case STRUCT:
-				// In this case, the returned value is the object reference to copy it later, so with generateAddress everything is done
-                break;
-            case CONST: // This will only be a define
-				jose.createConst(((Define)id_node).getLiteral().toIntConst());
-                break;
-            default:
-                break;
-        }
+		if (!this.type.getClass().equals(Const_Type.class)) {
+			switch (t) {		// TODO igual esto puede ir en el tipo haciendo type.generateValue() y nos quitamos problemas de varios sitios
+				case INT:
+				case BOOL:
+				case POINTER:
+					generateAddress(jose);
+					jose.load();
+					break;
+				case ARRAY:
+				case CLASS:
+				case STRUCT:
+					generateAddress(jose);
+					// In this case, the returned value is the object reference to copy it later, so with generateAddress everything is done
+					break;
+				case CONST: // This will only be a define
+					break;
+				default:
+					break;
+			}
+		}
+		else {
+			jose.createConst(((Define)id_node).getLiteral().toIntConst());
+		}
     }
 }

@@ -11,7 +11,7 @@ import utils.Utils;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        Utils.clear();
+        Utils.clearConsole();
         ReconLexicon alex = new ReconLexicon();
         ReconSyntax asint = new ReconSyntax();
         Josito codeGenerator = new Josito();
