@@ -14,20 +14,24 @@
 (global $swap (mut i32) (i32.const 0))
 (global $trash (mut i32) (i32.const 0))
 (func $init
+    i32.const 28
+    call $reserveStack
+    call $setDynamicLink
     call $0
-    set_global $trash
+    call $freeStack
+    global.set $trash
 )
 (func $reserveStack (param $size i32)
     (result i32)
-    get_global $MP
-    get_global $SP
-    set_global $MP
-    get_global $SP
-    get_local $size
+    global.get $MP
+    global.get $SP
+    global.set $MP
+    global.get $SP
+    local.get $size
     i32.add
-    set_global $SP
-    get_global $SP
-    get_global $NP
+    global.set $SP
+    global.get $SP
+    global.get $NP
     i32.gt_u
     if
         i32.const 3
@@ -35,11 +39,11 @@
     end
 )
 (func $freeStack (type $_sig_void)
-   get_global $MP
-   set_global $SP
-   get_global $MP
+   global.get $MP
+   global.set $SP
+   global.get $MP
    i32.load
-   set_global $MP
+   global.set $MP
 )
 (func $setDynamicLink
 (param $dynamicLink i32)

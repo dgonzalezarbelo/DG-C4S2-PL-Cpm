@@ -25,7 +25,7 @@ public class Josito {
     private int stackPointer;   // points to the last occupied position of the memory 
     private int newPointer;     // points to the last occupied position of the heap
     
-    public void programHeader() {
+    public void programHeader(int size) {
         append("(module");
         append ("(type $_sig_i32i32i32 (func (param i32 i32 i32) ))");
         append("(type $_sig_i32 (func (param i32)))");
@@ -41,6 +41,18 @@ public class Josito {
         append("(global $NP (mut i32) (i32.const 131071996))  ;; heap 2000*64*1024-4");
         append("(global $swap (mut i32) (i32.const 0))");
         append("(global $trash (mut i32) (i32.const 0))");
+        /*
+         * Function ini
+        */
+        append("(func $init");
+        append("    i32.const %d", size);
+        append("    call $reserveStack");
+        append("    call $setDynamicLink");
+        append("    call $0");
+        append("    call $freeStack");
+        append("    global.set $trash");
+        append(")");
+
         loadFunctions(code);
     }
 
@@ -49,38 +61,30 @@ public class Josito {
     }
 
     public void consumeTrash() {
-        append("get_global $trash");
+        append("global.get $trash");
     }
 
     public void getReturnAddress(int size) { 
-        append("get_global $SP");
+        append("global.get $SP");
         append("i32.const %d", size);
         append("i32.sub");
     }
 
-    public void loadFunctions(StringJoiner code) {
-        /*
-         * Function ini
-        */
-        append("(func $init");
-        append("    call $0");
-        append("    set_global $trash");
-        append(")");
-        
+    public void loadFunctions(StringJoiner code) {        
         /*
          * Function that reserves enough memory for the new scope
          */
         append("(func $reserveStack (param $size i32)");  // this argument is the maximunMemoy of the new scope
         append("    (result i32)");                         // returning value will be the Mark Pointer (MP) of the calling scope <-- Dynamic Link
-        append("    get_global $MP");
-        append("    get_global $SP");
-        append("    set_global $MP");
-        append("    get_global $SP");
-        append("    get_local $size");
+        append("    global.get $MP");
+        append("    global.get $SP");
+        append("    global.set $MP");
+        append("    global.get $SP");
+        append("    local.get $size");
         append("    i32.add");
-        append("    set_global $SP");
-        append("    get_global $SP");
-        append("    get_global $NP");
+        append("    global.set $SP");
+        append("    global.get $SP");
+        append("    global.get $NP");
         append("    i32.gt_u");
         append("    if");
         append("        i32.const 3");
@@ -92,11 +96,11 @@ public class Josito {
          * Function that restores the memory when exiting the scope
          */
         append("(func $freeStack (type $_sig_void)"); // TODO esta hecho por nosotros porque el dado por el profe creo q esta algo mal
-        append("   get_global $MP");
-        append("   set_global $SP"); // SP <-- MP (the first next free address (SP) will be the first address of the current scope that are we freeing (MP))
-        append("   get_global $MP"); // MP points to the current DL that points to the previous MP so we restore it
+        append("   global.get $MP");
+        append("   global.set $SP"); // SP <-- MP (the first next free address (SP) will be the first address of the current scope that are we freeing (MP))
+        append("   global.get $MP"); // MP points to the current DL that points to the previous MP so we restore it
         append("   i32.load");
-        append("   set_global $MP");
+        append("   global.set $MP");
         append(")");
 
     

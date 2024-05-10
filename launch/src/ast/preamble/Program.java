@@ -80,7 +80,7 @@ public class Program extends ASTNode {
         Delta delta = new Delta();
         this.computeOffset(delta);
         
-        jose.programHeader();
+        jose.programHeader(maximumMemory.toInt());
         for (Definition d : definitions)
             d.generateCode(jose);
         mainFunction.generateCode(jose);
