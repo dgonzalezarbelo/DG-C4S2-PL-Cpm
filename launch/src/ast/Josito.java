@@ -104,13 +104,38 @@ public class Josito {
         append("   global.set $MP");
         append(")");
 
-    
+
         append("(func $setDynamicLink");
         append("(param $dynamicLink i32)");
         append("    global.get $MP");
         append("    local.get $dynamicLink");
         append("    i32.store");
         append(")"); 
+
+        /*
+         * Function to reserve space in the heap and returns the position to be used next
+         */
+        append("(func $allocate_heap");
+        append("(param $size i32)");
+        append("(result i32)");
+        append("    (local $ret_addr i32)");
+        append("    global.get $NP");
+        append("    local.get $size");
+        append("    i32.sub");
+        append("    global.set $NP ;; we have brought the NP back size bytes");
+        
+        append("    get_global $SP");
+        append("    get_global $NP");
+        append("    i32.gt_u");
+        append("    if");
+        append("        i32.const 3");
+        append("        call $exception ;; the SP has passed the NP");
+        append("    end");
+
+        append("    global.get $NP");
+        append("    i32.const 4");
+        append("    i32.add ;; NP + 4 is the position to be occupied now, so we leave it in the stack");
+        append(")");
 
         /*
         * Copy n
@@ -216,6 +241,21 @@ public class Josito {
 
     public void freeStackCall() {
         append("call $freeStack");
+    }
+
+    public void allocate_heap(int size) {
+        append("i32.const $d", size);
+        append("call $allocate_heap");
+    }
+
+    public void copy_to_heap(int size) { // After the execution we also want the position in the heap to remain at the top of the stack
+        // The address of the ConstructorCall is already in the stack
+        allocate_heap(size);                        // Now the top of the stack is the address where the content has to be copied to
+        append("global.set $swap");     // We store the address in the heap for later
+        append("global.get $swap");     // We still need it though
+        createConst(size);                          // We now push the size
+        copy_n();
+        append("global.get $swap");     // Finally we bring back to the top of the stack the position in the heap
     }
 
     public void getLocalDirUsingMP(int delta) { // Get the local direction of a identifier using MP
