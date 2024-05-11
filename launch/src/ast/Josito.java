@@ -129,8 +129,8 @@ public class Josito {
         append("    i32.sub");
         append("    global.set $NP ;; we have brought the NP back size bytes");
         
-        append("    get_global $SP");
-        append("    get_global $NP");
+        append("    global.get $SP");
+        append("    global.get $NP");
         append("    i32.gt_u");
         append("    if");
         append("        i32.const 3");
@@ -157,8 +157,8 @@ public class Josito {
         append("    i32.add");
         append("    global.set $SP ;; we have brought the SP forward size bytes");
         append("");
-        append("    get_global $SP");
-        append("    get_global $NP");
+        append("    global.get $SP");
+        append("    global.get $NP");
         append("    i32.gt_u");
         append("    if");
         append("        i32.const 3");

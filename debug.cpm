@@ -1,40 +1,53 @@
-clas Chavalito {
-    praivet int edad;
+// Reference Argument with User-Defined Types Test
+estrut Person {
+    int dni;
+    int age;
+    bul inSchool;
 
-    Chavalito(int x) {
-        dis.edad = x;
-    }
-
-    public func getEdad() : int {
-        return edad;
+    Person(int id, int age, bul inSchool) {
+        dni = id;
+        dis.age = age;
+        dis.inSchool = inSchool;
     }
 }
 
-clas Alumno {
-    praivet int nota;
-    public int notilla;
-    praivet Chavalito pibe;
+func updateValuePerson(Person &alumn) : int {
+    alumn.dni = 4321;
+    alumn.age = 40;
+    alumn.inSchool = fols;
 
-    Alumno(int a, int b) {
-        dis.nota = a;
-        dis.notilla = b;
-        dis.pibe = Chavalito(4);
-    }
-
-    public func consultaEdad() : int {
-        int edad = pibe.getEdad();
-        return edad;
-    }
+    return 0;
 }
 
 func mein() : int {
-    Alumno a = Alumno(2, 3);
-    int edad = a.getEdad();
-    ceaut(edad);
+    Person boy = Person(1234, 20, tru);
+    ceaut(boy.dni);
+    ceaut(boy.age);
+    if(boy.inSchool){
+        ceaut(1);
+    }
+    els{
+        ceaut(0);
+    }
+    
+    int aux = updateValuePerson(boy);
+    ceaut(boy.dni);
+    ceaut(boy.age);
+    if(boy.inSchool){
+        ceaut(1);
+    }
+    els{
+        ceaut(0);
+    }
     return 0;
 }
 
 /*
-RESULT
-4
+RESULT:
+1234
+20
+1
+4321
+40
+0
 */
