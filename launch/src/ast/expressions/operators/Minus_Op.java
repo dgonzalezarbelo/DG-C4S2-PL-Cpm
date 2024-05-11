@@ -23,7 +23,6 @@ public class Minus_Op extends UnaryExpression {
     @Override
     public void bind() {
         opnd1().bind();
-        opnd2().bind();
         this.type.bind();
     }
 

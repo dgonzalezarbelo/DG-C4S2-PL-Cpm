@@ -46,7 +46,7 @@ public class Josito {
         append("(global $NP (mut i32) (i32.const 131071996))  ;; heap 2000*64*1024-4");
         append("(global $swap (mut i32) (i32.const 0))");
         append("(global $trash (mut i32) (i32.const 0))");
-        append("global $darr (mut i32) (i32.const 0))");
+        append("(global $darr (mut i32) (i32.const 0))");
         /*
          * Function ini
         */
