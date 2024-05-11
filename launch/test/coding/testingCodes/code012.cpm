@@ -2,7 +2,7 @@
 
 func updateValue(int &a) : int{
     a = 100;
-    ceaut(100);
+    ceaut(a);
     return 0;
 }
 

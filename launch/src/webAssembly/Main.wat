@@ -172,7 +172,11 @@
     i32.load
     i32.const 100
     i32.store
-    i32.const 100
+    i32.const 8
+    global.get $MP
+    i32.add
+    i32.load
+    i32.load
     call $print
     i32.const 0
 )
