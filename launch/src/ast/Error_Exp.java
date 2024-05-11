@@ -41,4 +41,10 @@ public class Error_Exp extends Expression {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'generateAddress'");
     }
+
+    @Override
+    public void generateValue(Josito jose) throws Exception {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'generateValue'");
+    }
 }

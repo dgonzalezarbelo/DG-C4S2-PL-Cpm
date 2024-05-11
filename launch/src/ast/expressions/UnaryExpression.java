@@ -1,5 +1,7 @@
 package ast.expressions;
 
+import ast.Josito;
+
 public abstract class UnaryExpression extends Expression {
     private Expression opnd;
     
@@ -16,5 +18,11 @@ public abstract class UnaryExpression extends Expression {
     @Override
     public void checkType() throws Exception {
         this.opnd.checkType();        
+    }
+
+    public void generateValue(Josito jose) throws Exception { // Code_E
+        if (opnd1() != null)
+            opnd1().generateValue(jose);
+        jose.translateOperator(this.operator);
     }
 }

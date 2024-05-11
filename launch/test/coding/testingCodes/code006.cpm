@@ -1,0 +1,38 @@
+// Switch test with an int expression
+func mein() :int {
+    int varInt = 4;
+
+    suich (varInt) {
+        queis(11):
+            ceaut(11);
+        queis (0): 
+            ceaut(0);
+            breic;
+        queis (3): 
+            ceaut(3);
+            breic;
+        queis (4): 
+            ceaut(4);
+        queis (7): 
+            ceaut(7);
+        queis (10): 
+            ceaut(10);
+            breic;
+        queis (15): 
+            ceaut(10);
+            breic;
+        difolt:
+            ceaut(-1000);
+            breic;
+    } 
+
+    return 0;
+}
+
+/* 
+RESULT: 
+4
+7
+10
+
+*/

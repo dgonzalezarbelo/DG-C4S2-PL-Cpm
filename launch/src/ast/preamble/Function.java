@@ -98,11 +98,12 @@ public class Function extends Definition {
     @Override
     public void checkType() throws Exception {
         try {
+            return_t.checkType();
+            this.type = return_t;
             for (Argument a : args)
                 a.checkType();
             body.checkType();
             return_var.checkType();             // TODO esto peta si es una función que no devuelve nada
-            return_t.checkType();
 
             Type returnType = return_var.getType();
             if(!returnType.canBeAssigned(return_t)) {
@@ -112,8 +113,7 @@ public class Function extends Definition {
         catch (Exception e) {
             System.out.println(e);
             Utils.printErrorRow(row);
-        }
-        this.type = return_t;
+        }        
     }
 
     @Override

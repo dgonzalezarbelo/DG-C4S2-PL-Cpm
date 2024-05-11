@@ -1,7 +1,5 @@
 package coding.JUnitTests;
 
-import org.junit.Test;
-
 import mainApp.Main;
 
 import static org.junit.Assert.assertEquals;
@@ -20,8 +18,8 @@ public abstract class code {
         this.ANSWER = answer + "\n";
     }
     
-    @Test
-    public void testGeneracionEjecucion() {
+    
+    protected void testGeneracionEjecucion() {
         // Generación de Main.wat
         generarMainWat();
         // Ejecución de main.js y captura del resultado
@@ -54,7 +52,7 @@ public abstract class code {
         }
     }
 
-    public String getOutput(String filePath) {
+    private String getOutput(String filePath) {
         // Lee el contenido del archivo
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             StringBuilder content = new StringBuilder();

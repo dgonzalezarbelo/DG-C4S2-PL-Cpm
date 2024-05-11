@@ -1,0 +1,23 @@
+// Reference Argument with Basic Type Test
+
+func updateValue(int &a) : int{
+    a = 100;
+    ceaut(a);
+    return 0;
+}
+
+func mein() : int {
+    int a = 1;
+    ceaut(a);
+    int b = updateValue(a);
+    ceaut(a);
+    return 0;
+}
+
+/*
+RESULT:
+1
+100
+100
+
+*/
