@@ -67,7 +67,7 @@ public class Josito {
     }
 
     public void consumeTrash() {
-        append("global.get $trash");
+        append("global.set $trash");
     }
 
     public void getReturnAddress(int size) { 
