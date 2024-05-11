@@ -112,9 +112,16 @@ public class FunctionCall extends Expression {
                 case INT:
                 case BOOL:
                 case POINTER:
-                    jose.getLocalDirUsingMP(declared_arg.getOffset());  // Code_D of the argument
-                    args.get(i).generateValue(jose);                    // Code_E of the parameter
-                    jose.store();
+                    if (!declared_arg.isReference()) {
+                        jose.getLocalDirUsingMP(declared_arg.getOffset());  // Code_D of the argument
+                        args.get(i).generateValue(jose);                    // Code_E of the parameter
+                        jose.store();
+                    }
+                    else {
+                        jose.getLocalDirUsingMP(declared_arg.getOffset());  // Code_D of the argument
+                        args.get(i).generateAddress(jose);                  // Code_D of the parameter
+                        jose.store();
+                    }
                     break;
                 case ARRAY:
                     Array_Type cast = (Array_Type)left_t;
@@ -130,10 +137,17 @@ public class FunctionCall extends Expression {
                     break;
                 case CLASS:
                 case STRUCT:
-                    args.get(i).generateValue(jose);                    // Code_E of the parameter
-                    jose.getLocalDirUsingMP(declared_arg.getOffset());  // Code_D of the argument
-                    jose.createConst(left_t.getSize());                 // N size to copy
-                    jose.copy_n();
+                    if (!declared_arg.isReference()) {
+                        args.get(i).generateValue(jose);                    // Code_E of the parameter
+                        jose.getLocalDirUsingMP(declared_arg.getOffset());  // Code_D of the argument
+                        jose.createConst(left_t.getSize());                 // N size to copy
+                        jose.copy_n();
+                    }
+                    else {
+                        jose.getLocalDirUsingMP(declared_arg.getOffset());  // Code_D of the argument
+                        args.get(i).generateAddress(jose);                  // Code_D of the parameter
+                        jose.store();
+                    }
                     break;
                 case CONST:
                     // A declared type left (in the function definition) for an argument can not be a constant
@@ -162,9 +176,16 @@ public class FunctionCall extends Expression {
                 case INT:
                 case BOOL:
                 case POINTER:
-                    jose.getLocalDirUsingMP(declared_arg.getOffset());  // Code_D of the argument
-                    args.get(i).generateValue(jose);                    // Code_E of the parameter
-                    jose.store();
+                    if (!declared_arg.isReference()) {
+                        jose.getLocalDirUsingMP(declared_arg.getOffset());  // Code_D of the argument
+                        args.get(i).generateValue(jose);                    // Code_E of the parameter
+                        jose.store();
+                    }
+                    else {
+                        jose.getLocalDirUsingMP(declared_arg.getOffset());  // Code_D of the argument
+                        args.get(i).generateAddress(jose);                  // Code_D of the parameter
+                        jose.store();
+                    }
                     break;
                 case ARRAY:
                     Array_Type cast = (Array_Type)left_t;
@@ -180,10 +201,17 @@ public class FunctionCall extends Expression {
                     break;
                 case CLASS:
                 case STRUCT:
-                    args.get(i).generateValue(jose);                    // Code_E of the parameter
-                    jose.getLocalDirUsingMP(declared_arg.getOffset());  // Code_D of the argument
-                    jose.createConst(left_t.getSize());                 // N size to copy
-                    jose.copy_n();
+                    if (!declared_arg.isReference()) {
+                        args.get(i).generateValue(jose);                    // Code_E of the parameter
+                        jose.getLocalDirUsingMP(declared_arg.getOffset());  // Code_D of the argument
+                        jose.createConst(left_t.getSize());                 // N size to copy
+                        jose.copy_n();
+                    }
+                    else {
+                        jose.getLocalDirUsingMP(declared_arg.getOffset());  // Code_D of the argument
+                        args.get(i).generateAddress(jose);                  // Code_D of the parameter
+                        jose.store();
+                    }
                     break;
                 case CONST:
                     // A declared type left (in the function definition) for an argument can not be a constant
