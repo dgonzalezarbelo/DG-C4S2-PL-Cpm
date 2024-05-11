@@ -3,6 +3,7 @@ package ast.sentences.declarations;
 import ast.Josito;
 import ast.expressions.Expression;
 import ast.expressions.operands.ConstructorCall;
+import ast.types.definitions.Define;
 import ast.types.interfaces.Pointer_Type;
 import ast.types.interfaces.Type;
 import ast.types.interfaces.Type.Type_T;
@@ -67,4 +68,25 @@ public class New_Op extends Expression {
     }
 
     // TODO creo que aqui solo hace falta el generateValue (Code_E)
+    @Override
+    public void generateValue(Josito jose) throws Exception {
+		Type_T t = this.type.getKind();
+		switch (t) {
+            case INT:
+            case BOOL:
+			case POINTER:
+				jose.allocate_heap(type.getSize()); // We just have to allocate 4B in the heap and get the address for the pointer that will store it
+				break;
+            case CLASS:
+            case STRUCT:
+				// In this case, the returned value is the object reference to copy it later, so with generateAddress everything is done
+                constructor.generateAddress(jose);
+                jose.copy_to_heap(type.getSize()); // After this, the address in the heap is already at the top of the stack, and that is the value we wanted, so the assignation will be done properly now
+                break;
+            case ARRAY: //TODO No se hace de momento
+            case CONST: // This will never happen
+            default:
+                break;
+        }
+    }
 }

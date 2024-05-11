@@ -3,13 +3,16 @@ package ast.expressions.operands;
 import ast.ASTNodeTypable;
 import ast.Josito;
 import ast.expressions.Expression;
+import ast.preamble.Argument;
 import ast.preamble.Attribute;
 import ast.preamble.Program;
 import ast.sentences.declarations.Declaration;
+import ast.types.interfaces.Array_Type;
 import ast.types.interfaces.Const_Type;
 import ast.types.interfaces.Type.Type_T;
 import exceptions.InvalidDirectionException;
 import exceptions.InvalidIdException;
+import exceptions.InvalidTypeException;
 import utils.Utils;
 import ast.types.definitions.Define;
 
@@ -43,6 +46,11 @@ public class VariableID extends Expression {
 	@Override
 	public void checkType() throws Exception {
 		this.type = this.id_node.getType();
+		if (this.type.getKind() == Type_T.ARRAY) {
+			Array_Type cast = (Array_Type)this.type;
+			if (cast.isDynamic() && !(this.id_node instanceof Argument))
+				throw new InvalidTypeException("Dynamic arrays are only allowed as arguments of functions");
+		}
 	}
 
 	@Override
@@ -57,14 +65,22 @@ public class VariableID extends Expression {
 
 	@Override
 	public void generateAddress(Josito jose) throws Exception { // Code_D
-	//TODO Va a haber que hacer una distincion en caso de ser una referencia
 		if (!this.type.getClass().equals(Const_Type.class)) {
 			Declaration cast = (Declaration)id_node;
 			Integer delta = cast.getOffset();
-			if (cast instanceof Attribute)
-				jose.getLocalDirUsingRef(delta);
-			else
+			if (cast instanceof Argument) {
 				jose.getLocalDirUsingMP(delta);
+				Argument cast2 = (Argument)cast;
+				if (cast2.isReference()) {
+					jose.load();
+				}
+			}
+			else {
+				if (cast instanceof Attribute)
+					jose.getLocalDirUsingRef(delta);
+				else
+					jose.getLocalDirUsingMP(delta);
+			}
 		}
 		else {
 			throw new InvalidDirectionException("Const values can not be directionable");
@@ -73,7 +89,6 @@ public class VariableID extends Expression {
     
 	@Override
     public void generateValue(Josito jose) throws Exception { // Code_E
-	//TODO Va a haber que hacer una distincion en caso de ser una referencia
 		Type_T t = this.type.getKind();
 		if (!this.type.getClass().equals(Const_Type.class)) {
 			switch (t) {		// TODO igual esto puede ir en el tipo haciendo type.generateValue() y nos quitamos problemas de varios sitios
@@ -84,6 +99,11 @@ public class VariableID extends Expression {
 					jose.load();
 					break;
 				case ARRAY:
+					Array_Type cast = (Array_Type)this.type;
+					if (cast.isDynamic()) { // We have to load the position of the start of the array in case it is dynamic
+						jose.loadDynamicArray();
+					}
+					break;
 				case CLASS:
 				case STRUCT:
 					generateAddress(jose);

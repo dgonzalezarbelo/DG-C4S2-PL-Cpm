@@ -10,7 +10,6 @@ import exceptions.InvalidDirectionException;
 import exceptions.MatchingTypeException;
 import exceptions.UnexpectedTypeException;
 
-
 public class Greater_Op extends BinaryExpression {
     public Greater_Op(Expression opnd1, Expression opnd2, int row) {
         super(opnd1, opnd2, row);

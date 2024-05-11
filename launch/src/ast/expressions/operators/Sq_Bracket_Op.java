@@ -8,7 +8,6 @@ import ast.types.interfaces.Type;
 import ast.types.interfaces.Type.Type_T;
 import exceptions.InvalidTypeException;
 
-
 public class Sq_Bracket_Op extends BinaryExpression {
     public Sq_Bracket_Op(Expression opnd1, Expression opnd2, int row) {
         super(opnd1, opnd2, row);
@@ -30,7 +29,7 @@ public class Sq_Bracket_Op extends BinaryExpression {
         Type rightSide = opnd2().getType();
         if (leftSide.getKind() != Type_T.ARRAY)
             throw new InvalidTypeException("Array access operator '[]' is only applicable for array variables at row " + this.row);
-        if (rightSide.getKind() != Type_T.INT)
+        if (rightSide.getKind() != Type_T.INT) //TODO No se si esto habra que quitarlo para permitir arrays dinamicos (igual hay que meter un != null)
             throw new InvalidTypeException("Array access index '[index]' must be an integer at row " + this.row);
         this.type = ((Array_Type) leftSide).getInnerType(); // aquí no pasa nada por no bindear Array_Type porque su interno ya estaba bindeado
         this.type.checkType();
@@ -39,15 +38,25 @@ public class Sq_Bracket_Op extends BinaryExpression {
     @Override
     public void generateAddress(Josito jose) throws Exception { // Code_D
         Expression op1 = opnd1();
-        if (op1 instanceof Sq_Bracket_Op)   // If we have more brackets to the left then everything work as per usual
-            op1.generateAddress(jose);
-        else
-            op1.generateValue(jose);        // In other case, we want the first position pointed by the (outer) array, so we want the value, not the address of the array  itself
-        jose.createConst(type.getSize());
-        opnd2().generateValue(jose);
-        jose.translateOperator(this.operator);
+        Array_Type cast = (Array_Type)op1.getType();
+        if (cast.isDynamic()) {
+            if (op1 instanceof Sq_Bracket_Op)   // If we have more brackets to the left then everything work as per usual
+                op1.generateAddress(jose);
+            else
+                op1.generateValue(jose);        // In other case, we want the first position pointed by the (outer) array, so we want the value, not the address of the array itself
+            jose.createConst(type.getSize());
+            opnd2().generateValue(jose);
+            jose.translateOperator(this.operator);
+        }
+        else {
+            if (op1 instanceof Sq_Bracket_Op)
+                op1.generateAddress(jose);
+            else
+                op1.generateValue(jose);
+            jose.arrayAccess(opnd2(), cast.getArrayDimenssion(), cast.getInnerTerminalType().getSize());
+        }
     }
-    
+
     // TODO yo creo que esta funcion deberia ser asi rapidito
     @Override
     public void generateValue(Josito jose) throws Exception { // Code_E

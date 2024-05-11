@@ -3,6 +3,7 @@ package ast.expressions.operators;
 import ast.Josito;
 import ast.expressions.BinaryExpression;
 import ast.expressions.Expression;
+import ast.types.interfaces.Envelope_Type;
 import ast.types.interfaces.Int_Type;
 import ast.types.interfaces.Type;
 import ast.types.interfaces.Type.Type_T;
@@ -33,9 +34,14 @@ public class Subs_Op extends BinaryExpression {
         Type left = opnd1().getType();
         Type right = opnd2().getType();
         //TODO Aqui vamos a tener que hacer algo especial para el caso puntero-entero (el orden importa)
-        if (left.getKind() != right.getKind())
-            throw new MatchingTypeException(String.format("'-' operands '%s' and '%s' do not have the same type", opnd1().toString(), opnd2().toString()));
-        if (left.getKind() != Type_T.INT)
+        if (left.getKind() != right.getKind()) {
+            if (left instanceof Envelope_Type && right.getKind() == Type_T.INT) {
+                this.type = left;
+            }
+            else 
+                throw new MatchingTypeException(String.format("'-' operands '%s' and '%s' do not have the same type", opnd1().toString(), opnd2().toString()));
+        }
+        if (right.getKind() != Type_T.INT)
             throw new UnexpectedTypeException(String.format("'%s' was expected but '%s' was read", Type_T.INT.name(), left.getKind().name()));
         this.type.checkType();
     }
@@ -43,5 +49,20 @@ public class Subs_Op extends BinaryExpression {
     @Override
     public void generateAddress(Josito jose) throws Exception {
         throw new InvalidDirectionException("Sub operation is not directionable");
+    }
+
+    @Override
+    public void generateValue(Josito jose) throws Exception { // Code_E
+        Type left = opnd1().getType();
+        Type right = opnd2().getType();
+        if (left instanceof Envelope_Type && right.getKind() == Type_T.INT) { // address + int * 4
+            opnd1().generateValue(jose);
+            opnd2().generateValue(jose);
+            jose.createConst(4);
+            jose.mul();
+            jose.translateOperator(this.operator);
+        }
+        else
+            super.generateValue(jose);
     }
 }
