@@ -248,12 +248,12 @@ public class Josito {
         append(")");
     }
 
-    public void funcHeader(Integer WASMId) { // FIXME Falta la posibilidad de argumentos y el tipo de retorno
+    public void funcHeader(Integer WASMId) {
         append("(func $%d", WASMId);
         indentation++;
     }
 
-    public void funcResult() { // FIXME Falta la posibilidad de argumentos y el tipo de retorno
+    public void funcResult() {
         append("(result i32)");
     }
 
@@ -289,17 +289,23 @@ public class Josito {
         append("global.get $swap");     // Finally we bring back to the top of the stack the position in the heap
     }
 
-    public void getLocalDirUsingMP(int delta) { // Get the local direction of a identifier using MP
+    public void getLocalDirUsingMP(int delta) {     // Get the local direction of a identifier using MP
         append("i32.const %d", delta);
         append("global.get $MP");
         append("i32.add");
     }
 
-    public void getLocalDirUsingRef(int delta) { // Get the local direction of a identifier using reference
-        append("global.get $MP"); 
-        append("i32.const 4");  // Address MP + 4 contains the reference value
+    public void getLocalDirUsingSP(int delta) {     // Get the local direction of a identifier using MP
+        append("i32.const %d", delta);
+        append("global.get $SP");
         append("i32.add");
-        append("i32.load");     // The stack now contains the address of the instance of the Class/Struct you are in
+    }
+
+    public void getLocalDirUsingRef(int delta) {    // Get the local direction of a identifier using reference
+        append("global.get $MP"); 
+        append("i32.const 4");          // Address MP + 4 contains the reference value
+        append("i32.add");
+        append("i32.load");             // The stack now contains the address of the instance of the Class/Struct you are in
         append("i32.const %d", delta);
         append("i32.add");
     }
@@ -319,7 +325,7 @@ public class Josito {
         append("i32.store");
     } 
 
-    public void returnReference() { // This uses the size of the constructor type to point SP - constructor type size
+    public void returnReference() {                 // This uses the size of the constructor type to point SP - constructor type size
         append("global.get $MP");
         append("i32.const 4");
         append("i32.add");

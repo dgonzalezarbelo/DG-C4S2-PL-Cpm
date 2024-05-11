@@ -1,36 +1,36 @@
-estrut coor {
-    int x;
-    int y;
+// Switch test with an int expression
+func mein() :int {
+    int varInt = 4;
 
-    coor(int x, int b) {
-        dis.x = x;
-        y = b;
-    }
-}
+    suich (varInt) {
+        queis (0): 
+            ceaut(0);
+            breic;
+        queis (3): 
+            ceaut(3);
+            breic;
+        queis (4): 
+            ceaut(4);
+        queis (7): 
+            ceaut(7);
+        queis (10): 
+            ceaut(10);
+            breic;
+        queis (15): 
+            ceaut(10);
+            breic;
+        difolt:
+            ceaut(-1000);
+            breic;
+    } 
 
-func calculaVector(coor p, coor q) : coor {
-    ceaut(p.x);
-    ceaut(p.y);
-    ceaut(q.x);
-    ceaut(q.y);
-    coor res = coor(q.x - p.x, q.y - p.y);
-    ceaut(res.x);
-    ceaut(res.y);
-    return res;
-}
-
-func mein() : int {
-    coor p = coor(1, 3);
-    coor q = coor(3, 3);
-
-    coor vecpq = calculaVector(p, q);
-    ceaut(vecpq.x);
-    ceaut(vecpq.y);
     return 0;
 }
 
-/*
-RESULT
-2
-0
+/* 
+RESULT: 
+4
+7
+10
+
 */

@@ -164,80 +164,55 @@
 
     (local.get $result) ;; Poner el resultado en el stack
 )
-(func $1
-    (result i32)
-    i32.const 12
-    global.get $MP
-    i32.add
-    i32.const 1
-    i32.store
-    block
-    loop
-    i32.const 8
-    global.get $MP
-    i32.add
-    i32.load
-    i32.const 0
-    i32.gt_s
-    i32.eqz
-    br_if 1
-    i32.const 12
-    global.get $MP
-    i32.add
-    i32.const 12
-    global.get $MP
-    i32.add
-    i32.load
-    i32.const 8
-    global.get $MP
-    i32.add
-    i32.load
-    i32.mul
-    i32.store
-    i32.const 8
-    global.get $MP
-    i32.add
-    i32.const 8
-    global.get $MP
-    i32.add
-    i32.load
-    i32.const 1
-    i32.sub
-    i32.store
-    br 0
-    end
-    end
-    i32.const 12
-    global.get $MP
-    i32.add
-    i32.load
-)
 (func $0
     (result i32)
     i32.const 8
     global.get $MP
     i32.add
-    i32.const 20
-    call $reserveStack
-    call $setDynamicLink
-    global.get $MP
     i32.const 4
-    i32.add
-    i32.const 0
     i32.store
-    i32.const 8
-    global.get $MP
-    i32.add
-    i32.const 10
-    i32.store
-    call $1
-    call $freeStack
-    i32.store
+    block
+    block
+    block
+    block
+    block
+    block
+    block
+    block
     i32.const 8
     global.get $MP
     i32.add
     i32.load
+    i32.const 0
+    i32.sub
+    br_table 0 6 6 1 2 6 6 3 6 6 4 6 6 6 6 5 6 
+    end
+    i32.const 0
     call $print
+    br 6
+    end
+    i32.const 3
+    call $print
+    br 5
+    end
+    i32.const 4
+    call $print
+    end
+    i32.const 7
+    call $print
+    end
+    i32.const 10
+    call $print
+    br 2
+    end
+    i32.const 10
+    call $print
+    br 1
+    end
+    i32.const 1000
+    call $print
+    br 0
+    end
     i32.const 0
 )
 )

@@ -89,86 +89,37 @@ public class FunctionCall extends Expression {
         throw new UnsupportedOperationException("Function calls does not have operands");
     }
 
-    // FIXME igual hay que hacer aquí algo
-    // public void computeOffset();
-    
-    // FIXME igual hay que hacer aquí algo
-    // public void maxMemory(Integer c, Integer maxi)
-
     public void setReference(int value) {
         this.reference = value;
     }
 
     @Override
     public void generateAddress(Josito jose) throws Exception {
-        jose.createConst(matchingBind.getSize());   // calc new scope size
-        jose.reserveStackCall();                    // calc new limits MP and SP of scope
-        jose.setDynamicLink();                      // saves previous MP to return in DL of new scope
-        jose.setReference(reference);               // saves the reference object since we need to calc the direction (if needed), in this case 0 because we are not inside one
-        int i = 0;
-        for(Argument declared_arg : matchingBind.getArgumentsList()) {
-            Type left_t = declared_arg.getType();
-            switch (left_t.getKind()) {
-                case INT:
-                case BOOL:
-                case POINTER:
-                    if (!declared_arg.isReference()) {
-                        jose.getLocalDirUsingMP(declared_arg.getOffset());  // Code_D of the argument
-                        args.get(i).generateValue(jose);                    // Code_E of the parameter
-                        jose.store();
-                    }
-                    else {
-                        jose.getLocalDirUsingMP(declared_arg.getOffset());  // Code_D of the argument
-                        args.get(i).generateAddress(jose);                  // Code_D of the parameter
-                        jose.store();
-                    }
-                    break;
-                case ARRAY:
-                    Array_Type cast = (Array_Type)left_t;
-                    if (!cast.isDynamic()) {
-                        args.get(i).generateValue(jose);                    // Code_E of the parameter
-                        jose.getLocalDirUsingMP(declared_arg.getOffset());  // Code_D of the argument
-                        jose.createConst(left_t.getSize());                 // N size to copy
-                        jose.copy_n();
-                    }
-                    else {
-                        jose.generateDynamicArrayArgument(declared_arg, args.get(i));
-                    }
-                    break;
-                case CLASS:
-                case STRUCT:
-                    if (!declared_arg.isReference()) {
-                        args.get(i).generateValue(jose);                    // Code_E of the parameter
-                        jose.getLocalDirUsingMP(declared_arg.getOffset());  // Code_D of the argument
-                        jose.createConst(left_t.getSize());                 // N size to copy
-                        jose.copy_n();
-                    }
-                    else {
-                        jose.getLocalDirUsingMP(declared_arg.getOffset());  // Code_D of the argument
-                        args.get(i).generateAddress(jose);                  // Code_D of the parameter
-                        jose.store();
-                    }
-                    break;
-                case CONST:
-                    // A declared type left (in the function definition) for an argument can not be a constant
-                default:
-                    break;
-            }
-            i++;
-        } // TODO en el for hacer distinto si es parametro por referencia
-        jose.callFunction(matchingBind.getWASMId());                    //calling the WASM function with the unique id
-        jose.consumeTrash();                                                 // consuming the returning value
+        this.generateArgumentsPlacement(jose);
+        jose.createConst(matchingBind.getSize());           // calc new scope size
+        jose.reserveStackCall();                            // calc new limits MP and SP of scope
+        jose.setDynamicLink();                              // saves previous MP to return in DL of new scope
+        jose.setReference(reference);                       // saves the reference object since we need to calc the direction (if needed), in this case 0 because we are not inside one
+        jose.callFunction(matchingBind.getWASMId());        //calling the WASM function with the unique id
+        // return value (if any) is now at top of the stack, so the generateValue() is complete for functionCall
+        jose.consumeTrash();                                // consuming the returning value
         jose.getReturnAddress(matchingBind.getSize());
-        // the reference of the returned value is now at top of the stack, so the generateAddress() is complete for functionCall
-        jose.freeStackCall(); // FIXME esto podría petar porque el return value está en la pila y estamos llamando a otra función, pero pensamos que no
+        jose.freeStackCall();
     }
 
     @Override
-    public void generateValue(Josito jose) throws Exception { // Code_E 
-        jose.createConst(matchingBind.getSize());   // calc new scope size
-        jose.reserveStackCall();                    // calc new limits MP and SP of scope
-        jose.setDynamicLink();                      // saves previous MP to return in DL of new scope
-        jose.setReference(reference);               // saves the reference object since we need to calc the direction (if needed), in this case 0 because we are not inside one
+    public void generateValue(Josito jose) throws Exception { // Code_E
+        this.generateArgumentsPlacement(jose);
+        jose.createConst(matchingBind.getSize());           // calc new scope size
+        jose.reserveStackCall();                            // calc new limits MP and SP of scope
+        jose.setDynamicLink();                              // saves previous MP to return in DL of new scope
+        jose.setReference(reference);                       // saves the reference object since we need to calc the direction (if needed), in this case 0 because we are not inside one
+        jose.callFunction(matchingBind.getWASMId());        //calling the WASM function with the unique id
+        // return value (if any) is now at top of the stack, so the generateValue() is complete for functionCall
+        jose.freeStackCall();
+    }
+
+    protected void generateArgumentsPlacement(Josito jose) throws Exception {
         int i = 0;
         for(Argument declared_arg : matchingBind.getArgumentsList()) {
             Type left_t = declared_arg.getType();
@@ -177,12 +128,12 @@ public class FunctionCall extends Expression {
                 case BOOL:
                 case POINTER:
                     if (!declared_arg.isReference()) {
-                        jose.getLocalDirUsingMP(declared_arg.getOffset());  // Code_D of the argument
+                        jose.getLocalDirUsingSP(declared_arg.getOffset());  // Code_D of the argument
                         args.get(i).generateValue(jose);                    // Code_E of the parameter
                         jose.store();
                     }
                     else {
-                        jose.getLocalDirUsingMP(declared_arg.getOffset());  // Code_D of the argument
+                        jose.getLocalDirUsingSP(declared_arg.getOffset());  // Code_D of the argument
                         args.get(i).generateAddress(jose);                  // Code_D of the parameter
                         jose.store();
                     }
@@ -191,7 +142,7 @@ public class FunctionCall extends Expression {
                     Array_Type cast = (Array_Type)left_t;
                     if (!cast.isDynamic()) {
                         args.get(i).generateValue(jose);                    // Code_E of the parameter
-                        jose.getLocalDirUsingMP(declared_arg.getOffset());  // Code_D of the argument
+                        jose.getLocalDirUsingSP(declared_arg.getOffset());  // Code_D of the argument
                         jose.createConst(left_t.getSize());                 // N size to copy
                         jose.copy_n();
                     }
@@ -203,12 +154,12 @@ public class FunctionCall extends Expression {
                 case STRUCT:
                     if (!declared_arg.isReference()) {
                         args.get(i).generateValue(jose);                    // Code_E of the parameter
-                        jose.getLocalDirUsingMP(declared_arg.getOffset());  // Code_D of the argument
+                        jose.getLocalDirUsingSP(declared_arg.getOffset());  // Code_D of the argument
                         jose.createConst(left_t.getSize());                 // N size to copy
                         jose.copy_n();
                     }
                     else {
-                        jose.getLocalDirUsingMP(declared_arg.getOffset());  // Code_D of the argument
+                        jose.getLocalDirUsingSP(declared_arg.getOffset());  // Code_D of the argument
                         args.get(i).generateAddress(jose);                  // Code_D of the parameter
                         jose.store();
                     }
@@ -219,9 +170,6 @@ public class FunctionCall extends Expression {
                     break;
             }
             i++;
-        } // TODO en el for hacer distinto si es parametro por referencia
-        jose.callFunction(matchingBind.getWASMId());                    //calling the WASM function with the unique id
-        // return value (if any) is now at top of the stack, so the generateValue() is complete for functionCall
-        jose.freeStackCall(); // FIXME esto podría petar porque el return value está en la pila y estamos llamando a otra función, pero pensamos que no
+        }
     }
 }

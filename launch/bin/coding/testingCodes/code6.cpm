@@ -21,6 +21,7 @@ func mein() :int {
             breic;
         difolt:
             ceaut(-1000);
+            breic;
     } 
 
     return 0;
