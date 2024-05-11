@@ -33,6 +33,13 @@ public abstract class Expression extends ASTNodeTypable implements Indentable {
         // Nothing to do
     }
     
-    public abstract void generateAddress(Josito jose) throws Exception; // Code_D
-    public abstract void generateValue(Josito jose) throws Exception;   // Code_E
+    public abstract void generateAddress(Josito jose) throws Exception;// Code_D
+    
+    public void generateValue(Josito jose) throws Exception { // Code_E
+        if (opnd1() != null)
+            opnd1().generateValue(jose);
+        if (opnd2() != null)
+            opnd2().generateValue(jose);
+        jose.translateOperator(this.operator);
+    }
 }

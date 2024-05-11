@@ -15,7 +15,7 @@
 (global $trash (mut i32) (i32.const 0))
 (global $darr (mut i32) (i32.const 0))
 (func $init
-    i32.const 24
+    i32.const 28
     call $reserveStack
     call $setDynamicLink
     call $0
@@ -295,6 +295,9 @@
     i32.const 0
     call $print
     end
+    i32.const 20
+    global.get $MP
+    i32.add
     i32.const 8
     global.get $SP
     i32.add
@@ -312,7 +315,7 @@
     i32.store
     call $2
     call $freeStack
-    global.get $trash
+    i32.store
     i32.const 8
     global.get $MP
     i32.add

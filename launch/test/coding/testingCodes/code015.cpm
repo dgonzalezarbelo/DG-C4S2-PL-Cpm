@@ -30,7 +30,7 @@ func mein() : int {
     els{
         ceaut(0);
     }
-    updateValuePerson(boy);
+    int aux = updateValuePerson(boy);
     ceaut(boy.dni);
     ceaut(boy.age);
     if(boy.inSchool){
