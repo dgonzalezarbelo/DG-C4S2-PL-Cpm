@@ -3,13 +3,16 @@ package ast.expressions.operands;
 import ast.ASTNodeTypable;
 import ast.Josito;
 import ast.expressions.Expression;
+import ast.preamble.Argument;
 import ast.preamble.Attribute;
 import ast.preamble.Program;
 import ast.sentences.declarations.Declaration;
+import ast.types.interfaces.Array_Type;
 import ast.types.interfaces.Const_Type;
 import ast.types.interfaces.Type.Type_T;
 import exceptions.InvalidDirectionException;
 import exceptions.InvalidIdException;
+import exceptions.InvalidTypeException;
 import utils.Utils;
 import ast.types.definitions.Define;
 
@@ -43,6 +46,11 @@ public class VariableID extends Expression {
 	@Override
 	public void checkType() throws Exception {
 		this.type = this.id_node.getType();
+		if (this.type.getKind() == Type_T.ARRAY) {
+			Array_Type cast = (Array_Type)this.type;
+			if (cast.isDynamic() && !(this.id_node instanceof Argument))
+				throw new InvalidTypeException("Dynamic arrays are only allowed as arguments of functions");
+		}
 	}
 
 	@Override
@@ -84,6 +92,11 @@ public class VariableID extends Expression {
 					jose.load();
 					break;
 				case ARRAY:
+					Array_Type cast = (Array_Type)this.type;
+					if (cast.isDynamic()) { // We have to load the position of the start of the array in case it is dynamic
+						jose.loadDynamicArray();
+					}
+					break;
 				case CLASS:
 				case STRUCT:
 					generateAddress(jose);

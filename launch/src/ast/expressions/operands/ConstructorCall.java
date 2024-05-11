@@ -3,6 +3,7 @@ package ast.expressions.operands;
 import ast.Josito;
 import ast.preamble.Argument;
 import ast.preamble.Constructor;
+import ast.types.interfaces.Array_Type;
 import ast.types.interfaces.Type;
 import exceptions.InvalidTypeException;
 
@@ -39,6 +40,17 @@ public class ConstructorCall extends FunctionCall {
                     jose.store();
                     break;
                 case ARRAY:
+                    Array_Type cast = (Array_Type)left_t;
+                    if (!cast.isDynamic()) {
+                        args.get(i).generateValue(jose);                    // Code_E of the parameter
+                        jose.getLocalDirUsingMP(declared_arg.getOffset());  // Code_D of the argument
+                        jose.createConst(left_t.getSize());                 // N size to copy
+                        jose.copy_n();
+                    }
+                    else {
+                        jose.generateDynamicArrayArgument(declared_arg, args.get(i));
+                    }
+                    break;
                 case CLASS:
                 case STRUCT:
                     args.get(i).generateValue(jose);                    // Code_E of the parameter
@@ -78,6 +90,17 @@ public class ConstructorCall extends FunctionCall {
                     jose.store();
                     break;
                 case ARRAY:
+                    Array_Type cast = (Array_Type)left_t;
+                    if (!cast.isDynamic()) {
+                        args.get(i).generateValue(jose);                    // Code_E of the parameter
+                        jose.getLocalDirUsingMP(declared_arg.getOffset());  // Code_D of the argument
+                        jose.createConst(left_t.getSize());                 // N size to copy
+                        jose.copy_n();
+                    }
+                    else {
+                        jose.generateDynamicArrayArgument(declared_arg, args.get(i));
+                    }
+                    break;
                 case CLASS:
                 case STRUCT:
                     args.get(i).generateValue(jose);                    // Code_E of the parameter

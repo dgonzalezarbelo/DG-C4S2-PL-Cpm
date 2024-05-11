@@ -4,7 +4,11 @@ import java.util.List;
 import java.util.Stack;
 import java.util.StringJoiner;
 
+import ast.expressions.Expression;
 import ast.expressions.Expression.Operator_T;
+import ast.preamble.Argument;
+import ast.types.interfaces.Array_Type;
+import java_cup.terminal;
 
 public class Josito {
     private static StringJoiner code = new StringJoiner("\n");
@@ -42,6 +46,7 @@ public class Josito {
         append("(global $NP (mut i32) (i32.const 131071996))  ;; heap 2000*64*1024-4");
         append("(global $swap (mut i32) (i32.const 0))");
         append("(global $trash (mut i32) (i32.const 0))");
+        append("global $darr (mut i32) (i32.const 0))");
         /*
          * Function ini
         */
@@ -135,6 +140,32 @@ public class Josito {
         append("    global.get $NP");
         append("    i32.const 4");
         append("    i32.add ;; NP + 4 is the position to be occupied now, so we leave it in the stack");
+        append(")");
+
+        /**
+         * Function to reserve space from the stack pointer and returns the old SP value
+         */
+        append("(func $allocate_stack");
+        append("(param $size i32)");
+        append("(result i32)");
+        append("    (local $ret_addr i32)");
+        append("    global.get $SP");
+        append("    local.set $ret_addr ;; we save the old SP value in the ret_addr");
+        append("");
+        append("    global.get $SP");
+        append("    local.get $size");
+        append("    i32.add");
+        append("    global.set $SP ;; we have brought the SP forward size bytes");
+        append("");
+        append("    get_global $SP");
+        append("    get_global $NP");
+        append("    i32.gt_u");
+        append("    if");
+        append("        i32.const 3");
+        append("        call $exception ;; the SP has passed the NP");
+        append("    end");
+        append("");
+        append("    local.get $ret_addr ;; we save the old SP at the top of the stack");
         append(")");
 
         /*
@@ -319,6 +350,63 @@ public class Josito {
 
     public void load() { // TODO quiza este solo hace load si tenemos el getLocalDirUsingMP
         append("i32.load");
+    }
+
+    public void loadDynamicArray() {
+        append("global.set $darr");
+        append("global.get $darr");
+        load(); // Starting position of the actual array
+    }
+
+    public void generateDynamicArrayArgument(Argument declared_arg, Expression arg) throws Exception { // declared_arg is a dynamic array
+        // First we need to place the content of "arg" in the SP. We first need the address of "arg" (the source)
+        arg.generateAddress(this);
+        // Now we have to reserve space in the stack and preserve the old SP value
+        createConst(arg.getType().getSize());
+        append("call $allocate_stack");
+        // We save the old SP in $swap for later
+        append("global.set $swap");
+        append("global.get $swap");
+        // Now we copy the contents
+        createConst(arg.getType().getSize());
+        copy_n();
+        // Finally we have to update the information of the dynamic array
+        generateDynamicArrayInformation(declared_arg, arg);
+    }
+
+    public void generateDynamicArrayInformation(Argument declared_arg, Expression arg) throws Exception { // declared_arg is a dynamic array
+        // From the previous function we know that $swap contains the old SP, where the copy of arg is stored
+        // First we make the dynamic array point to the copy of arg
+        this.getLocalDirUsingMP(declared_arg.getOffset());
+        append("global.get $swap");
+        store();
+        // Now we update the size
+        this.getLocalDirUsingMP(declared_arg.getOffset());
+        createConst(1);
+        append("i32.add");
+        arg.getType().getSize();
+        store();
+        // Finally we save the size of every dimenssion
+        List<Expression> args = ((Array_Type)arg.getType()).getDimenssions();
+        for (int i = 0; i < args.size(); i++) {
+            this.getLocalDirUsingMP(declared_arg.getOffset());
+            createConst(2 + i);
+            append("i32.add");
+            args.get(i).generateValue(this);
+            store();
+        }
+    }
+
+    public void arrayAccess(Expression e, int dim_pos, int terminal_size) throws Exception {
+        e.generateValue(this);
+        append("global.get $darr");
+        createConst(dim_pos + 1);
+        append("i32.add");  // Address where the length of the dimenssion "dim_pos" is stored
+        load();                         // We load the length
+        mul();                          // We multiply it with the value of "e"
+        createConst(terminal_size);     // We stack the size of the terminal type
+        mul();                          // We multiply it with what we previously computed
+        append("i32.add");  // Finally we add to what we had in the stack previously
     }
 
     public void store() { // TODO arreglarlo
