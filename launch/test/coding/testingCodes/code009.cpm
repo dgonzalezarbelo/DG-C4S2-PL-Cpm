@@ -1,6 +1,6 @@
 // If function Test
 func mein() : int {
-    int b = fols;
+    bul b = fols;
     int a = -1;
     ceaut(a);
     if (b) {

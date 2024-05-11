@@ -1,21 +1,31 @@
-// Recursive Function Test
-difain CONST_INT 6;
-
-func factorialRecursive (int res, int x) : int {
-    int result = res;
-    if(x >= 1) {
-        result = factorialRecursive(res * x, x - 1);
+// If function Test
+func mein() : int {
+    bul b = fols;
+    int a = -1;
+    ceaut(a);
+    if (b) {
+        a = 0;
+        ceaut(a);
     }
-    return result;
-}
-
-
-func mein():int {
-    int n = CONST_INT;
-    int res = factorialRecursive(1, n);
-    ceaut(res);
-
+    els {
+        a = 1;
+        ceaut(a);
+        b = !b;
+        if (b) {
+            a = 2;
+            ceaut(a);
+        }
+        els {
+            a = 3;
+            ceaut(a);
+        }
+    }
     return 0;
 }
 
-// RESULT: 6! = 720
+/* 
+RESULT: 
+-1
+1
+2
+*/
