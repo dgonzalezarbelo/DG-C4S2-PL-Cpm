@@ -1,0 +1,31 @@
+// If function Test
+func mein() : int {
+    int b = fols;
+    int a = -1;
+    ceaut(a);
+    if (b) {
+        a = 0;
+        ceaut(a);
+    }
+    els {
+        a = 1;
+        ceaut(a);
+        b = !b;
+        if (b) {
+            a = 2;
+            ceaut(a);
+        }
+        els {
+            a = 3;
+            ceaut(a);
+        }
+    }
+    return 0;
+}
+
+/* 
+RESULT: 
+-1
+1
+2
+*/

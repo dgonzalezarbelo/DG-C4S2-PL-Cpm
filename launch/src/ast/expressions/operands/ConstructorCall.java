@@ -19,8 +19,6 @@ public class ConstructorCall extends FunctionCall {
             throw new InvalidTypeException("Constructor call expected but function call was written");
     }
 
-    // TODO del Code_E o el Code_D
-
     @Override
     public void generateAddress(Josito jose) throws Exception{
         jose.createConst(matchingBind.getSize());   // calc new scope size
@@ -53,7 +51,7 @@ public class ConstructorCall extends FunctionCall {
             }
             i++;
         } // TODO en el for hacer distinto si es parametro por referencia
-        jose.callFunction(matchingBind.getWASMId());                    //calling the WASM function with the unique id
+        jose.callFunction(matchingBind.getWASMId());                        //calling the WASM function with the unique id
         jose.consumeTrash();
         jose.getReturnAddress(matchingBind.getWASMId());                    //calling the WASM function with the unique id
         // the reference of the returned value is now at top of the stack, so the generateAddress() is complete for functionCall

@@ -361,7 +361,7 @@ public class Josito {
                 append("i32.eq");
                 break;
             case GREATER:
-                append("i32.gt");
+                append("i32.gt_s");
                 break;
             case GEQ:
                 append("i32.ge");

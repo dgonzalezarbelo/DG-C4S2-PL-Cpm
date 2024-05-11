@@ -102,6 +102,7 @@ public class Function extends Definition {
                 a.checkType();
             body.checkType();
             return_var.checkType();             // TODO esto peta si es una función que no devuelve nada
+            return_t.checkType();
 
             Type returnType = return_var.getType();
             if(!returnType.canBeAssigned(return_t)) {
@@ -134,16 +135,17 @@ public class Function extends Definition {
     @Override
     public void maxMemory(GoodInteger c, GoodInteger maxi) {
         maximumMemory.setValue(Josito.NUM_FUNC_POINTERS_SIZE);
-        GoodInteger curr = new GoodInteger(0);                           // FIXME igual no hay que pasar un copia y hay que pasar el de arriba, darle una vuelta
+        GoodInteger curr = new GoodInteger(this.maximumMemory.toInt()); // FIXME igual no hay que pasar un copia y hay que pasar el de arriba, darle una vuelta
         for (Argument a : args) {
-            a.maxMemory(curr, maximumMemory);       // Only the declarations will change the curr value
+            a.maxMemory(curr, maximumMemory);               // Only the declarations will change the curr value
             if(curr.toInt() > maximumMemory.toInt())
                 maximumMemory.setValue(curr.toInt());
         }
         body.maxMemory(curr, maximumMemory);
-        if (return_t != null)
+        if (return_t != null) {
             return_t.maxMemory(null, null);
-        maximumMemory.setValue(maximumMemory.toInt() + return_t.getSize());
+            maximumMemory.setValue(maximumMemory.toInt() + return_t.getSize());
+        }
         if (maxi != null)
             maxi.setValue(maxi.toInt() + maximumMemory.toInt());
     }

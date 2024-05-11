@@ -8,14 +8,10 @@ import ast.preamble.Attribute;
 import ast.preamble.Constructor;
 import ast.preamble.Method;
 import ast.types.interfaces.Defined_Type;
-import ast.types.interfaces.Type;
 import ast.types.interfaces.Type.Type_T;
 import utils.Utils;
 
 public class StructDefinition extends ObjectDefinition {
-    protected List<Attribute> attributes;
-    protected ClassFunctions functions;
-    protected Type definedType;
     
     public StructDefinition(String name, List<Attribute> attributes, int row) {
         super(name, attributes, row);
@@ -24,7 +20,7 @@ public class StructDefinition extends ObjectDefinition {
     public StructDefinition(String name, List<Attribute> attributes, List<Constructor> constructors, int row) {
         this(name, attributes, row);
         this.functions = new ClassFunctions(constructors, new ArrayList<>());
-        this.definedType = new Defined_Type(definitionName, row, Type_T.STRUCT, this);
+        this.type = new Defined_Type(definitionName, row, Type_T.STRUCT, this);
     }
 
     @Override
