@@ -6,12 +6,14 @@ import java.util.List;
 import ast.expressions.Expression;
 import ast.expressions.operands.Int_Value;
 import ast.expressions.operands.Literal;
+import exceptions.InvalidTypeException;
 
 public class Array_Type extends Envelope_Type {
     private Expression dim;
     private Type outer_type;            // In case this array is also the type of another "bigger" array (in terms of dimensions)
-    private Type inner_terminal_type;   // Example: int[7][][8] has an inner_terminal_type 
-    private int array_dimension;        // Example: int[7][][8] has an array_dimension of 3
+    private Type inner_terminal_type;   // Example: int[7][4][8] has "int" as inner_terminal_type 
+    private int array_dimension;        // Example: int[7][4][8] has an array_dimension of 3
+    private boolean isDynamic;
 
     public Array_Type(Expression dim, int row) {
         super(null, row);
@@ -32,6 +34,10 @@ public class Array_Type extends Envelope_Type {
 
     public void setOuterType(Type t) {
         this.outer_type = t;
+    }
+
+    public int getArrayDimenssion() {
+        return this.array_dimension;
     }
 
     public static Array_Type updateTypes(Array_Type newArray, Array_Type prevArray) {
@@ -117,17 +123,52 @@ public class Array_Type extends Envelope_Type {
         if (this.dim != null)
             this.dim.checkType();
         super.checkType();
+
+        // Now we check if the array is static, dynamic of wrongly declared
+        List<Expression> dimenssions = getDimenssions();
+        boolean _static = true, _dynamic = true;
+        for (Expression e : dimenssions) {
+            if (e == null)
+                _static = false;
+            else
+                _dynamic = false;
+        }
+        if (!_static && !_dynamic)
+            throw new InvalidTypeException("The array is neither static nor dynamic");
+        setDynamic(_dynamic); // We propagate the dynamic boolean to the inner types
     }
 
+    public void setDynamic(boolean isDynamic) {
+        this.isDynamic = isDynamic;
+        if (array_dimension > 1)
+            ((Array_Type)inner_type).setDynamic(isDynamic);
+    }
+
+    public boolean isDynamic() {
+        return this.isDynamic;
+    }
+    
     public void calcSize() {
-        inner_type.calcSize();
-        Integer inner_size = inner_type.getSize();
-        if (dim != null) {
-            Literal l = ((Const_Type) dim.getType()).getConstValue();
-            int dim_value = ((Int_Value)l).num();
-            maximumMemory.setValue(dim_value * inner_size);
+        if (!this.isDynamic) { // If the array is static
+            inner_type.calcSize();
+            Integer inner_size = inner_type.getSize();
+            if (dim != null) {
+                Literal l = ((Const_Type) dim.getType()).getConstValue();
+                int dim_value = ((Int_Value)l).num();
+                maximumMemory.setValue(dim_value * inner_size);
+            }
+            else
+                maximumMemory.setValue(0); //FIXME No se si esto estara bien
         }
-        else
-            maximumMemory.setValue(0); //FIXME No se si esto estara bien
+        else { // We have to save the pointer, the size of the array and the size of every dimenssion
+            List<Expression> dimenssions = getDimenssions();
+            maximumMemory.setValue((2 + dimenssions.size()) * 4);
+            if (array_dimension > 1)
+                ((Array_Type)inner_type).calcSize();
+        }
+    }
+
+    public void calcDynamicSize() {
+
     }
 }
