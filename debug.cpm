@@ -1,36 +1,21 @@
-// Switch test with an int expression
-func mein() :int {
-    int varInt = 4;
+// Recursive Function Test
+difain CONST_INT 6;
 
-    suich (varInt) {
-        queis (0): 
-            ceaut(0);
-            breic;
-        queis (3): 
-            ceaut(3);
-            breic;
-        queis (4): 
-            ceaut(4);
-        queis (7): 
-            ceaut(7);
-        queis (10): 
-            ceaut(10);
-            breic;
-        queis (15): 
-            ceaut(10);
-            breic;
-        difolt:
-            ceaut(-1000);
-            breic;
-    } 
+func factorialRecursive (int res, int x) : int {
+    int result = res;
+    if(x >= 1) {
+        result = factorialRecursive(res * x, x - 1);
+    }
+    return result;
+}
+
+
+func mein():int {
+    int n = CONST_INT;
+    int res = factorialRecursive(1, n);
+    ceaut(res);
 
     return 0;
 }
 
-/* 
-RESULT: 
-4
-7
-10
-
-*/
+// RESULT: 6! = 720

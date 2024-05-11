@@ -500,13 +500,13 @@ public class Josito {
                 append("i32.gt_s");
                 break;
             case GEQ:
-                append("i32.ge");
+                append("i32.ge_s");
                 break;
             case LESS:
-                append("i32.lt");
+                append("i32.lt_s");
                 break;
             case LEQ:
-                append("i32.le");
+                append("i32.le_s");
                 break;
             case MOD:
                 append("i32.rem");

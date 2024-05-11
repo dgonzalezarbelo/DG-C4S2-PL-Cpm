@@ -57,6 +57,8 @@ public class If_Ins extends Instruction {
             Type condType = argExpression.getType();
             if (condType.getKind() == null || condType.getKind() != Type_T.BOOL)
                 throw new BooleanConditionException("'If' condition must be bolean type");
+            if (!elseBody.empty())
+                elseBody.checkType();
         } catch (Exception e) {
             System.out.println(e);
             Utils.printErrorRow(row);
@@ -66,14 +68,14 @@ public class If_Ins extends Instruction {
     @Override
     public void maxMemory(GoodInteger c, GoodInteger max) {
         super.maxMemory(c, max);
-        if (elseBody != null)
+        if (!elseBody.empty())
             elseBody.maxMemory(c, max);
     }
 
     @Override
     public void computeOffset(Delta delta) {
         super.computeOffset(delta);
-        if (elseBody != null)
+        if (!elseBody.empty())
             elseBody.computeOffset(delta);
     }
 

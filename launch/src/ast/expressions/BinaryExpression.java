@@ -1,5 +1,7 @@
 package ast.expressions;
 
+import ast.Josito;
+
 public abstract class BinaryExpression extends Expression {
     private Expression opnd1;
     private Expression opnd2;
@@ -20,4 +22,12 @@ public abstract class BinaryExpression extends Expression {
     public Expression opnd1() {return opnd1;}
     @Override
     public Expression opnd2() {return opnd2;}
+
+    public void generateValue(Josito jose) throws Exception { // Code_E
+        if (opnd1() != null)
+            opnd1().generateValue(jose);
+        if (opnd2() != null)
+            opnd2().generateValue(jose);
+        jose.translateOperator(this.operator);
+    }
 }
