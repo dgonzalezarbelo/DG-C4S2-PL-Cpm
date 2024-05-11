@@ -164,88 +164,56 @@
 
     (local.get $result) ;; Poner el resultado en el stack
 )
+(func $1
+    (result i32)
+    i32.const 8
+    global.get $MP
+    i32.add
+    i32.load
+    i32.const 100
+    i32.store
+    i32.const 100
+    call $print
+    i32.const 0
+)
 (func $0
     (result i32)
     i32.const 8
     global.get $MP
     i32.add
-    i32.const 0
-    i32.store
-    i32.const 12
-    global.get $MP
-    i32.add
-    i32.const 1
-    i32.const -1
-    i32.mul
-    i32.store
-    i32.const 12
-    global.get $MP
-    i32.add
-    i32.load
-    call $print
-    i32.const 8
-    global.get $MP
-    i32.add
-    i32.load
-    if
-    i32.const 12
-    global.get $MP
-    i32.add
-    i32.const 0
-    i32.store
-    i32.const 12
-    global.get $MP
-    i32.add
-    i32.load
-    call $print
-    else
-    i32.const 12
-    global.get $MP
-    i32.add
     i32.const 1
     i32.store
-    i32.const 12
+    i32.const 8
     global.get $MP
     i32.add
     i32.load
     call $print
-    i32.const 8
+    i32.const 12
     global.get $MP
+    i32.add
+    i32.const 8
+    global.get $SP
     i32.add
     i32.const 8
     global.get $MP
     i32.add
-    i32.load
-    i32.eqz
+    i32.store
+    i32.const 16
+    call $reserveStack
+    call $setDynamicLink
+    global.get $MP
+    i32.const 4
+    i32.add
+    i32.const 0
+    i32.store
+    call $1
+    call $freeStack
     i32.store
     i32.const 8
     global.get $MP
     i32.add
     i32.load
-    if
-    i32.const 12
-    global.get $MP
-    i32.add
-    i32.const 2
-    i32.store
-    i32.const 12
-    global.get $MP
-    i32.add
-    i32.load
     call $print
-    else
-    i32.const 12
-    global.get $MP
-    i32.add
-    i32.const 3
-    i32.store
-    i32.const 12
-    global.get $MP
-    i32.add
-    i32.load
-    call $print
-    end
-    end
     i32.const 0
 )
 )
