@@ -22,6 +22,7 @@ public class Array_Type extends Envelope_Type {
         this.outer_type = null;
         this.inner_terminal_type = null;
         this.array_dimension = 0;
+        this.isDynamic = false;
     }
 
     public void setInnerType(Type t) {
@@ -166,9 +167,5 @@ public class Array_Type extends Envelope_Type {
             if (array_dimension > 1)
                 ((Array_Type)inner_type).calcSize();
         }
-    }
-
-    public void calcDynamicSize() {
-
     }
 }

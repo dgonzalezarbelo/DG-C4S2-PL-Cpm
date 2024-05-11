@@ -24,6 +24,7 @@ public abstract class Literal extends Expression {
     public void generateValue(Josito jose) throws Exception { // Code_E
         jose.createConst(this.toIntConst());
     }
+    
     @Override
     public void generateAddress(Josito jose) throws Exception {
         throw new InvalidDirectionException("Literals values are not direccionable");

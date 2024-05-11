@@ -1,36 +1,34 @@
-// Switch test with an int expression
-func mein() :int {
-    int varInt = 4;
+func maximo(int array[10]) : int {
+    int max = 0;
+    int i = 0;
+    guail(i < 10) {
+        ceaut(array[i]);
+        if (array[i] > max) {
+            max = array[i];
+        }
+        i = i + 1;
+    }
+    return max;
+}
 
-    suich (varInt) {
-        queis (0): 
-            ceaut(0);
-            breic;
-        queis (3): 
-            ceaut(3);
-            breic;
-        queis (4): 
-            ceaut(4);
-        queis (7): 
-            ceaut(7);
-        queis (10): 
-            ceaut(10);
-            breic;
-        queis (15): 
-            ceaut(10);
-            breic;
-        difolt:
-            ceaut(-1000);
-            breic;
-    } 
-
+func mein() : int {
+    int array[10];
+    array[0] = 3;
+    array[1] = 5;
+    array[2] = 4;
+    array[3] = 28;
+    array[4] = 345;
+    array[5] = 3;
+    array[6] = 45;
+    array[7] = 22;
+    array[8] = 95;
+    array[9] = 15;
+    int max = maximo(array);
+    ceaut(max);
     return 0;
 }
 
-/* 
-RESULT: 
-4
-7
-10
-
+/*
+RESULT
+345
 */

@@ -1,6 +1,6 @@
 package ast.preamble;
 
-import java.util.List;
+import java.util.LinkedList;
 
 import ast.ASTNode;
 import ast.Delta;
@@ -12,11 +12,11 @@ import ast.types.definitions.IntDefinition;
 import utils.GoodInteger;
 
 public class Program extends ASTNode {
-    private List<Definition> definitions;
+    private LinkedList<Definition> definitions;
     private Function mainFunction;
     public static SymbolsTable symbolsTable = new SymbolsTable();
 
-    public Program(List<Definition> definitions, Function mainFunction) {
+    public Program(LinkedList<Definition> definitions, Function mainFunction) {
         this.definitions = definitions;
         this.mainFunction = mainFunction;
         this.mainFunction.setAsMain();

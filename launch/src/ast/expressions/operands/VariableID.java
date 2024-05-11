@@ -99,10 +99,10 @@ public class VariableID extends Expression {
 					jose.load();
 					break;
 				case ARRAY:
+					generateAddress(jose);
 					Array_Type cast = (Array_Type)this.type;
-					if (cast.isDynamic()) { // We have to load the position of the start of the array in case it is dynamic
+					if (cast.isDynamic()) // We have to load the position of the start of the array in case it is dynamic
 						jose.loadDynamicArray();
-					}
 					break;
 				case CLASS:
 				case STRUCT:

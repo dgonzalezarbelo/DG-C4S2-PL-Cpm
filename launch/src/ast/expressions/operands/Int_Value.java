@@ -11,6 +11,7 @@ public class Int_Value extends Literal {
         this.v = Integer.parseInt(v);   
         this.row = row;
     }
+    
     public int num() {return v;}
     public String toString() {return Integer.toString(v);}
 

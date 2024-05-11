@@ -503,7 +503,7 @@ public class Josito {
                 append("i32.ge");
                 break;
             case LESS:
-                append("i32.lt");
+                append("i32.lt_s");
                 break;
             case LEQ:
                 append("i32.le");

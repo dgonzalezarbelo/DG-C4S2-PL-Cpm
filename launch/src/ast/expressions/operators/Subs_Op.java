@@ -3,6 +3,7 @@ package ast.expressions.operators;
 import ast.Josito;
 import ast.expressions.BinaryExpression;
 import ast.expressions.Expression;
+import ast.types.interfaces.Const_Type;
 import ast.types.interfaces.Envelope_Type;
 import ast.types.interfaces.Int_Type;
 import ast.types.interfaces.Type;
@@ -35,7 +36,7 @@ public class Subs_Op extends BinaryExpression {
         Type right = opnd2().getType();
         //TODO Aqui vamos a tener que hacer algo especial para el caso puntero-entero (el orden importa)
         if (left.getKind() != right.getKind()) {
-            if (left instanceof Envelope_Type && right.getKind() == Type_T.INT) {
+            if (left instanceof Envelope_Type && !(left instanceof Const_Type) && right.getKind() == Type_T.INT) {
                 this.type = left;
             }
             else 

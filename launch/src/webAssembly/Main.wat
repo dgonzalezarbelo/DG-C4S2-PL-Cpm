@@ -15,7 +15,7 @@
 (global $trash (mut i32) (i32.const 0))
 (global $darr (mut i32) (i32.const 0))
 (func $init
-    i32.const 16
+    i32.const 56
     call $reserveStack
     call $setDynamicLink
     call $0
@@ -164,55 +164,199 @@
 
     (local.get $result) ;; Poner el resultado en el stack
 )
+(func $1
+    (result i32)
+    i32.const 48
+    global.get $MP
+    i32.add
+    i32.const 0
+    i32.store
+    i32.const 52
+    global.get $MP
+    i32.add
+    i32.const 0
+    i32.store
+    block
+    loop
+    i32.const 52
+    global.get $MP
+    i32.add
+    i32.load
+    i32.const 10
+    i32.lt_s
+    i32.eqz
+    br_if 1
+    i32.const 8
+    global.get $MP
+    i32.add
+    i32.const 4
+    i32.const 52
+    global.get $MP
+    i32.add
+    i32.load
+    i32.mul
+    i32.add
+    i32.load
+    i32.const 48
+    global.get $MP
+    i32.add
+    i32.load
+    i32.gt_s
+    if
+    i32.const 48
+    global.get $MP
+    i32.add
+    i32.const 8
+    global.get $MP
+    i32.add
+    i32.const 4
+    i32.const 52
+    global.get $MP
+    i32.add
+    i32.load
+    i32.mul
+    i32.add
+    i32.load
+    i32.store
+    else
+    end
+    i32.const 52
+    global.get $MP
+    i32.add
+    i32.const 52
+    global.get $MP
+    i32.add
+    i32.load
+    i32.const 1
+    i32.add
+    i32.store
+    br 0
+    end
+    end
+    i32.const 48
+    global.get $MP
+    i32.add
+    i32.load
+)
 (func $0
     (result i32)
     i32.const 8
     global.get $MP
     i32.add
     i32.const 4
+    i32.const 0
+    i32.mul
+    i32.add
+    i32.const 3
     i32.store
-    block
-    block
-    block
-    block
-    block
-    block
-    block
-    block
     i32.const 8
     global.get $MP
     i32.add
-    i32.load
-    i32.const 0
-    i32.sub
-    br_table 0 6 6 1 2 6 6 3 6 6 4 6 6 6 6 5 6 
-    end
-    i32.const 0
-    call $print
-    br 6
-    end
-    i32.const 3
-    call $print
-    br 5
-    end
     i32.const 4
-    call $print
-    end
+    i32.const 1
+    i32.mul
+    i32.add
     i32.const 7
+    i32.store
+    i32.const 8
+    global.get $MP
+    i32.add
+    i32.const 4
+    i32.const 2
+    i32.mul
+    i32.add
+    i32.const 4
+    i32.store
+    i32.const 8
+    global.get $MP
+    i32.add
+    i32.const 4
+    i32.const 3
+    i32.mul
+    i32.add
+    i32.const 28
+    i32.store
+    i32.const 8
+    global.get $MP
+    i32.add
+    i32.const 4
+    i32.const 4
+    i32.mul
+    i32.add
+    i32.const 345
+    i32.store
+    i32.const 8
+    global.get $MP
+    i32.add
+    i32.const 4
+    i32.const 5
+    i32.mul
+    i32.add
+    i32.const 3
+    i32.store
+    i32.const 8
+    global.get $MP
+    i32.add
+    i32.const 4
+    i32.const 6
+    i32.mul
+    i32.add
+    i32.const 45
+    i32.store
+    i32.const 8
+    global.get $MP
+    i32.add
+    i32.const 4
+    i32.const 7
+    i32.mul
+    i32.add
+    i32.const 22
+    i32.store
+    i32.const 8
+    global.get $MP
+    i32.add
+    i32.const 4
+    i32.const 8
+    i32.mul
+    i32.add
+    i32.const 95
+    i32.store
+    i32.const 8
+    global.get $MP
+    i32.add
+    i32.const 4
+    i32.const 9
+    i32.mul
+    i32.add
+    i32.const 15
+    i32.store
+    i32.const 48
+    global.get $MP
+    i32.add
+    i32.const 8
+    global.get $MP
+    i32.add
+    i32.const 8
+    global.get $SP
+    i32.add
+    i32.const 40
+    call $copyn
+    i32.const 60
+    call $reserveStack
+    call $setDynamicLink
+    global.get $MP
+    i32.const 4
+    i32.add
+    i32.const 0
+    i32.store
+    call $1
+    call $freeStack
+    i32.store
+    i32.const 48
+    global.get $MP
+    i32.add
+    i32.load
     call $print
-    end
-    i32.const 10
-    call $print
-    br 2
-    end
-    i32.const 10
-    call $print
-    br 1
-    end
-    i32.const 1000
-    call $print
-    br 0
-    end
     i32.const 0
 )
 )

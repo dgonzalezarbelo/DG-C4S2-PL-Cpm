@@ -39,7 +39,7 @@ public class Sq_Bracket_Op extends BinaryExpression {
     public void generateAddress(Josito jose) throws Exception { // Code_D
         Expression op1 = opnd1();
         Array_Type cast = (Array_Type)op1.getType();
-        if (cast.isDynamic()) {
+        if (!cast.isDynamic()) {
             if (op1 instanceof Sq_Bracket_Op)   // If we have more brackets to the left then everything work as per usual
                 op1.generateAddress(jose);
             else
