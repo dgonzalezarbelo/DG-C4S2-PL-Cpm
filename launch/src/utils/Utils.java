@@ -3,6 +3,8 @@ package utils;
 
 import java.util.Set;
 
+import mainApp.Main;
+
 public class Utils {
 
     public static void appendIndent(StringBuilder str, int indent) {
@@ -37,9 +39,11 @@ public class Utils {
 
     public static void printErrorRow(int row) {
         System.out.println("↑ ERROR row: " + row);
+        Main.errorDetected = true;
     }
     public static void printErrorRowCol(int row, int col) {
         System.out.println("↑ ERROR row " + row + " and col " + col);
+        Main.errorDetected = true;
     }
 
     public static void clear() {

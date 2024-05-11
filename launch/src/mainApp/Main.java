@@ -9,23 +9,32 @@ import syntax.ReconSyntax;
 import utils.Utils;
 
 public class Main {
+    public static boolean errorDetected;
 
     public static void main(String[] args) throws Exception {
+        errorDetected = true;
         Utils.clearConsole();
         ReconLexicon alex = new ReconLexicon();
         ReconSyntax asint = new ReconSyntax();
         Josito codeGenerator = new Josito();
         ASTNode root = asint.main(args);
-        System.out.println("------------AST created");
+        printConfirmationMsg("------------ASTNode");
         root.bind();
-        System.out.println("------------Binding done");
+        printConfirmationMsg("------------Binding");
 		root.checkType();
-        System.out.println("------------Typing done");
+        printConfirmationMsg("------------Typing");
 		root.generateCode(codeGenerator);
 		writeCode(codeGenerator.toString());
-        System.out.println("------------Code generation done: Main.wat created");
+        printConfirmationMsg("------------Main.wat generation");
         wat2wasm();
-        System.out.println("------------Code conversion done: Main.wat -> Main.wasm");
+        printConfirmationMsg("------------Main.wasm conversion");
+    }
+
+    private static void printConfirmationMsg(String msg) {
+        if (!errorDetected)
+            System.out.println(msg + " succed");
+        else
+            System.out.println(msg + " failed");
     }
 
     private static void writeCode(String content) {

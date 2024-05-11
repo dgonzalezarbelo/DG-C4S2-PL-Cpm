@@ -1,8 +1,5 @@
-package syntax.JunitTests.Correct;
-
+package syntax.JunitTests;
 import syntax.ReconSyntax;
-
-import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
