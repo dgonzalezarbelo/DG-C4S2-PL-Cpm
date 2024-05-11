@@ -1,0 +1,16 @@
+// Void Function Test
+
+func voidFunction() { // Function void
+    ceaut(100);
+    return;
+}
+
+func mein() : int {
+    voidFunction();
+    return 0;
+}
+
+/*
+RESULT:
+100
+*/

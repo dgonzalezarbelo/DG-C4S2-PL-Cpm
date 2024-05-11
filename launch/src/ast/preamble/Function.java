@@ -98,16 +98,18 @@ public class Function extends Definition {
     @Override
     public void checkType() throws Exception {
         try {
-            return_t.checkType();
+            if(return_t != null)
+                return_t.checkType();
             this.type = return_t;
             for (Argument a : args)
                 a.checkType();
             body.checkType();
-            return_var.checkType();             // TODO esto peta si es una función que no devuelve nada
-
-            Type returnType = return_var.getType();
-            if(!returnType.canBeAssigned(return_t)) {
-                throw new MatchingTypeException(String.format("The type of the returning expression at function %s '%s' doesnt match the typeof the declared return type '%s'", this.definitionName, returnType, this.return_t));
+            if(return_var != null) {
+                return_var.checkType();             // TODO esto peta si es una función que no devuelve nada [Javi: creo que ya esta]
+                Type returnType = return_var.getType();
+                if(!returnType.canBeAssigned(return_t)) {
+                    throw new MatchingTypeException(String.format("The type of the returning expression at function %s '%s' doesnt match the typeof the declared return type '%s'", this.definitionName, returnType, this.return_t));
+                }
             }
         }
         catch (Exception e) {

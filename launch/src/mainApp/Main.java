@@ -12,7 +12,7 @@ public class Main {
     public static boolean errorDetected;
 
     public static void main(String[] args) throws Exception {
-        errorDetected = true;
+        errorDetected = false;
         Utils.clearConsole();
         ReconLexicon alex = new ReconLexicon();
         ReconSyntax asint = new ReconSyntax();
