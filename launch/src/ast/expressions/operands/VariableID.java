@@ -65,14 +65,22 @@ public class VariableID extends Expression {
 
 	@Override
 	public void generateAddress(Josito jose) throws Exception { // Code_D
-	//TODO Va a haber que hacer una distincion en caso de ser una referencia
 		if (!this.type.getClass().equals(Const_Type.class)) {
 			Declaration cast = (Declaration)id_node;
 			Integer delta = cast.getOffset();
-			if (cast instanceof Attribute)
-				jose.getLocalDirUsingRef(delta);
-			else
+			if (cast instanceof Argument) {
 				jose.getLocalDirUsingMP(delta);
+				Argument cast2 = (Argument)cast;
+				if (cast2.isReference()) {
+					jose.load();
+				}
+			}
+			else {
+				if (cast instanceof Attribute)
+					jose.getLocalDirUsingRef(delta);
+				else
+					jose.getLocalDirUsingMP(delta);
+			}
 		}
 		else {
 			throw new InvalidDirectionException("Const values can not be directionable");
@@ -81,7 +89,6 @@ public class VariableID extends Expression {
     
 	@Override
     public void generateValue(Josito jose) throws Exception { // Code_E
-	//TODO Va a haber que hacer una distincion en caso de ser una referencia
 		Type_T t = this.type.getKind();
 		if (!this.type.getClass().equals(Const_Type.class)) {
 			switch (t) {		// TODO igual esto puede ir en el tipo haciendo type.generateValue() y nos quitamos problemas de varios sitios
