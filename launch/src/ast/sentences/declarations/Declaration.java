@@ -7,6 +7,7 @@ import ast.Josito;
 import ast.SymbolsTable;
 import ast.expressions.Expression;
 import ast.expressions.operands.VariableID;
+import ast.preamble.Argument;
 import ast.preamble.Program;
 import ast.sentences.Sentence;
 import ast.types.interfaces.Array_Type;
@@ -75,19 +76,21 @@ public class Declaration extends Sentence {
         this.type.checkType();
         if (this.type != null && type.getKind() == Type_T.ARRAY) {
             Array_Type array_type = (Array_Type) type;
-            if (array_type.getDim() == null) {
-                System.out.println("NoDimensionalArrayException: you can't declare the array " + varname.toString()  + " with no dimension");
-                Utils.printErrorRow(row);
-            }
-            if (!Const_Type.class.equals(array_type.getDim().getType().getClass())) {
-                System.out.println("InvalidDimensionalArrayException: you can't declare the array " + varname.toString()  + " with variable dimension");
-                Utils.printErrorRow(row);
-            }
-            List<Expression> dimenssions = array_type.getDimenssions();
-            for (Expression e : dimenssions) {
-                if (e.getType().getKind() != Type_T.INT) {
-                    System.out.println("InvalidDimensionalArrayException: you can't declare the array " + varname.toString()  + " with no numeric dimension");
+            if (!(this instanceof Argument)) {
+                if (array_type.getDim() == null) {
+                    System.out.println("NoDimensionalArrayException: you can't declare the array " + varname.toString()  + " with no dimenssion");
                     Utils.printErrorRow(row);
+                }
+                if (!Const_Type.class.equals(array_type.getDim().getType().getClass())) {
+                    System.out.println("InvalidDimensionalArrayException: you can't declare the array " + varname.toString()  + " with variable dimension");
+                    Utils.printErrorRow(row);
+                }
+                List<Expression> dimenssions = array_type.getDimenssions();
+                for (Expression e : dimenssions) {
+                    if (e.getType().getKind() != Type_T.INT) {
+                        System.out.println("InvalidDimensionalArrayException: you can't declare the array " + varname.toString()  + " with no numeric dimension");
+                        Utils.printErrorRow(row);
+                    }
                 }
             }
         }

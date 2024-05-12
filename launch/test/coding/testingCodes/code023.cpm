@@ -1,0 +1,37 @@
+// Test Override de funciones
+func voidOverride(int a) {
+    ceaut(1);   //amount of args
+    ceaut(a);
+    return;
+}
+
+func voidOverride(int a, int b) {
+    ceaut(2);   //amount of args
+    ceaut(a);
+    ceaut(b);
+    return;
+}
+
+func mein(): int {
+    int a = 1000;
+    int b = -1000;
+    voidOverride(a);
+    voidOverride(a, b);
+    voidOverride(a, b);
+    voidOverride(a);
+    return 0;
+}
+
+/*
+RESULT: 
+1
+1000
+2
+1000
+-1000
+2
+1000
+-1000
+1
+1000
+*/

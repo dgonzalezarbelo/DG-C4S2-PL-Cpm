@@ -8,6 +8,7 @@ import ast.Josito;
 import ast.SymbolsTable;
 import ast.expressions.Expression;
 import ast.preamble.Argument;
+import ast.preamble.Constructor;
 import ast.preamble.Function;
 import ast.types.interfaces.Array_Type;
 import ast.types.interfaces.Type;
@@ -72,6 +73,8 @@ public class FunctionCall extends Expression {
 
     public Function matchWith(List<Function> fs) throws Exception {
         for (Function f : fs) {
+            if (!f.getDefinitionName().equals(funcname))
+                continue;
             boolean match = true;
             List<Type> types = f.getArgumentTypes();
             if (types.size() != args.size())
@@ -108,7 +111,10 @@ public class FunctionCall extends Expression {
         jose.createConst(matchingBind.getSize());           // calc new scope size
         jose.reserveStackCall();                            // calc new limits MP and SP of scope
         jose.setDynamicLink();                              // saves previous MP to return in DL of new scope
-        jose.setReference(reference);                       // saves the reference object since we need to calc the direction (if needed), in this case 0 because we are not inside one
+        if (matchingBind instanceof Constructor)
+            jose.setReferenceConstructor(((Constructor) matchingBind).getType().getSize());               // because its a constructor saves the returning reference object
+        else
+            jose.setReference(reference);                       // saves the reference object since we need to calc the direction (if needed), in this case 0 because we are not inside one
         jose.callFunction(matchingBind.getWASMId());        //calling the WASM function with the unique id
         // return value (if any) is now at top of the stack, so the generateValue() is complete for functionCall
         jose.consumeTrash();                                // consuming the returning value
@@ -122,7 +128,10 @@ public class FunctionCall extends Expression {
         jose.createConst(matchingBind.getSize());           // calc new scope size
         jose.reserveStackCall();                            // calc new limits MP and SP of scope
         jose.setDynamicLink();                              // saves previous MP to return in DL of new scope
-        jose.setReference(reference);                       // saves the reference object since we need to calc the direction (if needed), in this case 0 because we are not inside one
+        if (matchingBind instanceof Constructor)
+            jose.setReferenceConstructor(((Constructor) matchingBind).getType().getSize());               // because its a constructor saves the returning reference object
+        else
+            jose.setReference(reference);                       // saves the reference object since we need to calc the direction (if needed), in this case 0 because we are not inside one
         jose.callFunction(matchingBind.getWASMId());        //calling the WASM function with the unique id
         // return value (if any) is now at top of the stack, so the generateValue() is complete for functionCall
         jose.freeStackCall();
@@ -156,7 +165,7 @@ public class FunctionCall extends Expression {
                         jose.copy_n();
                     }
                     else {
-                        jose.generateDynamicArrayArgument(declared_arg, args.get(i));
+                        jose.generateDynamicArrayInformation(declared_arg, args.get(i), cast.getInnerTerminalType().getSize());
                     }
                     break;
                 case CLASS:

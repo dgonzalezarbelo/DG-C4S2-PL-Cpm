@@ -1,0 +1,43 @@
+func showMatrix(int matrix[][], int rows, int cols) {
+    int i = 0;
+    int j = 0;
+    guail(i < rows) {
+        j = 0;
+        guail(j < cols) {
+            ceaut(matrix[i][j]);
+            j = j + 1;
+        }
+        i = i + 1;
+    }
+    return;
+}
+
+func mein() : int {
+    int matrix[2][4];
+    int rows = 2;
+    int cols = 4;
+    int i = 0;
+    int j = 0;
+    guail(i < rows) {
+        j = 0;
+        guail(j < cols) {
+            matrix[i][j] = i * cols + j;
+            j = j + 1;
+        }
+        i = i + 1;
+    }
+    showMatrix(matrix, rows, cols);
+    return 0;
+}
+
+/*
+RESULT:
+0
+1
+2
+3
+4
+5
+6
+7
+*/

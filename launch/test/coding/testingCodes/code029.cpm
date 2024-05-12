@@ -28,18 +28,12 @@ clas Student {
 }
 
 func mein() : int {
-    ceaut(9999);
     Person~ father = niu Person(1, 45);
-    ceaut(8888);
     Person~ uncle = father;
-    ceaut(7777);
     Student~ child = niu Student(5, 2002);
     Student~ sibling = child;
-    ceaut(6666);
     ceaut((~father).id);
-    ceaut(5555);
     ceaut((~uncle).age);
-    ceaut(4444);
     ceaut((~child).getGrade());
     ceaut((~sibling).getGrade());
     ceaut((~child).year);
@@ -50,7 +44,6 @@ func mein() : int {
     (~sibling).setGrade(10);
     ceaut((~child).getGrade());
     ceaut((~sibling).getGrade());
-    ceaut(9999);
     return 0;
 }
 

@@ -31,7 +31,7 @@ clas Alumno {
 
 func mein() : int {
     Alumno a = Alumno(2, 3);
-    int edad = a.getEdad();
+    int edad = a.consultaEdad();
     ceaut(edad);
     return 0;
 }
