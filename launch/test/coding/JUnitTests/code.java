@@ -11,7 +11,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractCode {
+public abstract class code {
     public static final String OUTPUT_FILENAME = "output.txt";
     public static final String OUTPUTS_PATH = "./launch/test/coding/outputs/";                  // NO TOCAR ESTE
     public static final String INPUT_PATH = "./launch/test/coding/testingCodes/";              // NO TOCAR ESTE
@@ -27,7 +27,7 @@ public abstract class AbstractCode {
     private String outputFile;
     private String ANSWER;                                                                           // Escribir la respuesta (cada vez que wasm imprime hace un salto de linea)
 
-    public AbstractCode(String name, String answer) {
+    public code(String name, String answer) {
         this.name = name;
         this.codePath = INPUT_PATH + name + ".cpm";
         this.testFilesPath = OUTPUTS_PATH + name + "/";

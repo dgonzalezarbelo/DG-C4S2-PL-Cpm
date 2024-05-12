@@ -32,10 +32,6 @@ public class Array_Type extends Envelope_Type {
         super.propagateStaticVars(g, s);
         if (dim != null)
             dim.propagateStaticVars(g, s);
-        if (outer_type != null)
-            outer_type.propagateStaticVars(g, s);
-        if (inner_terminal_type != null)
-            inner_terminal_type.propagateStaticVars(g, s);
     }
 
     public void setInnerType(Type t) {
