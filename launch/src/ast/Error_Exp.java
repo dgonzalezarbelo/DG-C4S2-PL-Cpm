@@ -39,19 +39,16 @@ public class Error_Exp extends Expression {
 
     @Override
     public void generateAddress(Josito jose) throws Exception {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'generateAddress'");
     }
 
     @Override
     public void generateValue(Josito jose) throws Exception {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'generateValue'");
     }
 
     @Override
     public void propagateStaticVars(GoodBoolean g, SymbolsTable s) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'propagateErrorFlag'");
     }
 }

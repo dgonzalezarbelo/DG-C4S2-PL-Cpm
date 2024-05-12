@@ -25,19 +25,16 @@ public class Error_Ins extends Instruction {
 
     @Override
     public void checkType() throws Exception {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'checkType'");
     }
 
     @Override
     public void generateCode(Josito jose) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'generateCode'");
     }
 
     @Override
     public void propagateStaticVars(GoodBoolean g, SymbolsTable s) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'propagateErrorFlag'");
     }
 }

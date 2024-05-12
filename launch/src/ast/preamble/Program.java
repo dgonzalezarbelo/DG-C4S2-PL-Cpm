@@ -46,10 +46,6 @@ public class Program extends ASTNode {
 
     @Override
     public void bind() {
-        /* TODO valorar como poner este comentario (y si ponerlo)
-         * Esto parece más feo de lo que es porque habría que hacerlo con un for y un "conjunto de definiciones de tipos básicos", pero hay que hacerlo
-         * para estandarizar los tipos y no permitir declaraciones con el mismo nombre que otras (aunque sean de tipos basicos)
-         */
         for (Definition d : definitions)
             d.bind();
         mainFunction.bind();
