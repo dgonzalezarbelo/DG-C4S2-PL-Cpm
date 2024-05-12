@@ -464,7 +464,7 @@ E2                ::= E3:iz POW_OP error
 E2                ::= E3:e 
 {: RESULT = e; :};
 
-E3                ::= POINTER_OP:p E4:dc 
+E3                ::= POINTER_OP:p E3:dc 
 {: RESULT = new Pointer_Op(dc, p.row); :};
 E3                ::= POINTER_OP error
 {: RESULT = new Error_Exp(); :};

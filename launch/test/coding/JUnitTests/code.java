@@ -26,7 +26,10 @@ public abstract class code {
     private String wasmFile;
     private String outputFile;
     private String ANSWER;                                                                           // Escribir la respuesta (cada vez que wasm imprime hace un salto de linea)
+    private Integer numCins;
+    private String[] cins;
 
+    // codes testings with no inputs
     public code(String name, String answer) {
         this.name = name;
         this.codePath = INPUT_PATH + name + ".cpm";
@@ -35,6 +38,20 @@ public abstract class code {
         this.wasmFile = this.testFilesPath + name + ".wasm";
         this.outputFile = this.testFilesPath + name + ".txt";
         this.ANSWER = answer + "\n";
+        this.numCins = 0;
+    }
+
+    // codes testing with inputs
+    public code(String name, String answer, int nCin, String[] cins) {
+        this.name = name;
+        this.codePath = INPUT_PATH + name + ".cpm";
+        this.testFilesPath = OUTPUTS_PATH + name + "/";
+        this.watFile = this.testFilesPath + name + ".wat";
+        this.wasmFile = this.testFilesPath + name + ".wasm";
+        this.outputFile = this.testFilesPath + name + ".txt";
+        this.ANSWER = answer + "\n";
+        this.numCins = nCin;
+        this.cins = cins;
     }
     
     
@@ -83,7 +100,17 @@ public abstract class code {
     }
 
     private void exeWasm() throws Exception {
-        String[] args = {CompilerMain.WASM_EXEFILE, CompilerMain.WASMJS_SCRIPT, wasmFile, outputFile};
+        String[] preArgs = {CompilerMain.WASM_EXEFILE, CompilerMain.WASMJS_SCRIPT, wasmFile, outputFile, "1", numCins.toString()};
+        List<String> lista = new ArrayList<>();
+        for (int i = 0; i < preArgs.length; i++)
+            lista.add(preArgs[i]);
+        if (cins != null) {
+            for (int i = 0; i < cins.length; i++)
+                lista.add(cins[i]);
+        }
+        String[] args = new String[lista.size()];
+        lista.toArray(args);       
+        
         Process wat2wasm = Runtime.getRuntime().exec(args);
         // Espera a que el proceso termine
         int exitCode = wat2wasm.waitFor();

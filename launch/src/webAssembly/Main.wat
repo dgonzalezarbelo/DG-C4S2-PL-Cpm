@@ -15,7 +15,7 @@
 (global $trash (mut i32) (i32.const 0))
 (global $darr (mut i32) (i32.const 0))
 (func $init
-    i32.const 36
+    i32.const 80
     call $reserveStack
     call $setDynamicLink
     call $0
@@ -137,8 +137,6 @@
     i32.load
     i32.const 0
     i32.add
-    i32.const 0
-    i32.add
     i32.const 8
     global.get $MP
     i32.add
@@ -148,8 +146,6 @@
     i32.const 4
     i32.add
     i32.load
-    i32.const 0
-    i32.add
     i32.const 4
     i32.add
     i32.const 12
@@ -172,10 +168,7 @@
     i32.add
     i32.const 0
     i32.add
-    i32.const 8
-    global.get $MP
-    i32.add
-    i32.load
+    i32.const 5
     i32.store
     global.get $MP
     i32.const 4
@@ -185,10 +178,7 @@
     i32.add
     i32.const 4
     i32.add
-    i32.const 12
-    global.get $MP
-    i32.add
-    i32.load
+    i32.const 11
     i32.store
     global.get $MP
     i32.const 4
@@ -196,6 +186,7 @@
     i32.load
 )
 (func $3
+    (result i32)
     global.get $MP
     i32.const 4
     i32.add
@@ -204,11 +195,7 @@
     i32.add
     i32.const 0
     i32.add
-    i32.const 8
-    global.get $MP
-    i32.add
     i32.load
-    i32.store
 )
 (func $4
     (result i32)
@@ -218,19 +205,70 @@
     i32.load
     i32.const 0
     i32.add
+    i32.const 0
+    i32.add
+    i32.const 8
+    global.get $MP
+    i32.add
     i32.load
+    i32.store
+    global.get $MP
+    i32.const 4
+    i32.add
+    i32.load
+    i32.const 0
+    i32.add
+    i32.const 4
+    i32.add
+    i32.const 12
+    global.get $MP
+    i32.add
+    i32.load
+    i32.store
+    global.get $MP
+    i32.const 4
+    i32.add
+    i32.load
+    i32.const 8
+    i32.add
+    i32.const 0
+    i32.add
+    i32.const 16
+    global.get $MP
+    i32.add
+    i32.load
+    i32.store
+    global.get $MP
+    i32.const 4
+    i32.add
+    i32.load
+    i32.const 8
+    i32.add
+    i32.const 4
+    i32.add
+    i32.const 20
+    global.get $MP
+    i32.add
+    i32.load
+    i32.store
+    global.get $MP
+    i32.const 4
+    i32.add
+    i32.load
+)
+(func $5
 )
 (func $0
     (result i32)
     i32.const 8
     global.get $SP
     i32.add
-    i32.const 1
+    i32.const 3
     i32.store
     i32.const 12
     global.get $SP
     i32.add
-    i32.const 45
+    i32.const 2
     i32.store
     i32.const 24
     call $reserveStack
@@ -249,22 +287,15 @@
     i32.add
     i32.const 8
     call $copyn
-    i32.const 16
-    global.get $MP
-    i32.add
-    i32.const 8
-    global.get $MP
-    i32.add
-    i32.store
     i32.const 8
     global.get $SP
     i32.add
-    i32.const 5
+    i32.const 4
     i32.store
     i32.const 12
     global.get $SP
     i32.add
-    i32.const 2002
+    i32.const 2
     i32.store
     i32.const 24
     call $reserveStack
@@ -276,19 +307,26 @@
     i32.const 8
     i32.sub
     i32.store
-    call $2
+    call $1
     call $freeStack
-    i32.const 20
+    i32.const 16
     global.get $MP
     i32.add
     i32.const 8
     call $copyn
-    i32.const 28
+    i32.const 8
     global.get $MP
     i32.add
-    i32.const 20
+    i32.const 0
+    i32.add
+    call $read
+    i32.store
+    i32.const 16
     global.get $MP
     i32.add
+    i32.const 4
+    i32.add
+    call $read
     i32.store
     i32.const 8
     global.get $MP
@@ -300,157 +338,205 @@
     i32.const 16
     global.get $MP
     i32.add
-    i32.load
     i32.const 4
     i32.add
     i32.load
     call $print
-    i32.const 20
+    i32.const 8
     global.get $MP
     i32.add
-    i32.const 12
+    i32.const 4
+    i32.add
+    call $read
+    i32.store
+    i32.const 16
+    global.get $MP
+    i32.add
+    i32.const 0
+    i32.add
+    call $read
+    i32.store
+    i32.const 8
+    global.get $MP
+    i32.add
+    i32.const 4
+    i32.add
+    i32.load
+    call $print
+    i32.const 16
+    global.get $MP
+    i32.add
+    i32.const 0
+    i32.add
+    i32.load
+    call $print
+    i32.const 16
     call $reserveStack
     call $setDynamicLink
-    global.set $swap
     global.get $MP
     i32.const 4
     i32.add
-    global.get $swap
+    global.get $SP
+    i32.const 8
+    i32.sub
     i32.store
-    call $4
+    call $2
     call $freeStack
-    call $print
-    i32.const 28
+    i32.const 24
     global.get $MP
     i32.add
-    i32.load
-    i32.const 12
-    call $reserveStack
-    call $setDynamicLink
-    global.set $swap
+    i32.const 8
+    call $copyn
+    i32.const 24
     global.get $MP
+    i32.add
     i32.const 4
     i32.add
-    global.get $swap
+    call $read
     i32.store
-    call $4
-    call $freeStack
-    call $print
-    i32.const 20
+    i32.const 24
     global.get $MP
     i32.add
     i32.const 4
     i32.add
     i32.load
     call $print
-    i32.const 28
-    global.get $MP
-    i32.add
-    i32.load
-    i32.const 4
-    i32.add
-    i32.load
-    call $print
-    i32.const 20
-    global.get $MP
-    i32.add
     i32.const 8
     global.get $SP
     i32.add
-    i32.const 8
+    i32.const 0
     i32.store
     i32.const 12
-    call $reserveStack
-    call $setDynamicLink
-    global.set $swap
-    global.get $MP
-    i32.const 4
-    i32.add
-    global.get $swap
-    i32.store
-    call $3
-    call $freeStack
-    i32.const 20
-    global.get $MP
-    i32.add
-    i32.const 12
-    call $reserveStack
-    call $setDynamicLink
-    global.set $swap
-    global.get $MP
-    i32.const 4
-    i32.add
-    global.get $swap
-    i32.store
-    call $4
-    call $freeStack
-    call $print
-    i32.const 28
-    global.get $MP
-    i32.add
-    i32.load
-    i32.const 12
-    call $reserveStack
-    call $setDynamicLink
-    global.set $swap
-    global.get $MP
-    i32.const 4
-    i32.add
-    global.get $swap
-    i32.store
-    call $4
-    call $freeStack
-    call $print
-    i32.const 28
-    global.get $MP
-    i32.add
-    i32.load
-    i32.const 8
     global.get $SP
     i32.add
-    i32.const 10
+    i32.const 0
     i32.store
-    i32.const 12
-    call $reserveStack
-    call $setDynamicLink
-    global.set $swap
-    global.get $MP
-    i32.const 4
+    i32.const 16
+    global.get $SP
     i32.add
-    global.get $swap
+    i32.const 1
     i32.store
-    call $3
-    call $freeStack
     i32.const 20
-    global.get $MP
+    global.get $SP
     i32.add
-    i32.const 12
+    i32.const 1
+    i32.store
+    i32.const 40
     call $reserveStack
     call $setDynamicLink
-    global.set $swap
     global.get $MP
     i32.const 4
     i32.add
-    global.get $swap
+    global.get $SP
+    i32.const 16
+    i32.sub
     i32.store
     call $4
     call $freeStack
+    i32.const 32
+    global.get $MP
+    i32.add
+    i32.const 16
+    call $copyn
+    i32.const 32
+    global.get $MP
+    i32.add
+    i32.const 0
+    i32.add
+    i32.const 0
+    i32.add
+    call $read
+    i32.store
+    i32.const 32
+    global.get $MP
+    i32.add
+    i32.const 8
+    i32.add
+    i32.const 4
+    i32.add
+    call $read
+    i32.store
+    i32.const 32
+    global.get $MP
+    i32.add
+    i32.const 0
+    i32.add
+    i32.const 0
+    i32.add
+    i32.load
     call $print
-    i32.const 28
+    i32.const 32
+    global.get $MP
+    i32.add
+    i32.const 8
+    i32.add
+    i32.const 4
+    i32.add
+    i32.load
+    call $print
+    i32.const 48
+    global.get $MP
+    i32.add
+    call $read
+    i32.store
+    i32.const 48
     global.get $MP
     i32.add
     i32.load
-    i32.const 12
-    call $reserveStack
-    call $setDynamicLink
-    global.set $swap
+    call $print
+    i32.const 52
     global.get $MP
-    i32.const 4
     i32.add
-    global.get $swap
+    i32.const 4
+    i32.const 0
+    i32.mul
+    i32.add
+    call $read
     i32.store
-    call $4
-    call $freeStack
+    i32.const 52
+    global.get $MP
+    i32.add
+    i32.const 4
+    i32.const 4
+    i32.mul
+    i32.add
+    call $read
+    i32.store
+    i32.const 52
+    global.get $MP
+    i32.add
+    i32.const 4
+    i32.const 0
+    i32.mul
+    i32.add
+    i32.load
+    call $print
+    i32.const 52
+    global.get $MP
+    i32.add
+    i32.const 4
+    i32.const 4
+    i32.mul
+    i32.add
+    i32.load
+    call $print
+    i32.const 72
+    global.get $MP
+    i32.add
+    i32.const 4
+    call $allocate_heap
+    i32.store
+    i32.const 72
+    global.get $MP
+    i32.add
+    i32.load
+    call $read
+    i32.store
+    i32.const 72
+    global.get $MP
+    i32.add
+    i32.load
+    i32.load
     call $print
     i32.const 0
 )

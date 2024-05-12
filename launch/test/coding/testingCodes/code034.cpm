@@ -1,0 +1,85 @@
+estrut par {
+    int x;
+    int y;
+
+    par(int a, int b) {
+        x = a;
+        y = b;
+    }
+}
+
+clas Alumno {
+    praivet int nota;
+    public int dni;
+
+    Alumno() {
+        dis.nota = 5;
+        dis.dni = 11;
+    }
+
+    public func calculaNota() : int {
+        return dis.nota;
+    }
+}
+
+clas Recta {
+    public par a;
+    public par b;
+
+    Recta(int x1, int x2, int y1, int y2) {
+        a.x = x1;
+        a.y = x2;
+        b.x = y1;
+        b.y = y2;
+    }
+
+    public func sumaPares() {
+        return;
+    }
+}
+
+
+func mein() : int {
+    par p1 = par(3,2);
+    par p2 = par(4,2);
+    cein(p1.x);         // 1
+    cein(p2.y);         // 2
+    ceaut(p1.x);        // 1
+    ceaut(p2.y);        // 2
+    cein(p1.y);         // 3
+    cein(p2.x);         // 4
+    ceaut(p1.y);        // 3
+    ceaut(p2.x);        // 4
+
+    Alumno jose = Alumno();
+    cein(jose.dni);     // 5
+    ceaut(jose.dni);    // 5
+
+    Recta r = Recta(0, 0, 1, 1);
+    cein(r.a.x);        // 6
+    cein(r.b.y);        // 7
+    ceaut(r.a.x);       // 6
+    ceaut(r.b.y);       // 7
+
+    int a;
+    cein(a);            // 8
+    ceaut(a);           // 8
+
+    int ar[5];
+    cein(ar[0]);         // 9
+    cein(ar[4]);         // 10
+    ceaut(ar[0]);        // 9
+    ceaut(ar[4]);        // 10
+
+    int~ ptr = niu int;
+    cein(~ptr);         // 11
+    ceaut(~ptr);        // 11
+
+    return 0;
+}
+
+/*
+RESULT:
+input: 1 2 3 4 5 6 7 8 9 10 11
+output: 1 2 3 4 5 6 7 8 9 10 11
+*/

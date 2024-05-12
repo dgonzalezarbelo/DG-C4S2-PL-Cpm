@@ -55,7 +55,6 @@
 (func $allocate_heap
 (param $size i32)
 (result i32)
-    (local $ret_addr i32)
     global.get $NP
     local.get $size
     i32.sub
@@ -71,32 +70,15 @@
     i32.const 4
     i32.add ;; NP + 4 is the position to be occupied now, so we leave it in the stack
 )
-(func $allocate_stack
-(param $size i32)
-(result i32)
-    (local $ret_addr i32)
-    global.get $SP
-    local.set $ret_addr ;; we save the old SP value in the ret_addr
-
-    global.get $SP
-    local.get $size
-    i32.add
-    global.set $SP ;; we have brought the SP forward size bytes
-
-    global.get $SP
-    global.get $NP
-    i32.gt_u
-    if
-        i32.const 3
-        call $exception ;; the SP has passed the NP
-    end
-
-    local.get $ret_addr ;; we save the old SP at the top of the stack
-)
 (func $copyn (type $_sig_i32i32i32) ;; copy $n i32 slots from $src to $dest
     (param $src i32)
     (param $dest i32)
-    (param $n i32)
+    (param $size i32)
+    (local $n i32)
+    local.get $size
+    i32.const 4
+    i32.div_s
+    local.set $n
     block
         loop
         local.get $n
@@ -122,47 +104,30 @@
         end
     end
 )
-(func $exponentiation (param $base i32) (param $exponent i32) (param $modulus i32) (result i32)
+(func $exponentiation (param $base i32)(param $exponent i32)(result i32)
     (local $result i32)
-    (local $baseSquared i32)
-    (local $exponentCopy i32)
-    (local $modulusCopy i32)
+    i32.const 1
+    local.set $result
+    block
+    loop
+        local.get $exponent
+        i32.const 0
+        i32.gt_u
+        i32.eqz
+        br_if 1
+            local.get $base
+            local.get $result
+            i32.mul
+            local.set  $result
 
-    ;; Inicializar variables locales
-    (local.set $result (i32.const 1))
-    (local.set $baseSquared (local.get $base))
-    (local.set $exponentCopy (local.get $exponent))
-    (local.set $modulusCopy (local.get $modulus))
-
-    (block $endLoop
-        (loop $mainLoop
-            ;; Chequear si el exponente es cero
-            ( if (i32.eqz (local.get $exponentCopy))
-                (then
-                    (br $endLoop)
-                )
-            )
-
-            ;; Chequear si el exponente es impar
-            (if (i32.and (local.get $exponentCopy) (i32.const 1))
-                (then
-                    ;; result = (result * base) % modulus
-                    (local.set $result (i32.rem_s (i32.mul (local.get $result) (local.get $base)) (local.get $modulusCopy)))
-                )
-            )
-
-            ;; exponent >>= 1 (Dividir el exponente por 2)
-            (local.set $exponentCopy (i32.shr_s (local.get $exponentCopy) (i32.const 1)))
-
-            ;; base = (base * base) % modulus
-            (local.set $baseSquared (i32.rem_s (i32.mul (local.get $baseSquared) (local.get $baseSquared)) (local.get $modulusCopy)))
-
-            ;; continue main loop
-            (br $mainLoop)
-        )
-    )
-
-    (local.get $result) ;; Poner el resultado en el stack
+            local.get $exponent
+            i32.const 1
+            i32.sub
+            local.set $exponent
+        br 0
+    end
+    end
+    local.get $result
 )
 (func $1
     i32.const 100
