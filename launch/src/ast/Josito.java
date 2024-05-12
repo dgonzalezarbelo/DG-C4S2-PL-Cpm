@@ -123,7 +123,6 @@ public class Josito {
         append("(func $allocate_heap");
         append("(param $size i32)");
         append("(result i32)");
-        append("    (local $ret_addr i32)");
         append("    global.get $NP");
         append("    local.get $size");
         append("    i32.sub");
@@ -142,39 +141,18 @@ public class Josito {
         append("    i32.add ;; NP + 4 is the position to be occupied now, so we leave it in the stack");
         append(")");
 
-        /**
-         * Function to reserve space from the stack pointer and returns the old SP value
-         */
-        append("(func $allocate_stack");
-        append("(param $size i32)");
-        append("(result i32)");
-        append("    (local $ret_addr i32)");
-        append("    global.get $SP");
-        append("    local.set $ret_addr ;; we save the old SP value in the ret_addr");
-        append("");
-        append("    global.get $SP");
-        append("    local.get $size");
-        append("    i32.add");
-        append("    global.set $SP ;; we have brought the SP forward size bytes");
-        append("");
-        append("    global.get $SP");
-        append("    global.get $NP");
-        append("    i32.gt_u");
-        append("    if");
-        append("        i32.const 3");
-        append("        call $exception ;; the SP has passed the NP");
-        append("    end");
-        append("");
-        append("    local.get $ret_addr ;; we save the old SP at the top of the stack");
-        append(")");
-
         /*
         * Copy n
         */
         append("(func $copyn (type $_sig_i32i32i32) ;; copy $n i32 slots from $src to $dest");
-        append("    (param $src i32)");           // origin
+        append("    (param $src i32)");           // source
         append("    (param $dest i32)");          // destination
-        append("    (param $n i32)");             // n elements
+        append("    (param $size i32)");          // size elements
+        append("    (local $n i32)");
+        append("    local.get $size");
+        append("    i32.const 4");
+        append("    i32.div_s");
+        append("    local.set $n");
         append("    block");
         append("        loop");
         append("        local.get $n");
@@ -202,8 +180,8 @@ public class Josito {
         append(")");
 
         /*
-         * Power function (base^exp)
-         */
+         * Power function (base^exp) [anterior]
+         
         append("(func $exponentiation (param $base i32) (param $exponent i32) (param $modulus i32) (result i32)");
         append("    (local $result i32)");
         append("    (local $baseSquared i32)");
@@ -246,6 +224,36 @@ public class Josito {
         append("");
         append("    (local.get $result) ;; Poner el resultado en el stack");
         append(")");
+        */
+
+        /*
+         * Power function (base^exp) [anterior]
+        */
+        append("(func $exponentiation (param $base i32)(param $exponent i32)(result i32)");
+        append("    (local $result i32)");
+        append("    i32.const 1");
+        append("    local.set $result");
+        append("    block");
+        append("    loop");
+        append("        local.get $exponent");
+        append("        i32.const 0");
+        append("        i32.gt_u");
+        append("        i32.eqz");
+        append("        br_if 1");
+        append("            local.get $base");
+        append("            local.get $result");
+        append("            i32.mul");
+        append("            local.set  $result");
+        append("");
+        append("            local.get $exponent");
+        append("            i32.const 1");
+        append("            i32.sub");
+        append("            local.set $exponent");
+        append("        br 0");
+        append("    end");
+        append("    end");
+        append("    local.get $result");
+        append(")");
     }
 
     public void funcHeader(Integer WASMId) {
@@ -275,7 +283,7 @@ public class Josito {
     }
 
     public void allocate_heap(int size) {
-        append("i32.const $d", size);
+        append("i32.const %d", size);
         append("call $allocate_heap");
     }
 
@@ -319,7 +327,7 @@ public class Josito {
         append("global.get $MP");
         append("i32.const 4");
         append("i32.add");
-        append("i32.get $SP");
+        append("global.get $SP");
         append("i32.const %d", tamConstructor);
         append("i32.sub");
         append("i32.store");
@@ -364,58 +372,54 @@ public class Josito {
         load(); // Starting position of the actual array
     }
 
-    public void generateDynamicArrayArgument(Argument declared_arg, Expression arg) throws Exception { // declared_arg is a dynamic array
-        // First we need to place the content of "arg" in the SP. We first need the address of "arg" (the source)
+    public void generateDynamicArrayInformation(Argument declared_arg, Expression arg, int terminal_size) throws Exception { // declared_arg is a dynamic array
+        // First we get the position of the dynamic_array
+        this.getLocalDirUsingSP(declared_arg.getOffset());
+        // We get the address of the static array
         arg.generateAddress(this);
-        // Now we have to reserve space in the stack and preserve the old SP value
-        createConst(arg.getType().getSize());
-        append("call $allocate_stack");
-        // We save the old SP in $swap for later
-        append("global.set $swap");
-        append("global.get $swap");
-        // Now we copy the contents
-        createConst(arg.getType().getSize());
-        copy_n();
-        // Finally we have to update the information of the dynamic array
-        generateDynamicArrayInformation(declared_arg, arg);
-    }
+        // And now we make the dynamic array "point" to the static one
+        store();
 
-    public void generateDynamicArrayInformation(Argument declared_arg, Expression arg) throws Exception { // declared_arg is a dynamic array
-        // From the previous function we know that $swap contains the old SP, where the copy of arg is stored
-        // First we make the dynamic array point to the copy of arg
-        this.getLocalDirUsingMP(declared_arg.getOffset());
-        append("global.get $swap");
-        store();
         // Now we update the size
-        this.getLocalDirUsingMP(declared_arg.getOffset());
-        createConst(1);
+        this.getLocalDirUsingSP(declared_arg.getOffset());
+        createConst(4);
         append("i32.add");
-        arg.getType().getSize();
+        createConst(arg.getType().getSize());
         store();
+
         // Finally we save the size of every dimenssion
         List<Expression> args = ((Array_Type)arg.getType()).getDimenssions();
-        for (int i = 0; i < args.size(); i++) {
-            this.getLocalDirUsingMP(declared_arg.getOffset());
-            createConst(2 + i);
-            append("i32.add");
-            args.get(i).generateValue(this);
-            store();
+        for (int i = args.size() - 1; i >= 0; i--) {
+            this.getLocalDirUsingSP(declared_arg.getOffset());
+            createConst(8 + 4 * i);
+            append("i32.add");      // The address where we want to save the size
+            if (i == args.size() - 1) {
+                createConst(terminal_size);
+                store();
+            }
+            else {
+                this.getLocalDirUsingSP(declared_arg.getOffset());
+                createConst(8 + 4 * (i + 1));
+                append("i32.add");  // Next address, where dim(i + 1) is stored
+                load();
+                args.get(i + 1).generateValue(this);
+                mul();                          // dim(i) = args(i + 1) * dim(i + 1)
+                store();
+            }
         }
     }
 
-    public void arrayAccess(Expression e, int dim_pos, int terminal_size) throws Exception {
-        e.generateValue(this);
+    public void dynamicArrayAccess(Expression e, int dim_pos) throws Exception {
         append("global.get $darr");
-        createConst(dim_pos + 1);
+        createConst(4 * (dim_pos + 1));
         append("i32.add");  // Address where the length of the dimenssion "dim_pos" is stored
-        load();                         // We load the length
+        load();                         // We load the dim
+        e.generateValue(this);
         mul();                          // We multiply it with the value of "e"
-        createConst(terminal_size);     // We stack the size of the terminal type
-        mul();                          // We multiply it with what we previously computed
         append("i32.add");  // Finally we add to what we had in the stack previously
     }
 
-    public void store() { // TODO arreglarlo
+    public void store() {
         append("i32.store");
     }
 

@@ -1,0 +1,19 @@
+func mein() : int {
+    int~ a = niu int;
+    ~a = 45;
+    ceaut(~a);
+    int~ b = a;
+    ceaut(~b);
+    ~b = 30;
+    ceaut(~a);
+    ceaut(~b);
+    return 0;
+}
+
+/*
+RESULT:
+45
+45
+30
+30
+*/

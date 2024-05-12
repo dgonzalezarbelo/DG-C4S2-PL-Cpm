@@ -9,6 +9,8 @@ import ast.types.interfaces.Type.Type_T;
 import exceptions.InvalidTypeException;
 
 public class Sq_Bracket_Op extends BinaryExpression {
+    private static int dynamic_access_pos;
+
     public Sq_Bracket_Op(Expression opnd1, Expression opnd2, int row) {
         super(opnd1, opnd2, row);
         this.operator = Operator_T.SQ_BRACKET;
@@ -49,11 +51,15 @@ public class Sq_Bracket_Op extends BinaryExpression {
             jose.translateOperator(this.operator);
         }
         else {
-            if (op1 instanceof Sq_Bracket_Op)
+            if (op1 instanceof Sq_Bracket_Op) {
                 op1.generateAddress(jose);
-            else
+                dynamic_access_pos++;
+            }
+            else {
                 op1.generateValue(jose);
-            jose.arrayAccess(opnd2(), cast.getArrayDimenssion(), cast.getInnerTerminalType().getSize());
+                dynamic_access_pos = 1;
+            }
+            jose.dynamicArrayAccess(opnd2(), dynamic_access_pos);
         }
     }
 

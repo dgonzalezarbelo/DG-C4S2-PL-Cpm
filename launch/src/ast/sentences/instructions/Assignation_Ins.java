@@ -87,7 +87,7 @@ public class Assignation_Ins extends Instruction {
                     System.out.println(e.getMessage());
                     Utils.printErrorRow(row);
                 }  // Src address
-                jose.createConst(t.getSize());      // N size to copy
+                jose.createConst(t.getSize());      // Number of elements to copy
                 jose.copy_n();
                 break;
             case CONST:

@@ -1,10 +1,10 @@
 clas Person {
-    praivet int age;
-    praivet bul married;
+    public int age;
+    public bul married;
 
-    Person(int age, bul married) {
-        dis.age = age;
-        dis.married = married;
+    Person() {
+        dis.age = 0;
+        dis.married = fols;
     }
 
     public func showData() {
@@ -24,6 +24,7 @@ func showStaticMatrix(Person matrix[][], int rows, int cols) {
     guail(i < rows) {
         j = 0;
         guail(j < cols) {
+            //ceaut(i * cols + j);
             matrix[i][j].showData();
             j = j + 1;
         }
@@ -38,6 +39,7 @@ func showDynamicMatrix(Person matrix[][], int rows, int cols) {
     guail(i < rows) {
         j = 0;
         guail(j < cols) {
+            //ceaut(i * cols + j);
             matrix[i][j].showData();
             j = j + 1;
         }
@@ -55,12 +57,15 @@ func mein() : int {
     guail(i < rows) {
         j = 0;
         guail(j < cols) {
+            //matrix[i][j] = Person();
+            matrix[i][j].age = 100 * (i + 1);
             if(j < 2) {
-                matrix[i][j] = Person(100 * (i + 1), tru);
+                matrix[i][j].married = tru;
             }
             els {
-                matrix[i][j] = Person(100 * (i + 1), fols);
+                matrix[i][j].married = fols;
             }
+            //ceaut(i * cols + j);
             j = j + 1;
         }
         i = i + 1;

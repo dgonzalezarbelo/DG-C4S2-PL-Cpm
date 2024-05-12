@@ -1,0 +1,52 @@
+// User defined types returned in a Function
+estrut Person {
+    int id;
+    int age;
+
+    Person(int id, int age) {
+        dis.id = id;
+        dis.age = age;
+    }
+}
+
+clas Student {
+    public int grade;
+    public int year;
+
+    Student(int grade, int year) {
+        dis.grade = grade;
+        dis.year = year;
+    }
+}
+
+func getStruct(): Person {
+    Person jack;
+    jack.id = 1234;
+    jack.age = 56;
+    return jack;
+}
+
+func getClass(): Student {
+    Student paul;
+    paul.grade = 10;
+    paul.year = 3;
+    return paul;
+}
+
+func mein():int {
+    Person copyStruct = getStruct();
+    ceaut(copyStruct.id);
+    ceaut(copyStruct.age);
+    Student copyClass = getClass();
+    ceaut(copyClass.grade);
+    ceaut(copyClass.year);
+    return 0;
+}
+
+/* 
+RESULT:
+1234
+56
+10
+3
+*/

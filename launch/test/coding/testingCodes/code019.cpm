@@ -1,0 +1,49 @@
+// Int Types Pointer Test 
+func mein():int{
+    int a = 10;
+    int b = 1;
+    ceaut(a);
+    int ~ptrA;
+    ptrA = &a;
+    ceaut(~ptrA);
+    ~ptrA = 5;
+    ceaut(a);
+    ceaut(~ptrA);
+
+    int ~ptrB = &b;
+    ceaut(b);
+    ceaut(~ptrB);
+    ptrA = ptrB;
+    ceaut(~ptrA);
+    ~ptrB = -1;
+    ceaut(a);
+    ceaut(b);
+    ceaut(~ptrB);
+    ceaut(~ptrA);
+    ~ptrA = -10;
+    ceaut(a);
+    ceaut(b);
+    ceaut(~ptrB);
+    ceaut(~ptrA);
+
+    return 0;
+}
+
+/*
+RESULT:
+10
+10
+5
+5
+1
+1
+1
+5
+-1
+-1
+-1
+5
+-10
+-10
+-10
+*/
