@@ -16,9 +16,10 @@ public class assignationsCorrect {
 
     @Test
     public void testassignationsCorrect() throws FileNotFoundException, IOException {
-        String[] args = {"lexicon/test/testingCodes/assignationsCorrect.cpm"}; // File that will be tested
+        String args = "lexicon/test/testingCodes/assignationsCorrect.cpm"; // File that will be tested
         try {
-            ReconLexicon.main(args);
+            ReconLexicon r = new ReconLexicon();
+r.run(args);
         } catch (internal_error e) {
             e.printStackTrace();
         } catch (Exception e) {

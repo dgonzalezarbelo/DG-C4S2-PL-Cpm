@@ -8,8 +8,8 @@ import java_cup.internal_error;
 import syntax.LexiconClass;
 
 public class ReconLexicon {
-  public static void main(String[] args) throws internal_error, Exception {
-    Reader input = new InputStreamReader(new FileInputStream(args[0]));
+  public void run(String args) throws internal_error, Exception {
+    Reader input = new InputStreamReader(new FileInputStream(args));
     AnalizadorLexicoTiny al = new AnalizadorLexicoTiny(input);
     LexiconUnit unidad;
 

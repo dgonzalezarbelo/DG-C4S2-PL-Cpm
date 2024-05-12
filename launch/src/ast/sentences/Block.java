@@ -7,6 +7,8 @@ import ast.ASTNode;
 import ast.Delta;
 import ast.Indentable;
 import ast.Josito;
+import ast.SymbolsTable;
+import utils.GoodBoolean;
 import utils.GoodInteger;
 
 public class Block extends ASTNode implements Indentable {
@@ -30,6 +32,13 @@ public class Block extends ASTNode implements Indentable {
 
     public boolean empty() {
         return this.ins == null || this.ins.isEmpty();
+    }
+
+    @Override
+    public void propagateStaticVars(GoodBoolean g, SymbolsTable s) {
+        super.propagateStaticVars(g, s);
+        for (Sentence sen : ins)
+            sen.propagateStaticVars(g, s);
     }
 
     @Override

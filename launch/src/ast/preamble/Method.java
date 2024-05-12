@@ -46,12 +46,13 @@ public class Method extends Function { // Class method represents the class func
     @Override
     public void bind() {
         try {
-            Program.symbolsTable.insertFunction(this.definitionName, this);
+            symbolsTable.insertFunction(this.definitionName, this);
             propagateBind();
         }
         catch (DuplicateDefinitionException e) {
             System.out.println(e);
             Utils.printErrorRow(row);
+            this.errorFlag.setValue(true);
         }
     }
 }

@@ -5,14 +5,15 @@ import java.util.List;
 
 import ast.ASTNode;
 import ast.Josito;
+import ast.SymbolsTable;
 import ast.expressions.Expression;
 import ast.preamble.Argument;
 import ast.preamble.Function;
-import ast.preamble.Program;
 import ast.types.interfaces.Array_Type;
 import ast.types.interfaces.Type;
 import exceptions.InvalidIdException;
 import exceptions.UndefinedFunctionException;
+import utils.GoodBoolean;
 import utils.Utils;
 
 public class FunctionCall extends Expression { 
@@ -30,16 +31,24 @@ public class FunctionCall extends Expression {
         this.typeArgs = new ArrayList<>();
         this.reference = 0;
     }
+
+    @Override
+    public void propagateStaticVars(GoodBoolean g, SymbolsTable s) {
+        super.propagateStaticVars(g, s);
+        for (Expression arg : args)
+            arg.propagateStaticVars(g, s);
+    }
     
     public String toString() {return funcname + args.toString();}
 
     @Override
     public void bind() {
         try {
-            this.possibleBinds = Program.symbolsTable.getFuncAndConstructsDefinitions(this.funcname);
+            this.possibleBinds = symbolsTable.getFuncAndConstructsDefinitions(this.funcname);
         } catch (InvalidIdException e) {
             System.out.println(e);
             Utils.printErrorRow(row);
+            this.errorFlag.setValue(true);
         }
         for (Expression exp : args)
             exp.bind();

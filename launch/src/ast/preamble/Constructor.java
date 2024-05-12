@@ -32,7 +32,7 @@ public class Constructor extends Method {
     public void bind() {
         super.propagateBind();
         try {
-            def = Program.symbolsTable.getDefinition(this.definitionName);
+            def = symbolsTable.getDefinition(this.definitionName);
         } catch (Exception e) {
             System.out.println(e);
         }

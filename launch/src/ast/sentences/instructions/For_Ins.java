@@ -31,9 +31,9 @@ public class For_Ins extends Instruction {
 
     @Override
     public void bind() {        
-        Program.symbolsTable.newScope();
+        symbolsTable.newScope();
         this.body.bind();
-        Program.symbolsTable.closeScope();
+        symbolsTable.closeScope();
     }
 
     @Override

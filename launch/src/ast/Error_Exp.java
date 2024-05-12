@@ -1,6 +1,7 @@
 package ast;
 
 import ast.expressions.Expression;
+import utils.GoodBoolean;
 
 public class Error_Exp extends Expression {
     
@@ -46,5 +47,11 @@ public class Error_Exp extends Expression {
     public void generateValue(Josito jose) throws Exception {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'generateValue'");
+    }
+
+    @Override
+    public void propagateStaticVars(GoodBoolean g, SymbolsTable s) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'propagateErrorFlag'");
     }
 }

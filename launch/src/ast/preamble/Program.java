@@ -9,17 +9,19 @@ import ast.SymbolsTable;
 import ast.types.definitions.BoolDefinition;
 import ast.types.definitions.Definition;
 import ast.types.definitions.IntDefinition;
+import utils.GoodBoolean;
 import utils.GoodInteger;
 
 public class Program extends ASTNode {
     private LinkedList<Definition> definitions;
     private Function mainFunction;
-    public static SymbolsTable symbolsTable = new SymbolsTable();
 
     public Program(LinkedList<Definition> definitions, Function mainFunction) {
         this.definitions = definitions;
         this.mainFunction = mainFunction;
         this.mainFunction.setAsMain();
+        definitions.addFirst(new BoolDefinition());
+        definitions.addFirst(new IntDefinition());
     }
 
     public String toString() {
@@ -35,13 +37,19 @@ public class Program extends ASTNode {
     }
 
     @Override
+    public void propagateStaticVars(GoodBoolean g, SymbolsTable s) {
+        super.propagateStaticVars(g, s);
+        for (Definition d : definitions)
+            d.propagateStaticVars(g, s);
+        mainFunction.propagateStaticVars(g, s);
+    }
+
+    @Override
     public void bind() {
         /* TODO valorar como poner este comentario (y si ponerlo)
          * Esto parece más feo de lo que es porque habría que hacerlo con un for y un "conjunto de definiciones de tipos básicos", pero hay que hacerlo
          * para estandarizar los tipos y no permitir declaraciones con el mismo nombre que otras (aunque sean de tipos basicos)
          */
-        definitions.addFirst(new BoolDefinition());
-        definitions.addFirst(new IntDefinition());
         for (Definition d : definitions)
             d.bind();
         mainFunction.bind();

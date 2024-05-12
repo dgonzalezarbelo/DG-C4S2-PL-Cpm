@@ -1,15 +1,38 @@
-func maybeConsumed() : int {
-    return 1;
+clas Alumno {
+   public int nota;
+   public int id;
+
+   Alumno() {
+      dis.nota = 1;
+      id = 2;
+   }
+
+   Alumno(int x, int y) {
+      nota = x;
+      dis.id = y;
+   }
+
+   public func calculaNota() : int {
+      return nota;
+   }
 }
 
 func mein() : int {
-    int a = maybeConsumed();
-    maybeConsumed();
-    ceaut(a);
-    return 0;
+   Alumno josito = Alumno();
+   Alumno bea = Alumno(3, 3);
+   ceaut(josito.nota);
+   ceaut(bea.nota);
+   int a = josito.calculaNota();
+   int b = bea.calculaNota();
+   ceaut(a);
+   ceaut(b);
+   return 0;
 }
 
 /*
 RESULT:
 1
+3
+1
+3
 */

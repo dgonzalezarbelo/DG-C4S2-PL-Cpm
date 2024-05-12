@@ -10,8 +10,8 @@
             "request": "launch",
             "mainClass": "mainApp.Main",
             "preLaunchTask": "preLaunchTasks",
-            "args":["debug.cpm"],
-            // "stopOnEntry": true
+            "args":["./debug.cpm"],
+            "stopOnEntry": true
         },
         // Configuración de ejecución para lanzar el analizador léxico
         {

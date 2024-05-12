@@ -2,10 +2,12 @@ package ast.sentences.declarations;
 
 import ast.Delta;
 import ast.Josito;
+import ast.SymbolsTable;
 import ast.expressions.Expression;
 import ast.expressions.operands.VariableID;
 import ast.sentences.Sentence;
 import ast.sentences.instructions.Assignation_Ins;
+import utils.GoodBoolean;
 import utils.GoodInteger;
 
 public class DeclarationAndAssignation extends Sentence {
@@ -15,6 +17,13 @@ public class DeclarationAndAssignation extends Sentence {
     public DeclarationAndAssignation(Declaration d, Expression a, int row) {
         this.d = d;
         this.a = new Assignation_Ins(new VariableID(d.getVarname(), row), a, row);
+    }
+
+    @Override
+    public void propagateStaticVars(GoodBoolean g, SymbolsTable s) {
+        super.propagateStaticVars(g, s);
+        d.propagateStaticVars(g, s);
+        a.propagateStaticVars(g, s);
     }
 
     @Override

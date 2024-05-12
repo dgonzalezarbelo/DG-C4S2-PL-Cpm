@@ -7,7 +7,6 @@ import exceptions.BooleanConditionException;
 import utils.Utils;
 import ast.Josito;
 import ast.expressions.Expression;
-import ast.preamble.Program;
 
 public class While_Ins extends Instruction {
 
@@ -25,9 +24,9 @@ public class While_Ins extends Instruction {
 
     @Override
     public void bind() {
-        Program.symbolsTable.newScope();
+        symbolsTable.newScope();
         super.bind();
-        Program.symbolsTable.closeScope();
+        symbolsTable.closeScope();
     }
 
 	@Override
@@ -40,6 +39,7 @@ public class While_Ins extends Instruction {
         } catch (Exception e) {
             System.out.println(e);
             Utils.printErrorRow(row);
+            this.errorFlag.setValue(true);
         }
 	}
 

@@ -3,6 +3,7 @@ package ast.sentences.instructions;
 import java.util.List;
 
 import ast.Josito;
+import ast.SymbolsTable;
 import ast.expressions.Expression;
 import ast.types.interfaces.Array_Type;
 import ast.types.interfaces.Const_Type;
@@ -11,6 +12,7 @@ import ast.types.interfaces.Type.Type_T;
 import exceptions.DimenssionException;
 import exceptions.MatchingTypeException;
 import exceptions.UnexpectedTypeException;
+import utils.GoodBoolean;
 import utils.Utils;
 
 public class Assignation_Ins extends Instruction {
@@ -26,6 +28,12 @@ public class Assignation_Ins extends Instruction {
         Utils.appendIndent(str, indentation);
         str.append(leftSide.toString() + " = " + this.argExpression.toString() + '\n');
         return str.toString();
+    }
+
+    @Override
+    public void propagateStaticVars(GoodBoolean g, SymbolsTable s) {
+        super.propagateStaticVars(g, s);
+        leftSide.propagateStaticVars(g, s);
     }
 
     @Override
@@ -58,6 +66,7 @@ public class Assignation_Ins extends Instruction {
         } catch (Exception e) {
             System.out.println(e);
             Utils.printErrorRow(row);
+            this.errorFlag.setValue(true);
         }
     }
 

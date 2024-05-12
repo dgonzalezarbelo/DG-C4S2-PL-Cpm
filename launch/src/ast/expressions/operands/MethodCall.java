@@ -3,10 +3,12 @@ package ast.expressions.operands;
 import java.util.List;
 
 import ast.Josito;
+import ast.SymbolsTable;
 import ast.expressions.Expression;
 import ast.preamble.Method;
 import exceptions.UndefinedFunctionException;
 import exceptions.VisibilityException;
+import utils.GoodBoolean;
 
 public class MethodCall extends Field {
     private FunctionCall func;
@@ -19,6 +21,12 @@ public class MethodCall extends Field {
     public MethodCall(FunctionCall fc, int row) {
         super(fc.funcname, row);
         this.func = fc;
+    }
+
+    @Override
+    public void propagateStaticVars(GoodBoolean g, SymbolsTable s) {
+        super.propagateStaticVars(g, s);
+        func.propagateStaticVars(g, s);
     }
 
     @Override

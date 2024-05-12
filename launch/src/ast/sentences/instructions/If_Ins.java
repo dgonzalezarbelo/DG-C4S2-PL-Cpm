@@ -4,12 +4,13 @@ import ast.sentences.Block;
 import ast.types.interfaces.Type;
 import ast.types.interfaces.Type.Type_T;
 import exceptions.BooleanConditionException;
+import utils.GoodBoolean;
 import utils.GoodInteger;
 import utils.Utils;
 import ast.Delta;
 import ast.Josito;
+import ast.SymbolsTable;
 import ast.expressions.Expression;
-import ast.preamble.Program;
 
 public class If_Ins extends Instruction {
     private Block elseBody;
@@ -31,6 +32,12 @@ public class If_Ins extends Instruction {
         }
         return str.toString();
     }
+
+    @Override
+    public void propagateStaticVars(GoodBoolean g, SymbolsTable s) {
+        super.propagateStaticVars(g, s);
+        elseBody.propagateStaticVars(g, s);
+    }
     
     @Override
     public void propagateIndentation(int indent) {
@@ -40,13 +47,13 @@ public class If_Ins extends Instruction {
 
     @Override
     public void bind() {
-        Program.symbolsTable.newScope();
+        symbolsTable.newScope();
         super.bind();
-        Program.symbolsTable.closeScope();
+        symbolsTable.closeScope();
         if (!elseBody.empty()) {
-            Program.symbolsTable.newScope();
+            symbolsTable.newScope();
             elseBody.bind();
-            Program.symbolsTable.closeScope();
+            symbolsTable.closeScope();
         }
     }
 
@@ -62,6 +69,7 @@ public class If_Ins extends Instruction {
         } catch (Exception e) {
             System.out.println(e);
             Utils.printErrorRow(row);
+            this.errorFlag.setValue(true);
         }
     }
 

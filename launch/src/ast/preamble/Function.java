@@ -6,6 +6,7 @@ import java.util.List;
 import ast.ASTNode;
 import ast.Delta;
 import ast.Josito;
+import ast.SymbolsTable;
 import ast.expressions.Expression;
 import ast.expressions.operands.AttributeID;
 import ast.expressions.operands.FunctionCall;
@@ -16,6 +17,7 @@ import exceptions.DuplicateDefinitionException;
 import exceptions.MatchingTypeException;
 import exceptions.UndefinedAttributeException;
 import exceptions.UndefinedFunctionException;
+import utils.GoodBoolean;
 import utils.GoodInteger;
 import utils.Utils;
 
@@ -37,6 +39,19 @@ public class Function extends Definition {
     }
 
     @Override
+    public void propagateStaticVars(GoodBoolean g, SymbolsTable s) {
+        super.propagateStaticVars(g, s);
+        for (Argument a : args)
+            a.propagateStaticVars(g, s);
+        if (body != null)
+            body.propagateStaticVars(g, s);
+        if (return_t != null)
+            return_t.propagateStaticVars(g, s);
+        if (return_var != null)
+            return_var.propagateStaticVars(g, s);
+    }
+
+    @Override
     public String toString() { // TODO no imprimimos los argumentos en el toString de la funcion
         if(this.indentation == null)
             this.propagateIndentation(0);
@@ -55,17 +70,18 @@ public class Function extends Definition {
     @Override
     public void bind() {
         try {
-            Program.symbolsTable.insertFunction(this.definitionName, this);
+            symbolsTable.insertFunction(this.definitionName, this);
             propagateBind();
         }
         catch (DuplicateDefinitionException e) {
             System.out.println(e);
             Utils.printErrorRow(row);
+            this.errorFlag.setValue(true);
         }
     }
 
     protected void propagateBind() {
-        Program.symbolsTable.newScope();
+        symbolsTable.newScope();
         for (Argument d : args) 
             d.bind(); 
         if (return_t != null)
@@ -73,7 +89,7 @@ public class Function extends Definition {
         body.bind();
         if (return_var != null)
             return_var.bind();
-        Program.symbolsTable.closeScope();
+        symbolsTable.closeScope();
     }
 
     public List<Argument> getArgumentsList() {
@@ -115,6 +131,7 @@ public class Function extends Definition {
         catch (Exception e) {
             System.out.println(e);
             Utils.printErrorRow(row);
+            this.errorFlag.setValue(true);
         }        
     }
 

@@ -10,10 +10,16 @@ import lexicon.AnalizadorLexicoTiny;
 
 public class ReconSyntax {
 	
-	public static ASTNode main(String[] args) throws Exception {
-		Reader input = new InputStreamReader(new FileInputStream(args[0]));
+	public ASTNode run(String cpmFilePath) throws Exception {
+		Reader input = new InputStreamReader(new FileInputStream(cpmFilePath));
 		AnalizadorLexicoTiny alex = new AnalizadorLexicoTiny(input);
 		AnalizadorSintacticoTiny asint = new AnalizadorSintacticoTiny(alex);
-		return (Program) asint.parse().value;
+		Program p;
+		try {
+			p = (Program) asint.parse().value;
+		} catch (Exception e) {
+			p = null;
+		}
+		return p;
 	}
 }

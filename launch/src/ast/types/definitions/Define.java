@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ast.ASTNode;
+import ast.SymbolsTable;
 import ast.expressions.operands.AttributeID;
 import ast.expressions.operands.FunctionCall;
 import ast.expressions.operands.Literal;
@@ -13,6 +14,7 @@ import ast.preamble.Program;
 import ast.types.interfaces.Const_Type;
 import ast.types.interfaces.Type;
 import exceptions.DuplicateDefinitionException;
+import utils.GoodBoolean;
 import utils.GoodInteger;
 import utils.Utils;
 
@@ -36,16 +38,23 @@ public class Define extends Definition {
         return list;
     }
 
+    @Override
+    public void propagateStaticVars(GoodBoolean g, SymbolsTable s) {
+        super.propagateStaticVars(g, s);
+        value.propagateStaticVars(g, s);
+    }
+
 	@Override
 	public void bind() {
         try {
             // The order matters!
-            Program.symbolsTable.insertSymbol(definitionName, this);    // We also save it as a symbol, as it acts as a "global variable"
+            symbolsTable.insertSymbol(definitionName, this);    // We also save it as a symbol, as it acts as a "global variable"
             super.bind();
         }
         catch (DuplicateDefinitionException e) {
             System.out.println(e);
             Utils.printErrorRow(row);
+            this.errorFlag.setValue(true);
         }
 	}
     

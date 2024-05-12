@@ -2,6 +2,7 @@ package ast.types.definitions;
 import java.util.List;
 
 import ast.ASTNode;
+import ast.SymbolsTable;
 import ast.expressions.operands.AttributeID;
 import ast.expressions.operands.FunctionCall;
 import ast.preamble.Attribute;
@@ -9,6 +10,7 @@ import ast.preamble.Method;
 import ast.preamble.Program;
 import ast.sentences.declarations.Declaration;
 import ast.types.interfaces.Type;
+import utils.GoodBoolean;
 import utils.GoodInteger;
 import utils.Utils;
 
@@ -26,13 +28,20 @@ public class Typedef extends Definition {
     }
 
     @Override
+    public void propagateStaticVars(GoodBoolean g, SymbolsTable s) {
+        super.propagateStaticVars(g, s);
+        existing_type.propagateStaticVars(g, s);
+    }
+
+    @Override
     public void bind() {
         existing_type.bind();
         try {
-			Program.symbolsTable.copyDefinition(this.definitionName, existing_type.getTypename());
+			symbolsTable.copyDefinition(this.definitionName, existing_type.getTypename());
 		} catch (Exception e) {
 			System.out.println(e);
             Utils.printErrorRow(row);
+            this.errorFlag.setValue(true);
 		}
     }
 

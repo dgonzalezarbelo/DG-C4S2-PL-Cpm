@@ -6,14 +6,15 @@ import java.util.List;
 import ast.ASTNode;
 import ast.Delta;
 import ast.Josito;
+import ast.SymbolsTable;
 import ast.expressions.operands.AttributeID;
 import ast.preamble.Attribute;
 import ast.preamble.Constructor;
 import ast.preamble.Method;
-import ast.preamble.Program;
 import ast.types.interfaces.Type;
 import exceptions.UndefinedAttributeException;
 import exceptions.VisibilityException;
+import utils.GoodBoolean;
 import utils.GoodInteger;
 import utils.Utils;
 
@@ -49,6 +50,14 @@ public abstract class ObjectDefinition extends Definition {
             d.propagateIndentation(indent + 1);
         this.functions.propagateIndentation(indent + 1);
     }
+
+    @Override
+    public void propagateStaticVars(GoodBoolean g, SymbolsTable s) {
+        super.propagateStaticVars(g, s);
+        for (Attribute a : attributes)
+            a.propagateStaticVars(g, s);
+        functions.propagateStaticVars(g, s);
+    }
     
     @Override
     public List<ASTNode> getConstructors() {
@@ -65,8 +74,8 @@ public abstract class ObjectDefinition extends Definition {
 
     @Override
     public void bind() {
-        Program.symbolsTable.setCurrentDefinition(this.definitionName);
-        Program.symbolsTable.newScope();
+        symbolsTable.setCurrentDefinition(this.definitionName);
+        symbolsTable.newScope();
 
         try {
             super.bind();
@@ -86,10 +95,11 @@ public abstract class ObjectDefinition extends Definition {
         } catch (Exception e) {
             System.out.println(e);
             Utils.printErrorRow(row);
+            this.errorFlag.setValue(true);
         }
 
-        Program.symbolsTable.closeScope();
-        Program.symbolsTable.setCurrentDefinition("");
+        symbolsTable.closeScope();
+        symbolsTable.setCurrentDefinition("");
     }
 
     @Override

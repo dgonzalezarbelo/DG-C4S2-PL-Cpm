@@ -5,7 +5,6 @@ import ast.Josito;
 import ast.expressions.Expression;
 import ast.preamble.Argument;
 import ast.preamble.Attribute;
-import ast.preamble.Program;
 import ast.sentences.declarations.Declaration;
 import ast.types.interfaces.Array_Type;
 import ast.types.interfaces.Const_Type;
@@ -36,7 +35,7 @@ public class VariableID extends Expression {
 	@Override
 	public void bind() {
 		try {
-			this.id_node = Program.symbolsTable.getReference(varname);
+			this.id_node = symbolsTable.getReference(varname);
 		} catch (InvalidIdException e) {
 			System.out.println(e);
 			Utils.printErrorRow(row);

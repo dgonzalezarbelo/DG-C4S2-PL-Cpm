@@ -3,15 +3,18 @@ package ast.types.definitions;
 import java.util.ArrayList;
 import java.util.List;
 
+import ast.ASTNode;
 import ast.Delta;
 import ast.Josito;
+import ast.SymbolsTable;
 import ast.preamble.Constructor;
 import ast.preamble.Function;
 import ast.preamble.Method;
 import ast.types.interfaces.Type;
+import utils.GoodBoolean;
 import utils.GoodInteger;
 
-public class ClassFunctions {
+public class ClassFunctions extends ASTNode {
     private List<Constructor> constructors;
     private List<Method> methods;
 
@@ -83,6 +86,15 @@ public class ClassFunctions {
         return false;
     }
 
+    @Override
+    public void propagateStaticVars(GoodBoolean g, SymbolsTable s) {
+        super.propagateStaticVars(g, s);
+        for (Constructor c : constructors)
+            c.propagateStaticVars(g, s);
+        for (Method m : methods)
+            m.propagateStaticVars(g, s);
+    }
+
     public void propagateIndentation(int indent) {
         for (Function f : this.constructors)
             f.propagateIndentation(indent);
@@ -109,5 +121,23 @@ public class ClassFunctions {
             _c.generateCode(jose);;
         for (Function _m : methods)
             _m.generateCode(jose);;
+    }
+
+    @Override
+    public String toString() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'toString'");
+    }
+
+    @Override
+    public void bind() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'bind'");
+    }
+
+    @Override
+    public void checkType() throws Exception {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'checkType'");
     }
 }

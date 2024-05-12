@@ -2,7 +2,7 @@ package coding.JUnitTests;
 
 import org.junit.Test;
 
-public class code006 extends code {
+public class code006 extends AbstractCode {
     public static final String NAME = "code006";                              // nombre del test sin el java
     public static final String ANSWER = "4\n" + "7\n" + "10";    // Escribir la respuesta (cada vez que wasm imprime hace un salto de linea)
 

@@ -1,6 +1,8 @@
 package ast.expressions;
 
 import ast.Josito;
+import ast.SymbolsTable;
+import utils.GoodBoolean;
 
 public abstract class UnaryExpression extends Expression {
     private Expression opnd;
@@ -14,6 +16,13 @@ public abstract class UnaryExpression extends Expression {
     public Expression opnd1() {return this.opnd;}
     @Override
     public Expression opnd2() { throw new UnsupportedOperationException("Unary expressions does not have right operand");}
+
+    @Override
+    public void propagateStaticVars(GoodBoolean g, SymbolsTable s) {
+        super.propagateStaticVars(g, s);
+        if (opnd != null)
+            opnd.propagateStaticVars(g, s);
+    }
 
     @Override
     public void checkType() throws Exception {

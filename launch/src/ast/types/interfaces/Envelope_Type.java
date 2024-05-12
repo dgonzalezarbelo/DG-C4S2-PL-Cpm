@@ -1,6 +1,8 @@
 package ast.types.interfaces;
 
+import ast.SymbolsTable;
 import exceptions.InvalidTypeException;
+import utils.GoodBoolean;
 
 public abstract class Envelope_Type extends Type {
     protected Type inner_type;
@@ -8,6 +10,12 @@ public abstract class Envelope_Type extends Type {
     public Envelope_Type(Type type, int row) {
         super(Type_T.POINTER, row); 
         this.inner_type = type;     
+    }
+
+    @Override
+    public void propagateStaticVars(GoodBoolean g, SymbolsTable s) {
+        super.propagateStaticVars(g, s);
+        inner_type.propagateStaticVars(g, s);
     }
 
     public Type getInnerType() {
