@@ -19,14 +19,14 @@ public class Main {
         Josito codeGenerator = new Josito();
         ASTNode root = asint.main(args);
         printConfirmationMsg("------------ASTNode");
-        root.bind();
+        if (!errorDetected) root.bind();
         printConfirmationMsg("------------Binding");
-		root.checkType();
+		if (!errorDetected) root.checkType();
         printConfirmationMsg("------------Typing");
-		root.generateCode(codeGenerator);
-		writeCode(codeGenerator.toString());
+		if (!errorDetected) root.generateCode(codeGenerator);
+		if (!errorDetected) writeCode(codeGenerator.toString());
         printConfirmationMsg("------------Main.wat generation");
-        wat2wasm();
+        if (!errorDetected) wat2wasm();
         printConfirmationMsg("------------Main.wasm conversion");
     }
 
