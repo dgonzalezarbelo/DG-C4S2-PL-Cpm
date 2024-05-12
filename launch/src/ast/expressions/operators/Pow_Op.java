@@ -38,7 +38,6 @@ public class Pow_Op extends BinaryExpression {
         if (right.getKind() != Type_T.INT)
             throw new InvalidTypeException(String.format("'%s' was expected but '%s' was read", Type_T.INT.name(), right.getKind().name()));
         this.type.checkType();
-        //TODO Comprobar que el exponente no puede ser negativo
     }
 
     @Override

@@ -10,7 +10,6 @@ import ast.expressions.operands.FunctionCall;
 import ast.expressions.operands.Literal;
 import ast.preamble.Attribute;
 import ast.preamble.Method;
-import ast.preamble.Program;
 import ast.types.interfaces.Const_Type;
 import ast.types.interfaces.Type;
 import exceptions.DuplicateDefinitionException;

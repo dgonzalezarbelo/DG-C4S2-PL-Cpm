@@ -7,7 +7,6 @@ import ast.expressions.operands.AttributeID;
 import ast.expressions.operands.FunctionCall;
 import ast.preamble.Attribute;
 import ast.preamble.Method;
-import ast.preamble.Program;
 import ast.sentences.declarations.Declaration;
 import ast.types.interfaces.Type;
 import utils.GoodBoolean;

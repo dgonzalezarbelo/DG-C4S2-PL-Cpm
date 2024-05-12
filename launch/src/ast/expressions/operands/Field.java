@@ -25,13 +25,6 @@ public abstract class Field extends Expression {
 
     @Override
     public Expression opnd2() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'opnd2'");
     }
-
-    // FIXME igual hay que hacer aquí algo
-    // public void computeOffset();
-    
-    // FIXME igual hay que hacer aquí algo
-    // public void maxMemory(Integer c, Integer maxi)
 }

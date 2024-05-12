@@ -4,7 +4,6 @@ import ast.ASTNodeTypable;
 import ast.Delta;
 import ast.Indentable;
 import ast.Josito;
-import utils.GoodBoolean;
 import utils.GoodInteger;
 
 public abstract class Expression extends ASTNodeTypable implements Indentable {

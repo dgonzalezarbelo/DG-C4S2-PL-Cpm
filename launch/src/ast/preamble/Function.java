@@ -121,7 +121,7 @@ public class Function extends Definition {
                 a.checkType();
             body.checkType();
             if(return_var != null) {
-                return_var.checkType();             // TODO esto peta si es una función que no devuelve nada [Javi: creo que ya esta]
+                return_var.checkType();
                 Type returnType = return_var.getType();
                 if(!returnType.canBeAssigned(return_t)) {
                     throw new MatchingTypeException(String.format("The type of the returning expression at function %s '%s' doesnt match the typeof the declared return type '%s'", this.definitionName, returnType, this.return_t));
@@ -154,7 +154,7 @@ public class Function extends Definition {
     @Override
     public void maxMemory(GoodInteger c, GoodInteger maxi) {
         maximumMemory.setValue(Josito.NUM_FUNC_POINTERS_SIZE);
-        GoodInteger curr = new GoodInteger(this.maximumMemory.toInt()); // FIXME igual no hay que pasar un copia y hay que pasar el de arriba, darle una vuelta
+        GoodInteger curr = new GoodInteger(this.maximumMemory.toInt());
         for (Argument a : args) {
             a.maxMemory(curr, maximumMemory);               // Only the declarations will change the curr value
             if(curr.toInt() > maximumMemory.toInt())
@@ -175,29 +175,17 @@ public class Function extends Definition {
         for (Argument a : args)
             a.computeOffset(delta);
         body.computeOffset(delta);
-        if (return_var != null)             // FIXME igual esto no se devuelve por la pila
+        if (return_var != null)
             return_var.computeOffset(delta);
         delta.popScope();
     }
-
-    /*
-    @Override
-    public void generateCode(Josito jose) { // TODO Este era el anterior
-        jose.funcHeader(this.definitionName);
-        for (Argument a : args)
-            a.generateCode(jose);
-        // TODO poner codigo del result
-        body.generateCode(jose);
-        return_var.generateCode(jose);  // TODO se supone que aquí calculas el valor de retorno
-        jose.funcTail();                // TODO y aquí se apila si procede para ser devuelto
-    } */
 
     @Override
     public void generateCode(Josito jose) {
         if (WASMId != 0)                        // If the WASMId is 0 then this function is the Main, so we keep the WASMId 0
             WASMId = jose.getAndIncrementId();  // Get the unique function Id
         jose.funcHeader(WASMId);
-        if (return_t != null)               // Check if its a typed function or not
+        if (return_t != null)                   // Check if its a typed function or not
             jose.funcResult();
         body.generateCode(jose);
         if (return_var != null)

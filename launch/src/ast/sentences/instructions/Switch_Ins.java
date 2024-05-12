@@ -2,7 +2,6 @@ package ast.sentences.instructions;
 
 import exceptions.InvalidTypeException;
 import exceptions.MatchingTypeException;
-import lexicon.JunitTests.classCorrect;
 import utils.GoodBoolean;
 import utils.GoodInteger;
 import utils.Utils;

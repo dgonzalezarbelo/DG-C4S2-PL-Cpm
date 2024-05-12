@@ -101,7 +101,7 @@ public class Josito {
         /*
          * Function that restores the memory when exiting the scope
          */
-        append("(func $freeStack (type $_sig_void)"); // TODO esta hecho por nosotros porque el dado por el profe creo q esta algo mal
+        append("(func $freeStack (type $_sig_void)");
         append("   global.get $MP");
         append("   global.set $SP"); // SP <-- MP (the first next free address (SP) will be the first address of the current scope that are we freeing (MP))
         append("   global.get $MP"); // MP points to the current DL that points to the previous MP so we restore it

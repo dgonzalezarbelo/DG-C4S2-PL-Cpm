@@ -8,7 +8,6 @@ import ast.SymbolsTable;
 import ast.expressions.Expression;
 import ast.expressions.operands.VariableID;
 import ast.preamble.Argument;
-import ast.preamble.Program;
 import ast.sentences.Sentence;
 import ast.types.interfaces.Array_Type;
 import ast.types.interfaces.Const_Type;

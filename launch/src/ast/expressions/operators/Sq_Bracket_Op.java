@@ -31,7 +31,7 @@ public class Sq_Bracket_Op extends BinaryExpression {
         Type rightSide = opnd2().getType();
         if (leftSide.getKind() != Type_T.ARRAY)
             throw new InvalidTypeException("Array access operator '[]' is only applicable for array variables at row " + this.row);
-        if (rightSide.getKind() != Type_T.INT) //TODO No se si esto habra que quitarlo para permitir arrays dinamicos (igual hay que meter un != null)
+        if (rightSide.getKind() != Type_T.INT)
             throw new InvalidTypeException("Array access index '[index]' must be an integer at row " + this.row);
         this.type = ((Array_Type) leftSide).getInnerType(); // aquí no pasa nada por no bindear Array_Type porque su interno ya estaba bindeado
         this.type.checkType();
@@ -63,7 +63,6 @@ public class Sq_Bracket_Op extends BinaryExpression {
         }
     }
 
-    // TODO yo creo que esta funcion deberia ser asi rapidito
     @Override
     public void generateValue(Josito jose) throws Exception { // Code_E
         generateAddress(jose);
@@ -90,42 +89,3 @@ public class Sq_Bracket_Op extends BinaryExpression {
         }
     }
 }
-
-/* // FIXME Quitar esto
- * int a[6][10][2]
- * a[5]         <- Este
- * a[5][1][3]      <- Y este te dan la misma address al hacer Code_D
- * a[0][0][0]
- * a[0][0][1]
- * a[0][0][2]
- * a[0][1][0]
- * a[1]
- * a[2]
- * a[3]
- * a[4]
- * int * ptr;
- * ptr = a[0][0]; <- Queremos la direccion de a[0][0]
- * 
- * int c[100];
- * ~b = c[5];
- * 
- * a[1]
- * int aa[2][400][5][6];
- * int bb[7][2][400][5][6];
- * aa[1] = bb[1]; <- No se puede hacer
- * aa = bb[0]; <- Esto sí se puede hacer
- * aa[0][0][0][0] = bb[0][0][0][0];
- * int d;
- * int j[10]; // j[0] = j mismo CODE_D
- * // *j = j[0];
- * j = a[5];
- * a[5] = j;
- * j[0] = a[5]
- * d = a[5][0]
- * 
- * int~ b;
- * b = a[5][2];
- * 
- * int e[5][10];
- * e[2] = a[2];
- */

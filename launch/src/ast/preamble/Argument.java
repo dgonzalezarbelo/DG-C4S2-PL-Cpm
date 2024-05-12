@@ -46,7 +46,7 @@ public class Argument extends Declaration {
     }
 
     @Override
-    public void generateCode(Josito jose) { // TODO
+    public void generateCode(Josito jose) {
         this.type.generateCode(jose);
     }
 }
