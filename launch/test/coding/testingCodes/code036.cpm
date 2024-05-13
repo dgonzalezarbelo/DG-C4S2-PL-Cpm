@@ -1,0 +1,48 @@
+difain CONST 5;
+
+func mein() : int {
+    for(int i = 0; i < CONST; i = i + 1) {
+        ceaut(i);
+    }
+    for(int i = 0; i < CONST; i = i + 1) {
+        ceaut(i);
+    }
+    for(int i = 0; i < CONST; i = i + 1) {
+        ceaut(i);
+    }
+    for(int i = 0; i < CONST; i = i + 1) {
+        ceaut(i);
+    }
+    for(int i = 0; i < CONST; i = i + 1) {
+        ceaut(i);
+    }
+    return 0;
+}
+/*
+RESULT:
+0
+1
+2
+3
+4
+0
+1
+2
+3
+4
+0
+1
+2
+3
+4
+0
+1
+2
+3
+4
+0
+1
+2
+3
+4
+*/

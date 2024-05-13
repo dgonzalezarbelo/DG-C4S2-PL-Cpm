@@ -2,17 +2,17 @@
 func mein() : int {
     int a = -15;
     int~ ptrA = &a;
-    int ptrPtrA = &ptrA;
+    int~~ ptrPtrA = &ptrA;
     ceaut(a);
     ceaut(~ptrA);
-    ceaut(ptrPtrA);
+    ceaut(~~ptrPtrA);
 
     ~ptrA = 1500;
     ceaut(a);
     ceaut(~ptrA);
-    ceaut(ptrPtrA);
+    ceaut(~~ptrPtrA);
 
-    ptrPtrA = 0;
+    ~~ptrPtrA = 0;
     ceaut(a);
     ceaut(~ptrA);
     ceaut(~~ptrPtrA);

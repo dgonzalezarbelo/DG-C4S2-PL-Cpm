@@ -10,14 +10,13 @@ import ast.Josito;
 import ast.expressions.Expression;
 
 public class For_Ins extends Instruction {
-
     public For_Ins(Sentence first_ins, Expression cond, Sentence last_ins, Block body, int row) {
         super(null, null, row);
-        While_Ins inner_while = new While_Ins(cond, body.add_instruction(last_ins), row);
-        List<Sentence> for_ins = new ArrayList<>();
-        for_ins.add(first_ins);
-        for_ins.add(inner_while);
-        Block for_body = new Block(for_ins);
+        body.add_instruction(last_ins);
+        While_Ins inner_while = new While_Ins(cond, body, row);
+        Block for_body = new Block();
+        for_body.add_instruction(first_ins);
+        for_body.add_instruction(inner_while);
         this.body = for_body;
     }
 
