@@ -33,13 +33,13 @@ public class BoolDefinition extends Definition {
 
     @Override
     public Attribute hasAttribute(AttributeID name, boolean insideClass) throws Exception {
-        // TODO Auto-generated method stub
+        
         throw new UnsupportedOperationException("Unimplemented method 'hasAttribute'");
     }
 
     @Override
     public Method hasMethod(FunctionCall mc) throws Exception {
-        // TODO Auto-generated method stub
+        
         throw new UnsupportedOperationException("Unimplemented method 'hasMethod'");
     }
 

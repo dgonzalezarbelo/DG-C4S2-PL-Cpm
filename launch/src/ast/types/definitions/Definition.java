@@ -22,7 +22,7 @@ public abstract class Definition extends ASTNodeTypable implements Indentable {
     protected String definitionName;
     
     public Definition(String name, int row) {
-        this.indentation = null;    // FIXME esto igual debería ser un 0
+        this.indentation = null;
         this.definitionName = name;
         this.row = row;
     }

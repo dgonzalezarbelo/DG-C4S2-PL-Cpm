@@ -34,7 +34,6 @@ public class Sum_Op extends BinaryExpression {
         super.checkType();
         Type left = opnd1().getType();
         Type right = opnd2().getType();
-        //TODO Aqui vamos a tener que hacer algo especial para el caso puntero-entero (el orden no importa)
         if (left.getKind() != right.getKind()) {
             if (left.getKind() == Type_T.INT && right instanceof Envelope_Type) {
                 Type aux = left;
@@ -47,7 +46,7 @@ public class Sum_Op extends BinaryExpression {
             else
                 throw new MatchingTypeException(String.format("'+' operands '%s' and '%s' do not have the same type", opnd1().toString(), opnd2().toString()));
         }
-        if (right.getKind() != Type_T.INT) //FIXME Creo que funciona pero comprobar
+        if (right.getKind() != Type_T.INT) 
             throw new UnexpectedTypeException(String.format("'%s' was expected but '%s' was read", Type_T.INT.name(), left.getKind().name()));
         this.type.checkType(); 
     }

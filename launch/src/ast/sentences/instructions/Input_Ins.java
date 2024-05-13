@@ -21,7 +21,7 @@ public class Input_Ins extends Instruction {
     }
 
     @Override
-    public void checkType() throws Exception { // TODO quiza revisar que solo sea una variable o un struct.variable para hacer cin correctamente
+    public void checkType() throws Exception {
         try {
             super.checkType();
             Type condType = argExpression.getType();

@@ -31,7 +31,7 @@ public class Define extends Definition {
     }
 
     @Override
-    public List<ASTNode> getConstructors() {    // FIXME que es esto???
+    public List<ASTNode> getConstructors() {
         List<ASTNode> list = new ArrayList<>();
         list.add(this);
         return list;
@@ -75,13 +75,13 @@ public class Define extends Definition {
 
     @Override
     public Attribute hasAttribute(AttributeID name, boolean insideClass) throws Exception {
-        // TODO Auto-generated method stub
+        
         throw new UnsupportedOperationException("Unimplemented method 'hasAttribute'");
     }
 
     @Override
     public Method hasMethod(FunctionCall mc) throws Exception {
-        // TODO Auto-generated method stub
+        
         throw new UnsupportedOperationException("Unimplemented method 'hasMethod'");
     }
 

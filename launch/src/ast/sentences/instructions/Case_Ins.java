@@ -33,7 +33,5 @@ public class Case_Ins extends Instruction {
     public void generateCode(Josito jose) { 
         body.generateCode(jose);
     }
-
-    // FIXME no sabemos si el literal irá a memoria o a pila
-    // public void maxMemory(Integer c, Integer maxi);
+    
 }

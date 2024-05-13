@@ -52,7 +52,7 @@ public class Function extends Definition {
     }
 
     @Override
-    public String toString() { // TODO no imprimimos los argumentos en el toString de la funcion
+    public String toString() {
         if(this.indentation == null)
             this.propagateIndentation(0);
         StringBuilder str = new StringBuilder();

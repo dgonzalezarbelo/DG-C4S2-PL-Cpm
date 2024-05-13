@@ -34,7 +34,7 @@ public class Subs_Op extends BinaryExpression {
         super.checkType();
         Type left = opnd1().getType();
         Type right = opnd2().getType();
-        //TODO Aqui vamos a tener que hacer algo especial para el caso puntero-entero (el orden importa)
+
         if (left.getKind() != right.getKind()) {
             if (left instanceof Envelope_Type && !(left instanceof Const_Type) && right.getKind() == Type_T.INT) {
                 this.type = left;

@@ -193,21 +193,10 @@ TYPEDEF_DEF    ::= TYPEDEF:t DECLARATION:dec SEMICOLON
 
 DECLARATION                      ::= TYPE:t ID:id ARRAY_CONSTRUCTOR:array
 {: RESULT = Declaration.manageDeclaration(t, id.lexeme, array, id.row); :};
-//DECLARATION                      ::= error ID:id ARRAY_CONSTRUCTOR:array
-//{: RESULT = new Error_Ins(); :};
-//DECLARATION                      ::= TYPE:t error ARRAY_CONSTRUCTOR:array
-//{: RESULT = new Error_Ins(); :};
-//DECLARATION                      ::= TYPE:t ID:id error
-//{: RESULT = new Error_Ins(); :};
 
 ARRAY_CONSTRUCTOR                ::= ARRAY_CONSTRUCTOR:prevArray SQ_BRACKET_OPEN:b OPT_INTEGER:i SQ_BRACKET_CLOSE
 {: Array_Type newArray = new Array_Type(i, b.row); RESULT = Array_Type.updateTypes(newArray, prevArray); :};
 
-//FIXME Esto pinta mal
-//ARRAY_CONSTRUCTOR                ::= error SQ_BRACKET_OPEN OPT_INTEGER:i SQ_BRACKET_CLOSE
-//{: RESULT = new Error_Ins(); :};
-//ARRAY_CONSTRUCTOR                ::= ARRAY_CONSTRUCTOR:prevArray SQ_BRACKET_OPEN error SQ_BRACKET_CLOSE
-//{: RESULT = new Error_Ins(); :};
 
 ARRAY_CONSTRUCTOR                ::= /*EMPTY*/ 
 {: RESULT = null; :};
@@ -217,44 +206,21 @@ ID_PARENTESIS                    ::= ID:id PARENTESIS_OPEN EXPRESSIONS:expressio
 
 DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION:dec ASSIGNATION_OP:a EXPRESSION:e SEMICOLON 
 {: RESULT = new DeclarationAndAssignation(dec, e, a.row); :};
-// DECLARATION_AND_ASSIGNATION_INS  ::= error ASSIGNATION_OP EXPRESSION:e SEMICOLON 
-// {: RESULT = new Error_Ins(); :};
 
 DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION:dec ASSIGNATION_OP:a NEW_OP TYPE:t ARRAY_CONSTRUCTOR:array SEMICOLON
 {: RESULT = new DeclarationAndAssignation(dec, new New_Op(Declaration.manageType(t, array), a.row), a.row); :};
-//DECLARATION_AND_ASSIGNATION_INS  ::= error ASSIGNATION_OP NEW_OP TYPE:t ARRAY_CONSTRUCTOR:array SEMICOLON
-//{: RESULT = new Error_Ins(); :};
-//DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION:dec ASSIGNATION_OP NEW_OP error ARRAY_CONSTRUCTOR:array SEMICOLON
-//{: RESULT = new Error_Ins(); :};
-//DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION:dec ASSIGNATION_OP NEW_OP TYPE:t error SEMICOLON
-//{: RESULT = new Error_Ins(); :};
 
 DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION:dec ASSIGNATION_OP:a NEW_OP ID_PARENTESIS:e SEMICOLON
 {: RESULT = new DeclarationAndAssignation(dec, new New_Op(new ConstructorCall (e, a.row), a.row), a.row); :};
-//DECLARATION_AND_ASSIGNATION_INS  ::= error ASSIGNATION_OP NEW_OP ID_PARENTESIS:e SEMICOLON
-//{: RESULT = new Error_Ins(); :};
-//DECLARATION_AND_ASSIGNATION_INS  ::= DECLARATION:dec ASSIGNATION_OP NEW_OP error SEMICOLON
-//{: RESULT = new Error_Ins(); :};
 
 ASSIGNATION_INS                  ::= EXPRESSION:iz ASSIGNATION_OP:a EXPRESSION:dc SEMICOLON 
 {: RESULT = new Assignation_Ins(iz, dc, a.row) ; :};
 
-//FIXME
 ASSIGNATION_INS                  ::= EXPRESSION:iz ASSIGNATION_OP:a NEW_OP TYPE:t ARRAY_CONSTRUCTOR:array SEMICOLON
 {: RESULT = new Assignation_Ins(iz, new New_Op(Declaration.manageType(t, array), a.row), a.row); :};
-//ASSIGNATION_INS                  ::= error NEW_OP TYPE:t ARRAY_CONSTRUCTOR:array SEMICOLON
-//{: RESULT = new Error_Ins(); :};
-//ASSIGNATION_INS                  ::= EXPRESSION:iz NEW_OP error ARRAY_CONSTRUCTOR:array SEMICOLON
-//{: RESULT = new Error_Ins(); :};
-//ASSIGNATION_INS                  ::= EXPRESSION:iz NEW_OP TYPE:t error SEMICOLON
-//{: RESULT = new Error_Ins(); :};
 
 ASSIGNATION_INS                  ::= EXPRESSION:iz ASSIGNATION_OP:a NEW_OP ID_PARENTESIS:dc SEMICOLON
 {: RESULT = new Assignation_Ins(iz, new New_Op(new ConstructorCall (dc, a.row), a.row), a.row); :};
-//ASSIGNATION_INS                  ::= error ASSIGNATION_OP NEW_OP ID_PARENTESIS:dc SEMICOLON
-//{: RESULT = new Error_Ins(); :};
-//ASSIGNATION_INS                  ::= EXPRESSION:iz ASSIGNATION_OP NEW_OP error SEMICOLON
-//{: RESULT = new Error_Ins(); :};
 
 // If
 
@@ -303,13 +269,11 @@ CONTINUE_INS   ::= CONTINUE:c SEMICOLON
 
 FOR_INS           ::= FOR:f PARENTESIS_OPEN SENTENCE:s1 EXPRESSION:cond SEMICOLON OPT_ASSIGNATION:s2 PARENTESIS_CLOSE BRACKET_OPEN FUNCTION_BODY:body BRACKET_CLOSE 
 {: RESULT = new For_Ins(s1, cond, s2, body, f.row); :};
-// FOR_INS  ::= FOR:f error
-// {: RESULT = new Error_Ins(f.row); :};
 
 OPT_ASSIGNATION   ::= EXPRESSION:iz ASSIGNATION_OP:a EXPRESSION:dc 
 {: RESULT = new Assignation_Ins(iz, dc, a.row) ; :};
 OPT_ASSIGNATION   ::= /*EMPTY*/
-{: RESULT = new Empty_Ins(0); :}; //FIXME No le pasamos una row real
+{: RESULT = new Empty_Ins(0); :};
 
 // I/O
 
@@ -483,7 +447,7 @@ E3                ::= E4:e
 {: RESULT = e; :};
 
 E4                ::= E4:iz FIELD_ACCESS:f ID:id
-{: RESULT = new Field_Access_Op(iz, new AttributeID(id.lexeme, id.row), f.row); :};   // a.b.c = ((a.b).c)
+{: RESULT = new Field_Access_Op(iz, new AttributeID(id.lexeme, id.row), f.row); :}; 
 E4                ::= E4:iz FIELD_ACCESS:f ID_PARENTESIS:dc
 {: RESULT = new Field_Access_Op(iz, new MethodCall(dc, f.row), f.row); :};
 E4                ::= error FIELD_ACCESS E5:dc
@@ -562,14 +526,10 @@ SENTENCE             ::= CONTINUE_INS:e
 SENTENCE             ::= IO_INS:e 
 {: RESULT = e; :};
 SENTENCE             ::= SEMICOLON:s
-{: RESULT = new Empty_Ins(s.row); :};    // The last semicolon represents an empty instruction
+{: RESULT = new Empty_Ins(s.row); :};
 SENTENCE             ::= EXPRESSION:e SEMICOLON:s
 {: RESULT = new Expression_Ins(e, s.row); :};
 
-//ID_EX                ::= THIS:t FIELD_ACCESS ID:id 
-//{: RESULT = new This_Op(id.lexeme, t.row); :}; // se puede borrar
-//ID_EX                ::= THIS:t FIELD_ACCESS ID_PARENTESIS:id 
-//{: RESULT = new This_Op(id.lexeme, t.row); :}; // se puede borrar
 ID_EX                ::= ID:id
 {: RESULT = new VariableID(id.lexeme, id.row); :};
 ID_EX                ::= ID_PARENTESIS:e 

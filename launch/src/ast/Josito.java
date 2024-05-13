@@ -223,7 +223,7 @@ public class Josito {
         append(")");
     }
 
-    public void createConst(int val) { //TODO dani, esto no tiene indentate
+    public void createConst(int val) {
         append("i32.const %d", val);
     }
 
@@ -315,7 +315,7 @@ public class Josito {
         append("call $%d", WASMId);
     }
 
-    public void load() { // TODO quiza este solo hace load si tenemos el getLocalDirUsingMP
+    public void load() {
         append("i32.load");
     }
 
@@ -416,7 +416,7 @@ public class Josito {
     public void jumpTable(List<Integer> br_table_values) { // Inconditional_jump to the label
         StringBuilder jump_list = new StringBuilder();
         for (Integer i : br_table_values) 
-            jump_list.append(String.format("%d ", i)); // FIXME quiza puede que pete este espacio de mas
+            jump_list.append(String.format("%d ", i));
         append("br_table %s", jump_list);
     }
 

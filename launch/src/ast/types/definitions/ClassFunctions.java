@@ -125,19 +125,19 @@ public class ClassFunctions extends ASTNode {
 
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
+        
         throw new UnsupportedOperationException("Unimplemented method 'toString'");
     }
 
     @Override
     public void bind() {
-        // TODO Auto-generated method stub
+        
         throw new UnsupportedOperationException("Unimplemented method 'bind'");
     }
 
     @Override
     public void checkType() throws Exception {
-        // TODO Auto-generated method stub
+        
         throw new UnsupportedOperationException("Unimplemented method 'checkType'");
     }
 }

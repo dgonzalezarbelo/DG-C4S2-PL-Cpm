@@ -130,7 +130,7 @@ public abstract class ObjectDefinition extends Definition {
     @Override
     public void maxMemory(GoodInteger c, GoodInteger maxi) {
         maximumMemory.setValue(0);
-        GoodInteger curr = new GoodInteger(0);                           // FIXME igual no hay que pasar un copia y hay que pasar el de arriba, darle una vuelta
+        GoodInteger curr = new GoodInteger(0);                           
         for (Attribute a : attributes) {
             a.maxMemory(curr, maximumMemory);       // Only the declarations will change the curr value
             if(curr.toInt() > maximumMemory.toInt())

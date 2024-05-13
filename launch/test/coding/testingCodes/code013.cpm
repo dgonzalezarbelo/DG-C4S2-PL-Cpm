@@ -10,8 +10,6 @@ clas Chavalito {
     }
 }
 
-//TODO Pasar este test a ingles que soy medio subnormal
-
 clas Alumno {
     praivet int nota;
     public int notilla;

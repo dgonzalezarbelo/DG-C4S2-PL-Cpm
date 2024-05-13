@@ -51,19 +51,19 @@ public class Typedef extends Definition {
 
     @Override
     public List<ASTNode> getConstructors() {
-        // TODO Auto-generated method stub
+        
         throw new UnsupportedOperationException("Unimplemented method 'getConstructors'");
     }
 
     @Override
     public Attribute hasAttribute(AttributeID name, boolean insideClass) throws Exception {
-        // TODO Auto-generated method stub
+        
         throw new UnsupportedOperationException("Unimplemented method 'hasAttribute'");
     }
 
     @Override
     public Method hasMethod(FunctionCall mc) throws Exception {
-        // TODO Auto-generated method stub
+        
         throw new UnsupportedOperationException("Unimplemented method 'hasMethod'");
     }
 
@@ -72,9 +72,3 @@ public class Typedef extends Definition {
         maximumMemory.setValue(0);
     }
 }
-
-//FIXME
-/*
-taipdef int i
-taipdef i entero
- */

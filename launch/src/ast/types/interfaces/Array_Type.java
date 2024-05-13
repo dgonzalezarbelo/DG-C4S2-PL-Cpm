@@ -61,7 +61,6 @@ public class Array_Type extends Envelope_Type {
          * Now, back to the definition, the right [5] is generating another dimension. We will consider this to be newArray,
          * and we will define this to be the type of prevArray, so that it will now be an "array of arrays".
          * 
-         * //TODO Update this
          * Use:
          * DECLARATION                      ::= TYPE:t ID:id ARRAY_CONSTRUCTOR:array
          * {: RESULT = Declaration.manageDeclaration(t, id, array); :};
@@ -168,7 +167,7 @@ public class Array_Type extends Envelope_Type {
                 maximumMemory.setValue(dim_value * inner_size);
             }
             else
-                maximumMemory.setValue(0); //FIXME No se si esto estara bien
+                maximumMemory.setValue(0);
         }
         else { // We have to save the pointer, the size of the array and the size of every dimenssion
             List<Expression> dimenssions = getDimenssions();

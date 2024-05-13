@@ -116,14 +116,6 @@ public class Switch_Ins extends Instruction {
         default_Ins.computeOffset(delta);
     }
 
-/* 
-    @Override
-    public void generateCode(Josito jose) { 
-        argExpression.generateValue(jose);
-
-    }
-    */ // TODO hay que pensarla bien
-
     @Override
     public void generateCode(Josito jose) { 
         min = 0; max = 0; size = 0;
@@ -185,52 +177,4 @@ public class Switch_Ins extends Instruction {
         max = Utils.getMaxSet(clauseValues);
         size = clauseValues.size();
     }
-
-    //---------------------------------------------------------------------------------------
-
-    private void generateCasesCode1(Josito jose) { //TODO antigua funcion del switch para el generate code [preguntar a Javi]
-        for (int i = min; i < max; i++) {
-            if(mapValuesToCases.containsKey(i)) {
-                jose.endBlock();
-                jose.updateBreakJumpScopeTop(jose.getBreakJumpScope() - 1); // Update switch break value because we are inside one clause
-                mapValuesToCases.get(i).generateCode(jose);
-            }
-        }
-        jose.endBlock();
-        jose.updateBreakJumpScopeTop(jose.getBreakJumpScope() - 1); // Update switch break value because we are inside default
-        default_Ins.generateCode(jose);
-        jose.endBlock();
-    }
-
-    private List<Integer> br_table_list1() { //TODO antigua funcion del switch para el generate code [preguntar a Javi]
-        List<Integer> ret = new ArrayList<>();
-        int current = 0; // Current b_table label
-        for (int i = min; i < max; i++) {
-            if(mapValuesToCases.containsKey(i)) {
-                ret.add(current);
-                current++;
-            }
-            else
-                ret.add(size);
-        }
-        ret.add(size);
-        return ret;
-    }
-
-    public void caseRange1() { //TODO antigua funcion del switch àra el generate code [preguntar a Javi]
-        /*
-        * Fill the mapValuesToCases map and gives the cases value interval 
-        * [min, max] and how many clauses are (size)
-        */ 
-   
-        mapValuesToCases  = new HashMap<>();
-        for(Case_Ins clause : clauses) { // The cases values will be all different
-            int key = clause.getCaseValue();
-            mapValuesToCases.put(key, clause);
-        }
-        Set<Integer> clauseValues = mapValuesToCases.keySet();
-        min = Utils.getMinSet(clauseValues);
-        max = Utils.getMaxSet(clauseValues);
-        size = clauseValues.size();
-    } 
 }

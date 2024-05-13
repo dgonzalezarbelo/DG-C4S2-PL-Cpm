@@ -59,23 +59,22 @@ public class New_Op extends Expression {
 
     @Override
     public Expression opnd1() {
-        // TODO Auto-generated method stub
+        
         throw new UnsupportedOperationException("Unimplemented method 'opnd1'");
     }
 
     @Override
     public Expression opnd2() {
-        // TODO Auto-generated method stub
+        
         throw new UnsupportedOperationException("Unimplemented method 'opnd2'");
     }
 
     @Override
     public void generateAddress(Josito jose) throws Exception {
-        // TODO Auto-generated method stub
+        
         throw new UnsupportedOperationException("Unimplemented method 'generateAddress'");
     }
 
-    // TODO creo que aqui solo hace falta el generateValue (Code_E)
     @Override
     public void generateValue(Josito jose) throws Exception {
         Pointer_Type cast = (Pointer_Type)type;
@@ -92,7 +91,7 @@ public class New_Op extends Expression {
                 constructor.generateValue(jose);
                 jose.copy_to_heap(cast.getInnerType().getSize()); // After this, the address in the heap is already at the top of the stack, and that is the value we wanted, so the assignation will be done properly now
                 break;
-            case ARRAY: //TODO No se hace de momento
+            case ARRAY: 
             case CONST: // This will never happen
             default:
                 break;
