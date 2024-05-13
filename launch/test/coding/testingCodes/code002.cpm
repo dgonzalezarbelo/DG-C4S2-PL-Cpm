@@ -1,19 +1,24 @@
-func max(int a, int b) : bul {
-    return a < b;
+func max(int a, int b) : int {
+    int maximum;
+    if (a < b) {
+        maximum = b;
+    }
+    els {
+        maximum = a;
+    }
+    return maximum;
 }
 
-difain MAXI 10;
-
 func mein() : int {
-    int vector[MAXI];
+    int vector[10];
 
-    for (int i = 0; i < MAXI; i++) {
+    for (int i = 0; i < 10; i = i + 1) {
         vector[i] = (i * 3) + (i / 2);
     }
-    vector[MAXI / 2] = 1000;
+    vector[10 / 2] = 1000;
 
     int maximum = 0;
-    for (int i = 0; i < MAXI; i++) {
+    for (int i = 0; i < 10; i = i + 1) {
         maximum = max(maximum, vector[i]);
     }
     
@@ -21,4 +26,11 @@ func mein() : int {
     return 0;
 }
 
-// RESULT : 1000
+/*
+RESULT:
+1000
+
+    for (int i = 0; i < 10; i = i + 1) {
+        ceaut(i);
+    }
+*/

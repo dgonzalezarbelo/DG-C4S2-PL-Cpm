@@ -56,10 +56,11 @@ public class Subs_Op extends BinaryExpression {
     public void generateValue(Josito jose) throws Exception { // Code_E
         Type left = opnd1().getType();
         Type right = opnd2().getType();
-        if (left instanceof Envelope_Type && right.getKind() == Type_T.INT) { // address + int * 4
+        if (left instanceof Envelope_Type && !(left instanceof Const_Type) && right.getKind() == Type_T.INT) { // address + int * 4
+            Envelope_Type cast = (Envelope_Type)left;
             opnd1().generateValue(jose);
             opnd2().generateValue(jose);
-            jose.createConst(4);
+            jose.createConst(cast.getInnerType().getSize());
             jose.mul();
             jose.translateOperator(this.operator);
         }

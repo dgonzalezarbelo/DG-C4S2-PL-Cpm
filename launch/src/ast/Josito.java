@@ -180,54 +180,7 @@ public class Josito {
         append(")");
 
         /*
-         * Power function (base^exp) [anterior]
-         
-        append("(func $exponentiation (param $base i32) (param $exponent i32) (param $modulus i32) (result i32)");
-        append("    (local $result i32)");
-        append("    (local $baseSquared i32)");
-        append("    (local $exponentCopy i32)");
-        append("    (local $modulusCopy i32)");
-        append("");
-        append("    ;; Inicializar variables locales");
-        append("    (local.set $result (i32.const 1))");
-        append("    (local.set $baseSquared (local.get $base))");
-        append("    (local.set $exponentCopy (local.get $exponent))");
-        append("    (local.set $modulusCopy (local.get $modulus))");
-        append("");
-        append("    (block $endLoop");
-        append("        (loop $mainLoop");
-        append("            ;; Chequear si el exponente es cero");
-        append("            ( if (i32.eqz (local.get $exponentCopy))");
-        append("                (then");
-        append("                    (br $endLoop)");
-        append("                )");
-        append("            )");
-        append("");
-        append("            ;; Chequear si el exponente es impar");
-        append("            (if (i32.and (local.get $exponentCopy) (i32.const 1))");
-        append("                (then");
-        append("                    ;; result = (result * base) % modulus");
-        append("                    (local.set $result (i32.rem_s (i32.mul (local.get $result) (local.get $base)) (local.get $modulusCopy)))");
-        append("                )");
-        append("            )");
-        append("");
-        append("            ;; exponent >>= 1 (Dividir el exponente por 2)");
-        append("            (local.set $exponentCopy (i32.shr_s (local.get $exponentCopy) (i32.const 1)))");
-        append("");
-        append("            ;; base = (base * base) % modulus");
-        append("            (local.set $baseSquared (i32.rem_s (i32.mul (local.get $baseSquared) (local.get $baseSquared)) (local.get $modulusCopy)))");
-        append("");
-        append("            ;; continue main loop");
-        append("            (br $mainLoop)");
-        append("        )");
-        append("    )");
-        append("");
-        append("    (local.get $result) ;; Poner el resultado en el stack");
-        append(")");
-        */
-
-        /*
-         * Power function (base^exp) [anterior]
+         * Power function (base^exp)
         */
         append("(func $exponentiation (param $base i32)(param $exponent i32)(result i32)");
         append("    (local $result i32)");
@@ -513,7 +466,7 @@ public class Josito {
                 append("i32.le_s");
                 break;
             case MOD:
-                append("i32.rem");
+                append("i32.rem_s");
                 break;
             case MINUS: // Take into account that there is no break
                 append("i32.const -1");

@@ -1,7 +1,7 @@
 // For Test
 
 // This calculates the factorial of n
-defain CONST_INT 10;
+difain CONST_INT 10;
 
 func factorial(int n) : int {
     int res = 1;

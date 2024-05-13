@@ -86,7 +86,7 @@ non terminal   Literal LITERAL;
 
 non terminal   Program S;
 
-non terminal   Sentence SENTENCE, IF_INS, SWITCH_INS, WHILE_INS, BREAK_INS, CONTINUE_INS, FOR_INS,
+non terminal   Sentence SENTENCE, IF_INS, SWITCH_INS, WHILE_INS, BREAK_INS, CONTINUE_INS, FOR_INS, OPT_ASSIGNATION,
                         IO_INS, INPUT_INS, OUTPUT_INS, ASSIGNATION_INS, DECLARATION_AND_ASSIGNATION_INS;
 
 non terminal   Type TYPE;
@@ -301,10 +301,15 @@ CONTINUE_INS   ::= CONTINUE:c SEMICOLON
 
 // For
 
-FOR_INS  ::= FOR:f PARENTESIS_OPEN SENTENCE:s1 SEMICOLON EXPRESSION:cond SEMICOLON SENTENCE:s2 PARENTESIS_CLOSE BRACKET_OPEN FUNCTION_BODY:body BRACKET_CLOSE 
-{: System.out.println("putamierdadepractica"); RESULT = new For_Ins(s1, cond, s2, body, f.row); :};
+FOR_INS           ::= FOR:f PARENTESIS_OPEN SENTENCE:s1 EXPRESSION:cond SEMICOLON OPT_ASSIGNATION:s2 PARENTESIS_CLOSE BRACKET_OPEN FUNCTION_BODY:body BRACKET_CLOSE 
+{: RESULT = new For_Ins(s1, cond, s2, body, f.row); :};
 // FOR_INS  ::= FOR:f error
 // {: RESULT = new Error_Ins(f.row); :};
+
+OPT_ASSIGNATION   ::= EXPRESSION:iz ASSIGNATION_OP:a EXPRESSION:dc 
+{: RESULT = new Assignation_Ins(iz, dc, a.row) ; :};
+OPT_ASSIGNATION   ::= /*EMPTY*/
+{: RESULT = new Empty_Ins(0); :}; //FIXME No le pasamos una row real
 
 // I/O
 
@@ -559,7 +564,7 @@ SENTENCE             ::= IO_INS:e
 SENTENCE             ::= SEMICOLON:s
 {: RESULT = new Empty_Ins(s.row); :};    // The last semicolon represents an empty instruction
 SENTENCE             ::= EXPRESSION:e SEMICOLON:s
-{: System.out.println("putamierdadepractica"); RESULT = new Expression_Ins(e, s.row); :};
+{: RESULT = new Expression_Ins(e, s.row); :};
 
 //ID_EX                ::= THIS:t FIELD_ACCESS ID:id 
 //{: RESULT = new This_Op(id.lexeme, t.row); :}; // se puede borrar

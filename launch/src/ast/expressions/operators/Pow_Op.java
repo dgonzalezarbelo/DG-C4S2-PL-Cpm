@@ -47,7 +47,7 @@ public class Pow_Op extends BinaryExpression {
             opnd1().generateValue(jose);
         if (opnd2() != null)
             opnd2().generateValue(jose);
-        jose.createConst(MOD);
+        //jose.createConst(MOD);
         jose.translateOperator(this.operator);
     }
 

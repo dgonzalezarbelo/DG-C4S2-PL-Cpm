@@ -62,16 +62,18 @@ public class Sum_Op extends BinaryExpression {
         Type left = opnd1().getType();
         Type right = opnd2().getType();
         if (left.getKind() == Type_T.INT && right instanceof Envelope_Type && !(right instanceof Const_Type)) { // int * 4 + address
+            Envelope_Type cast = (Envelope_Type)right;
             opnd1().generateValue(jose);
-            jose.createConst(4);
+            jose.createConst(cast.getInnerType().getSize());
             jose.mul();
             opnd2().generateValue(jose);
             jose.translateOperator(this.operator);
         }
         else if (left instanceof Envelope_Type && !(left instanceof Const_Type) && right.getKind() == Type_T.INT) { // address + int * 4
+            Envelope_Type cast = (Envelope_Type)left;
             opnd1().generateValue(jose);
             opnd2().generateValue(jose);
-            jose.createConst(4);
+            jose.createConst(cast.getInnerType().getSize());
             jose.mul();
             jose.translateOperator(this.operator);
         }

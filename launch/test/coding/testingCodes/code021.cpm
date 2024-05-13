@@ -10,7 +10,7 @@ func mein():int{
     ceaut(a);
     ceaut(~ptrA);
 
-    int ~ptrB = &b;
+    bul ~ptrB = &b;
     ceaut(b);
     ceaut(~ptrB);
     ptrA = ptrB;
