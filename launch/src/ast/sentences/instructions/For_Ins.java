@@ -8,7 +8,6 @@ import java.util.List;
 
 import ast.Josito;
 import ast.expressions.Expression;
-import ast.preamble.Program;
 
 public class For_Ins extends Instruction {
 
@@ -31,9 +30,9 @@ public class For_Ins extends Instruction {
 
     @Override
     public void bind() {        
-        Program.symbolsTable.newScope();
+        symbolsTable.newScope();
         this.body.bind();
-        Program.symbolsTable.closeScope();
+        symbolsTable.closeScope();
     }
 
     @Override

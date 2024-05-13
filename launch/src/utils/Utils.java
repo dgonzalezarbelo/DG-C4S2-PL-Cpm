@@ -3,7 +3,7 @@ package utils;
 
 import java.util.Set;
 
-import mainApp.Main;
+import mainApp.CompilerMain;
 
 public class Utils {
 
@@ -39,11 +39,14 @@ public class Utils {
 
     public static void printErrorRow(int row) {
         System.out.println("↑ ERROR row: " + row);
-        Main.errorDetected = true;
     }
+
+    public static void printError(String err) {
+        System.out.println("ERROR : " + err);
+    }
+
     public static void printErrorRowCol(int row, int col) {
         System.out.println("↑ ERROR row " + row + " and col " + col);
-        Main.errorDetected = true;
     }
 
     public static void clear() {

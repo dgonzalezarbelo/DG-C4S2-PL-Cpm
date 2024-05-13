@@ -15,9 +15,10 @@ public class arraysCorrect {
 
     @Test
     public void testarraysCorrect() throws FileNotFoundException, IOException {
-        String[] args = { "./../testingCodes/arraysCorrect.cpm" }; // File that will be tested
+        String args = "./../testingCodes/arraysCorrect.cpm"; // File that will be tested
         try {
-            ReconLexicon.main(args);
+            ReconLexicon r = new ReconLexicon();
+r.run(args);
         } catch (internal_error e) {
             e.printStackTrace();
         } catch (Exception e) {

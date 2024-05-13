@@ -1,11 +1,13 @@
 package ast.sentences.declarations;
 
 import ast.Josito;
+import ast.SymbolsTable;
 import ast.expressions.Expression;
 import ast.expressions.operands.ConstructorCall;
 import ast.types.interfaces.Pointer_Type;
 import ast.types.interfaces.Type;
 import ast.types.interfaces.Type.Type_T;
+import utils.GoodBoolean;
 
 public class New_Op extends Expression {
     private ConstructorCall constructor; // In case this attribute is not null then it has to be a constructor, otherwise it will not make sense
@@ -21,6 +23,13 @@ public class New_Op extends Expression {
     }
     
     public String toString() {return "niu " + (constructor != null ? constructor.toString() : type.toString());}
+
+    @Override
+    public void propagateStaticVars(GoodBoolean g, SymbolsTable s) {
+        super.propagateStaticVars(g, s);
+        if (constructor != null)
+            constructor.propagateStaticVars(g, s);
+    }
 
     @Override
     public void bind() {

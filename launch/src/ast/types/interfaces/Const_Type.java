@@ -1,7 +1,9 @@
 package ast.types.interfaces;
 
+import ast.SymbolsTable;
 import ast.expressions.operands.Literal;
 import exceptions.InvalidTypeException;
+import utils.GoodBoolean;
 
 public class Const_Type extends Envelope_Type {    // User defined type 
     protected Literal value;
@@ -10,6 +12,12 @@ public class Const_Type extends Envelope_Type {    // User defined type
         super(type, row);
         this.kind = Type_T.CONST;
         this.value = value;
+    }
+
+    @Override
+    public void propagateStaticVars(GoodBoolean g, SymbolsTable s) {
+        super.propagateStaticVars(g, s);
+        value.propagateStaticVars(g, s);
     }
 
     public String getTypename() {

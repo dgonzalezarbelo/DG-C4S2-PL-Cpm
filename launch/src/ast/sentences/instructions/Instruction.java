@@ -1,9 +1,11 @@
 package ast.sentences.instructions;
 
 import ast.Delta;
+import ast.SymbolsTable;
 import ast.expressions.Expression;
 import ast.sentences.Block;
 import ast.sentences.Sentence;
+import utils.GoodBoolean;
 import utils.GoodInteger;
 
 public abstract class Instruction extends Sentence {
@@ -18,6 +20,15 @@ public abstract class Instruction extends Sentence {
         this.row = row;
     }
     
+    @Override
+    public void propagateStaticVars(GoodBoolean g, SymbolsTable s) {
+        super.propagateStaticVars(g, s);
+        if (argExpression != null)
+            argExpression.propagateStaticVars(g, s);
+        if (body != null)
+            body.propagateStaticVars(g, s);
+    }
+
     @Override
     public void propagateIndentation(int indent) {
         super.propagateIndentation(indent);

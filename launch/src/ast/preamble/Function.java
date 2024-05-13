@@ -6,6 +6,7 @@ import java.util.List;
 import ast.ASTNode;
 import ast.Delta;
 import ast.Josito;
+import ast.SymbolsTable;
 import ast.expressions.Expression;
 import ast.expressions.operands.AttributeID;
 import ast.expressions.operands.FunctionCall;
@@ -16,6 +17,7 @@ import exceptions.DuplicateDefinitionException;
 import exceptions.MatchingTypeException;
 import exceptions.UndefinedAttributeException;
 import exceptions.UndefinedFunctionException;
+import utils.GoodBoolean;
 import utils.GoodInteger;
 import utils.Utils;
 
@@ -37,6 +39,19 @@ public class Function extends Definition {
     }
 
     @Override
+    public void propagateStaticVars(GoodBoolean g, SymbolsTable s) {
+        super.propagateStaticVars(g, s);
+        for (Argument a : args)
+            a.propagateStaticVars(g, s);
+        if (body != null)
+            body.propagateStaticVars(g, s);
+        if (return_t != null)
+            return_t.propagateStaticVars(g, s);
+        if (return_var != null)
+            return_var.propagateStaticVars(g, s);
+    }
+
+    @Override
     public String toString() { // TODO no imprimimos los argumentos en el toString de la funcion
         if(this.indentation == null)
             this.propagateIndentation(0);
@@ -55,17 +70,18 @@ public class Function extends Definition {
     @Override
     public void bind() {
         try {
-            Program.symbolsTable.insertFunction(this.definitionName, this);
+            symbolsTable.insertFunction(this.definitionName, this);
             propagateBind();
         }
         catch (DuplicateDefinitionException e) {
             System.out.println(e);
             Utils.printErrorRow(row);
+            this.errorFlag.setValue(true);
         }
     }
 
     protected void propagateBind() {
-        Program.symbolsTable.newScope();
+        symbolsTable.newScope();
         for (Argument d : args) 
             d.bind(); 
         if (return_t != null)
@@ -73,7 +89,7 @@ public class Function extends Definition {
         body.bind();
         if (return_var != null)
             return_var.bind();
-        Program.symbolsTable.closeScope();
+        symbolsTable.closeScope();
     }
 
     public List<Argument> getArgumentsList() {
@@ -105,7 +121,7 @@ public class Function extends Definition {
                 a.checkType();
             body.checkType();
             if(return_var != null) {
-                return_var.checkType();             // TODO esto peta si es una función que no devuelve nada [Javi: creo que ya esta]
+                return_var.checkType();
                 Type returnType = return_var.getType();
                 if(!returnType.canBeAssigned(return_t)) {
                     throw new MatchingTypeException(String.format("The type of the returning expression at function %s '%s' doesnt match the typeof the declared return type '%s'", this.definitionName, returnType, this.return_t));
@@ -115,6 +131,7 @@ public class Function extends Definition {
         catch (Exception e) {
             System.out.println(e);
             Utils.printErrorRow(row);
+            this.errorFlag.setValue(true);
         }        
     }
 
@@ -137,7 +154,7 @@ public class Function extends Definition {
     @Override
     public void maxMemory(GoodInteger c, GoodInteger maxi) {
         maximumMemory.setValue(Josito.NUM_FUNC_POINTERS_SIZE);
-        GoodInteger curr = new GoodInteger(this.maximumMemory.toInt()); // FIXME igual no hay que pasar un copia y hay que pasar el de arriba, darle una vuelta
+        GoodInteger curr = new GoodInteger(this.maximumMemory.toInt());
         for (Argument a : args) {
             a.maxMemory(curr, maximumMemory);               // Only the declarations will change the curr value
             if(curr.toInt() > maximumMemory.toInt())
@@ -158,29 +175,17 @@ public class Function extends Definition {
         for (Argument a : args)
             a.computeOffset(delta);
         body.computeOffset(delta);
-        if (return_var != null)             // FIXME igual esto no se devuelve por la pila
+        if (return_var != null)
             return_var.computeOffset(delta);
         delta.popScope();
     }
-
-    /*
-    @Override
-    public void generateCode(Josito jose) { // TODO Este era el anterior
-        jose.funcHeader(this.definitionName);
-        for (Argument a : args)
-            a.generateCode(jose);
-        // TODO poner codigo del result
-        body.generateCode(jose);
-        return_var.generateCode(jose);  // TODO se supone que aquí calculas el valor de retorno
-        jose.funcTail();                // TODO y aquí se apila si procede para ser devuelto
-    } */
 
     @Override
     public void generateCode(Josito jose) {
         if (WASMId != 0)                        // If the WASMId is 0 then this function is the Main, so we keep the WASMId 0
             WASMId = jose.getAndIncrementId();  // Get the unique function Id
         jose.funcHeader(WASMId);
-        if (return_t != null)               // Check if its a typed function or not
+        if (return_t != null)                   // Check if its a typed function or not
             jose.funcResult();
         body.generateCode(jose);
         if (return_var != null)

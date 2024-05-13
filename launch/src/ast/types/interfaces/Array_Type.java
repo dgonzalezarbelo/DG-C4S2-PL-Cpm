@@ -3,10 +3,12 @@ package ast.types.interfaces;
 import java.util.ArrayList;
 import java.util.List;
 
+import ast.SymbolsTable;
 import ast.expressions.Expression;
 import ast.expressions.operands.Int_Value;
 import ast.expressions.operands.Literal;
 import exceptions.InvalidTypeException;
+import utils.GoodBoolean;
 
 public class Array_Type extends Envelope_Type {
     private Expression dim;
@@ -23,6 +25,13 @@ public class Array_Type extends Envelope_Type {
         this.inner_terminal_type = null;
         this.array_dimension = 0;
         this.isDynamic = false;
+    }
+
+    @Override
+    public void propagateStaticVars(GoodBoolean g, SymbolsTable s) {
+        super.propagateStaticVars(g, s);
+        if (dim != null)
+            dim.propagateStaticVars(g, s);
     }
 
     public void setInnerType(Type t) {

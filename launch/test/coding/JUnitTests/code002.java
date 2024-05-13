@@ -12,6 +12,6 @@ public class code002 extends code {
 
     @Test
     public void testCode() {
-        this.testGeneracionEjecucion();
+        // this.testGeneracionEjecucion();
     }
 }

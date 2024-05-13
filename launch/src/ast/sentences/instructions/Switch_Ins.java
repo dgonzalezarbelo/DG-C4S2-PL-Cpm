@@ -2,6 +2,7 @@ package ast.sentences.instructions;
 
 import exceptions.InvalidTypeException;
 import exceptions.MatchingTypeException;
+import utils.GoodBoolean;
 import utils.GoodInteger;
 import utils.Utils;
 
@@ -12,8 +13,8 @@ import java.util.Set;
 
 import ast.Delta;
 import ast.Josito;
+import ast.SymbolsTable;
 import ast.expressions.Expression;
-import ast.preamble.Program;
 import ast.types.interfaces.Type;
 import ast.types.interfaces.Type.Type_T;
 
@@ -43,13 +44,21 @@ public class Switch_Ins extends Instruction {
     }
 
     @Override
+    public void propagateStaticVars(GoodBoolean g, SymbolsTable s) {
+        super.propagateStaticVars(g, s);
+        for (Case_Ins c : clauses)
+            c.propagateStaticVars(g, s);
+        default_Ins.propagateStaticVars(g, s);
+    }
+
+    @Override
     public void bind() {
-        Program.symbolsTable.newScope();
+        symbolsTable.newScope();
         this.argExpression.bind();
         for(Case_Ins clause : clauses)
             clause.bind();
         default_Ins.bind();
-        Program.symbolsTable.closeScope();
+        symbolsTable.closeScope();
     }
 
 	@Override
@@ -76,6 +85,7 @@ public class Switch_Ins extends Instruction {
         } catch (Exception e) {
             System.out.println(e);
             Utils.printErrorRow(row);
+            this.errorFlag.setValue(true);
         }
 	}
 

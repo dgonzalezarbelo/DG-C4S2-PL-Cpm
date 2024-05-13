@@ -3,7 +3,6 @@ package ast.expressions.operands;
 import ast.ASTNodeTypable;
 import ast.Josito;
 import ast.expressions.Expression;
-import ast.preamble.Program;
 import exceptions.InvalidDirectionException;
 import exceptions.InvalidTypeException;
 import utils.Utils;
@@ -19,14 +18,14 @@ public class ThisID extends Expression {
 
     @Override
     public void bind() {
-        String currDef = Program.symbolsTable.getCurrentDefinition();
+        String currDef = symbolsTable.getCurrentDefinition();
         if(currDef == "") {
             System.out.println("InvalidThisException: using this operator outside a class or a struct");
             Utils.printErrorRow(row);
         }
         else {
             try {
-                thisReference = Program.symbolsTable.getDefinition(currDef);
+                thisReference = symbolsTable.getDefinition(currDef);
             } catch (InvalidTypeException e) { // This shouldnt catch any exception
                 System.out.println("If this catch is activated means that we are having porblems inserting classes in the SymbolsTable");
             }

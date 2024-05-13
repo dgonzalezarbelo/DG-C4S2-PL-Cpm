@@ -4,16 +4,17 @@ import java.util.List;
 
 import ast.Delta;
 import ast.Josito;
+import ast.SymbolsTable;
 import ast.expressions.Expression;
 import ast.expressions.operands.VariableID;
 import ast.preamble.Argument;
-import ast.preamble.Program;
 import ast.sentences.Sentence;
 import ast.types.interfaces.Array_Type;
 import ast.types.interfaces.Const_Type;
 import ast.types.interfaces.Type;
 import ast.types.interfaces.Type.Type_T;
 import exceptions.DuplicateDefinitionException;
+import utils.GoodBoolean;
 import utils.GoodInteger;
 import utils.Utils;
 
@@ -32,6 +33,12 @@ public class Declaration extends Sentence {
         this.type = d.type;
         this.varname = d.varname;
         this.row = d.row;
+    }
+
+    @Override
+    public void propagateStaticVars(GoodBoolean g, SymbolsTable s) {
+        super.propagateStaticVars(g, s);
+        varname.propagateStaticVars(g, s);
     }
 
     public String getVarname() {
@@ -54,11 +61,12 @@ public class Declaration extends Sentence {
 	public void bind() {
         type.bind();
         try {
-            Program.symbolsTable.insertSymbol(varname.getValue(), this);
+            symbolsTable.insertSymbol(varname.getValue(), this);
         }
         catch (DuplicateDefinitionException e) {
             System.out.println(e);
             Utils.printErrorRow(row);
+            this.errorFlag.setValue(true);
         }
 	}
 

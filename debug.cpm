@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 clas Person {
     praivet int age;
     praivet int address;
@@ -45,11 +46,33 @@ func mein() : int {
     //    ceaut((~ptr).getAge());
     //    ptr = ptr - 1;
     //}
+=======
+// Basic-types pointers of pointers
+func mein() : int {
+    int a = -15;
+    int~ ptrA = &a;
+    int ptrPtrA = &ptrA;
+    ceaut(a);
+    ceaut(~ptrA);
+    ceaut(ptrPtrA);
+
+    ~ptrA = 1500;
+    ceaut(a);
+    ceaut(~ptrA);
+    ceaut(ptrPtrA);
+
+    ptrPtrA = 0;
+    ceaut(a);
+    ceaut(~ptrA);
+    ceaut(~~ptrPtrA);
+
+>>>>>>> 41ed2bf15e803b3d562540c42205076c20de83b4
     return 0;
 }
 
 /*
 RESULT:
+<<<<<<< HEAD
 10
 12
 14
@@ -60,4 +83,15 @@ RESULT:
 14
 12
 10
+=======
+-15
+-15
+-15
+1500
+1500
+1500
+0
+0
+0
+>>>>>>> 41ed2bf15e803b3d562540c42205076c20de83b4
 */

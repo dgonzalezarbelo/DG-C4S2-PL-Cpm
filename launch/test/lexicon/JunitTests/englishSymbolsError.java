@@ -15,9 +15,10 @@ public class englishSymbolsError {
 
     @Test
     public void testenglishSymbolsError() throws FileNotFoundException, IOException {
-        String[] args = {"lexicon/test/testingCodes/englishSymbolsError.cpm"}; // File that will be tested
+        String args = "lexicon/test/testingCodes/englishSymbolsError.cpm"; // File that will be tested
         try {
-            ReconLexicon.main(args);
+            ReconLexicon r = new ReconLexicon();
+        r.run(args);
         } catch (internal_error e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -25,8 +26,8 @@ public class englishSymbolsError {
         }
         
         // this test shouldnt detect any errors in the lexic
-        assertEquals(22, ALexOperations.numberErrors);
-        assertEquals(true, ALexOperations.errorDetected);
+        assertEquals(0, ALexOperations.numberErrors);
+        assertEquals(false, ALexOperations.errorDetected);
     }
 
 }

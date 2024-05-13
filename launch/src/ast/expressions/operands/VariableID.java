@@ -5,7 +5,6 @@ import ast.Josito;
 import ast.expressions.Expression;
 import ast.preamble.Argument;
 import ast.preamble.Attribute;
-import ast.preamble.Program;
 import ast.sentences.declarations.Declaration;
 import ast.types.interfaces.Array_Type;
 import ast.types.interfaces.Const_Type;
@@ -36,7 +35,7 @@ public class VariableID extends Expression {
 	@Override
 	public void bind() {
 		try {
-			this.id_node = Program.symbolsTable.getReference(varname);
+			this.id_node = symbolsTable.getReference(varname);
 		} catch (InvalidIdException e) {
 			System.out.println(e);
 			Utils.printErrorRow(row);
@@ -91,7 +90,7 @@ public class VariableID extends Expression {
     public void generateValue(Josito jose) throws Exception { // Code_E
 		Type_T t = this.type.getKind();
 		if (!this.type.getClass().equals(Const_Type.class)) {
-			switch (t) {		// TODO igual esto puede ir en el tipo haciendo type.generateValue() y nos quitamos problemas de varios sitios
+			switch (t) {
 				case INT:
 				case BOOL:
 				case POINTER:
@@ -101,7 +100,7 @@ public class VariableID extends Expression {
 				case ARRAY:
 					generateAddress(jose);
 					Array_Type cast = (Array_Type)this.type;
-					if (cast.isDynamic()) // We have to load the position of the start of the array in case it is dynamic
+					if (cast.isDynamic())		// We have to load the position of the start of the array in case it is dynamic
 						jose.loadDynamicArray();
 					break;
 				case CLASS:
@@ -109,7 +108,7 @@ public class VariableID extends Expression {
 					generateAddress(jose);
 					// In this case, the returned value is the object reference to copy it later, so with generateAddress everything is done
 					break;
-				case CONST: // This will only be a define
+				case CONST:						// This will only be a define
 					break;
 				default:
 					break;

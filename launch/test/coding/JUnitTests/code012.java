@@ -10,7 +10,7 @@ public class code012 extends code {
         super(NAME, ANSWER);
     }
 
-    @Test
+        @Test
     public void testCode() {
         this.testGeneracionEjecucion();
     }

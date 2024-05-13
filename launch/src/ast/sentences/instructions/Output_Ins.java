@@ -30,6 +30,7 @@ public class Output_Ins extends Instruction {
         } catch (Exception e) {
             System.out.println(e);
             Utils.printErrorRow(row);
+            this.errorFlag.setValue(true);
         }
     }
 

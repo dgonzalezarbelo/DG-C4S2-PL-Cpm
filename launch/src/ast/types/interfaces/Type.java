@@ -3,7 +3,6 @@ package ast.types.interfaces;
 import ast.ASTNodeTypable;
 import ast.Delta;
 import ast.Josito;
-import ast.preamble.Program;
 import ast.types.definitions.Definition;
 import exceptions.InvalidTypeException;
 import utils.GoodInteger;
@@ -35,10 +34,11 @@ public abstract class Type extends ASTNodeTypable {
     @Override
     public void bind() {
         try {
-            this.type_definition = Program.symbolsTable.getDefinition(typename);
+            this.type_definition = symbolsTable.getDefinition(typename);
         } catch (InvalidTypeException e) {
             System.out.println(e);
             Utils.printErrorRow(row);
+            this.errorFlag.setValue(true);
         }
     }
 

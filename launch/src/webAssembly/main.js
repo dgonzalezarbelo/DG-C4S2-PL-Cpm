@@ -1,23 +1,38 @@
 const { readFileSync } = require("fs");
 const readline = require('readline');
 const fs = require('fs'); // Importa el módulo fs
+const inputFilePath = process.argv[2];
+const outputFilePath = process.argv[3];
+const isTesting = process.argv[4];
+const MAX_INPUT = process.argv[5] ? process.argv[5] : 0;
+
 
 const insrc = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
+    input: process.stdin,
+    output: process.stdout
 });
 
 entrada = [];
 i = 0; 
 
 async function readInput(n){
-    var line;
-for await (line of insrc) {
-    entrada.push(parseInt(line));
-    n--;
-    if (n==0) return;
+    if (isTesting == 1) {
+        for (let j = 0; j < MAX_INPUT; j++) {
+            entrada.push(process.argv[6+j]); 
+        }
     }
-    insrc.close();
+    else {
+        var line;
+        if (n > 0) {
+            for await (line of insrc) {
+                entrada.push(parseInt(line));
+                n--;
+                if (n==0) return;
+            }
+        }
+        insrc.close();
+    }
+
 }
 
 var importObjects = {
@@ -36,7 +51,7 @@ var importObjects = {
             throw new Error(errStr);
         },
     print: function(n) {
-        fs.appendFileSync("./launch/src/webAssembly/output.txt", n + "\n");
+        fs.appendFileSync(outputFilePath, n + "\n");
         },
     read: function() {
         let val = entrada[i];
@@ -46,15 +61,15 @@ var importObjects = {
     }};
 
 async function start() {
-    fs.writeFileSync("./launch/src/webAssembly/output.txt", "");
-    const code = fs.readFileSync("./launch/src/webAssembly/Main.wasm");
+    fs.writeFileSync(outputFilePath, "");
+    const code = fs.readFileSync(inputFilePath);
     const wasmModule = await WebAssembly.compile(code);
     const instance = await WebAssembly.instantiate(wasmModule, importObjects);
     process.exit(0)
 }
 
 async function run() {
-    // await readInput(2);
+    await readInput(MAX_INPUT);
     start();
 }
 

@@ -15,9 +15,10 @@ public class functionsCorrect {
 
     @Test
     public void testfunctionsCorrect() throws FileNotFoundException, IOException {
-        String[] args = {"lexicon/test/testingCodes/functionsCorrect.cpm"}; // File that will be tested
+        String args = "lexicon/test/testingCodes/functionsCorrect.cpm"; // File that will be tested
         try {
-            ReconLexicon.main(args);
+            ReconLexicon r = new ReconLexicon();
+r.run(args);
         } catch (internal_error e) {
             e.printStackTrace();
         } catch (Exception e) {
