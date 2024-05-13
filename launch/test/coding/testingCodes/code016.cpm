@@ -1,0 +1,15 @@
+func maybeConsumed() : int {
+    return 1;
+}
+
+func mein() : int {
+    int a = maybeConsumed();
+    maybeConsumed();
+    ceaut(a);
+    return 0;
+}
+
+/*
+RESULT:
+1
+*/

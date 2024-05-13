@@ -1,0 +1,34 @@
+{
+    "version": "0.2.0",
+
+    // configuraciones de EJECUCIÓN de los distintos proyectos Java en el proyecto
+    "configurations": [
+        // Configuración de ejecución para lanzar el analizador léxico
+        {
+            "type": "java",
+            "name": "CompilerDebug",
+            "request": "launch",
+            "mainClass": "mainApp.Main",
+            "preLaunchTask": "preLaunchTasks",
+            "args":["./debug.cpm"],
+            "stopOnEntry": false
+        },
+        // Configuración de ejecución para lanzar el analizador léxico
+        {
+            "type": "java",
+            "name": "CompilerLauncher",
+            "request": "launch",
+            "mainClass": "mainApp.Main",
+            "preLaunchTask": "preLaunchTasks",
+            "args":["${input:args}"]
+        }
+    ],
+    // Sección para que se pidan los argumentos explícitamente desde VScode
+    "inputs": [
+        {
+            "id": "args",
+            "type": "promptString",
+            "description": "Enter program arguments separated by space"
+        }
+    ]
+}

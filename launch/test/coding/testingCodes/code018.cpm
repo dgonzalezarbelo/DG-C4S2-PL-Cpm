@@ -1,0 +1,22 @@
+// Bool Print + Bool Reference Argument Test
+
+func voidFunction(bul &a) {
+    a = tru;
+    ceaut(a);
+    return;
+} 
+
+func mein() : int {
+    bul a = fols;
+    ceaut(a);
+    voidFunction(a);
+    ceaut(a);
+    return 0;
+}
+
+/*
+RESULT:
+0
+1
+1
+*/

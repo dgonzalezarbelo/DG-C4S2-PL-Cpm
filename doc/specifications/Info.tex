@@ -1,0 +1,445 @@
+\documentclass[10pt,a4paper]{article}
+
+%% Formateo del título del documento
+\title{\Huge C$+$$-$}
+\author{Juan Diego Barrado Daganzo, Javier Saras González y Daniel González Arbelo \\ 4º de Carrera}
+\date{\today\footnote{Este documento se actualiza, para consultar las últimas versiones entrar en el enlace \url{https://github.com/JuanDiegoBarrado/PracticaPL}}}
+
+%% Formateo del estilo de escritura y de la pagina
+\pagestyle{plain}               % Estilo de página
+\setlength{\parskip}{0.35cm}    % Edicion de espaciado
+\setlength{\parindent}{0cm}     % Edicion de sangría
+\clubpenalty=10000              % Llíneas viudas NO
+\widowpenalty=10000             % Líneas viudas NO
+
+%% Para establecer las medidas de los margenes
+\usepackage[top=2.5cm, bottom=2.5cm, left=3cm, right=3cm]{geometry} 
+%% Para que el idioma por defecto sea español
+\usepackage[spanish]{babel}
+%% Para poder subrayar entornos especiales como las secciones
+\usepackage{ulem}
+
+%% Texto matematico y simbolos especiales
+\usepackage{amsmath}    % Paquete para mates
+\usepackage{amsfonts}   % Paquete para mates
+\usepackage{amssymb}    % Paquete para mates
+\usepackage{stmaryrd}   % Paquete para mates
+\usepackage{latexsym}   % Paquete para mates
+
+%% Paquete para incluir imágenes y ruta de la carpeta de las imágenes
+\usepackage{graphicx}
+\graphicspath{{./fotos/}}
+
+%% Paquete para tener hipervínculos y referencias cruzadas
+\usepackage[colorlinks=true]{hyperref}
+\hypersetup{
+	urlcolor=red,
+	linkcolor=brown,
+}
+
+%% Paquete para incluir código con coloreado sintáctico
+\usepackage{listings}
+\lstdefinelanguage{C+-}
+{
+  keywords={
+    if, els, guail, breic, continue,
+    suich, queis, difolt,
+    cein, ceaut,
+    return
+    },
+  keywordstyle=\color{blue},
+  emph={int, bul, func, tru, fols, estrut},
+  emphstyle=\color{purple},
+  commentstyle=\color{green},
+  stringstyle=\color{red},
+  sensitive=true,
+  morecomment=[l]{//},
+  moredelim=**[is][\color{green}]{@}{@},
+}
+
+\lstdefinestyle{customcode} {
+    literate=*{{/*}{\char`/*}}{2} {*{/}{\char`*/}}{2} {*/}{{{\color{commentgreen}*/}}}3,
+}
+
+\lstset{
+    language=C+-,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    breaklines=true,
+    frame=shadowbox,
+    rulesepcolor=\color{black},
+    backgroundcolor=\color{white},
+    tabsize=2,
+    gobble=12,
+    linewidth=0.65\linewidth,
+    float=h
+}
+
+
+%% Definicion de operadores especiales para simplificar la escritura matematica
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\img}{img}
+\DeclareMathOperator{\rot}{rot}
+\DeclareMathOperator{\divg}{div}
+\newcommand{\dif}[1]{\ d#1}
+\newcommand{\cpm}{C$+$$-$}
+
+%% Paquete e instrucciones para la generacion de los dibujos
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usepackage{tkz-fct}
+\usepackage{pstricks}
+\usepackage{pstcol} 
+\usepackage{pst-node}
+\usepackage{pst-plot}
+
+%% Paquetes extra
+\usepackage{centernot}  % Paquete para tachar cosas
+\usepackage{appendix}   % Paquete para apéndice
+\usepackage{verbatim}   % Paquete para comentar bloques de código de LaTeX
+\usepackage{multicol}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Especificaciones técnicas del lenguaje}\label{sec:Especificaciones técnicas del lenguaje}
+\subsection{Identificadores y ámbitos de definición}\label{subsec:Identificadores y ámbitos de definición}
+El lenguaje posee las siguientes características:
+\begin{itemize}
+    \item \textbf{Declaración de variables}: se pueden declarar variables sencillas de los tipos definidos y variables \textit{array} de estos tipos, de cualquier dimensión.
+    \item \textbf{Bloques anidados}: se permiten las anidaciones en condicionales, bucles, funciones, etc. Si dos variables tienen el mismo nombre, la más profunda (en la anidación) tapa a la más externa.
+    \item \textbf{Funciones}: se permite la creación de funciones. El paso por valor y por referencia de cualquier tipo a las funciones está garantizado.
+    \item \textbf{Punteros}: para cada tipo se puede declarar un puntero a una variable de ese tipo, mediante la asignación de su dirección de memoria a la variable puntero.
+    \item \textbf{Registros y clases}: se incluyen dos tipos adicionales: los registros como ``saco de datos'' ---sin métodos--- y las clases, tanto con datos como con métodos de función.
+    \item \textbf{Declaración de constantes}: se incluye la posibilidad de declarar constantes por parte del usuario.
+\end{itemize}
+
+\subsection{Tipos}\label{subsec:Tipos}
+El lenguaje \cpm es un lenguaje fuertemente tipado, donde la declaración de tipos ha de hacerse de manera explícita y de forma previa al uso del identificador, es decir, que para poder usar una variable tengo que haberla declarado antes.
+
+El lenguaje consta de los siguientes tipos predefinidos:
+\begin{itemize}
+    \item Enteros
+    \item Booleanos
+    \item Clases
+    \item Registros
+    \item Arrays
+    \item Funciones
+    \item Punteros
+\end{itemize}
+sobre los que se habla más en profundidad en su respectiva sección. Asimismo, existe la posibilidad de declarar tipos por parte del usuario a través de la instrucción \texttt{\color{blue}difain}. Los detalles, de nuevo, se exponen de forma más precisa en su correspondiente apartado.
+
+\subsubsection{Enteros y booleanos}
+Los tipos básicos del lenguaje son los enteros y los booleanos y son los únicos permitidos para ser retornados explícitamente\footnote{Si bien es cierto que la instrucción \texttt{\color{blue} return} está restringida a tipos enteros y booleanos, una función puede ``devolver'' un valor de otro tipo pasando por referencia como argumento una variable de ese tipo.} por funciones. A continuación, se expone la sintaxis de declaración de ambos y las operaciones permitidas para cada uno de ellos. El identificador \texttt{var} corresponderá al identificador asignado a la variable declarada con estos tipos.
+\begin{itemize}
+    \item \textbf{Enteros}: \texttt{\color{blue} int var;}
+    
+    Operaciones habilitadas para el tipo:
+    \begin{itemize}
+        \item Suma: \texttt{\color{blue} a + b}
+        \item Resta: \texttt{\color{blue} a - b}
+        \item Multiplicación: \texttt{\color{blue} a * b}
+        \item División: \texttt{\color{blue} a / b}
+        \item Potencia: \texttt{\color{blue} a\^{}b}
+        \item Paréntesis: \texttt{\color{blue} ()}
+        \item Menor: \texttt{\color{blue} a \textless{} b}
+        \item Mayor: \texttt{\color{blue} a \textgreater{} b}
+        \item Igual: \texttt{\color{blue} a == b}
+        \item Menor o igual: \texttt{\color{blue} a \textless{}= b}
+        \item Mayor o igual: \texttt{\color{blue} a \textgreater{}= b}
+        \item Distinto: \texttt{\color{blue} a != b}
+    \end{itemize}
+    Los literales permitidos para la asignación de un valor a las variables de tipo entero son decimales, binarios y hexadecimales, que serán convertidos internamente todos a números decimales.
+
+    \item \textbf{Booleanos}: \texttt{\color{blue} bul var;}
+    
+    Operaciones habilitadas para el tipo:
+    \begin{itemize}
+        \item \textit{Y} lógico: \texttt{\color{blue} a an b}
+        \item \textit{O} lógico: \texttt{\color{blue} a or b}
+        \item \textit{No} lógico: \texttt{\color{blue} !a}
+    \end{itemize}
+    Las palabras reservadas para definir los dos literales booleanos que pueden asignarse a variables booleanas son \texttt{\color{blue}tru} y \texttt{\color{blue}fols}, indicando respectivamente verdadero y falso.
+\end{itemize}
+
+
+\subsubsection{Clases y registros}
+Las clases y registros son tipos no básicos compuestos por atributos (registros) y por atributos y métodos (clases). Además, cada elemento de la clase o del registro podrá tener una visibilidad a elegir entre \texttt{\color{blue}public} y \texttt{\color{blue}praivet}, denotando el primero que el campo es accesible por llamadas desde fuera del tipo y el segundo, que solo es accesible a través de llamadas internas del tipo. Por defecto, las clases tendrán todos sus campos privados y los registros públicos.
+
+\begin{itemize}
+    \item \textbf{Clases}: \texttt{\color{blue} clas var \{...\};}
+    
+    Opciones habilitadas para el tipo:
+    \begin{itemize}
+        \item Acceso a atributos: \texttt{\color{blue} var.atributo}
+        \item Acceso a métodos: \texttt{\color{blue} var.metodo()}
+        \item Constructor: \texttt{\color{blue} var(args)}
+    \end{itemize}
+    \item \textbf{Registros}: \texttt{\color{blue} estrut var \{...\};}
+    
+    Opciones habilitadas para el tipo:
+    \begin{itemize}
+        \item Acceso a atributos: \texttt{\color{blue} var.atributo}
+        \item Constructor: \texttt{\color{blue} var(args)}
+    \end{itemize}
+
+    En ambos casos, el prefijo \texttt{\color{blue}dis} en las referencias a atributos, es decir, \texttt{\color{blue}dis.campo} permitirá distinguir entre el campo con dicho nombre dentro del tipo o la variable local que pudiese tener el mismo nombre.
+\end{itemize}
+
+
+\subsubsection{Arrays}
+Todos los tipos descritos en esta subsección pueden formar un array multidimensional. La declaración de arrays es estáctica, esto es, que el tamaño se debe conocer en tiempo de compilación. 
+\begin{itemize}
+    \item \textbf{Array}: \texttt{\color{blue} Tipo[DIMENSION] var;}
+    
+    Opciones habilitadas para el tipo:
+    \begin{itemize}
+        \item Operador de acceso: \texttt{\color{blue} var[INDEX]}
+    \end{itemize}
+\end{itemize}
+
+
+
+\subsubsection{Funciones}
+Las funciones, que a priori podría parecer que no son un tipo, se han declarado también como uno para poder hacer expresiones lamdba que luego poder pasar como argumento a otras funciones o utilizar en la ejecución del programa. 
+\begin{itemize}
+    \item \textbf{Funciones}: \texttt{\color{blue} func foo(Tipo arg1, ...) : TipoRetorno \{...; return var;\};}
+\end{itemize}
+En caso de que la función no devuelva ningún valor ---lo que se suele llamar \textit{procedimiento}---, la sintaxis de declaración se cambiaría por
+\begin{itemize}
+    \item \textbf{Funciones}: \texttt{\color{blue} func foo(Tipo arg1, ...) \{...; return;\};}
+\end{itemize}
+
+La instrucción \texttt{\color{blue} return} final es obligatoria y solo está permitido que haya una y, además, que sea la instrucción final del cuerpo de la función.
+
+En cuanto a los parámetros de la función, existe tanto la posibilidad de pasar los parámetros por valor como por referencia, siendo la primera la opción por defecto. Para indicar explícitamente que quiere pasar un parámetro por referencia, es necesaria añadir el caracter ``\&'' al final del tipo del argumento.
+
+Los arrays también pueden ser argumentos de una función y, a diferencia de los tipos primitivos, su paso por defecto es por referencia. Cabe destacar que existe la posibilidad de pasar como argumento un array de dimensión variable. En tal caso se escribirá similar a la siguiente sentencia: 
+\begin{center}
+    \texttt{\color{blue}func foo(int[] array) : TipoRetorno \{...\}}
+\end{center}
+
+
+
+\subsubsection{Punteros}
+Cualquiera de los tipos anteriores, incluyendo los propios arrays, son susceptibles de ser apuntados por un puntero específico. La declaración de punteros es como la declaración del tipo al que se pretende apuntar, pero añadiendo el caracter \~{} al final del tipo.
+\begin{itemize}
+    \item \textbf{Puntero\footnote{A modo de aclaración, la afirmación ``La declaración de punteros es como la declaración del tipo al que se pretende apuntar, pero añadiendo el caracter \~{} al final del tipo'' se mantiene exactamente igual para cuando el tipo no es un tipo simple. Por ejemplo, la declaración de un puntero a un array de cualquier tipo, se haría como \texttt{Tipo[DIMENSION]\~{} var;}.}}: \texttt{\color{blue} Tipo\~{} var}
+    
+    Opciones habilitadas para el tipo:
+    \begin{itemize}
+        \item Asociación a memoria dinámica: \texttt{\color{blue} var := niu Tipo}
+        \item Acceso al dato: \texttt{\color{blue} \~{}var}
+    \end{itemize}
+\end{itemize}
+El valor guardado en el puntero es la dirección de memoria del objeto al que apunta, pudiendo ser esta una dirección de la pila o del heap en función del caso.
+
+\subsubsection{Tipos definidos por el usuario y constantes}
+Además de los tipos declarados por nosotros, permitimos la definición de tipos por parte del usuario a través de la siguiente instrucción:
+\begin{itemize}
+    \item \textbf{Definición de tipos de usuario}: \texttt{\color{blue} taipdef nuevoTipo expresionDeTipos}.
+\end{itemize}
+Sin embargo, la manera de entender este tipo declarado por el usuario no es como un nuevo tipo sino como un alias de la expresión de tipos a la que se asignó.
+
+La declaración de constantes literales está permitida e implementada a través de la siguiente instrucción:
+\begin{itemize}
+    \item \textbf{Declaración de constantes}: \texttt{\color{blue} difain NOMBRE valor}
+\end{itemize}
+Nótese que la expresión anterior no indica de manera explícita el tipo al que pertenece la constante, sino que se conoce de manera implícita a través del valor asignado al identificador de la constante.
+
+\subsection{Instrucciones del lenguaje}\label{subsec:Instrucciones del lenguaje}
+A continuación se presenta el repertorio de instrucciones del lenguaje. Préstese atención a aquellas que terminan con el caracter ``;'' para delimitar su final:
+\begin{itemize}
+    \item \textbf{Instrucción de asignación}: \texttt{:=}
+    \begin{center}
+        \begin{minipage}{\linewidth}
+            \begin{lstlisting}[linewidth=0.3\linewidth, gobble=16]
+                int var = 3;
+            \end{lstlisting}
+        \end{minipage}
+    \end{center}
+    
+    \item \textbf{Instrucciones condicionales}: \texttt{if-els}, \texttt{suich-queis}
+    \begin{center}
+        \begin{minipage}{\linewidth}
+            \begin{lstlisting}[linewidth=0.3\linewidth, gobble=16]
+                if (var > 3) {
+                    ...
+                }
+                els {
+                    ...
+                }
+            \end{lstlisting}
+        \end{minipage}
+    \end{center}
+    \begin{center}
+        \begin{minipage}{\linewidth}
+            \begin{lstlisting}[linewidth=0.3\linewidth, gobble=16]
+                suich (var) {
+                    queis(val1):
+                        ...
+                        breic;
+                    queis(val2):
+                        ...
+                        breic;
+                    difolt:
+                        ...
+                        breic;
+                }
+            \end{lstlisting}
+        \end{minipage}
+    \end{center}
+
+    \item \textbf{Instrucción de bucle}: \texttt{while}
+    \begin{center}
+        \begin{minipage}{\linewidth}
+            \begin{lstlisting}[linewidth=0.3\linewidth, gobble=16]
+                guail (var > 0) {
+                    ...
+                }
+            \end{lstlisting}
+        \end{minipage}
+    \end{center}
+    Se incluyen además las instrucciones \texttt{\color{blue} breic} y \texttt{\color{blue} continiu}.
+
+    \item \textbf{Instrucciones de entrada salida}: \texttt{\color{blue} cein()} y \texttt{\color{blue} ceaut()}
+    \begin{center}
+        \begin{minipage}{\linewidth}
+            \begin{lstlisting}[linewidth=0.3\linewidth, gobble=16]
+                cein(var);
+                ceaut(var);
+            \end{lstlisting}
+        \end{minipage}
+    \end{center}
+    
+    \item \textbf{Instrucción de retorno de función}: \texttt{\color{blue} return}
+    \begin{center}
+        \begin{minipage}{\linewidth}
+            \begin{lstlisting}[linewidth=0.5\linewidth, gobble=16]
+                func foo(Tipo arg) : TipoRetorno {
+                    TipoRetorno var;
+                    ...
+                    return var;
+                }
+            \end{lstlisting}
+        \end{minipage}
+    \end{center}
+
+\end{itemize}
+
+\subsection{Elementos de la estructura del código}\label{subsec:Elementos de la estructura del código}
+El código comenzará con la definición ---separada o entremezclada--- de los tipos compuestos (clases, registros, funciones, etc.), de los tipos de usuario y de las constantes del programa. Finalmente, comenzará la función principal del programa y que sirve como punto de entrada, que es la que denotamos por \texttt{\color{blue} func mein() : int {...; return 0;}}.
+
+Es importante destacar que, a diferencia de otros lenguajes como Python, donde la ejecución del código no requiere de una función ``especial'' que sirva como punto de entrada para el programa, en nuestro lenguaje es obligatorio que el código del programa esté dentro de esta función final y que fuera solo se permita la declaración de tipos y constantes que hemos explicado previamente. Esto quiere decir que cualquier variable global o expresión fuera del \texttt{mein} que no se ajuste a estas restricciones será entendida como un error sintáctico.
+
+Por otro lado, se incluye la posibilidad de escribir comentarios en el código, esto es, líneas que en el momento de compilación serán ignoradas. Se permiten tanto comentarios de una línea, encabezados por ``//'' y terminados en un salto de línea, como comentarios multilínea, encabezados por ``/*'' y terminados con ``*/''.
+
+A continuación, un ejemplo de código que se ajusta a las restricciones estipuladas:
+
+\begin{center}
+    \begin{minipage}{\linewidth}
+        \begin{lstlisting}[linewidth=0.7\linewidth, gobble=16]
+                func mein() : int {
+                    // La ejecucion del programa empieza aqui
+                    int var = 3;
+                    @/*@
+                    @La llamada a la funcion siguiente calcula el @
+                    @factorial de la variable var.@
+                    @Almacenamos el valor en la variable res para@
+                    @mostrarla por pantalla a continuacion.@
+                    @*/@
+                    int res = factorial(var);
+                    ceaut(res);
+                    return 0;
+                }
+        \end{lstlisting}
+    \end{minipage}
+\end{center}
+
+\section{Especificación léxica del lenguaje}\label{sec:Especificación léxica del lenguaje}
+Durante la explicación previa de las especificaciones del lenguaje, ya se han presentado algunas de las palabras reservadas o grafías destinadas a realizar determinadas operaciones. A continuación, se explica de forma más detallada los elementos del lenguaje y los símbolos reservados para cada fin.
+
+\begin{itemize}
+    \item Los nombres de los identificadores de las variables han de ser expresiones alfanuméricas que no comiencen por números y que posiblemente tengan el caracter ``\_''.
+    \item Los literales permitidos para los enteros son decimales (p. ej. \texttt{var = 10}), binarios (p.ej. \texttt{var = 0b1001}) y hexadecimales (p. ej. \texttt{var = 0x1F2BC}).
+    \item Los literales permitidos para los booleanos son las palabras reservadas \texttt{tru} y \texttt{fols}.
+    \item Los espacios en blanco, tabuladores y saltos de línea, se eliminan internamente durante el reconocimiento léxico.
+    \item Los comentarios monolínea comienzan por // y los multilínea /**/. Estos elementos se eliminan durante el reconocimiento léxico.
+    \item Las palabras reservadas para los tipos definidos y para sus operadores son las especificadas en los correspondientes apartados de \nameref{subsec:Tipos}.
+    \item Los delimitadores de los cuerpos de funciones e instrucciones \texttt{guail}, \texttt{if}, etc. son las llaves \{\}.
+    \item El delimitador de final de instrucción o bloque en aquellas que lo requieren es el ;.
+    \item La palabra \texttt{niu} es la reservada para la reserva de memoria del heap.
+    \item Las palabras \texttt{taipdef} y \texttt{difain} son las palabras reservadas para la definición de tipos y constantes.
+    \item Las palabras y símbolos reservados para el repertorio de instrucciones son los declarados en la sección \nameref{subsec:Instrucciones del lenguaje}.
+    \item La palabra reservada para la función principal del programa es \texttt{mein}.
+\end{itemize}
+
+Las expresiones regulares que definen los elementos del léxico aquí descrito pueden consultarse en la sección \nameref{} del anexo.
+
+\section{Especificación sintáctica del lenguaje}\label{sec:Especificación sintáctica del lenguaje}
+
+\begin{table}[h]
+    \begin{tabular}[h]{|c|c|}
+        \hline
+        Constructora & If Ins : Expresión $\times$ Bloque $\rightarrow$ Instrucción \\
+        \hline
+        Descripción & Construye la instrucción condicional \texttt{If}. \\
+        \hline
+        Sintaxis & \texttt{If (Expresión) \{Bloque\}} \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[h]
+    \begin{tabular}[h]{|c|c|}
+        \hline
+        Constructora & While Ins : Expresión $\times$ Bloque $\rightarrow$ Instrucción \\
+        \hline
+        Descripción & Construye la instrucción iterativa \texttt{While}. \\
+        \hline
+        Sintaxis & \texttt{While (Expresión) \{Bloque\}} \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[h]
+    \begin{tabular}[h]{|c|c|}
+        \hline
+        Constructora & Asign Ins : Id $\times$ Expresión $\rightarrow$ Instrucción \\
+        \hline
+        Descripción & Construye la instrucción de asignación \\
+        \hline
+        Sintaxis & \texttt{Id = Expresión} \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
+\newpage
+\appendix
+
+\section{Ejemplos de programas habituales}\label{sec:Ejemplos de programas habituales}
+
+\lstinputlisting[language=C+-, linewidth=\linewidth, caption={Ejemplo de programa típico en $C+-$.}]{../codes/mainExample.cpm}
+\lstinputlisting[language=C+-, linewidth=\linewidth, caption={Ejemplo de programa iterativo en $C+-$.}]{../codes/iterativeExample.cpm}
+\lstinputlisting[language=C+-, linewidth=\linewidth, caption={Ejemplo de arrays multidimensionales en $C+-$.}]{../codes/matrixExample.cpm}
+\lstinputlisting[language=C+-, linewidth=\linewidth, caption={Ejemplo de programa recursivo y sentencia \texttt{if-els} en $C+-$.}]{../codes/conditionalExample.cpm}
+\lstinputlisting[language=C+-, linewidth=\linewidth, caption={Ejemplo de uso de registros y sentencia \texttt{suich} en $C+-$.}]{../codes/structExample.cpm}
+
+\section{Expresiones regulares del léxico}
+\label{sec:Expresiones regulares del léxico}
+\lstinputlisting[
+    firstline=26,
+    lastline=86,
+    linewidth=\linewidth,
+    language=
+]{../../launch/src/lexicon/lexicon.l}
+\section{Gramática de la sintaxis}
+\label{sec:Gramática de la sintaxis}
+
+\end{document}

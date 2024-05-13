@@ -1,0 +1,55 @@
+clas Person {
+    praivet int age;
+    praivet int address;
+
+    Person(int age, int address) {
+        dis.age = age;
+        dis.address = address;
+    }
+
+    public func getAge() : int {
+        return age;
+    }
+}
+
+difain CONST 5;
+
+func mein() : int {
+    Person array[CONST];
+    for (int i = 0; i < CONST; i = i + 1) {
+        array[i] = Person(10 + 2 * i, 98234);
+        ceaut(i);
+    }
+    Person~ ptr = array;
+    for(int j = 0; j < CONST; j = j + 1) {
+        ceaut((~ptr).getAge());
+        ptr = ptr + 1;
+        ceaut(j);
+    }
+    ptr = array;
+    for(int j = 0; j < CONST; j = j + 1) {
+        ceaut((~ptr).getAge());
+        ptr = ptr + 1;
+        ceaut(j);
+    }
+    //for(int k = 0; k < CONST; k = k + 1) {
+    //    ceaut((~ptr).getAge());
+    //    ptr = ptr - 1;
+    //    ceaut(k);
+    //}
+    return 0;
+}
+
+/*
+RESULT:
+10
+12
+14
+16
+18
+18
+16
+14
+12
+10
+*/

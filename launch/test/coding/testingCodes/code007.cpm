@@ -1,0 +1,42 @@
+estrut coor {
+    int x;
+    int y;
+
+    coor(int x, int b) {
+        dis.x = x;
+        y = b;
+    }
+}
+
+func calculaVector(coor p, coor q) : coor {
+    ceaut(p.x);
+    ceaut(p.y);
+    ceaut(q.x);
+    ceaut(q.y);
+    coor res = coor(q.x - p.x, q.y - p.y);
+    ceaut(res.x);
+    ceaut(res.y);
+    return res;
+}
+
+func mein() : int {
+    coor p = coor(1, 3);
+    coor q = coor(3, 3);
+
+    coor vecpq = calculaVector(p, q);
+    ceaut(vecpq.x);
+    ceaut(vecpq.y);
+    return 0;
+}
+
+/*
+RESULT
+1
+3
+3
+3
+2
+0
+2
+0
+*/

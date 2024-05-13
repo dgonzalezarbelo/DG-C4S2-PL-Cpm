@@ -1,0 +1,31 @@
+func dynamicArrayOperations(int array[], int size) {
+    int i = 0;
+    int sum = 0;
+    int prod = 1;
+    guail(i < size) {
+        sum = sum + array[i];
+        prod = prod * array[i];
+        i = i + 1;
+    }
+    ceaut(sum);
+    ceaut(prod);
+    return;
+}
+
+func mein() : int {
+    int array[10];
+    int i = 0;
+    int size = 10;
+    guail (i < size) {
+        array[i] = 2 * i + 1;
+        i = i + 1;
+    }
+    dynamicArrayOperations(array, size);
+    return 0;
+}
+
+/*
+RESULT:
+100
+654729075
+*/

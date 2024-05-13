@@ -1,0 +1,20 @@
+// For Test
+
+// This calculates the factorial of n
+difain CONST_INT 10;
+
+func factorial(int n) : int {
+    int res = 1;
+    for(int i = 1; i <= n; i = i+1) {
+        res = i * res;
+    }
+    return res;
+}
+
+func mein():int {
+    int result = factorial(CONST_INT);
+    ceaut(result);
+    return 0;
+}
+
+// RESULT: 3628800

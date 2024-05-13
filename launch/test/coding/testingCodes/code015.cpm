@@ -1,0 +1,53 @@
+// Reference Argument with User-Defined Types Test
+estrut Person {
+    int dni;
+    int age;
+    bul inSchool;
+
+    Person(int id, int age, bul inSchool) {
+        dni = id;
+        dis.age = age;
+        dis.inSchool = inSchool;
+    }
+}
+
+
+func updateValuePerson(Person &alumn) : int{
+    alumn.dni = 4321;
+    alumn.age = 40;
+    alumn.inSchool = fols;
+
+    return 0;
+}
+
+func mein() : int {
+    Person boy = Person(1234, 20, tru);
+    ceaut(boy.dni);
+    ceaut(boy.age);
+    if(boy.inSchool){
+        ceaut(1);
+    }
+    els{
+        ceaut(0);
+    }
+    int aux = updateValuePerson(boy);
+    ceaut(boy.dni);
+    ceaut(boy.age);
+    if(boy.inSchool){
+        ceaut(1);
+    }
+    els{
+        ceaut(0);
+    }
+    return 0;
+}
+
+/*
+RESULT:
+1234
+20
+1
+4321
+40
+0
+*/

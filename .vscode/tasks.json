@@ -1,0 +1,42 @@
+{
+	"version": "2.0.0",
+
+	// configuraciones de COMPILACIÓN de los distintos proyectos Java en el proyecto
+	"tasks": [
+		// Configuración de compilación para lanzar el analizador léxico, genera tanto el AnalizadorTiny como compila las clases Java del resto del analizador
+		{
+			"label": "preLaunchTasks",
+			"type": "shell",
+			"dependsOn": ["generateLexiconAnalyzer", "generateSyntaxAnalyzer"]
+		},
+		// Configuración de generación de la clase AnalizadorLexicoTiny por parte de JFLEX
+		{
+			"label": "generateLexiconAnalyzer",
+			"type": "shell",
+			"command": "java -cp ${workspaceFolder}/launch/lib/jflex.jar jflex.Main ${workspaceFolder}/launch/src/lexicon/lexicon.l -d ${workspaceFolder}/launch/src/lexicon",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}			
+		},
+		// Configuración de generación de la clase AnalizadorSintacticoTiny por parte de CUP
+		{
+			"label": "generateSyntaxAnalyzer",
+			"type": "shell",
+			"command": "java -cp ${workspaceFolder}/launch/lib/cup.jar java_cup.Main -symbols LexiconClass -parser AnalizadorSintacticoTiny -package syntax -destdir ${workspaceFolder}/launch/src/syntax -nopositions ${workspaceFolder}/launch/src/syntax/Tiny.cup",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "generateWebAssembly",
+			"type": "shell",
+			"command": ".\\launch\\src\\webAssembly\\WatToWasm.bat",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+}

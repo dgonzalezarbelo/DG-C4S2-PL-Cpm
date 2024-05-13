@@ -1,0 +1,86 @@
+// User-Defined Test 
+clas School {
+    public int dir;
+    praivet int amount;
+
+    School(int dir) {
+        dis.dir = dir;
+        amount = 0;
+    }
+
+    public func addStudent(){
+        amount = amount + 1;
+        return;
+    }
+
+    public func getAmount(): int{
+        return amount;
+    }
+}
+
+estrut Student {
+    int id;
+    int age;
+    bul inSchool;
+    School school;
+
+    Student(int id, int age, bul inSchool){
+        dis.id = id;
+        dis.age = age;
+        dis.inSchool = inSchool;
+    }
+
+    Student(int id, int age, bul inSchool, School s){
+        dis.id = id;
+        dis.age = age;
+        dis.inSchool = inSchool;
+        school = s;
+    }
+}
+
+
+
+func mein():int{
+    Student juan = Student(1234, 21, fols);
+    ceaut(juan.id);
+    ceaut(juan.age);
+    ceaut(juan.inSchool);
+    School ucm = School(1000);
+    ceaut(ucm.dir);
+    ceaut(ucm.getAmount());
+    juan.school = ucm;
+    juan.inSchool = tru;
+    ceaut(juan.id);
+    ceaut(juan.age);
+    ceaut(juan.inSchool);
+    ceaut(juan.school.dir);
+    ucm.addStudent();
+    ceaut(ucm.getAmount());
+    Student ana = Student(4321, 20, tru, ucm);
+    ceaut(ana.id);
+    ceaut(ana.age);
+    ceaut(ana.inSchool);
+    ceaut(ana.school.dir);
+    ucm.addStudent();
+    ceaut(ucm.getAmount());
+    return 0;
+}
+
+/*
+RESULT:
+1234
+21
+0
+1000
+0
+1234
+21
+1
+1000
+1
+4321
+20
+1
+1000
+2
+*/

@@ -1,0 +1,42 @@
+clas Chavalito {
+    praivet int edad;
+
+    Chavalito(int x) {
+        dis.edad = x;
+    }
+
+    public func getEdad() : int {
+        return edad;
+    }
+}
+
+//TODO Pasar este test a ingles que soy medio subnormal
+
+clas Alumno {
+    praivet int nota;
+    public int notilla;
+    praivet Chavalito pibe;
+
+    Alumno(int a, int b) {
+        dis.nota = a;
+        dis.notilla = b;
+        dis.pibe = Chavalito(4);
+    }
+
+    public func consultaEdad() : int {
+        int edad = pibe.getEdad();
+        return edad;
+    }
+}
+
+func mein() : int {
+    Alumno a = Alumno(2, 3);
+    int edad = a.consultaEdad();
+    ceaut(edad);
+    return 0;
+}
+
+/*
+RESULT
+4
+*/

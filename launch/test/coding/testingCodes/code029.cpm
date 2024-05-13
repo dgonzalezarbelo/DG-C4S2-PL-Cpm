@@ -1,0 +1,62 @@
+estrut Person {
+    int id;
+    int age;
+
+    Person(int id, int age) {
+        dis.id = id;
+        dis.age = age;
+    }
+}
+
+clas Student {
+    praivet int grade;
+    public int year;
+
+    Student(int grade, int year) {
+        dis.grade = grade;
+        dis.year = year;
+    }
+
+    public func setGrade(int a) {
+        dis.grade = a;
+        return;
+    }
+
+    public func getGrade() : int {
+        return grade;
+    }
+}
+
+func mein() : int {
+    Person~ father = niu Person(1, 45);
+    Person~ uncle = father;
+    Student~ child = niu Student(5, 2002);
+    Student~ sibling = child;
+    ceaut((~father).id);
+    ceaut((~uncle).age);
+    ceaut((~child).getGrade());
+    ceaut((~sibling).getGrade());
+    ceaut((~child).year);
+    ceaut((~sibling).year);
+    (~child).setGrade(8);
+    ceaut((~child).getGrade());
+    ceaut((~sibling).getGrade());
+    (~sibling).setGrade(10);
+    ceaut((~child).getGrade());
+    ceaut((~sibling).getGrade());
+    return 0;
+}
+
+/*
+RESULT:
+1
+45
+5
+5
+2002
+2002
+8
+8
+10
+10
+*/

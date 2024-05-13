@@ -1,0 +1,26 @@
+// Switch with a bool expression
+difain CONST_TRUE tru;
+
+func mein() : int {
+    bul varBool = CONST_TRUE;
+
+    suich (varBool) {
+        queis (tru): 
+            ceaut(1);
+        queis (fols): 
+            ceaut(0);
+        difolt:
+            ceaut(-1000);
+            breic;
+    } 
+
+    return 0;
+}
+
+/* 
+RESULT: 
+    1
+    0
+    -1000
+
+*/

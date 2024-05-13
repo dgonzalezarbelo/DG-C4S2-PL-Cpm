@@ -1,0 +1,49 @@
+// Bool Types Pointer Test 
+func mein():int{
+    bul a = tru;
+    bul b = tru;
+    ceaut(a);
+    bul ~ptrA;
+    ptrA = &a;
+    ceaut(~ptrA);
+    ~ptrA = fols;
+    ceaut(a);
+    ceaut(~ptrA);
+
+    bul ~ptrB = &b;
+    ceaut(b);
+    ceaut(~ptrB);
+    ptrA = ptrB;
+    ceaut(~ptrA);
+    ~ptrB = fols;
+    ceaut(a);
+    ceaut(b);
+    ceaut(~ptrB);
+    ceaut(~ptrA);
+    ~ptrA = tru;
+    ceaut(a);
+    ceaut(b);
+    ceaut(~ptrB);
+    ceaut(~ptrA);
+
+    return 0;
+}
+
+/*
+RESULT:
+1
+1
+0
+0
+1
+1
+1
+0
+0
+0
+0
+0
+1
+1
+1
+*/

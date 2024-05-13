@@ -1,0 +1,24 @@
+// Simple-type pointers with functions
+func getPtrFunction(int~ a) {
+    ~a = 3;
+    return;
+}
+
+func mein(): int {
+    int a = 0;
+    ceaut(a);
+    int~ ptrA = &a;
+    ceaut(~ptrA);
+    getPtrFunction(ptrA);
+    ceaut(a);
+    ceaut(~ptrA);
+    return 0;
+}
+
+/*
+RESULT:
+0
+0
+3
+3
+*/

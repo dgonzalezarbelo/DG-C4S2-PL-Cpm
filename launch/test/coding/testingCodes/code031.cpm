@@ -1,0 +1,105 @@
+// Test basic operators
+func mein() : int {
+    int a = 3^3;
+    ceaut(a);
+    a = 2^0;
+    ceaut(a);
+    a = 9^1;
+    ceaut(a);
+    a = 9^2;
+    ceaut(a);
+    a = 5^5;
+    ceaut(a);
+    a = 7^4;
+    ceaut(a);
+    a = 26 % 5;
+    ceaut(a);
+    a = 25 % 5;
+    ceaut(a);
+    a = 12 + 13;
+    ceaut(a);
+    a = 12 - 13;
+    ceaut(a);
+    a = -10 + 7;
+    ceaut(a);
+    a = 4 * 5;
+    ceaut(a);
+    a = 8 / 2;
+    ceaut(a);
+    a = 12 / 5;
+    ceaut(a);
+    a = (3 + 5) * 4; 
+    ceaut(a);
+
+    bul b;
+
+    b = tru and tru;
+    ceaut(b);
+    b = fols and tru;
+    ceaut(b);
+    b= tru or fols;
+    ceaut(b);
+    b = fols or fols;
+    ceaut(b);
+    b = !tru;
+    ceaut(b);
+    b= !fols;
+    ceaut(b);
+    b = -3 < 5;
+    ceaut(b);
+    b = -7 <= -1;
+    ceaut(b);
+    b= -5 <= -5;
+    ceaut(b);
+    b = -3 > 5;
+    ceaut(b);
+    b = -7 >= -1;
+    ceaut(b);
+    b= -5 >= -5;
+    ceaut(b);
+    b = 1 == 2;
+    ceaut(b);
+    b= -1 == -1;
+    ceaut(b);
+    b = 1 != 1;
+    ceaut(b);
+    b= 1 != 0;
+    ceaut(b);
+    
+    return 0;
+}
+
+/*
+RESULT:
+27
+1
+9
+81
+3125
+2401
+1
+0
+25
+-1 
+-3
+20
+4
+2
+32 
+1
+0
+1
+0
+0
+1
+1
+1
+1
+0
+0
+1
+0
+1
+0
+1
+*/

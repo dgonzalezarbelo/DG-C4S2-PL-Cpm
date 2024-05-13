@@ -1,0 +1,23 @@
+difain CONST 5;
+
+func mein() : int {
+    int array[CONST];
+    for(int i = 0; i < CONST; i = i + 1) {
+        array[i] = i * 2;
+    }
+    int~ ptr = array;
+    for(int i = 0; i < CONST; i = i + 1) {
+        ceaut(~ptr);
+        ptr = ptr + 1;
+    }
+    return 0;
+}
+
+/*
+RESULT:
+0
+2
+4
+6
+8
+*/

@@ -1,0 +1,106 @@
+clas myClass {
+    public int a;
+    praivet bul b;
+
+    myClass(int a, bul c) {
+        dis.a = a;
+        b = c;
+    }
+
+    public func classMethod(bul result, int num): bul {
+        if (num > 0) { dis.b = result; }
+        return b;
+    }
+
+    public func classMethod(bul result): bul {
+        return result;
+    }
+
+    public func classMethod(int result): int {
+        return result;
+    }
+
+    public func classMethod(int~ result): int {
+        return ~result;
+    }
+
+}
+
+taipdef myClass Josito;
+taipdef Josito Jos;
+taipdef Jos J;
+taipdef Jos Jo;
+taipdef int Enterito; 
+taipdef Enterito Ent;
+taipdef Ent E;
+taipdef Ent En;
+// taipdef int arrayT[5];
+
+difain CONST_INT 10;
+difain CONST_BUL tru;
+
+func mein() : int {
+    Ent z = 1;
+    E~ a1200050 = niu En;
+    En~ b1200050 = niu Enterito;
+    Enterito x = 0;
+    bul y = fols;
+    myClass~ c_alloc = niu myClass(x, y);
+    Josito d = Josito(x, tru);
+    Jos~ d1 = niu myClass(10, tru);
+    Jo d2 = myClass(5, tru);
+    J d3 = myClass(2, tru);
+    int num = (~c_alloc).a;
+    bul result = tru;
+    bul aux = d.classMethod(result, num);
+    bul aux1 = (~d1).classMethod(fols);
+    bul aux2 = d2.classMethod(tru);
+    bul aux3 = d3.classMethod(fols, 10);
+    int num1 = (~c_alloc).classMethod(5);
+
+    // dis.x = 0; // This ERROR main should have a this_ID to a local variable
+    // dis.a = 0; // This ERROR main shouldnt have a this_ID to a local class variable
+    // d.b = tru; // Visibility ERROR
+    
+    int a[5];
+    a[1] = 1;
+    int array[CONST_INT][10] = niu int[10][CONST_INT];
+    // array[2] = 7; // ERROR
+
+    //int array2[tru]; // ERROR
+    //int array3[x]; // ERROR
+
+    //int array4[4][tru]; // ERROR
+
+    // int array5[4] = niu int[5]; // ERROR 
+    // int array6[1][2] = niu int[1][3]; // ERROR
+
+    myClass array8[1][2] = niu Josito[1][2]; //Instr 19
+    Josito array7[1][2] = niu myClass[1][2]; // Instr 20
+    
+    int~ pointer = niu int;
+    int tmtupqylqy = 1;
+    int~ pointer2 = &tmtupqylqy;
+    // pointer = array5;
+    pointer2 = a;
+    bul javilon = CONST_BUL;
+
+    if (CONST_BUL) {
+        ceaut(2);
+    }
+
+    int vector[10];
+    int hola = vector[x];
+    int num2 = d.classMethod(&x);
+    num2 = d.classMethod(pointer); // Instr 28
+    num2 = d.classMethod(vector); // Instr 29
+    num2 = d.classMethod(a); // Instr 30
+    
+    int~ pointer3 = &tmtupqylqy;
+    ~pointer3 = CONST_INT;
+    
+    bul buleano = fols;
+    buleano = CONST_BUL;
+    
+    return 0;
+}

@@ -1,0 +1,3 @@
+func function(int n, bul b, int[] array, str_t myStruct, int& int) : bul {
+    return fals;
+} 

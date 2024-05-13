@@ -1,1 +1,5 @@
 enunciadoPractica.pdf
+/launch/bin/
+/launch/src/webAssembly/Main.wat
+/launch/src/webAssembly/Main.wasm
+/launch/src/webAssembly/output.txt

@@ -1,0 +1,36 @@
+func max(int a, int b) : int {
+    int maximum;
+    if (a < b) {
+        maximum = b;
+    }
+    els {
+        maximum = a;
+    }
+    return maximum;
+}
+
+func mein() : int {
+    int vector[10];
+
+    for (int i = 0; i < 10; i = i + 1) {
+        vector[i] = (i * 3) + (i / 2);
+    }
+    vector[10 / 2] = 1000;
+
+    int maximum = 0;
+    for (int i = 0; i < 10; i = i + 1) {
+        maximum = max(maximum, vector[i]);
+    }
+    
+    ceaut(maximum);
+    return 0;
+}
+
+/*
+RESULT:
+1000
+
+    for (int i = 0; i < 10; i = i + 1) {
+        ceaut(i);
+    }
+*/
