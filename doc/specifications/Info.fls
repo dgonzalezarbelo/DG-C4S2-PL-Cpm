@@ -583,6 +583,9 @@ INPUT C:\Users\jdbar\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmr9.tfm
 INPUT C:\Users\jdbar\AppData\Local\Programs\MiKTeX\tex\latex\base\omscmr.fd
 INPUT C:\Users\jdbar\AppData\Local\Programs\MiKTeX\tex\latex\base\omscmr.fd
 INPUT C:\Users\jdbar\AppData\Local\Programs\MiKTeX\tex\latex\base\omscmr.fd
+INPUT ..\codes\pointerArrayExample.cpm
+INPUT ..\codes\pointerArrayExample.cpm
+INPUT ..\codes\pointerArrayExample.cpm
 INPUT ..\codes\mainExample.cpm
 INPUT ..\codes\mainExample.cpm
 INPUT ..\codes\mainExample.cpm
@@ -598,16 +601,6 @@ INPUT ..\codes\conditionalExample.cpm
 INPUT ..\codes\structExample.cpm
 INPUT ..\codes\structExample.cpm
 INPUT ..\codes\structExample.cpm
-INPUT ..\..\launch\src\lexicon\lexicon.l
-INPUT ..\..\launch\src\lexicon\lexicon.l
-INPUT ..\..\launch\src\lexicon\lexicon.l
-INPUT C:\Users\jdbar\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmmi9.tfm
-INPUT C:\Users\jdbar\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmsy9.tfm
-INPUT C:\Users\jdbar\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\cmextra\cmex9.tfm
-INPUT C:\Users\jdbar\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\symbols\msam10.tfm
-INPUT C:\Users\jdbar\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
-INPUT C:\Users\jdbar\AppData\Local\MiKTeX\fonts\tfm\public\stmaryrd\stmary9.tfm
-INPUT C:\Users\jdbar\AppData\Local\Programs\MiKTeX\fonts\tfm\public\latex-fonts\lasy9.tfm
 INPUT Info.aux
 INPUT .\Info.out
 INPUT .\Info.out

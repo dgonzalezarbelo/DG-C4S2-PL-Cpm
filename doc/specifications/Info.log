@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.9) (preloaded format=pdflatex 2023.9.26)  16 APR 2024 13:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.9) (preloaded format=pdflatex 2023.9.26)  20 MAY 2024 14:07
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1122,19 +1122,15 @@ LaTeX Font Warning: Font shape `OMS/cmtt/m/n' undefined
 (Font)              for symbol `textbraceleft' on input line 175.
 
 [3] [4] [5] [6]
-LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 374.
+LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 383.
  (C:\Users\jdbar\AppData\Local\Programs\MiKTeX\tex/latex/base\omscmr.fd
 File: omscmr.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 374.
-
-
-LaTeX Warning: Reference `' on page 7 undefined on input line 382.
-
-[7]
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 428.
- (../codes/mainExample.cpm) (../codes/iterativeExample.cpm) (../codes/matrixExample.cpm) (../codes/conditionalExample.cpm [8]) (../codes/structExample.cpm) (../../launch/src/lexicon/lexicon.l [9]) [10] (Info.aux
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 383.
+ [7] [8]
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 558.
+ (../codes/pointerArrayExample.cpm [9]) [10] (../codes/mainExample.cpm) (../codes/iterativeExample.cpm) (../codes/matrixExample.cpm [11]) (../codes/conditionalExample.cpm) (../codes/structExample.cpm) [12] [13] (Info.aux
 LaTeX Info: Redefining \. on input line 22.
 LaTeX Info: Redefining \% on input line 22.
 LaTeX Info: Redefining \. on input line 23.
@@ -1148,24 +1144,21 @@ L3 programming layer <2023-08-29>
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-
-LaTeX Warning: There were undefined references.
-
 Package rerunfilecheck Info: File `Info.out' has not changed.
-(rerunfilecheck)             Checksum: 11B4779019B743E50CAB965ED43D188D;3097.
+(rerunfilecheck)             Checksum: EF6DA6B6C5A4B11FFA4FF76E9359485A;2883.
  ) 
 Here is how much of TeX's memory you used:
- 43237 strings out of 475248
- 957520 string characters out of 5757813
- 2178801 words of memory out of 5000000
- 63683 multiletter control sequences out of 15000+600000
- 576437 words of font info for 116 fonts, out of 8000000 for 9000
+ 43059 strings out of 475248
+ 954767 string characters out of 5757813
+ 2188801 words of memory out of 5000000
+ 63539 multiletter control sequences out of 15000+600000
+ 574881 words of font info for 109 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 99i,9n,111p,799b,2221s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 99i,9n,111p,1132b,2221s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\jdbar\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk> <C:\Users\jdbar\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt8.pfb><C:/Users/jdbar/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on Info.pdf (10 pages, 288952 bytes).
+Output written on Info.pdf (13 pages, 292085 bytes).
 PDF statistics:
- 508 PDF objects out of 1000 (max. 8388607)
- 238 named destinations out of 1000 (max. 500000)
- 237 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 489 PDF objects out of 1000 (max. 8388607)
+ 212 named destinations out of 1000 (max. 500000)
+ 245 words of extra memory for PDF output out of 10000 (max. 10000000)
 

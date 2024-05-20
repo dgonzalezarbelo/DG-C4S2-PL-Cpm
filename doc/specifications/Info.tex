@@ -42,7 +42,7 @@
 \lstdefinelanguage{C+-}
 {
   keywords={
-    if, els, guail, breic, continue,
+    if, els, guail, breic, continue, for,
     suich, queis, difolt,
     cein, ceaut,
     return
@@ -132,10 +132,10 @@ El lenguaje consta de los siguientes tipos predefinidos:
     \item Funciones
     \item Punteros
 \end{itemize}
-sobre los que se habla más en profundidad en su respectiva sección. Asimismo, existe la posibilidad de declarar tipos por parte del usuario a través de la instrucción \texttt{\color{blue}difain}. Los detalles, de nuevo, se exponen de forma más precisa en su correspondiente apartado.
+sobre los que se habla más en profundidad en \nameref{subsec:Tipado}. Asimismo, existe la posibilidad de declarar tipos por parte del usuario a través de la instrucción \texttt{\color{blue}difain}. Los detalles, de nuevo, se exponen de forma más precisa en su correspondiente apartado.
 
 \subsubsection{Enteros y booleanos}
-Los tipos básicos del lenguaje son los enteros y los booleanos y son los únicos permitidos para ser retornados explícitamente\footnote{Si bien es cierto que la instrucción \texttt{\color{blue} return} está restringida a tipos enteros y booleanos, una función puede ``devolver'' un valor de otro tipo pasando por referencia como argumento una variable de ese tipo.} por funciones. A continuación, se expone la sintaxis de declaración de ambos y las operaciones permitidas para cada uno de ellos. El identificador \texttt{var} corresponderá al identificador asignado a la variable declarada con estos tipos.
+Los tipos básicos del lenguaje son los enteros y los booleanos. A continuación, se expone la sintaxis de declaración de ambos y las operaciones permitidas para cada uno de ellos. El identificador \texttt{var} corresponderá al identificador asignado a la variable declarada con estos tipos.
 \begin{itemize}
     \item \textbf{Enteros}: \texttt{\color{blue} int var;}
     
@@ -295,11 +295,20 @@ A continuación se presenta el repertorio de instrucciones del lenguaje. Préste
         \end{minipage}
     \end{center}
 
-    \item \textbf{Instrucción de bucle}: \texttt{while}
+    \item \textbf{Instrucción de bucle}: \texttt{while}, \texttt{for}
     \begin{center}
         \begin{minipage}{\linewidth}
             \begin{lstlisting}[linewidth=0.3\linewidth, gobble=16]
                 guail (var > 0) {
+                    ...
+                }
+            \end{lstlisting}
+        \end{minipage}
+    \end{center}
+    \begin{center}
+        \begin{minipage}{\linewidth}
+            \begin{lstlisting}[linewidth=0.5\linewidth, gobble=16]
+                for (int i = 0; i < n; i = i + 1) {
                     ...
                 }
             \end{lstlisting}
@@ -333,7 +342,7 @@ A continuación se presenta el repertorio de instrucciones del lenguaje. Préste
 \end{itemize}
 
 \subsection{Elementos de la estructura del código}\label{subsec:Elementos de la estructura del código}
-El código comenzará con la definición ---separada o entremezclada--- de los tipos compuestos (clases, registros, funciones, etc.), de los tipos de usuario y de las constantes del programa. Finalmente, comenzará la función principal del programa y que sirve como punto de entrada, que es la que denotamos por \texttt{\color{blue} func mein() : int {...; return 0;}}.
+El código comenzará con la definición ---separada o entremezclada--- de los tipos compuestos (clases, registros, funciones, etc.), de los tipos de usuario y de las constantes del programa. Finalmente, comenzará la función principal del programa y que sirve como punto de entrada, que es la que denotamos por \texttt{\color{blue} func mein() : int \{...; return 0;\}}.
 
 Es importante destacar que, a diferencia de otros lenguajes como Python, donde la ejecución del código no requiere de una función ``especial'' que sirva como punto de entrada para el programa, en nuestro lenguaje es obligatorio que el código del programa esté dentro de esta función final y que fuera solo se permita la declaración de tipos y constantes que hemos explicado previamente. Esto quiere decir que cualquier variable global o expresión fuera del \texttt{mein} que no se ajuste a estas restricciones será entendida como un error sintáctico.
 
@@ -379,12 +388,98 @@ Durante la explicación previa de las especificaciones del lenguaje, ya se han p
     \item La palabra reservada para la función principal del programa es \texttt{mein}.
 \end{itemize}
 
-Las expresiones regulares que definen los elementos del léxico aquí descrito pueden consultarse en la sección \nameref{} del anexo.
+Las expresiones regulares que definen los elementos del léxico aquí descrito pueden consultarse en el documento \textit{lexicon.l}.
 
-\section{Especificación sintáctica del lenguaje}\label{sec:Especificación sintáctica del lenguaje}
+\section{Semántica}
 
-\begin{table}[h]
-    \begin{tabular}[h]{|c|c|}
+A continuación, se muestra la semántica del lenguaje asociada a la construcción sintáctica que la genera. Por espacio, no se incluyen todas las definiciones semánticas, sino solo aquellas más relevantes. Para consultar el listado completo, se puede revisar el documento \textit{Tiny.cup}.
+
+\begin{center}
+    \begin{tabular}[h]{|p{0.15\textwidth}|p{0.65\textwidth}|}
+        \hline
+        Constructora & Prog : Declaraciones $\times$ FuncionPrincipal $\rightarrow$ Programa \\
+        \hline
+        Descripción & Construye un programa a partir de una serie de definiciones y una función principal \texttt{mein}. \\
+        \hline
+        Sintaxis & \texttt{Definiciones \&\& mein} \\
+        \hline
+    \end{tabular}
+\end{center}
+
+\begin{center}
+    \begin{tabular}[h]{|p{0.15\textwidth}|p{0.65\textwidth}|}
+        \hline
+        Constructora & classDef : String $\times$ CuerpoClase $\rightarrow$ Class \\
+        \hline
+        Descripción & Construye una definición de clase dado un nombre y un cuerpo de clase. \\
+        \hline
+        Sintaxis & \texttt{clas id \{ cuerpoClase \}} \\
+        \hline
+    \end{tabular}
+\end{center}
+
+\begin{center}
+        \begin{tabular}[h]{|p{0.15\textwidth}|p{0.65\textwidth}|}
+            \hline
+            Constructora & structDef : String $\times$ CuerpoStruct $\rightarrow$ Struct \\
+            \hline
+            Descripción & Construye una definición de registro dado un nombre y un cuerpo de registro. \\
+            \hline
+            Sintaxis & \texttt{estrut id \{ cuerpoStruct \}} \\
+            \hline
+        \end{tabular}
+\end{center}
+
+\begin{center}
+    \begin{tabular}[h]{|p{0.15\textwidth}|p{0.65\textwidth}|}
+        \hline
+        Constructora & funcDef : String $\times$ Tipo $\times$ CuerpoFuncion $\rightarrow$ Struct \\
+        \hline
+        Descripción & Construye una definición de función con tipo de retorno dado un nombre y un cuerpo de función. \\
+        \hline
+        Sintaxis & \texttt{func id \{ cuerpoStruct \}} \\
+        \hline
+    \end{tabular}
+\end{center}
+
+\begin{center}
+    \begin{tabular}[h]{|p{0.15\textwidth}|p{0.65\textwidth}|}
+        \hline
+        Constructora & typeDef : String $\times$ String $\times$ String $\rightarrow$ Tipo \\
+        \hline
+        Descripción & Construye una definición de tipo a modo de alias. \\
+        \hline
+        Sintaxis & \texttt{taipdef previousType newType;} \\
+        \hline
+    \end{tabular}
+\end{center}
+
+\begin{center}
+    \begin{tabular}[h]{|p{0.15\textwidth}|p{0.65\textwidth}|}
+        \hline
+        Constructora & decVar : Tipo $\times$ String $\rightarrow$ Declaracion \\
+        \hline
+        Descripción & Construye una declaración de variable del tipo especificado. \\
+        \hline
+        Sintaxis & \texttt{Tipo id;} \\
+        \hline
+    \end{tabular}
+\end{center}
+
+\begin{center}
+    \begin{tabular}[h]{|p{0.15\textwidth}|p{0.65\textwidth}|}
+        \hline
+        Constructora & Asign Ins : Id $\times$ Expresión $\rightarrow$ Instrucción \\
+        \hline
+        Descripción & Construye la instrucción de asignación \\
+        \hline
+        Sintaxis & \texttt{Id = Expresión;} \\
+        \hline
+    \end{tabular}
+\end{center}
+
+\begin{center}
+    \begin{tabular}[h]{|p{0.15\textwidth}|p{0.65\textwidth}|}
         \hline
         Constructora & If Ins : Expresión $\times$ Bloque $\rightarrow$ Instrucción \\
         \hline
@@ -393,53 +488,93 @@ Las expresiones regulares que definen los elementos del léxico aquí descrito p
         Sintaxis & \texttt{If (Expresión) \{Bloque\}} \\
         \hline
     \end{tabular}
-\end{table}
+\end{center}
 
-\begin{table}[h]
-    \begin{tabular}[h]{|c|c|}
+\begin{center}
+    \begin{tabular}[h]{|p{0.15\textwidth}|p{0.65\textwidth}|}
         \hline
         Constructora & While Ins : Expresión $\times$ Bloque $\rightarrow$ Instrucción \\
         \hline
         Descripción & Construye la instrucción iterativa \texttt{While}. \\
         \hline
-        Sintaxis & \texttt{While (Expresión) \{Bloque\}} \\
+        Sintaxis & \texttt{guail (Expresión) \{Bloque\}} \\
         \hline
     \end{tabular}
-\end{table}
+\end{center}
 
-\begin{table}[h]
-    \begin{tabular}[h]{|c|c|}
+\begin{center}
+    \begin{tabular}[h]{|p{0.15\textwidth}|p{0.65\textwidth}|}
         \hline
         Constructora & Asign Ins : Id $\times$ Expresión $\rightarrow$ Instrucción \\
         \hline
         Descripción & Construye la instrucción de asignación \\
         \hline
-        Sintaxis & \texttt{Id = Expresión} \\
+        Sintaxis & \texttt{Id = Expresión;} \\
         \hline
     \end{tabular}
-\end{table}
+\end{center}
 
+\begin{center}
+    \begin{tabular}[h]{|p{0.15\textwidth}|p{0.65\textwidth}|}
+        \hline
+        Constructora & New Ins : Id $\times$ Expresión $\rightarrow$ Instrucción \\
+        \hline
+        Descripción & Construye la instrucción de asignación de memoria dinámica \texttt{New} \\
+        \hline
+        Sintaxis & \texttt{Id = niu Expresión;} \\
+        \hline
+    \end{tabular}
+\end{center}
+
+\subsection{Binding}
+\label{subsec:Binding}
+El binding es la asociación entre un identificador y el objeto que designa (variables, constantes, funciones...). Distinguimos entre los identificadores introducidos con su definición (en una declaración de una variable, una constante, una definición de función o alias de tipos...) frente a las apariciones de uso (el resto de apariciones).
+
+
+La forma de relacionar las apariciones de uso de un identificador con su aparición de definición la hacemos recorriendo el AST conectando cada nodo de uso con una referencia al de definición que le corresponde apoyándonos en una pila de tablas de símbolos auxiliares que va guardando las definiciones de los símbolos teniendo en cuenta los niveles de anidamiento del programa (cada tabla asociada a un ámbito).
+
+En cuanto a los tipos definidos por el usuario (typedef, class y struct), los vamos asociando a una tabla que guarda el nombre (String) y la definición raíz (Nodo del AST de la definición). Aplicamos una política de palabras reservadas con las definiciones que se van declarando para evitar que se usen esos mismos nombres de tipos para declarar nuevos structs o clases. En cuanto a los alias de tipos, estas palabras reservadas únicamente impiden que se usen como alias de otro tipo ya creado. A su vez, aprovechamos la estructura de datos que tenemos para que los alias se asocien con el nodo definición original del tipo (y para también poder aprovecharnos de esta construcción con los tipos primitivos, los metemos primero en la tabla de definiciones como si todo programa tuviese esos tipos básicos "declarados por el usuario" implícitos)
+
+Tenemos una política de declaración previa para cualquier uso de identificadores: para poder utilizarlos, previamente tienen que estar declarados. En el caso de funciones recursivas, al estar dentro de la definición de la función ya  cuenta como que la función esta declarada.
+
+C+/- admite sobrecarga por argumentos, mismo nombre de función y distinto tipo de argumentos (sin tener en cuenta el tipo de retorno). Por eso durante el binding, asociamos cada uso de identificador de función con una lista de posibles funciones y se determinará en tipado la función concreta. 
+
+Tenemos visibilidad de declaraciones de variables según el ámbito en el que se estén: el vínculo más interno oculta al más externo.
+
+\subsection{Tipado}
+\label{subsec:Tipado}
+%%FIXME Poner un enlace al apartado 1.2, que no estoy seguro de como se hace
+Como se mencionó en el apartado 1.2, este lenguaje es fuertemente tipado. Así pues, el tipo de todos los elementos del código se conocen en tiempo de compilación. Como se explicó en aquel apartado, permitimos la declaración de constantes con la cláusula 
+\texttt{\color{blue}difain}. Estas constantes también tienen un tipo que se conoce en el momento de compilación: no es un simple alias, sino que en caso de no poderse tipar como uno de los tipos permitidos en el lenguaje, el compilador se interrumpirá y avisará al usuario.
+
+En general, la compatibilidad entre tipos distintos no existe; no se podrán hacer asignaciones entre tipos distintos o trabajar con ellos de forma indistinguible.
+
+No obstante, hay una excepción a este caso, que son los punteros y los arrays. Estos dos últimos tipos sí son compatibles, siempre y cuando lo sean sus tipos internos. Así pues, al declarar una variable de tipo \texttt{\color{blue}int[5]} y otra de tipo \texttt{\color{blue}int\~}, se podrá hacer una asignación entre ellas. No obstante, no se podría si la de tipo array fuera de tipo \texttt{\color{blue}bul[5]}, por ejemplo.
+
+Con esta decisión de diseño surge otra necesidad: los arrays no sirven de nada si no se puede iterar sobre ellos. Por tanto, se debe habilitar un método para ``iterar sobre punteros'' cuando sabemos que apuntan a un array. Por ello, el lenguaje hace una sobrecarga de los operadores binarios \texttt{\color{blue}+} y \texttt{\color{blue}-}. De esta forma, podremos iterar sobre un puntero haciendo una instrucción como \texttt{\color{blue}ptr = ptr +/- 1}, que proporciona un comportamiento similar al de un iterador como el que proporcionan lenguajes de más alto nivel. Hay que tener en cuenta que esta es la única salvedad en cuando a dichos operadores: se permite operar un puntero o array con un entero (y, en el caso de la resta, el entero debe ser el operando derecho). No se pueden utilizar estos operadores para otros casos. Cabe mencionar que, para avanzar o retroceder con un puntero, siempre se hará \texttt{\color{blue}+ 1} o \texttt{\color{blue}- 1}, independientemente del tamaño del tipo interno.
+
+Mostramos a continuación un ejemplo de lo mencionado:
+
+\lstinputlisting[language=C+-, linewidth=\linewidth, caption={Ejemplo de uso de arrays y punteros de formas equivalentes.}]{../codes/pointerArrayExample.cpm}
+
+En el ejemplo anterior se crea una lista de 5 enteros que contiene en cada posición la propia posición como valor. Tras esto, se declara un puntero que ``apunta'' a la misma lista, y finalmente se itera con otro bucle imprimiendo el valor de cada posición del array junto con el valor del puntero. El resultado de la ejecución será la secuencia \texttt{\color{blue}0011223344}, como es de esperar, pues lo que estamos haciendo es básicamente imprimir cada valor del array dos veces seguidas.
+
+\subsubsection{Tipos en funciones}
+Por defecto, en las llamadas a funciones los parámetros se pasan por valor. No obstante, se permite el paso de parámetros por referencia añadiendo el operador \texttt{\color{blue}\&} al argumento en la declaración de la función. Internamente, el funcionamiento se corresponde con el paso de un puntero en vez del valor. Siendo más claros, cuando se pasa un parámetro por referencia a una función, internamente se está pasando un puntero a la variable en cuestión, pero dentro del cuerpo de la función se interpretará como lo que es, un puntero, y las operaciones se ejecutaran en consecuencia. De esta forma, permitimos al usuario que use y modifique el valor real de los parámetros, pero no se le pide que maneje los datos de forma distinta a como lo haría normalmente.
+
+A todo lo mencionado anteriormente tenemos que especificar un caso particular, y es el de los arrays. En el caso de los arrays no se permite el paso por referencia explícito, sino que es así por defecto. Es decir, los arrays no se pasan por copia. Esto se hacer por dos motivos: el primero es que resulta muy caro en general. Implica un gasto en tiempo y memoria innecesario, y con haciéndolo de esta manera no se impide al usuario hacer nada, puede hacer copias dentro de la función. El segundo es que aporta homogeneidad al paso de arrays dinámicos. En nuestro lenguaje se permite que los arrays no tengan tamaño definido como parámetro de funciones, y el manejo de estos es distinto al de los arrays normales. En particular, lo más razonable en este caso es que las modificaciones en el array dentro de la función se traduzcan en cambios fuera de esta, y forzar que este sea el comportamiento por defecto hace que todo sea más homogéneo y entendible.
+
+Por último, de forma similar a forzar que el paso de arrays a funciones sea por referencia, entre otras cosas, por el coste que supone, se restringe también el tipo de retorno de las funciones, de forma que se permite como tipo de retorno cualquiera excepto los arrays. Si se quiere hacer algo similar a devolver un array como retorno de una función, se deberá crear antes de la llamada a la función y pasarla por referencia a la función. De esta forma, además, no se restringe el tamaño del array ``de retorno'' de la función, bastando con declarar el argumento como array dinámico, es decir, sin tamaño definido.
 
 \newpage
 \appendix
 
 \section{Ejemplos de programas habituales}\label{sec:Ejemplos de programas habituales}
+A continuación, exponemos una serie de ejemplos sencillos de cómo se escribirían ciertos programas en nuestro lenguaje. No obstante, en la carpeta de \textit{test} del proyecto hay gran variedad de códigos de ejemplo para probar.
 
 \lstinputlisting[language=C+-, linewidth=\linewidth, caption={Ejemplo de programa típico en $C+-$.}]{../codes/mainExample.cpm}
 \lstinputlisting[language=C+-, linewidth=\linewidth, caption={Ejemplo de programa iterativo en $C+-$.}]{../codes/iterativeExample.cpm}
 \lstinputlisting[language=C+-, linewidth=\linewidth, caption={Ejemplo de arrays multidimensionales en $C+-$.}]{../codes/matrixExample.cpm}
 \lstinputlisting[language=C+-, linewidth=\linewidth, caption={Ejemplo de programa recursivo y sentencia \texttt{if-els} en $C+-$.}]{../codes/conditionalExample.cpm}
 \lstinputlisting[language=C+-, linewidth=\linewidth, caption={Ejemplo de uso de registros y sentencia \texttt{suich} en $C+-$.}]{../codes/structExample.cpm}
-
-\section{Expresiones regulares del léxico}
-\label{sec:Expresiones regulares del léxico}
-\lstinputlisting[
-    firstline=26,
-    lastline=86,
-    linewidth=\linewidth,
-    language=
-]{../../launch/src/lexicon/lexicon.l}
-\section{Gramática de la sintaxis}
-\label{sec:Gramática de la sintaxis}
-
 \end{document}

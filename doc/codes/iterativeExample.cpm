@@ -1,11 +1,11 @@
-func maximo(int[] lista, int tam) : int {
-    int maximo := -1;
-    int i := 0;
+func maximo(int lista[], int tam) : int {
+    int maximo = -1;
+    int i = 0;
     guail(i < tam) {
         if(lista[i] > maximo) {
-            maximo := lista[i];
+            maximo = lista[i];
         }
-        i++;
+        i = i + 1;
     }
     return maximo;
 }

@@ -14,15 +14,9 @@ import utils.GoodBoolean;
 import utils.Utils;
 
 public class CompilerMain {
-    public static final String DEFAULT_INPUTFILE_PATHNAME = "./debug.cpm";
-    public static final String DEFAULT_WAT_FILENAME = "Main";
-    public static final String DEFAULT_WAT_FILEPATH = "./launch/src/webAssembly/";
-    public static final String WAT2WASM_SCRIPT = ".\\launch\\src\\webAssembly\\WatToWasm.bat";
-    public static final String WAT2WASM_EXEFILE = ".\\launch\\src\\webAssembly\\wat2wasm.exe";
-    public static final String WASMEXE_SCRIPT = ".\\launch\\src\\webAssembly\\wasmExe.bat";
-    public static final String WASM_EXEFILE = ".\\launch\\src\\webAssembly\\node.exe";
-    public static final String WASMJS_SCRIPT = ".\\launch\\src\\webAssembly\\main.js";
-    public static enum Fase {ASTGEN, BIND, TYPE, CODEGEN, WATSAVE, WASMCONVERSION, SUCCED};
+    public static final String DEFAULT_INPUTFILE_PATH = "./";
+    public static final String DEFAULT_INPUTFILE_NAME = "debug.cpm";
+    public static enum Fase {ASTGEN, BIND, TYPE, CODEGEN, WATSAVE, SUCCED};
 
     public GoodBoolean errorDetected;
     public Fase faseError;
@@ -42,7 +36,7 @@ public class CompilerMain {
      */
     public void run(String[] args) throws Exception {
         parseArgs(args);
-        Utils.clearConsole();
+        // Utils.clearConsole();
         ReconLexicon alex = new ReconLexicon();
         ReconSyntax asint = new ReconSyntax();
         Josito codeGenerator = new Josito();
@@ -59,8 +53,6 @@ public class CompilerMain {
         printConfirmationMsg("------------Coding");
 		if (!errorDetected.toBool()) watGeneration(codeGenerator.toString());
         printConfirmationMsg("------------Main.wat generation");
-        if (!errorDetected.toBool()) wat2wasmConversion();
-        printConfirmationMsg("------------Main.wasm conversion");
     }
 
     private void printConfirmationMsg(String msg) {
@@ -99,36 +91,19 @@ public class CompilerMain {
         }
     }
 
-    private void wat2wasmConversion() {
-        String[] args = {WAT2WASM_SCRIPT, WAT2WASM_EXEFILE, outputFilePath + outputFileName + ".wat", outputFilePath + outputFileName + ".wasm"};
-        try {
-            ProcessBuilder wat2wasm = new ProcessBuilder(args);
-            Process wat2wasmProcess = wat2wasm.start();
-            // Espera a que el proceso termine
-            int exitCode = wat2wasmProcess.waitFor();
-            if (exitCode != 0) {
-                Utils.printError("The code could not be converted");
-                errorDetected.setValue(true);
-            }
-        } catch (Exception e) {
-            errorDetected.setValue(true);
-            e.printStackTrace();
-        }
-    }
-
     private void parseArgs(String[] args) {
         Map<String, String> parsedArgs = new HashMap<>();
-        parsedArgs.put("default", DEFAULT_INPUTFILE_PATHNAME);
-        parsedArgs.put("w", DEFAULT_WAT_FILENAME);
-        parsedArgs.put("d", DEFAULT_WAT_FILEPATH);
+        parsedArgs.put("default", DEFAULT_INPUTFILE_PATH + DEFAULT_INPUTFILE_NAME);
+        parsedArgs.put("d", DEFAULT_INPUTFILE_PATH);
 
         for (int i = 0; i < args.length; i++) {
             String arg = args[i];
             if (arg.startsWith("-")) {
                 // Parse short options (-o value)
                 String key = arg.substring(1, 2);
-                String value = arg.substring(3);
+                String value = args[i+1];
                 parsedArgs.put(key, value);
+                i++;
             } else {
                 // Parse standalone arguments
                 parsedArgs.put("default", arg);
@@ -136,7 +111,14 @@ public class CompilerMain {
         }
 
         this.inputFilePathName = parsedArgs.get("default");
-        this.outputFileName = parsedArgs.get("w");
+        if (parsedArgs.containsKey("w"))
+            this.outputFileName = parsedArgs.get("w");
+        else {
+            StringBuilder str = new StringBuilder();
+            str.append(parsedArgs.get("default"));
+            str.delete(str.length() - 4, str.length());
+            this.outputFileName = str.toString();
+        }
         this.outputFilePath = parsedArgs.get("d");
     }
 }

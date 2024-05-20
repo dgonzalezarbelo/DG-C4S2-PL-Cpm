@@ -1,3 +1,10 @@
-func function(int n, bul b, int[] array, str_t myStruct, int& int) : bul {
-    return fals;
+estrut str_t {
+    int a;
+    str_t(int a) {
+        dis.a = a;
+    }
+}
+
+func function(int n, bul b, int array[], str_t myStruct, int& a) : bul {
+    return fols;
 } 

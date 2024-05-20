@@ -183,6 +183,7 @@ RETURN_VALUE      ::= EXPRESSION:e
 DEFINE_DEF        ::= DEFINE:d ID:id LITERAL:e SEMICOLON 
 {: RESULT = new Define(id.lexeme, e, d.row); :};
 
+
 // Typedef 
 
 TYPEDEF_DEF    ::= TYPEDEF:t DECLARATION:dec SEMICOLON
@@ -221,6 +222,7 @@ ASSIGNATION_INS                  ::= EXPRESSION:iz ASSIGNATION_OP:a NEW_OP TYPE:
 
 ASSIGNATION_INS                  ::= EXPRESSION:iz ASSIGNATION_OP:a NEW_OP ID_PARENTESIS:dc SEMICOLON
 {: RESULT = new Assignation_Ins(iz, new New_Op(new ConstructorCall (dc, a.row), a.row), a.row); :};
+
 
 // If
 

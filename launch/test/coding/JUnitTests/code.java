@@ -13,11 +13,12 @@ import java.util.List;
 
 public abstract class code {
     public static final String OUTPUT_FILENAME = "output.txt";
-    public static final String OUTPUTS_PATH = "./launch/test/coding/outputs/";                  // NO TOCAR ESTE
-    public static final String INPUT_PATH = "./launch/test/coding/testingCodes/";              // NO TOCAR ESTE
-    public static final String WAT2WASM_SCRIPT = "wat2wasm.exe";
-    public static final String NODE = "node.exe";
-    public static final String WASMEXE = "main.js";
+    public static final String OUTPUTS_PATH = "./launch/test/coding/outputs/";                  
+    public static final String INPUT_PATH = "./launch/test/coding/testingCodes/";               
+    public static final String WAT2WASM_SCRIPT = ".\\launch\\src\\webAssembly\\WatToWasm.bat";
+    public static final String WAT2WASM_EXEFILE = ".\\launch\\src\\webAssembly\\wat2wasm.exe";
+    public static final String WASM_EXEFILE = ".\\launch\\src\\webAssembly\\node.exe";
+    public static final String WASMJS_SCRIPT = ".\\launch\\src\\webAssembly\\main.js";
     
     private String name;
     private String codePath;                                                                         // Cambiar el nombre de este
@@ -59,7 +60,9 @@ public abstract class code {
         try {
             erasePreviousOutput();
             // Generación de Main.wat
-            generateWatAndWasm();
+            generateWat();
+            // Conversión a Main.wasm
+            wat2wasmConversion();
             // Ejecución de main.js y captura del resultado
             exeWasm();
             // Verificación del resultado esperado
@@ -86,8 +89,8 @@ public abstract class code {
         }
     }
 
-    private void generateWatAndWasm() throws Exception {
-        String[] args = {this.codePath, "-w " + name, "-d " + testFilesPath };
+    private void generateWat() throws Exception {
+        String[] args = {this.codePath, "-w ", name, "-d ", testFilesPath };
         CompilerMain c = new CompilerMain();
         c.run(args);
         boolean errorCode = c.errorDetected.toBool();
@@ -99,8 +102,25 @@ public abstract class code {
         }
     }
 
+    private void wat2wasmConversion() {
+        String[] args = {WAT2WASM_SCRIPT, WAT2WASM_EXEFILE, watFile, wasmFile};
+        try {
+            ProcessBuilder wat2wasm = new ProcessBuilder(args);
+            Process wat2wasmProcess = wat2wasm.start();
+            // Espera a que el proceso termine
+            int exitCode = wat2wasmProcess.waitFor();
+            try {
+                assertEquals(0, exitCode);
+            } catch (AssertionError e) {
+                fail("wat2wasm conversion failed");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void exeWasm() throws Exception {
-        String[] preArgs = {CompilerMain.WASM_EXEFILE, CompilerMain.WASMJS_SCRIPT, wasmFile, outputFile, "1", numCins.toString()};
+        String[] preArgs = {WASM_EXEFILE, WASMJS_SCRIPT, wasmFile, outputFile, "1", numCins.toString()};
         List<String> lista = new ArrayList<>();
         for (int i = 0; i < preArgs.length; i++)
             lista.add(preArgs[i]);

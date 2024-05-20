@@ -1,8 +1,10 @@
 func factorial(int num) : int {
+    int res;
     if(num == 0){
-        return 1;
+        res = 1;
     }
     els {
-        return num * factorial(num - 1);
+        res = num * factorial(num - 1);
     }
+    return res;
 }

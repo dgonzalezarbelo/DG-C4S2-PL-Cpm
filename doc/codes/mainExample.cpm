@@ -1,9 +1,9 @@
-main() : int {
+func mein() : int {
     int a;
     int b;
     cein(a);
     cein(b);
-    int c := a + b;
+    int c = a + b;
     ceaut(c);
-    return c;
+    return 0;
 }
