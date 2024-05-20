@@ -229,19 +229,19 @@
     i32.add
     i32.const 1000
     i32.store
-    i32.const 52
+    i32.const 48
     global.get $MP
     i32.add
     i32.const 0
     i32.store
-    i32.const 56
+    i32.const 52
     global.get $MP
     i32.add
     i32.const 0
     i32.store
     block
     loop
-    i32.const 56
+    i32.const 52
     global.get $MP
     i32.add
     i32.load
@@ -249,13 +249,13 @@
     i32.lt_s
     i32.eqz
     br_if 1
-    i32.const 52
+    i32.const 48
     global.get $MP
     i32.add
     i32.const 8
     global.get $SP
     i32.add
-    i32.const 52
+    i32.const 48
     global.get $MP
     i32.add
     i32.load
@@ -267,7 +267,7 @@
     global.get $MP
     i32.add
     i32.const 4
-    i32.const 56
+    i32.const 52
     global.get $MP
     i32.add
     i32.load
@@ -286,10 +286,10 @@
     call $1
     call $freeStack
     i32.store
-    i32.const 56
+    i32.const 52
     global.get $MP
     i32.add
-    i32.const 56
+    i32.const 52
     global.get $MP
     i32.add
     i32.load
@@ -299,7 +299,7 @@
     br 0
     end
     end
-    i32.const 52
+    i32.const 48
     global.get $MP
     i32.add
     i32.load

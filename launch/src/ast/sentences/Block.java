@@ -88,8 +88,10 @@ public class Block extends ASTNode implements Indentable {
 
     @Override
     public void computeOffset(Delta delta) {
+        delta.pushScope(delta.getCurrentDelta()); // To have in consideration the DL and reference in the local memory of the function
         for (Sentence s : ins)
             s.computeOffset(delta);
+        delta.popScope();
     }
 
     @Override

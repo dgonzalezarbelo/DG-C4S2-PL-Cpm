@@ -9,6 +9,10 @@ public class Delta {
         this.offsets = new Stack<>();
     }
 
+    public int getCurrentDelta() {
+        return offsets.peek();
+    }
+
     public void pushScope(int inicialDelta) {
         offsets.push(inicialDelta);
     }

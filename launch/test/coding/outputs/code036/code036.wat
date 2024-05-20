@@ -164,14 +164,14 @@
     br 0
     end
     end
-    i32.const 12
+    i32.const 8
     global.get $MP
     i32.add
     i32.const 0
     i32.store
     block
     loop
-    i32.const 12
+    i32.const 8
     global.get $MP
     i32.add
     i32.load
@@ -179,15 +179,15 @@
     i32.lt_s
     i32.eqz
     br_if 1
-    i32.const 12
+    i32.const 8
     global.get $MP
     i32.add
     i32.load
     call $print
-    i32.const 12
+    i32.const 8
     global.get $MP
     i32.add
-    i32.const 12
+    i32.const 8
     global.get $MP
     i32.add
     i32.load
@@ -197,14 +197,14 @@
     br 0
     end
     end
-    i32.const 16
+    i32.const 8
     global.get $MP
     i32.add
     i32.const 0
     i32.store
     block
     loop
-    i32.const 16
+    i32.const 8
     global.get $MP
     i32.add
     i32.load
@@ -212,15 +212,15 @@
     i32.lt_s
     i32.eqz
     br_if 1
-    i32.const 16
+    i32.const 8
     global.get $MP
     i32.add
     i32.load
     call $print
-    i32.const 16
+    i32.const 8
     global.get $MP
     i32.add
-    i32.const 16
+    i32.const 8
     global.get $MP
     i32.add
     i32.load
@@ -230,14 +230,14 @@
     br 0
     end
     end
-    i32.const 20
+    i32.const 8
     global.get $MP
     i32.add
     i32.const 0
     i32.store
     block
     loop
-    i32.const 20
+    i32.const 8
     global.get $MP
     i32.add
     i32.load
@@ -245,15 +245,15 @@
     i32.lt_s
     i32.eqz
     br_if 1
-    i32.const 20
+    i32.const 8
     global.get $MP
     i32.add
     i32.load
     call $print
-    i32.const 20
+    i32.const 8
     global.get $MP
     i32.add
-    i32.const 20
+    i32.const 8
     global.get $MP
     i32.add
     i32.load
@@ -263,14 +263,14 @@
     br 0
     end
     end
-    i32.const 24
+    i32.const 8
     global.get $MP
     i32.add
     i32.const 0
     i32.store
     block
     loop
-    i32.const 24
+    i32.const 8
     global.get $MP
     i32.add
     i32.load
@@ -278,15 +278,15 @@
     i32.lt_s
     i32.eqz
     br_if 1
-    i32.const 24
+    i32.const 8
     global.get $MP
     i32.add
     i32.load
     call $print
-    i32.const 24
+    i32.const 8
     global.get $MP
     i32.add
-    i32.const 24
+    i32.const 8
     global.get $MP
     i32.add
     i32.load

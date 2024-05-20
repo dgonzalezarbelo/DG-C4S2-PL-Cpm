@@ -1,45 +1,11 @@
-estrut Alumno {
-    int DNI;
-    int nota;
-
-    Alumno(int DNI, int nota) {
-        dis.DNI = DNI;
-        dis.nota = nota;
+func mein() : int {
+    int a = 1;
+    guail(a == 1) {
+        a = a - 1;
+        int b = 10;
+        int c;
     }
-}
-
-func aprobado(Alumno a) : bul {
-    bul res;
-    suich (a.nota) {
-        queis(0): 
-        queis(1):
-        queis(2):
-        queis(3):
-        queis(4): 
-            res = fols;
-            breic;
-        queis(5):
-        queis(6):
-        queis(7):
-        queis(8):
-        queis(9):
-        queis(10): 
-        difolt:
-            res = tru;
-            breic;
-    }
-    return res;
-}
-
-func nota(Alumno~ a) : int {
-    return (~a).nota;
-}
-
-func mein():int {
-    Alumno daniel = Alumno(123456789, 6);
-    Alumno~ danielptr = &daniel;
-    ceaut(nota(danielptr));
-    ceaut(aprobado(daniel));
-    
+    int d;
+    ceaut(d);
     return 0;
 }
